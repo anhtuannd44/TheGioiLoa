@@ -1,0 +1,359 @@
+﻿@{
+    var menuClass = "menu-not-expand";
+    if (ViewBag.IsMenuExpand == true)
+    {
+        menuClass = "menu-expand";
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Thế Giới Loa</title>
+    <meta content="" name="thegioiloa">
+    <meta content="" name="thuong hieu am thanh so 1">
+
+    <!-- Favicons -->
+    <link href="~/Content/Home/img/favicon.png" rel="icon">
+    <link href="~/Content/Home/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <nav class="navbar navbar-expand flex-column flex-md-row bd-navbar py-0 header-top">
+        <div class="container text-white">
+            <div class="navbar-nav-scroll mr-auto">
+                <ul class="navbar-nav bd-navbar-nav flex-row small">
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white py-0 border-right" href="/Home/Houses">Hệ Thống Showroom</a>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white border-right py-0" href="/Blog">Bán hàng trực tuyến</a>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white border-right py-0" href="/Page?page=5">Bán hàng trả góp</a>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white border-right py-0" href="/Page?page=5">Tin tức</a>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white border-right py-0" href="/Page?page=5">Yêu cầu kỹ thuật</a>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white border-right py-0" href="/Page?page=5">Hình ảnh showroom</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-nav-scroll ml-auto">
+                <ul class="navbar-nav bd-navbar-nav flex-row small">
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white py-0 border-right" href="/Home/Houses">Đăng ký</a>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white py-0" href="/Blog">Đăng Nhập</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="px-0" id="">
+        <div class="header-main">
+            <div class="container">
+                <div class="row h-100">
+                    <div class="col-md-3 h-100 px-0">
+                        <a href="#intro" class="scrollto">
+                            <img src="~/Content/Home/img/logo.png" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                    @*<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                            Menu
+                            <i class="fas fa-bars"></i>
+                        </button>*@
+                    <div class="col-md-9 h-100 my-auto">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mt-1">
+                                    <input type="text" class="form-control border-primary search-bar-input" placeholder="Nhập từ khóa tìm kiếm ...">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row text-center">
+                                    <div class="col-md-6">
+                                        <a class="text-dark" href="tel:0888836006"><i class="fa fa-phone"></i> Hotline 24/7</a>
+                                        <a href="tel:0888836006" class="h4 font-weight-bold">088.883.6006</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i class="fa fa-map-marker" style="font-size: 29px; margin-top: -5px;"></i><br />
+                                        <a class="text-dark" href="#about">Showroom</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i class="fa fa-shopping-cart" style="font-size: 29px; margin-top: -5px;"></i><br />
+                                        <a class="text-dark" href="#about">Giỏ Hàng</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom bg-primary">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 h-100" style="flex: 0 0 20%; max-width:20%;">
+                        <div class="main-nav w-100 d-lg-block @menuClass">
+                            <div class="drop-down main-menu">
+                                <a href="" class="h5 text-white px-0 font-weight-bold"><i class="fa fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
+                                <ul class="main-menu-ul">
+                                    <li class="main-menu-li"><a href="#"><i class="fa fa-check-circle"></i>KHUYẾN MÃI GIÁ SỐC</a></li>
+                                    <li class="main-menu-li drop-down menu-child">
+                                        <a href="#"><i class="fa fa-microphone"></i>ÂM THANH KARAOKE</a>
+                                        <ul class="child-menu-ul">
+                                            <li class="child-menu-li">
+                                                <a href="#">ÂM THANH KARAOKE</a>
+                                            </li>
+                                            <li class="child-menu-li">
+                                                <a href="#">Deep Drop Down 2</a>
+                                            </li>
+                                            <li class="child-menu-li">
+                                                <a href="#">Deep Drop Down 3</a>
+                                            </li>
+                                            <li class="child-menu-li">
+                                                <a href="#">Deep Drop Down 4</a>
+                                            </li>
+                                            <li class="child-menu-li">
+                                                <a href="#">Deep Drop Down 5</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-volume-up"></i>ÂM THANH NGHE NHẠC</a>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-play"></i>ÂM THANH SÂN KHẤU</a>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-bell"></i>ÂM THANH THÔNG BÁO</a>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-headphones"></i>TAI NGHE</a>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-bluetooth"></i>LOA BLUETOOTH</a>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-tablet"></i>LOA KÉO DI ĐỘNG</a>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-music"></i>NHẠC CỤ</a>
+                                    </li>
+                                    <li class="main-menu-li">
+                                        <a href="#"><i class="fa fa-file-audio-o"></i>PHỤ KIỆN ÂM THANH</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 h-100 my-auto px-0" style="flex: 0 0 80%; max-width:80%;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row text-center">
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+    <!--==========================
+      Footer
+    ============================-->
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="footer-title">
+                            <h3 class="text-primary m-0">FACEBOOK</h3>
+                            <hr class="mt-1 mb-3" />
+                        </div>
+                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fthegioiamthanh.vn%2F&tabs=timeline&width=270&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=2347493918804034" width="270" height="200" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="footer-title">
+                            <h3 class="text-primary m-0">YOUTUBE</h3>
+                            <hr class="mt-1 mb-3" />
+                        </div>
+                        <iframe width="270" height="200" src="https://www.youtube.com/embed/fC6-B8dIvug" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="footer-title">
+                            <h3 class="text-primary m-0">HỖ TRỢ KHÁCH HÀNG</h3>
+                            <hr class="mt-1 mb-3" />
+                        </div>
+                        <div class="footer-support p-2 border pb-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 footer-links">
+                        <div class="footer-title">
+                            <h4 class="mb-1">THÔNG TIN CÔNG TY</h4>
+                            <hr class="mt-1 mb-3" style="border-color: #808080" />
+                        </div>
+                        <ul>
+                            <li><a href="#">Giới thiệu công ty</a></li>
+                            <li><a href="#">Điều khoản giao dịch</a></li>
+                            <li><a href="#">Quy định truy cập website</a></li>
+                            <li><a href="#">Chính sách kinh doanh</a></li>
+                            <li><a href="#">Thông tin liên hệ</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-links">
+                        <div class="footer-title">
+                            <h4 class="mb-1">THÔNG TIN CÔNG TY</h4>
+                            <hr class="mt-1 mb-3" style="border-color: #808080" />
+                        </div>
+                        <ul>
+                            <li><a href="#">Giới thiệu công ty</a></li>
+                            <li><a href="#">Điều khoản giao dịch</a></li>
+                            <li><a href="#">Quy định truy cập website</a></li>
+                            <li><a href="#">Chính sách kinh doanh</a></li>
+                            <li><a href="#">Thông tin liên hệ</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-links">
+                        <div class="footer-title">
+                            <h4 class="mb-1">THÔNG TIN CÔNG TY</h4>
+                            <hr class="mt-1 mb-3" style="border-color: #808080" />
+                        </div>
+                        <ul>
+                            <li><a href="#">Giới thiệu công ty</a></li>
+                            <li><a href="#">Điều khoản giao dịch</a></li>
+                            <li><a href="#">Quy định truy cập website</a></li>
+                            <li><a href="#">Chính sách kinh doanh</a></li>
+                            <li><a href="#">Thông tin liên hệ</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-links">
+                        <div class="footer-title">
+                            <h4 class="mb-1">HÌNH THỨC THANH TOÁN</h4>
+                            <hr class="mt-1 mb-3" style="border-color: #808080" />
+                        </div>
+                        <div class="payment">
+                            <a href="#" class="text-light"><i class="fa fa-cc-visa"></i></a>
+                            <a href="#" class="text-light"><i class="fa fa-cc-mastercard"></i></a>
+                            <a href="#" class="text-light"><i class="fa fa-credit-card"></i></a>
+                            <a href="#" class="text-light"><i class="fas fa-money-check-alt"></i></a>
+                        </div>
+                        <div class="business-register">
+                            <img width="200" src="~/Content/Home/img/register-business.png" />
+                        </div>
+                    </div>
+                </div>
+                <hr style="border-color: #808080" />
+                <div class="row">
+                    <div class="col-md-5 text-right">
+                        <h5 class="text-white">THẾ GIỚI ÂM THANH</h5>
+                        <p class="text-light">
+                            Showroom Hà Nội: 16 Ngõ 61 Lạc Trung, Vĩnh Tuy,Hai Bà Trưng, Hà Nội<br />
+                            Điện thoại: 088.883.6006<br />
+                            Showroom HCM: 27/2 đường Cộng Hoà, phường 4, quận Tân Bình, TP HCM<br />
+                            Điện Thoại: 088.883.6006<br />
+                            Email: info@thegioiamthanh.vn<br />
+                        </p>
+                        <hr style="border-color: #5e5e5e; width: 50%;" class="mr-0" />
+                        <div class="footer-newsletter">
+                            <h4 class="mb-1">NHẬN BẢN TIN KHUYẾN MÃI</h4>
+                            <form action="" method="post">
+                                <input type="email" name="email" placeholder="Nhập Email của bạn ..."><input type="submit" value="Gửi Ngay">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <img src="~/Content/Home/img/maps.jpg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="copyright text-white">
+                    <h6 class="mb-0">Thegioiamthanh.vn</h6>
+                    <p class="mb-0">Copyright &copy; | Công ty CP Thương Mại và Công Nghệ Thế Giới Âm Thanh</p>
+                </div>
+                <div class="small text-center" style="color: #a6a6a6">
+                    Theo giấy phép ĐKKD số 0108274976. Ngày cấp 15/05/2018 do sở kế hoạch và đầu tư TP Hà Nội cấp
+                </div>
+            </div>
+        </div>
+    </footer><!-- #footer -->
+
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jshome")
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>
