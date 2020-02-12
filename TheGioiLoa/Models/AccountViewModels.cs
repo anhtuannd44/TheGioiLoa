@@ -41,16 +41,16 @@ namespace TheGioiLoa.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập Email")]
         [Display(Name = "Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
         public string Email { get; set; }
 
         [Required]
@@ -58,33 +58,33 @@ namespace TheGioiLoa.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Nhớ đăng nhập?")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} phải từ {2} ký tự trở lên.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật Khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác Nhận Mật Khẩu")]
+        [Compare("Password", ErrorMessage = "Mật khẩu và xác nhận chưa trùng khớp.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -105,7 +105,7 @@ namespace TheGioiLoa.Models
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }

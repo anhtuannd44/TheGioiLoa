@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -16,6 +17,12 @@ namespace TheGioiLoa.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public string FullName {get;set;}
+        public string Address { get; set; }
+        public string Avatar { get; set; }
+        public DateTime Birthday { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateModified { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

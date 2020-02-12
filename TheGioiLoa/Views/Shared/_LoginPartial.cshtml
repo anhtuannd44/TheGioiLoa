@@ -1,22 +1,72 @@
 ﻿@using Microsoft.AspNet.Identity
+@model TheGioiLoa.Models.LoginViewModel
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Xin chào " + User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link text-white py-0 border-right" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link text-white py-0">Đăng Xuất</a></li>
+        </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li class="nav-item py-2">
+            @Html.ActionLink("Đăng Ký", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link text-white py-0 border-right" })
+        </li>
+        <li class="nav-item py-2">
+            <a class="nav-link text-white py-0" href="#myModal" data-toggle="modal">Đăng Nhập</a>
+        </li>
     </ul>
+    <div id="myModal" class="modal fade text-dark">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                @using (Ajax.BeginForm("LoginAjax", "Account", new AjaxOptions
+                { 
+                    HttpMethod = "POST",
+                    UpdateTargetId = "Login",
+                    InsertionMode = InsertionMode.Replace
+                    
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="modal-header">
+                        <h5 class="modal-title">Đăng Nhập</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email)
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <div class="clearfix">
+                                @Html.LabelFor(m => m.Password)
+                                <a href="#" class="pull-right text-muted"><small>Bạn quên mật khẩu?</small></a>
+                            </div>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        @Html.LabelFor(m => m.RememberMe)
+                        <input type="submit" class="btn btn-primary pull-right" value="Login">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

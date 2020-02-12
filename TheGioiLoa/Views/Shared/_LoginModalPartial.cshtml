@@ -1,0 +1,38 @@
+﻿@using TheGioiLoa.Models
+@model LoginViewModel
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="modal-header">
+                    <h5 class="modal-title">Đăng Nhập</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="clearfix">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                            <a href="#" class="pull-right text-muted"><small>Bạn quên mật khẩu?</small></a>
+                        </div>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe)
+                    <input type="submit" class="btn btn-primary pull-right" value="Login">
+                </div>
+            }
+        </div>
+    </div>
+</div>

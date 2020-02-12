@@ -12,7 +12,9 @@ namespace TheGioiLoa
                       "~/Scripts/bootstrap-jquery/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/bootstrap-jquery/jquery-{version}.js"));
+                        "~/Scripts/bootstrap-jquery/jquery-{version}.js",
+                        "~/Scripts/jquery.unobtrusive-ajax.min.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/bootstrap-jquery/jquery.validate*"));
