@@ -26,7 +26,6 @@ namespace TheGioiLoa.Models
 
         public DateTime DateCreated { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime DateModified { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
