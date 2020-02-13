@@ -12,9 +12,11 @@ namespace TheGioiLoa.Models
         [StringLength(50)]
         public string ImageId { get; set; }
 
-        public int ProductId { get; set; }
+        [Required]
+        [StringLength(300)]
+        public string ProductId { get; set; }
 
-        public int IsMain { get; set; }
+        public bool IsMain { get; set; }
 
         public virtual Product Product { get; set; }
     }

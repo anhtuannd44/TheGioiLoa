@@ -13,18 +13,24 @@ namespace TheGioiLoa.Models
         public Product()
         {
             Product_Image = new HashSet<Product_Image>();
+            Category = new HashSet<Category>();
+            Tag = new HashSet<Tag>();
         }
 
-        public int ProductId { get; set; }
+        [StringLength(300)]
+        public string ProductId { get; set; }
 
         [Required]
-        [StringLength(300)]
+        [StringLength(500)]
         public string Name { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
         public double? Price { get; set; }
+
+        [StringLength(300)]
+        public string BrandId { get; set; }
 
         public double? ListedPrice { get; set; }
 
@@ -34,11 +40,27 @@ namespace TheGioiLoa.Models
 
         public int Status { get; set; }
 
-        public int? CategoryId { get; set; }
+        [StringLength(100)]
+        public string Promotion { get; set; }
 
-        public virtual Category Category { get; set; }
+        [Column(TypeName = "ntext")]
+        public string Characteristics { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string Details { get; set; }
+
+        [StringLength(300)]
+        public string Videos { get; set; }
+
+        public virtual Brand Brand { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Image> Product_Image { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Category> Category { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tag> Tag { get; set; }
     }
 }

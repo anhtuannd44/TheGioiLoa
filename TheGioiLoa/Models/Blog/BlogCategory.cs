@@ -6,30 +6,27 @@ namespace TheGioiLoa.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Category")]
-    public partial class Category
+    [Table("BlogCategory")]
+    public partial class BlogCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Category()
+        public BlogCategory()
         {
-            Product = new HashSet<Product>();
+            Blog = new HashSet<Blog>();
         }
 
         [StringLength(300)]
-        public string CategoryId { get; set; }
+        public string BlogCategoryId { get; set; }
 
         [Required]
-        [StringLength(300)]
+        [StringLength(100)]
         public string Name { get; set; }
-
-        public int? CategoryParentId { get; set; }
 
         public DateTime DateCreated { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime DateModified { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<Blog> Blog { get; set; }
     }
 }
