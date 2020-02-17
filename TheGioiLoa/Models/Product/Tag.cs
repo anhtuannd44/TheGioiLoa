@@ -15,8 +15,8 @@ namespace TheGioiLoa.Models
             Product = new HashSet<Product>();
         }
 
-        [StringLength(300)]
-        public string TagId { get; set; }
+        [Key]
+        public int TagId { get; set; }
 
         [Required]
         [StringLength(300)]

@@ -14,12 +14,15 @@ namespace TheGioiLoa.Models
         {
             Blog = new HashSet<Blog>();
         }
-
-        [StringLength(300)]
-        public string BlogCategoryId { get; set; }
+        [Key]
+        public int BlogCategoryId { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(300)]
+        public string Url { get; set; }
+
+        [Required]
+        [StringLength(300)]
         public string Name { get; set; }
 
         public DateTime DateCreated { get; set; }

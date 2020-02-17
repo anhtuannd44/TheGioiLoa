@@ -17,8 +17,12 @@ namespace TheGioiLoa.Models
             Tag = new HashSet<Tag>();
         }
 
+        [Key]
+        public int ProductId { get; set; }
+
+        [Required]
         [StringLength(300)]
-        public string ProductId { get; set; }
+        public string Url { get; set; }
 
         [Required]
         [StringLength(500)]
@@ -29,8 +33,7 @@ namespace TheGioiLoa.Models
 
         public double? Price { get; set; }
 
-        [StringLength(300)]
-        public string BrandId { get; set; }
+        public int? BrandId { get; set; }
 
         public double? ListedPrice { get; set; }
 

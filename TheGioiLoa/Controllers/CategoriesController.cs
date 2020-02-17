@@ -42,26 +42,26 @@ namespace TheGioiLoa.Controllers
         // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(string categoryName)
-        {
-            if (!string.IsNullOrEmpty(categoryName))
-            {
-                if (!_categoryService.IsExistedCategory(categoryName))
-                {
-                    _categoryService.CreateCategory(categoryName);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "Chuyên mục đã tồn tại!";
-                }
-            }
-            else
-                ViewBag.ErrorMessage = "Bạn chưa nhập tên chuyên mục";
-            return View();
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(string categoryName)
+        //{
+        //    if (!string.IsNullOrEmpty(categoryName))
+        //    {
+        //        if (!_categoryService.IsExistedCategory(categoryName))
+        //        {
+        //            _categoryService.CreateCategory(categoryName);
+        //            return RedirectToAction("Index");
+        //        }
+        //        else
+        //        {
+        //            ViewBag.ErrorMessage = "Chuyên mục đã tồn tại!";
+        //        }
+        //    }
+        //    else
+        //        ViewBag.ErrorMessage = "Bạn chưa nhập tên chuyên mục";
+        //    return View();
+        //}
 
         // GET: Categories/Edit/5
         public ActionResult Edit(string id)

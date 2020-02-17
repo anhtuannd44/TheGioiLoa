@@ -9,12 +9,10 @@ namespace TheGioiLoa.Models
     public partial class Product_Image
     {
         [Key]
-        [StringLength(50)]
         public string ImageId { get; set; }
 
         [Required]
-        [StringLength(300)]
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public bool IsMain { get; set; }
 

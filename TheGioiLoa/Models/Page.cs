@@ -9,11 +9,18 @@ namespace TheGioiLoa.Models
     [Table("Page")]
     public partial class Page
     {
+        [Key]
+        public int PageId { get; set; }
+
+        [Required]
         [StringLength(300)]
-        public string PageId { get; set; }
+        public string Url { get; set; }
 
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string Content { get; set; }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model TheGioiLoa.Models.ViewModel.CategoryViewModel
+
+@{
+    ViewBag.Title = "Categories";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Tạo danh mục sản phẩm</h3>
+            </div>
+            @using (Ajax.BeginForm("CreateCategory", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "categoryList",
+                OnBegin = "loadingGift",
+                OnSuccess = "loadingNoti",
+                OnComplete = "extiLoadingGift"
+            }))
+            {
+                <div class="card-body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name)
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input IsCategoryParentCreate" type="checkbox" id="IsCategoryParent" name="IsCategoryParent" onclick="isParentCheckBox('Create')">
+                            <label for="IsCategoryParent" class="custom-control-label">Là danh mục con của?</label>
+                        </div>
+                    </div>
+                    <div class="form-group d-none" id="categoryParentCreate">
+                        @Html.LabelFor(model => model.CategoryParentId, "Thuộc chuyên mục gốc?")
+                        @Html.DropDownList("CategoryParentId", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Tạo Chuyên Mục</button>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-4" id="categoryList">
+        @Html.Partial("_CategoryListPartial")
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Admin/Category.js"></script>
+}

@@ -9,8 +9,12 @@ namespace TheGioiLoa.Models
     [Table("Blog")]
     public partial class Blog
     {
+        [Key]
+        public int BlogId { get; set; }
+
+        [Required]
         [StringLength(300)]
-        public string BlogId { get; set; }
+        public string Url { get; set; }
 
         [Required]
         [StringLength(300)]
@@ -28,9 +32,8 @@ namespace TheGioiLoa.Models
         public DateTime DateModified { get; set; }
 
         public bool Status { get; set; }
-
-        [StringLength(300)]
-        public string BlogCategoryId { get; set; }
+        
+        public int? BlogCategoryId { get; set; }
 
         public virtual BlogCategory BlogCategory { get; set; }
     }

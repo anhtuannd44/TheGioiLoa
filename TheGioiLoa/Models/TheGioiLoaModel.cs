@@ -23,42 +23,6 @@ namespace TheGioiLoa.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Blog>()
-                .Property(e => e.BlogId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Blog>()
-                .Property(e => e.BlogCategoryId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<BlogCategory>()
-                .Property(e => e.BlogCategoryId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Brand>()
-                .Property(e => e.BrandId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Category>()
-                .Property(e => e.CategoryId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.Product)
-                .WithMany(e => e.Category)
-                .Map(m => m.ToTable("Product_Category").MapLeftKey("CategoryId").MapRightKey("ProductId"));
-
-            modelBuilder.Entity<Page>()
-                .Property(e => e.PageId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Product>()
-                .Property(e => e.ProductId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Product>()
-                .Property(e => e.BrandId)
-                .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.Promotion)
@@ -80,14 +44,6 @@ namespace TheGioiLoa.Models
 
             modelBuilder.Entity<Product_Image>()
                 .Property(e => e.ImageId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Product_Image>()
-                .Property(e => e.ProductId)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Tag>()
-                .Property(e => e.TagId)
                 .IsUnicode(false);
         }
     }
