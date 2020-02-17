@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web.Mvc;
 using TheGioiLoa.Helper;
@@ -32,8 +34,7 @@ namespace TheGioiLoa.Controllers
             if (category != null)
                 model.Notification = "nodata";
 
-            var parentList = db.Category.Where(a => a.CategoryParentId == null);
-            ViewBag.CategoryParentId = new SelectList(parentList.ToList(), "CategoryId", "Name");
+            ViewBag.CategoryParentList = db.Category.Where(a => a.CategoryParentId == null).ToList();
             return PartialView("_CategoryListPartial", model);
         }
         [HttpPost]
@@ -62,33 +63,35 @@ namespace TheGioiLoa.Controllers
             return model.Notification;
         }
 
-        //[HttpPost]
-        //public ActionResult EditCategoryForm(EditCategoryViewModel category)
-        //{
-        //    category.Name = _helper.DeleteSpace(category.Name);
-        //    var model = new CategoryViewModel();
-        //    var editItem = db.Category.Find(category.CategoryId);
-        //    if (editItem == null)
-        //    {
-        //        model.Notification = "error";
-        //    }
-        //    else if (ModelState.IsValid)
-        //    {
-        //        if (_categoryService.IsExistedCategory(category.Name))
-        //        {
-        //            model.Notification = "existed";
-        //        }
-        //        else
-        //        {
-        //            //_categoryService.CreateCategory(category);
-        //            model.Notification = "successed";
-        //        }
-        //        model.CategoryList = _categoryService.GetAllCategories();
-        //    }
-        //    else
-        //        model.Notification = "error";
-        //    ViewBag.CategoryParentId = new SelectList(_categoryService.GetParentCategoryList(), "CategoryId", "Name");
-        //    return PartialView("_CategoryListPartial", model);
-        //}
+        [HttpPost]
+        public string EditCategory(EditCategoryViewModel category)
+        {
+            category.Name = _helper.DeleteSpace(category.Name);
+            var model = new CategoryViewModel();
+            if (string.IsNullOrEmpty(category.Name))
+                model.Notification = "empty";
+            else
+            {
+                try
+                {
+                    var editItem = db.Category.Find(category.CategoryId);
+
+
+                    editItem.CategoryParentId = category.CategoryParentId;
+                    editItem.DateModified = DateTime.Now;
+                    editItem.Name = category.Name;
+                    editItem.Url = _helper.CreateUrl(category.Name);
+
+                    db.Entry(editItem).State = EntityState.Modified;
+                    db.SaveChanges();
+                    model.Notification = "successed";
+                }
+                catch
+                {
+                    model.Notification = "editfaild";
+                }
+            }
+            return model.Notification;
+        }
     }
 }

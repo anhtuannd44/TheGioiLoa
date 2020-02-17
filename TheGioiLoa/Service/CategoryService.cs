@@ -68,21 +68,21 @@ namespace TheGioiLoa.Service
 
       
 
-        public void EditCategory(EditCategoryViewModel category)
-        {
+        //public void EditCategory(EditCategoryViewModel category)
+        //{
            
-            Category categoryItem = new Category()
-            {
-                Url = _helper.CreateUrl(category.Name),
-                Name = category.Name,
-                DateModified = DateTime.Now
-            };
-            if (category.IsCategoryParentEdit)
-                categoryItem.CategoryParentId = category.CategoryParentId;
-            else
-                categoryItem.CategoryParentId = null;
-            db.Category.Add(categoryItem);
-            db.SaveChanges();
-        }
+        //    Category categoryItem = new Category()
+        //    {
+        //        Url = _helper.CreateUrl(category.Name),
+        //        Name = category.Name,
+        //        DateModified = DateTime.Now
+        //    };
+        //    if (category.IsCategoryParentEdit)
+        //        categoryItem.CategoryParentId = category.CategoryParentId;
+        //    else
+        //        categoryItem.CategoryParentId = null;
+        //    db.Category.Add(categoryItem);
+        //    db.SaveChanges();
+        //}
     }
 }

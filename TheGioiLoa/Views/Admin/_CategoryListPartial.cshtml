@@ -1,12 +1,7 @@
 ﻿@model TheGioiLoa.Models.ViewModel.CategoryViewModel
 
 
-<div class="card card-widget widget-user-2">
-    <div class="card-header bg-primary">
-        <h3 class="card-title">Danh Mục Sản Phẩm</h3>
-    </div>
-    <div class="card-body p-0">
-        <input hidden id="notification" value="@Model.Notification" />
+
         @foreach (var item in Model.CategoryList)
         {
             if (item.CategoryParentId == null)
@@ -19,14 +14,18 @@
                            data-target="#editCategoryModal"
                            data-id="@item.CategoryId"
                            data-name="@item.Name"
-                           data-parent-id="null"
-                           data-parent-name="null">
+                           data-parent-id=""
+                           data-parent-name="">
                             @item.Name
                         </a>
                         <div class="card-tools">
+                            <button type="button" class="btn btn-tool" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@item.Name">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
                             </button>
+
                         </div>
                     </div>
                     <div class="card-body pb-1 pt-0 border-0" style="display: none;">
@@ -34,7 +33,7 @@
                         {
                             if (child.CategoryParentId == item.CategoryId)
                             {
-                                <a href="" class="nav-link" onclick="showModalEditCategory(this)"
+                                <a href="" class="nav-link float-left" onclick="showModalEditCategory(this)"
                                    data-toggle="modal"
                                    data-target="#editCategoryModal"
                                    data-id="@child.CategoryId"
@@ -44,6 +43,12 @@
                                     <i class="fa fa-angle-right mr-2"></i>
                                     @child.Name
                                 </a>
+                                <div class="card-tools float-left" style="margin-top: .35rem">
+                                    <a href="" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@child.Name">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                                <div class="clearfix"></div>
                             }
                         }
                     </div>
@@ -51,31 +56,19 @@
             }
             
         }
-    </div>
-    <div id="loadingGift">
-        <div class="position-relative h-100 w-100">
-            <div class="loadingio-spinner-spinner-0g9wfi70d3hr">
-                <div class="ldio-dmto02pujx">
-                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="editCategoryModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="editCategoryContent">
-            @using (Ajax.BeginForm("EditCategory", new AjaxOptions
+            @using (Ajax.BeginForm("EditCategory","Admin",null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                UpdateTargetId = "categoryList",
-                OnBegin = "showBgOverlay",
-                OnSuccess = "loadingNoti",
-                OnComplete = "closeModel"
-            }))
+                OnBegin = "closeModal",
+                OnSuccess = "editCategorySuccess",
+                OnFailure = "editCategoryFailure",
+            }, new { @id="EditCategoryForm" }))
             {
-                <div class="overlay d-flex justify-content-center align-items-center" id="loadingModal">
+                <div class="overlay d-flex justify-content-center align-items-center" id="loadingEditModal">
                     <i class="fas fa-2x fa-sync fa-spin"></i>
                 </div>
                 <div class="modal-header">
@@ -85,24 +78,59 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input hidden type="text" id="CategoryId" name="CategoryIdEdit" />
+                    <input hidden type="text" id="CategoryId" name="CategoryId" />
                     <div class="form-group">
-                        <label for="editCategoryName">Tên danh mục</label>
-                        <input type="text" name="Name" id="Name" class="form-control input-form-name" />
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input IsCategoryParentEdit" type="checkbox" id="IsCategoryParentEdit" name="IsCategoryParent" onclick="isParentCheckBox('Edit')">
-                            <label for="IsCategoryParentEdit" class="custom-control-label">Là danh mục con của?</label>
-                        </div>
+                        <label for="Name">Tên danh mục</label>
+                        <input type="text" name="Name" id="Name" class="form-control input-form-name" required />
                     </div>
                     <div class="form-group" id="categoryParentEdit">
-                        @Html.DropDownList("CategoryParentId", null, htmlAttributes: new { @class = "form-control", id = "CategoryIds" })
+                        <label for="CategoryParentId">Thuộc chuyên mục gốc?</label>
+                        <select name="CategoryParentId" id="CateoryParentId" class="form-control">
+                            <option value="">--Không thuộc danh mục gốc nào--</option>
+                            @foreach (var item in ViewBag.CategoryParentList)
+                            {
+                                <option value="@item.CategoryId">@item.Name</option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
                     <button type="submit" class="btn btn-primary">Lưu Lại</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeCategoryModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="editCategoryContent">
+            @using (Ajax.BeginForm("RemoveCategory", "Admin", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnBegin = "showBgOverlay",
+                OnSuccess = "loadingNoti",
+                OnFailure = "removeCategoryFailure",
+            }, new { @id = "RemoveCategoryForm" }))
+            {
+                <div class="overlay d-flex justify-content-center align-items-center" id="loadingRemoveModal">
+                    <i class="fas fa-2x fa-sync fa-spin"></i>
+                </div>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="titleModal">Xóa danh mục</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input hidden type="text" id="CategoryId" name="CategoryId" />
+                    <h5>Bạn chắc chắn muốn xóa danh mục "<span id="CategoryTitle" class="text-danger font-weight-bold"></span>" không?</h5>
+                    <p class="text-danger">Lưu ý: <span class="text-dark">Sau khi xóa, những sản phẩm thuộc danh mục này sẽ không thuộc danh mục nào cả!</span></p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-primary">Xóa Ngay</button>
                 </div>
             }
         </div>
