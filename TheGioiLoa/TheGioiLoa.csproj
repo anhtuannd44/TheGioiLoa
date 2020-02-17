@@ -188,10 +188,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\HelperFunction.cs" />
-    <Compile Include="Migrations\202002161926408_FirstMigForPMTool.cs" />
-    <Compile Include="Migrations\202002161926408_FirstMigForPMTool.Designer.cs">
-      <DependentUpon>202002161926408_FirstMigForPMTool.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\ApplicationDbContext\202002121554545_InitialCreate.cs" />
     <Compile Include="Migrations\ApplicationDbContext\202002121554545_InitialCreate.Designer.cs">
       <DependentUpon>202002121554545_InitialCreate.cs</DependentUpon>
@@ -201,7 +197,6 @@
       <DependentUpon>202002121623260_AddNewUserDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
     <Compile Include="Models\Blog\BlogCategory.cs" />
@@ -217,7 +212,7 @@
     <Compile Include="Models\ViewModel\CategoryViewModel.cs" />
     <Compile Include="Models\ViewModel\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\ProductService.cs" />
+    <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2209,9 +2204,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002161926408_FirstMigForPMTool.resx">
-      <DependentUpon>202002161926408_FirstMigForPMTool.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ApplicationDbContext\202002121554545_InitialCreate.resx">
       <DependentUpon>202002121554545_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,14 +1,4 @@
-﻿var isParentCheckBox = function (a) {
-    var idShow = "#categoryParent" + a;
-    if ($(".IsCategoryParent"+a).is(":checked")) {
-        $(idShow).removeClass("d-none");
-    }
-    else {
-        $(idShow).addClass("d-none");
-    }
-};
-
-function loadingGift() {
+﻿function loadingGift() {
     $("#loadingGift").css("z-index", "9999");
     $("#loadingGift").css("opacity", "1");
 };
@@ -16,9 +6,8 @@ function extiLoadingGift() {
     $("#loadingGift").css("z-index", "-1");
     $("#loadingGift").css("opacity", "0");
 }
-function loadingNoti() {
-    $("#bgNotification").removeClass();
-    switch ($("#notificationContent").val()) {
+function loadingNoti(data) {
+    switch (data) {
         case "successed":
             toastr.success('Thành công!');
             break;

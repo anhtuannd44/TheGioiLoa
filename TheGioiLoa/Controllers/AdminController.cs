@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
 using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
@@ -8,71 +10,85 @@ namespace TheGioiLoa.Controllers
 {
     public class AdminController : Controller
     {
+        public ICategoryService CategoryService { get; set; }
+
         private TheGioiLoaModel db = new TheGioiLoaModel();
-        private CategoryService _categoryService = new CategoryService();
         private HelperFunction _helper = new HelperFunction();
+
         // GET: Admin
         public ActionResult Categories()
         {
+            var parentList = db.Category.Where(a => a.CategoryParentId == null);
+            ViewBag.CategoryParentList = parentList.ToList();
+            return View();
+        }
+        public ActionResult LoadCategoryList()
+        {
+            var category = db.Category;
             var model = new CategoryViewModel()
             {
-                CategoryList = _categoryService.GetAllCategories()
+                CategoryList = category.ToList()
             };
-            ViewBag.CategoryParentId = new SelectList(_categoryService.GetParentCategoryList(), "CategoryId", "Name");
-            return View(model);
-        }
+            if (category != null)
+                model.Notification = "nodata";
 
+            var parentList = db.Category.Where(a => a.CategoryParentId == null);
+            ViewBag.CategoryParentId = new SelectList(parentList.ToList(), "CategoryId", "Name");
+            return PartialView("_CategoryListPartial", model);
+        }
         [HttpPost]
-        public ActionResult CreateCategory(CreateCategoryViewModel category)
+        public string CreateCategory(CreateCategoryViewModel category)
         {
             var model = new CategoryViewModel();
             category.Name = _helper.DeleteSpace(category.Name);
             if (ModelState.IsValid)
             {
-                if (_categoryService.IsExistedCategory(category.Name))
+                var itemCategory = new Category()
                 {
-                    model.Notification = "existed";
-                }
-                else
-                {
-                    _categoryService.CreateCategory(category);
-                    model.Notification = "successed";
-                }
-                model.CategoryList = _categoryService.GetAllCategories();
+                    Name = category.Name,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Url = _helper.CreateUrl(category.Name),
+                    CategoryParentId = category.CategoryParentId
+                };
+
+                db.Category.Add(itemCategory);
+                db.SaveChanges();
+                model.Notification = "successed";
             }
             else
                 model.Notification = "error";
-            ViewBag.CategoryParentId = new SelectList(_categoryService.GetParentCategoryList(), "CategoryId", "Name");
-            return PartialView("_CategoryListPartial", model);
+
+            return model.Notification;
         }
 
-        [HttpPost]
-        public ActionResult EditCategoryForm(EditCategoryViewModel category)
-        {
-            category.Name = _helper.DeleteSpace(category.Name);
-            var model = new CategoryViewModel();
-            var editItem = db.Category.Find(category.CategoryId);
-            if (editItem == null)
-            {
-                model.Notification = "error";
-            }
-            else if (ModelState.IsValid)
-            {
-                if (_categoryService.IsExistedCategory(category.Name))
-                {
-                    model.Notification = "existed";
-                }
-                else
-                {
-                    //_categoryService.CreateCategory(category);
-                    model.Notification = "successed";
-                }
-                model.CategoryList = _categoryService.GetAllCategories();
-            }
-            else
-                model.Notification = "error";
-            ViewBag.CategoryParentId = new SelectList(_categoryService.GetParentCategoryList(), "CategoryId", "Name");
-            return PartialView("_CategoryListPartial", model);
-        }
+        //[HttpPost]
+        //public ActionResult EditCategoryForm(EditCategoryViewModel category)
+        //{
+        //    category.Name = _helper.DeleteSpace(category.Name);
+        //    var model = new CategoryViewModel();
+        //    var editItem = db.Category.Find(category.CategoryId);
+        //    if (editItem == null)
+        //    {
+        //        model.Notification = "error";
+        //    }
+        //    else if (ModelState.IsValid)
+        //    {
+        //        if (_categoryService.IsExistedCategory(category.Name))
+        //        {
+        //            model.Notification = "existed";
+        //        }
+        //        else
+        //        {
+        //            //_categoryService.CreateCategory(category);
+        //            model.Notification = "successed";
+        //        }
+        //        model.CategoryList = _categoryService.GetAllCategories();
+        //    }
+        //    else
+        //        model.Notification = "error";
+        //    ViewBag.CategoryParentId = new SelectList(_categoryService.GetParentCategoryList(), "CategoryId", "Name");
+        //    return PartialView("_CategoryListPartial", model);
+        //}
     }
 }
