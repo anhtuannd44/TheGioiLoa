@@ -73,3 +73,14 @@
     position: absolute;
     transition: all .3s;
 }
+.custom-control-label::after {
+    left: -1.5rem;
+    top: .2rem;
+}
+.custom-control-label::before {
+    top: .2rem;
+    left: -1.5rem;
+}
+#createProduct .custom-control {
+    padding-left: 1.5rem;
+}

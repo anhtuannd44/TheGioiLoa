@@ -1,0 +1,166 @@
+﻿@model TheGioiLoa.Models.ViewModel.CreateProductViewModel
+
+@{
+    ViewBag.Title = "Tạo Sản PHẩm";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Tạo sản phẩm mới</h3>
+                </div>
+
+                <div class="card-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name)
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.BrandId)
+                        <select name="BrandId" id="BrandId" class="form-control">
+                            <option value="">-- Không có thương hiệu --</option>
+                            @foreach (var item in Model.BrandId)
+                            {
+                                <option value="@item.BrandId">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    @*<div class="form-group">
+                            <select multiple="multiple" id="myMulti">
+                                <option>CSS</option>
+                                <option>SCRIPT</option>
+                                <option>COM</option>
+                                <option>jQuery</option>
+                                <option>HTML5</option>
+                                <option>CSS</option>
+                                <option>SCRIPT</option>
+                                <option>COM</option>
+                                <option>jQuery</option>
+                                <option>HTML5</option>
+                            </select>
+                        </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description)
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Price)
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ListedPrice)
+                                @Html.EditorFor(model => model.ListedPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ListedPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status)
+                        <select name="Status" id="Status" class="form-control">
+                            <option value="1" checked>Công bố</option>
+                            <option value="2">Chưa đăng</option>
+                            <option value="3">Hết hàng</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info">Tạo Sản Phẩm</button>
+                    <a href="@Url.Action("Product","Admin")" class="btn btn-default float-right">Quay Lại</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-widget widget-user-2" id="createProduct">
+                <div class="card-header bg-info">
+                    <h3 class="card-title">Danh Mục Sản Phẩm</h3>
+                </div>
+                <div class="card-body p-0" id="categoryList">
+                    @foreach (var item in Model.CategoryId)
+                    {
+                        if (item.CategoryParentId == null)
+                        {
+
+                            <div class="card p-0 m-0 rounded-0 border-top-0 border-right-0 border-left-0 shadow-none border-bottom">
+                                <div class="card-header border-left-0 border-right-0 border-top-0 border-bottom">
+                                    <div class="custom-control custom-checkbox float-left">
+                                        <input class="custom-control-input" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId">
+                                        <label for="@item.CategoryId" class="custom-control-label">@item.Name</label>
+                                    </div>
+                                    <div class="card-tools float-right">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="card-body py-0 border-0" style="display: block;">
+                                    @foreach (var child in Model.CategoryId)
+                                    {
+                                        if (child.CategoryParentId == item.CategoryId)
+                                        {
+                                            <div class="custom-control custom-checkbox ml-4">
+                                                <input class="custom-control-input" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
+                                                <label for="@child.CategoryId" class="custom-control-label">@child.Name</label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Hình ảnh sản phẩm</h3>
+                </div>
+                <div class="card-body">
+                    <div class="uploader__box js-uploader__box l-center-box">
+                        <div class="uploader__contents">
+                            <label class="button button--secondary" for="fileinput">Select Files</label>
+                            <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Heads {
+
+    <link href="~/Content/Admin/plugins/upload-image/dist/styles.imageuploader.css" rel="stylesheet" />
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Content/Admin/plugins/upload-image/dist/jquery.imageuploader.js"></script>
+    <script>
+        (function () {
+            var options = {};
+            $('.js-uploader__box').uploader(options);
+        }());
+    </script>
+
+}

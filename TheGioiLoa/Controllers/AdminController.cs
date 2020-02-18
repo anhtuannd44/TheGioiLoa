@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
@@ -76,7 +79,6 @@ namespace TheGioiLoa.Controllers
                 {
                     var editItem = db.Category.Find(category.CategoryId);
 
-
                     editItem.CategoryParentId = category.CategoryParentId;
                     editItem.DateModified = DateTime.Now;
                     editItem.Name = category.Name;
@@ -92,6 +94,44 @@ namespace TheGioiLoa.Controllers
                 }
             }
             return model.Notification;
+        }
+
+        [HttpPost]
+        public PartialViewResult LoadEditPartial(int categoryId)
+        {
+            var editItem = db.Category.Find(categoryId);
+            var model = new EditCategoryModalViewModel()
+            {
+                Name = editItem.Name,
+                CategoryId = editItem.CategoryId,
+                CategoryParentId = editItem.CategoryParentId
+            };
+            var childCategory = db.Category.Where(a => a.CategoryParentId == categoryId).Count();
+            if (childCategory == 0)
+            {
+                model.ParentList = db.Category.Where(a => a.CategoryParentId == null && a.CategoryId != categoryId).ToList();
+            }
+            else if (childCategory != 0 && editItem.CategoryParentId == null)
+                model.ParentList = null;
+            return PartialView("_EditCategoryPartial", model);
+        }
+        
+        public ActionResult CreateProduct()
+        {
+            var model = new CreateProductViewModel()
+            {
+                BrandId = db.Brand.ToList(),
+                CategoryId= db.Category.ToList()
+            };
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public string Data()
+        {
+            var data = Path.GetFileName(Request.Files[0].FileName);
+            return data;
         }
     }
 }

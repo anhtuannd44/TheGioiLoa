@@ -47,10 +47,28 @@ function loadingNoti(data) {
 };
 function showModalEditCategory(a) {
     var elm = $(a);
-    $("#editCategoryContent #CategoryId").val(elm.attr("data-id"));
-    $("#editCategoryContent #Name").val(elm.attr("data-name"));
-    $('#categoryParentEdit > select').val(elm.attr("data-parent-id")).change();
-    $("#loadingEditModal").removeClass().addClass("d-none");
+    $.ajax({
+        type: "POST",
+        url: "/Admin/LoadEditPartial",
+        data: { categoryId : elm.attr("data-id")},
+        success: function (data) {
+            $("#editCategoryContent").html(data);
+        },
+        error: function (data) {
+            toastr.error("Không thể tải!");
+        },
+    });
+
+
+    //if (elm.attr("data-parent-id") == "") {
+    //    $("#categoryParentEdit").addClass("d-none");
+    //}
+    //else {
+    //    $("#categoryParentEdit").removeClass("d-none");
+    //}
+    //$('#categoryParentEdit > select').val(elm.attr("data-parent-id")).change();
+    //$("#loadingEditModal").removeClass().addClass("d-none");
+
 };
 function showModalRemoveCategory(a) {
     var elm = $(a);

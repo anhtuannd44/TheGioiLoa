@@ -2,103 +2,66 @@
 
 
 
-        @foreach (var item in Model.CategoryList)
-        {
-            if (item.CategoryParentId == null)
-            {
-                <div class="card p-0 m-0 rounded-0 border-top-0 border-right-0 border-left-0 shadow-none border-bottom collapsed-card">
-                    <div class="card-header border-0">
-                        <a href="#" class="card-title font-weight-bold h3"
-                           onclick="showModalEditCategory(this)"
+@foreach (var item in Model.CategoryList)
+{
+    if (item.CategoryParentId == null)
+    {
+        <div class="card p-0 m-0 rounded-0 border-top-0 border-right-0 border-left-0 shadow-none border-bottom collapsed-card">
+            <div class="card-header border-0">
+                <a href="#" class="card-title font-weight-bold h3"
+                   onclick="showModalEditCategory(this)"
+                   data-toggle="modal"
+                   data-target="#editCategoryModal"
+                   data-id="@item.CategoryId"
+                   data-name="@item.Name"
+                   data-parent-id=""
+                   data-parent-name="">
+                    @item.Name
+                </a>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@item.Name">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
+
+                </div>
+            </div>
+            <div class="card-body pb-1 pt-0 border-0" style="display: none;">
+                @foreach (var child in Model.CategoryList)
+                {
+                    if (child.CategoryParentId == item.CategoryId)
+                    {
+                        <a href="" class="nav-link float-left" onclick="showModalEditCategory(this)"
                            data-toggle="modal"
                            data-target="#editCategoryModal"
-                           data-id="@item.CategoryId"
-                           data-name="@item.Name"
-                           data-parent-id=""
-                           data-parent-name="">
-                            @item.Name
+                           data-id="@child.CategoryId"
+                           data-name="@child.Name"
+                           data-parent-id="@item.CategoryId"
+                           data-parent-name="@item.Name">
+                            <i class="fa fa-angle-right mr-2"></i>
+                            @child.Name
                         </a>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@item.Name">
+                        <div class="card-tools float-left" style="margin-top: .35rem">
+                            <a href="" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@child.Name">
                                 <i class="fas fa-trash-alt"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-plus"></i>
-                            </button>
-
+                            </a>
                         </div>
-                    </div>
-                    <div class="card-body pb-1 pt-0 border-0" style="display: none;">
-                        @foreach (var child in Model.CategoryList)
-                        {
-                            if (child.CategoryParentId == item.CategoryId)
-                            {
-                                <a href="" class="nav-link float-left" onclick="showModalEditCategory(this)"
-                                   data-toggle="modal"
-                                   data-target="#editCategoryModal"
-                                   data-id="@child.CategoryId"
-                                   data-name="@child.Name"
-                                   data-parent-id="@item.CategoryId"
-                                   data-parent-name="@item.Name">
-                                    <i class="fa fa-angle-right mr-2"></i>
-                                    @child.Name
-                                </a>
-                                <div class="card-tools float-left" style="margin-top: .35rem">
-                                    <a href="" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@child.Name">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </div>
-                                <div class="clearfix"></div>
-                            }
-                        }
-                    </div>
-                </div>
-            }
-            
-        }
+                        <div class="clearfix"></div>
+                    }
+                }
+            </div>
+        </div>
+    }
+
+}
+
 
 <div class="modal fade" id="editCategoryModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="editCategoryContent">
-            @using (Ajax.BeginForm("EditCategory","Admin",null, new AjaxOptions
-            {
-                HttpMethod = "POST",
-                OnBegin = "closeModal",
-                OnSuccess = "editCategorySuccess",
-                OnFailure = "editCategoryFailure",
-            }, new { @id="EditCategoryForm" }))
-            {
-                <div class="overlay d-flex justify-content-center align-items-center" id="loadingEditModal">
-                    <i class="fas fa-2x fa-sync fa-spin"></i>
-                </div>
-                <div class="modal-header">
-                    <h4 class="modal-title" id="titleModal">Chỉnh sửa danh mục</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input hidden type="text" id="CategoryId" name="CategoryId" />
-                    <div class="form-group">
-                        <label for="Name">Tên danh mục</label>
-                        <input type="text" name="Name" id="Name" class="form-control input-form-name" required />
-                    </div>
-                    <div class="form-group" id="categoryParentEdit">
-                        <label for="CategoryParentId">Thuộc chuyên mục gốc?</label>
-                        <select name="CategoryParentId" id="CateoryParentId" class="form-control">
-                            <option value="">--Không thuộc danh mục gốc nào--</option>
-                            @foreach (var item in ViewBag.CategoryParentList)
-                            {
-                                <option value="@item.CategoryId">@item.Name</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Lưu Lại</button>
-                </div>
-            }
+            
         </div>
     </div>
 </div>

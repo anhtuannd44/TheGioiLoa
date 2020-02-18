@@ -1453,6 +1453,9 @@
     <Content Include="Content\Admin\plugins\moment\moment-with-locales.js" />
     <Content Include="Content\Admin\plugins\moment\moment-with-locales.min.js" />
     <Content Include="Content\Admin\plugins\moment\moment.min.js" />
+    <Content Include="Content\Admin\plugins\multiselect-master\css\style.css" />
+    <Content Include="Content\Admin\plugins\multiselect-master\index.html" />
+    <Content Include="Content\Admin\plugins\multiselect-master\js\index.js" />
     <Content Include="Content\Admin\plugins\overlayScrollbars\css\OverlayScrollbars.css" />
     <Content Include="Content\Admin\plugins\overlayScrollbars\css\OverlayScrollbars.min.css" />
     <Content Include="Content\Admin\plugins\overlayScrollbars\js\jquery.overlayScrollbars.js" />
@@ -1822,6 +1825,9 @@
     <Content Include="Content\Admin\plugins\toastr\toastr.css" />
     <Content Include="Content\Admin\plugins\toastr\toastr.min.css" />
     <Content Include="Content\Admin\plugins\toastr\toastr.min.js" />
+    <Content Include="Content\Admin\plugins\upload-image\dist\jquery.imageuploader.js" />
+    <Content Include="Content\Admin\plugins\upload-image\dist\styles.imageuploader.css" />
+    <Content Include="Content\Admin\plugins\upload-image\index.html" />
     <Content Include="Content\Admin\SiteAdmin.css" />
     <Content Include="Content\Admin\Spinner-1.1s-200px.gif" />
     <Content Include="Content\bootstrap\bootstrap-grid.css" />
@@ -2185,6 +2191,8 @@
     <Content Include="Views\Admin\CreateCategorys.cshtml" />
     <Content Include="Views\Admin\_CategoryListPartial.cshtml" />
     <Content Include="Views\Admin\_EditCategoryPartial.cshtml" />
+    <Content Include="Views\Admin\CreateProduct.cshtml" />
+    <Content Include="Views\Admin\Data.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

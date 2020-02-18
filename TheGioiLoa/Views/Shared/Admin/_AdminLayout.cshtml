@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@ViewBag.Title - Thế Giới Loa</title>
+    @RenderSection("heads", required: false)
     @Styles.Render("~/Content/BootstrapCss")
     @Styles.Render("~/Content/AdminCss")
-    
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">

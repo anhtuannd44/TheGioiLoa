@@ -34,4 +34,17 @@ namespace TheGioiLoa.Models.ViewModel
 
         public int? CategoryParentId { get; set; }
     }
+    
+    public class EditCategoryModalViewModel
+    {
+        public int CategoryId { get; set; }
+
+        [Display(Name = "Tên Chuyên Mục")]
+        [StringLength(300)]
+        public string Name { get; set; }
+
+        public int? CategoryParentId { get; set; }
+
+        public List<Category> ParentList { get; set; }
+    }
 }
