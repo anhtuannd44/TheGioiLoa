@@ -13,7 +13,7 @@ namespace TheGioiLoa.Models
         public Product()
         {
             Product_Image = new HashSet<Product_Image>();
-            Category = new HashSet<Category>();
+            CategoryProduct = new HashSet<CategoryProducts>();
             Tag = new HashSet<Tag>();
         }
 
@@ -61,7 +61,7 @@ namespace TheGioiLoa.Models
         public virtual ICollection<Product_Image> Product_Image { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category> Category { get; set; }
+        public virtual ICollection<CategoryProducts> CategoryProduct { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tag> Tag { get; set; }

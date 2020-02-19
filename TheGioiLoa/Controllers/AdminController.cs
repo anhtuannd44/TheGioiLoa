@@ -115,23 +115,65 @@ namespace TheGioiLoa.Controllers
                 model.ParentList = null;
             return PartialView("_EditCategoryPartial", model);
         }
-        
+
+        public ActionResult ProductList()
+        {
+            var model = db.CategoryProduct.Include(a => a.Category).Include(a => a.Product);
+            return View();
+        }
+
         public ActionResult CreateProduct()
         {
-            var model = new CreateProductViewModel()
-            {
-                BrandId = db.Brand.ToList(),
-                CategoryId= db.Category.ToList()
-            };
-            return View(model);
+            ViewBag.BrandId = db.Brand.ToList();
+            ViewBag.CategoryId = db.Category.ToList();
+            return View();
         }
-
 
         [HttpPost]
-        public string Data()
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateProduct(CreateProductViewModel product)
         {
-            var data = Path.GetFileName(Request.Files[0].FileName);
-            return data;
+            product.Name = _helper.DeleteSpace(product.Name);
+            if (ModelState.IsValid)
+            {
+                var addProduct = new Product()
+                {
+                    Name = product.Name,
+                    Url = _helper.CreateUrl(product.Name),
+                    BrandId = product.BrandId,
+                    Description = product.Description,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Price = product.Price,
+                    ListedPrice = product.ListedPrice,
+                    Status = product.Status
+                };
+                db.Product.Add(addProduct);
+                db.SaveChanges();
+
+                var productId = db.Product.Where(a => a.Name == product.Name).OrderByDescending(x => x.ProductId).Take(1).Single().ProductId;
+                var getCategoryList = Request["CategoryId"];
+                if (!string.IsNullOrEmpty(getCategoryList))
+                {
+                    string[] categoryIdList = getCategoryList.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var item in categoryIdList)
+                    {
+                        var addToCategory = new CategoryProducts()
+                        {
+                            ProductId = productId,
+                            CategoryId = Convert.ToInt32(item)
+                        };
+                        db.CategoryProduct.Add(addToCategory);
+                    }
+                    db.SaveChanges();
+                }
+                return RedirectToAction("ProductList");
+            }
+
+            ViewBag.BrandId = db.Brand.ToList();
+            ViewBag.CategoryId = db.Category.ToList();
+            return View(product);
         }
+
     }
 }

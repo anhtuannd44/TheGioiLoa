@@ -16,10 +16,12 @@ namespace TheGioiLoa.Models
         public virtual DbSet<BlogCategory> BlogCategory { get; set; }
         public virtual DbSet<Brand> Brand { get; set; }
         public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<CategoryProducts> CategoryProduct { get; set; }
         public virtual DbSet<Page> Page { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Product_Image> Product_Image { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -45,6 +47,7 @@ namespace TheGioiLoa.Models
             modelBuilder.Entity<Product_Image>()
                 .Property(e => e.ImageId)
                 .IsUnicode(false);
+
         }
     }
 }

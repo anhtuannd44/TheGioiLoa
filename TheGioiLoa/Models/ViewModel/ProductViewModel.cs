@@ -8,7 +8,7 @@ using System.Web;
 namespace TheGioiLoa.Models.ViewModel
 {
     public class CreateProductViewModel
-    {
+    { 
         [Display(Name = "Tên sản phẩm")]
         [Required(ErrorMessage ="Bạn chưa nhập tên sản phẩm")]
         [StringLength(500)]
@@ -28,14 +28,12 @@ namespace TheGioiLoa.Models.ViewModel
         public int Status { get; set; }
 
         [Display(Name = "Thương hiệu")]
-        public List<Brand> BrandId { get; set; }
-
-        [Display(Name = "Chuyên Mục")]
-        public List<Category> CategoryId { get; set; }
+        public int? BrandId { get; set; }
     }
 
     public class CreateProductActionViewModel
     {
+
         [Display(Name = "Tên sản phẩm")]
         [Required(ErrorMessage = "Bạn chưa nhập tên sản phẩm")]
         [StringLength(500)]
@@ -55,9 +53,7 @@ namespace TheGioiLoa.Models.ViewModel
         public int Status { get; set; }
 
         [Display(Name = "Thương hiệu")]
-        public List<Brand> BrandId { get; set; }
-
-        
+        public int? BrandId { get; set; }
     }
 
 }

@@ -12,7 +12,7 @@ namespace TheGioiLoa.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            Product = new HashSet<Product>();
+            CategoryProduct = new HashSet<CategoryProducts>();
         }
 
         [Key]
@@ -33,6 +33,6 @@ namespace TheGioiLoa.Models
         public DateTime DateModified { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<CategoryProducts> CategoryProduct { get; set; }
     }
 }

@@ -1,19 +1,15 @@
-/*
- * ©2016 Quicken Loans Inc. All rights reserved.
- */
-/* global jQuery FormData FileReader */
 (function ($) {
     $.fn.uploader = function (options, testMode) {
         return this.each(function (index) {
             options = $.extend({
-                submitButtonCopy: 'Upload Selected Files',
-                instructionsCopy: 'Drag and Drop, or',
-                furtherInstructionsCopy: 'Your can also drop more files, or',
-                selectButtonCopy: 'Select Files',
-                secondarySelectButtonCopy: 'Select More Files',
+                //submitButtonCopy: 'Upload Selected Files',
+                instructionsCopy: 'Kéo hình vào đây hoặc Click Chọn Hình',
+                furtherInstructionsCopy: '',
+                selectButtonCopy: 'Chọn Hình',
+                secondarySelectButtonCopy: 'Chọn Thêm Hình',
                 dropZone: $(this),
                 fileTypeWhiteList: ['jpg', 'png', 'jpeg', 'gif', 'pdf'],
-                badFileTypeMessage: 'Sorry, we\'re unable to accept this type of file.',
+                badFileTypeMessage: 'Định dạng hình chưa đúng!',
                 ajaxUrl: '/Admin/Data',
                 testMode: false
             }, options);
@@ -28,8 +24,8 @@
             // create DOM elements
             var dom = {
                 uploaderBox: $(this),
-                submitButton: $('<button class="js-uploader__submit-button uploader__submit-button uploader__hide">' +
-                    options.submitButtonCopy + '<i class="js-uploader__icon fa fa-upload uploader__icon"></i></button>'),
+                //submitButton: $('<button class="js-uploader__submit-button uploader__submit-button uploader__hide">' +
+                //    options.submitButtonCopy + '<i class="js-uploader__icon fa fa-upload uploader__icon"></i></button>'),
                 instructions: $('<p class="js-uploader__instructions uploader__instructions">' +
                     options.instructionsCopy + '</p>'),
                 selectButton: $('<input style="height: 0; width: 0;" id="fileinput' + index + '" type="file" multiple class="js-uploader__file-input uploader__file-input">' +
@@ -62,7 +58,7 @@
                 dom.uploaderBox
                     .append(dom.fileList)
                     .append(dom.contentsContainer)
-                    .append(dom.submitButton)
+                    //.append(dom.submitButton)
                     .after(dom.furtherInstructions);
             }
 
@@ -81,7 +77,7 @@
                 dom.secondarySelectButton.on('change', selectFilesHandler);
 
                 // handle the submit click
-                dom.submitButton.on('click', uploadSubmitHandler);
+                //dom.submitButton.on('click', uploadSubmitHandler);
 
                 // remove link handler
                 dom.uploaderBox.on('click', '.js-upload-remove-button', removeItemHandler);
@@ -119,9 +115,9 @@
 
                 // validate the file
                 if (options.fileTypeWhiteList.indexOf(getExtension(file.name).toLowerCase()) !== -1) {
-                    // file is ok, add it to the batch
                     state.fileBatch.push({file: file, id: id, fileName: fileName, fileSize: fileSize});
                     sizeWrapper = $('<span class="uploader__file-list__size">' + formatBytes(fileSize) + '</span>');
+                    
                 } else {
                     // file is not ok, only add it to the dom
                     sizeWrapper = $('<span class="uploader__file-list__size"><span class="uploader__error">' + options.badFileTypeMessage + '</span></span>');
@@ -215,11 +211,11 @@
 
             function renderControls () {
                 if (dom.fileList.children().length !== 0) {
-                    dom.submitButton.removeClass('uploader__hide');
+                    //dom.submitButton.removeClass('uploader__hide');
                     dom.furtherInstructions.removeClass('uploader__hide');
                     dom.contentsContainer.addClass('uploader__hide');
                 } else {
-                    dom.submitButton.addClass('uploader__hide');
+                    //dom.submitButton.addClass('uploader__hide');
                     dom.furtherInstructions.addClass('uploader__hide');
                     dom.contentsContainer.removeClass('uploader__hide');
                 }

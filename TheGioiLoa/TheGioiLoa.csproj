@@ -205,6 +205,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\Product\CategoryProducts.cs" />
     <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Product\Product_Image.cs" />
     <Compile Include="Models\Product\Tag.cs" />
