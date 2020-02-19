@@ -6,8 +6,8 @@
 {
     if (item.CategoryParentId == null)
     {
-        <div class="card p-0 m-0 rounded-0 border-top-0 border-right-0 border-left-0 shadow-none border-bottom collapsed-card">
-            <div class="card-header border-0">
+        <div class="card p-0 m-0 rounded-0 border-0 shadow-none border-bottom">
+            <div class="card-header border-0 py-2 bg-light">
                 <a href="#" class="card-title font-weight-bold h3"
                    onclick="showModalEditCategory(this)"
                    data-toggle="modal"
@@ -19,7 +19,7 @@
                     @item.Name
                 </a>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@item.Name">
+                    <button type="button" class="btn btn-tool" data-id="@item.CategoryId" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@item.Name">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -28,27 +28,77 @@
 
                 </div>
             </div>
-            <div class="card-body pb-1 pt-0 border-0" style="display: none;">
+            <div class="card-body pt-0 pb-2 border-0">
                 @foreach (var child in Model.CategoryList)
                 {
                     if (child.CategoryParentId == item.CategoryId)
                     {
-                        <a href="" class="nav-link float-left" onclick="showModalEditCategory(this)"
-                           data-toggle="modal"
-                           data-target="#editCategoryModal"
-                           data-id="@child.CategoryId"
-                           data-name="@child.Name"
-                           data-parent-id="@item.CategoryId"
-                           data-parent-name="@item.Name">
-                            <i class="fa fa-angle-right mr-2"></i>
-                            @child.Name
-                        </a>
-                        <div class="card-tools float-left" style="margin-top: .35rem">
-                            <a href="" onclick="showModalRemoveCategory(this)" data-toggle="modal" data-target="#removeCategoryModal" data-name="@child.Name">
-                                <i class="fas fa-trash-alt"></i>
+                        <div class="pl-2 py-2">
+                            <a href="" class="nav-link float-left py-0 text-dark" onclick="showModalEditCategory(this)"
+                               data-toggle="modal"
+                               data-target="#editCategoryModal"
+                               data-id="@child.CategoryId"
+                               data-name="@child.Name"
+                               data-parent-id="@item.CategoryId"
+                               data-parent-name="@item.Name">
+                                <i class="fa fa-angle-right mr-2"></i>
+                                @child.Name
+                                
                             </a>
+                            <div class="card-tools float-right">
+                                <a href="#" class="badge badge-success small font-weight-normal" onclick="showModalEditCategory(this)"
+                                           data-toggle="modal"
+                                           data-target="#editCategoryModal"
+                                           data-id="@child.CategoryId"
+                                           data-name="@child.Name"
+                                           data-parent-id="@item.CategoryId"
+                                           data-parent-name="@item.Name">
+                                            Chỉnh Sửa
+                                </a>
+                                <a href="#" class="badge small badge-danger font-weight-normal"
+                                            onclick="showModalRemoveCategory(this)"
+                                            data-toggle="modal"
+                                            data-target="#removeCategoryModal"
+                                            data-name="@child.Name"
+                                            data-id="@child.CategoryId">
+                                    Xóa
+                                </a>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
+                        <div class="pl-4">
+                            @foreach (var subChild in Model.CategoryList)
+                            {
+                                if (subChild.CategoryParentId == child.CategoryId)
+                                {
+                                    <a href="" class="nav-link float-left text-dark py-0" onclick="showModalEditCategory(this)"
+                                       data-toggle="modal"
+                                       data-target="#editCategoryModal"
+                                       data-id="@subChild.CategoryId"
+                                       data-name="@subChild.Name"
+                                       data-parent-id="@child.CategoryId"
+                                       data-parent-name="@child.Name">
+                                        -
+                                        @subChild.Name
+                                    </a>
+                                    <div class="card-tools float-right">
+                                        <a href="#" class="badge badge-success small font-weight-normal" onclick="showModalEditCategory(this)"
+                                               data-toggle="modal"
+                                               data-target="#editCategoryModal"
+                                               data-id="@subChild.CategoryId"
+                                               data-name="@subChild.Name"
+                                               data-parent-id="@item.CategoryId"
+                                               data-parent-name="@item.Name">
+                                               Chỉnh Sửa
+                                        </a>
+                                        <a href="#" class="badge small badge-danger font-weight-normal" onclick="showModalRemoveCategory(this)" data-id="@subChild.CategoryId" data-toggle="modal" data-target="#removeCategoryModal" data-name="@subChild.Name">
+                                            Xóa
+                                        </a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                }
+                            }
+                        </div>
                     }
                 }
             </div>
@@ -61,19 +111,20 @@
 <div class="modal fade" id="editCategoryModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="editCategoryContent">
-            
+
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="removeCategoryModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" id="editCategoryContent">
+        <div class="modal-content" id="removeCategoryContent">
             @using (Ajax.BeginForm("RemoveCategory", "Admin", null, new AjaxOptions
             {
                 HttpMethod = "POST",
                 OnBegin = "showBgOverlay",
                 OnSuccess = "loadingNoti",
+                OnComplete = "closeModal",
                 OnFailure = "removeCategoryFailure",
             }, new { @id = "RemoveCategoryForm" }))
             {
@@ -87,7 +138,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input hidden type="text" id="CategoryId" name="CategoryId" />
+                    <input hidden type="text" id="CategoryId" name="CategoryId"/>
                     <h5>Bạn chắc chắn muốn xóa danh mục "<span id="CategoryTitle" class="text-danger font-weight-bold"></span>" không?</h5>
                     <p class="text-danger">Lưu ý: <span class="text-dark">Sau khi xóa, những sản phẩm thuộc danh mục này sẽ không thuộc danh mục nào cả!</span></p>
                 </div>

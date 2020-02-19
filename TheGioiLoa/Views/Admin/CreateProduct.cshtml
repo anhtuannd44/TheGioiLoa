@@ -8,7 +8,7 @@
 {
     @Html.AntiForgeryToken()
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Tạo sản phẩm mới</h3>
@@ -37,24 +37,20 @@
                         </select>
                     </div>
                     @*<div class="form-group">
-                            <select multiple="multiple" id="myMulti">
-                                <option>CSS</option>
-                                <option>SCRIPT</option>
-                                <option>COM</option>
-                                <option>jQuery</option>
-                                <option>HTML5</option>
-                                <option>CSS</option>
-                                <option>SCRIPT</option>
-                                <option>COM</option>
-                                <option>jQuery</option>
-                                <option>HTML5</option>
-                            </select>
-                        </div>*@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Description)
-                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
-                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                    </div>
+            <select multiple="multiple" id="myMulti">
+                <option>CSS</option>
+                <option>SCRIPT</option>
+                <option>COM</option>
+                <option>jQuery</option>
+                <option>HTML5</option>
+                <option>CSS</option>
+                <option>SCRIPT</option>
+                <option>COM</option>
+                <option>jQuery</option>
+                <option>HTML5</option>
+            </select>
+        </div>*@
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -71,7 +67,11 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description)
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control textarea", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Status)
@@ -90,7 +90,7 @@
 
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card card-widget widget-user-2" id="createProduct">
                 <div class="card-header bg-info">
                     <h3 class="card-title">Danh Mục Sản Phẩm</h3>
@@ -106,7 +106,7 @@
                                 <div class="card p-0 m-0 rounded-0 shadow-none border-top">
                                     <div class="card-header border-0">
                                         <div class="custom-control custom-checkbox float-left">
-                                            <input class="custom-control-input" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId">
+                                            <input class="custom-control-input category-click" data-level="parent" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId">
                                             <label for="@item.CategoryId" class="custom-control-label">@item.Name</label>
                                         </div>
                                         <div class="card-tools float-right">
@@ -116,14 +116,28 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="card-body py-0 border-top" style="display: block;">
+                                    <div class="card-body py-0 border-top parentCategory-@item.CategoryId" style="display: block;">
                                         @foreach (var child in ViewBag.CategoryId)
                                         {
                                             if (child.CategoryParentId == item.CategoryId)
                                             {
-                                                <div class="custom-control custom-checkbox ml-4 py-1">
-                                                    <input class="custom-control-input child-category" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
-                                                    <label for="@child.CategoryId" class="custom-control-label font-weight-normal">@child.Name</label>
+                                                <div class="">
+                                                    <div class="custom-control custom-checkbox ml-4 py-1">
+                                                        <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
+                                                        <label for="@child.CategoryId" class="custom-control-label font-weight-normal">@child.Name</label>
+                                                    </div>
+                                                </div>
+                                                <div class="pl-4 childCategory-@child.CategoryId">
+                                                    @foreach (var subChild in ViewBag.CategoryId)
+                                                    {
+                                                        if (subChild.CategoryParentId == child.CategoryId)
+                                                        {
+                                                            <div class="custom-control custom-checkbox ml-4 py-1">
+                                                                <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="checkbox" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId">
+                                                                <label for="@subChild.CategoryId" class="custom-control-label font-weight-normal">@subChild.Name</label>
+                                                            </div>
+                                                        }
+                                                    }
                                                 </div>
                                             }
                                         }
@@ -151,14 +165,36 @@
 
     <script src="~/Content/Admin/plugins/upload-image/dist/jquery.imageuploader.js"></script>
     <script>
-        $(".child-category").click(function (e) {
+        $(".category-click").click(function (e) {
             if ($(this).is(":checked")) {
-                $("#createProduct #" + $(this).attr("data-parent-id")).prop('checked', true);
+                if ($(this).attr("data-level") == "child") {
+                    $("#createProduct #" + $(this).attr("data-parent-id")).prop('checked', true);
+                }
+                if ($(this).attr("data-level") == "subChild") {
+                    var elm = $("#createProduct #" + $(this).attr("data-parent-id"));
+                    elm.prop('checked', true);
+                    $("#createProduct #" + elm.attr("data-parent-id")).prop('checked', true);
+                }
+            }
+            else {
+                if ($(this).attr("data-level") == "child") {
+                    $("#createProduct .childCategory-" + $(this).attr("id") + " .sub-child-category").prop('checked', false);
+                }
+                if ($(this).attr("data-level") == "parent") {
+                    $("#createProduct .parentCategory-" + $(this).attr("id") + " .child-category").prop('checked', false);
+                    $("#createProduct .parentCategory-" + $(this).attr("id") + " .sub-child-category").prop('checked', false);
+                }
             }
         });
-                //$(document).ready(function () {
-                //    $('.js-uploader__box').uploader();
-                //});
+                            //$(document).ready(function () {
+                            //    $('.js-uploader__box').uploader();
+                            //});
+    </script>
+    <script>
+        $(function () {
+            // Summernote
+            $('.textarea').summernote();
+        });
     </script>
 
 }

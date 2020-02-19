@@ -15,17 +15,17 @@ namespace TheGioiLoa.Controllers
 {
     public class AdminController : Controller
     {
+
         public ICategoryService CategoryService { get; set; }
 
-        private TheGioiLoaModel db = new TheGioiLoaModel();
-        private HelperFunction _helper = new HelperFunction();
+        private readonly TheGioiLoaModel db = new TheGioiLoaModel();
+        private readonly HelperFunction _helper = new HelperFunction();
 
         // GET: Admin
         public ActionResult Categories()
         {
-            var parentList = db.Category.Where(a => a.CategoryParentId == null);
-            ViewBag.CategoryParentList = parentList.ToList();
-            return View();
+            var parentList = db.Category.ToList();
+            return View(parentList);
         }
         public ActionResult LoadCategoryList()
         {
@@ -40,85 +40,105 @@ namespace TheGioiLoa.Controllers
             ViewBag.CategoryParentList = db.Category.Where(a => a.CategoryParentId == null).ToList();
             return PartialView("_CategoryListPartial", model);
         }
+
         [HttpPost]
         public string CreateCategory(CreateCategoryViewModel category)
         {
-            var model = new CategoryViewModel();
-            category.Name = _helper.DeleteSpace(category.Name);
-            if (ModelState.IsValid)
+            try
             {
-                var itemCategory = new Category()
+                category.Name = _helper.DeleteSpace(category.Name);
+                db.Category.Add(new Category()
                 {
                     Name = category.Name,
                     DateCreated = DateTime.Now,
                     DateModified = DateTime.Now,
-                    Url = _helper.CreateUrl(category.Name),
-                    CategoryParentId = category.CategoryParentId
-                };
-
-                db.Category.Add(itemCategory);
+                    Url = _helper.CreateUrl(category.Name)
+                });
+                var parent = db.Category.Find(category.CategoryParentId);
+                if (parent == null)
+                    return "error";
                 db.SaveChanges();
-                model.Notification = "successed";
+                return "successed";
             }
-            else
-                model.Notification = "error";
-
-            return model.Notification;
+            catch
+            {
+                return "error";
+            }
         }
 
         [HttpPost]
         public string EditCategory(EditCategoryViewModel category)
         {
             category.Name = _helper.DeleteSpace(category.Name);
-            var model = new CategoryViewModel();
             if (string.IsNullOrEmpty(category.Name))
-                model.Notification = "empty";
+                return "empty";
             else
             {
                 try
                 {
                     var editItem = db.Category.Find(category.CategoryId);
 
-                    editItem.CategoryParentId = category.CategoryParentId;
                     editItem.DateModified = DateTime.Now;
                     editItem.Name = category.Name;
                     editItem.Url = _helper.CreateUrl(category.Name);
 
                     db.Entry(editItem).State = EntityState.Modified;
                     db.SaveChanges();
-                    model.Notification = "successed";
+                    return "successed";
                 }
                 catch
                 {
-                    model.Notification = "editfaild";
+                    return "editfaild";
                 }
             }
-            return model.Notification;
         }
 
         [HttpPost]
         public PartialViewResult LoadEditPartial(int categoryId)
         {
             var editItem = db.Category.Find(categoryId);
-            var model = new EditCategoryModalViewModel()
+            var model = new EditCategoryViewModel()
             {
                 Name = editItem.Name,
-                CategoryId = editItem.CategoryId,
-                CategoryParentId = editItem.CategoryParentId
+                CategoryId = editItem.CategoryId
             };
-            var childCategory = db.Category.Where(a => a.CategoryParentId == categoryId).Count();
-            if (childCategory == 0)
-            {
-                model.ParentList = db.Category.Where(a => a.CategoryParentId == null && a.CategoryId != categoryId).ToList();
-            }
-            else if (childCategory != 0 && editItem.CategoryParentId == null)
-                model.ParentList = null;
             return PartialView("_EditCategoryPartial", model);
+        }
+
+        [HttpPost]
+        public string RemoveCategory(RemoveCategoryViewMode category)
+        {
+            try
+            {
+                var removeItem = db.Category.Find(category.CategoryId);
+                db.Category.Remove(removeItem);
+                db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == category.CategoryId));
+
+                var childCategoryList = db.Category.Where(a => a.CategoryParentId == category.CategoryId);
+                if (childCategoryList != null)
+                    foreach (var child in childCategoryList)
+                    {
+                        db.Category.RemoveRange(db.Category.Where(a => a.CategoryParentId == child.CategoryId || a.CategoryId == child.CategoryId));
+                        db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == child.CategoryId));
+                        var subChildList = db.Category.Where(a => a.CategoryParentId == child.CategoryId);
+                        if (subChildList != null)
+                            foreach (var subChild in subChildList.ToList())
+                            {
+                                db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == subChild.CategoryId));
+                            }
+                    }
+
+                db.SaveChanges();
+                return "successed";
+            }
+            catch
+            {
+                return "error";
+            }
         }
 
         public ActionResult ProductList()
         {
-            var model = db.CategoryProduct.Include(a => a.Category).Include(a => a.Product);
             return View();
         }
 
@@ -133,9 +153,9 @@ namespace TheGioiLoa.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateProduct(CreateProductViewModel product)
         {
-            product.Name = _helper.DeleteSpace(product.Name);
-            if (ModelState.IsValid)
+            //try
             {
+                product.Name = _helper.DeleteSpace(product.Name);
                 var addProduct = new Product()
                 {
                     Name = product.Name,
@@ -151,28 +171,35 @@ namespace TheGioiLoa.Controllers
                 db.Product.Add(addProduct);
                 db.SaveChanges();
 
+                var categoryIdList = Request["CategoryId"];
+
                 var productId = db.Product.Where(a => a.Name == product.Name).OrderByDescending(x => x.ProductId).Take(1).Single().ProductId;
-                var getCategoryList = Request["CategoryId"];
-                if (!string.IsNullOrEmpty(getCategoryList))
+                if (!string.IsNullOrEmpty(categoryIdList))
                 {
-                    string[] categoryIdList = getCategoryList.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var item in categoryIdList)
+                    db.Configuration.AutoDetectChangesEnabled = false;
+
+                    string[] categoryIdArray = categoryIdList.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i=0; i< categoryIdArray.Length; i++)
                     {
-                        var addToCategory = new CategoryProducts()
+                        db.CategoryProduct.Add( new CategoryProducts()
                         {
                             ProductId = productId,
-                            CategoryId = Convert.ToInt32(item)
-                        };
-                        db.CategoryProduct.Add(addToCategory);
+                            CategoryId = Convert.ToInt32(categoryIdArray[i])
+                        });
+                        
                     }
                     db.SaveChanges();
+                    db.Dispose();
                 }
                 return RedirectToAction("ProductList");
             }
+            //catch
+            //{
+            //    ViewBag.BrandId = db.Brand.ToList();
+            //    ViewBag.CategoryId = db.Category.ToList();
+            //    return View(product);
+            //}
 
-            ViewBag.BrandId = db.Brand.ToList();
-            ViewBag.CategoryId = db.Category.ToList();
-            return View(product);
         }
 
     }

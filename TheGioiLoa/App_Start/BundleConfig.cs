@@ -9,11 +9,10 @@ namespace TheGioiLoa
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap-jquery/bootstrap.js"));
+                      "~/Content/Admin/plugins/bootstrap/js/bootstrap.bundle.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/bootstrap-jquery/jquery-{version}.js",
-                        "~/Scripts/jquery.unobtrusive-ajax.min.js"
+                        "~/Content/Admin/plugins/jquery/jquery.min.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -32,6 +31,7 @@ namespace TheGioiLoa
                         "~/Scripts/Home/js/main.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/AdminJs").Include(
+                      "~/Scripts/jquery.unobtrusive-ajax.min.js",
                       "~/Content/Admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js",
                       "~/Scripts/Admin/adminlte.min.js",
                       "~/Content/Admin/plugins/jquery-mousewheel/jquery.mousewheel.js",
@@ -41,7 +41,8 @@ namespace TheGioiLoa
                       "~/Content/Admin/plugins/chart.js/Chart.min.js",
                       "~/Content/Admin/dist/js/pages/dashboard2.js",
                       "~/Content/Admin/plugins/ekko-lightbox/ekko-lightbox.min.js",
-                      "~/Content/Admin/plugins/toastr/toastr.min.js"
+                      "~/Content/Admin/plugins/toastr/toastr.min.js",
+                      "~/Content/Admin/plugins/summernote/summernote-bs4.min.js"
                       ));
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
@@ -52,15 +53,15 @@ namespace TheGioiLoa
             bundles.Add(new StyleBundle("~/Content/BootstrapCss").Include(
                      "~/Content/bootstrap/bootstrap.css"));
 
-           //Css Home
-           bundles.Add(new StyleBundle("~/Content/HomeCss").Include(
-                      "~/Content/Home/lib/font-awesome/css/font-awesome.min.css",
-                      "~/Content/Home/lib/animate/animate.min.css",
-                      "~/Content/Home/lib/ionicons/css/ionicons.min.css",
-                      "~/Content/Home/lib/owlcarousel/assets/owl.carousel.min.css",
-                      "~/Content/Home/lib/lightbox/css/lightbox.min.css",
-                      "~/Content/Home/css/style.css",
-                      "~/Content/site.css"));
+            //Css Home
+            bundles.Add(new StyleBundle("~/Content/HomeCss").Include(
+                       "~/Content/Home/lib/font-awesome/css/font-awesome.min.css",
+                       "~/Content/Home/lib/animate/animate.min.css",
+                       "~/Content/Home/lib/ionicons/css/ionicons.min.css",
+                       "~/Content/Home/lib/owlcarousel/assets/owl.carousel.min.css",
+                       "~/Content/Home/lib/lightbox/css/lightbox.min.css",
+                       "~/Content/Home/css/style.css",
+                       "~/Content/site.css"));
 
 
             bundles.Add(new StyleBundle("~/Content/AdminCss").Include(
@@ -69,6 +70,7 @@ namespace TheGioiLoa
                       "~/Content/Admin/plugins/fontawesome-free/css/all.min.css",
                       "~/Content/Admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
                       "~/Content/Admin/plugins/toastr/toastr.min.css",
+                      "~/Content/Admin/plugins/summernote/summernote-bs4.css",
                       "~/Content/Admin/SiteAdmin.css"
                       ));
         }

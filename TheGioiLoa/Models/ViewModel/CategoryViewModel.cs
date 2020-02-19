@@ -6,6 +6,15 @@ using System.Web;
 
 namespace TheGioiLoa.Models.ViewModel
 {
+    public class ShowCategoryViewModel
+    {
+        public int CategoryId { get; set; }
+        public string Name { get; set; }
+        public int? CategoryParentId { get; set; }
+
+        public List<ShowCategoryViewModel> Children { get; set; }
+    }
+
     public class CategoryViewModel
     {
         public List<Category> CategoryList { get; set; }
@@ -15,15 +24,11 @@ namespace TheGioiLoa.Models.ViewModel
 
     public class CreateCategoryViewModel
     {
-        [Required(ErrorMessage = "Bạn chưa nhập Tên Danh Mục")]
-        [Display(Name = "Tên Chuyên Mục")]
-        [StringLength(300)]
         public string Name { get; set; }
 
         public int? CategoryParentId { get; set; }
 
     }
-
     public class EditCategoryViewModel
     {
         public int CategoryId { get; set; }
@@ -31,20 +36,9 @@ namespace TheGioiLoa.Models.ViewModel
         [Display(Name = "Tên Chuyên Mục")]
         [StringLength(300)]
         public string Name { get; set; }
-
-        public int? CategoryParentId { get; set; }
     }
-    
-    public class EditCategoryModalViewModel
+    public class RemoveCategoryViewMode
     {
         public int CategoryId { get; set; }
-
-        [Display(Name = "Tên Chuyên Mục")]
-        [StringLength(300)]
-        public string Name { get; set; }
-
-        public int? CategoryParentId { get; set; }
-
-        public List<Category> ParentList { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model TheGioiLoa.Models.ViewModel.EditCategoryModalViewModel
+﻿@model TheGioiLoa.Models.ViewModel.EditCategoryViewModel
 
 @using (Ajax.BeginForm("EditCategory", "Admin", null, new AjaxOptions
 {
@@ -20,19 +20,6 @@
         <div class="form-group">
             <label for="Name">Tên danh mục</label>
             <input type="text" name="Name" id="Name" class="form-control input-form-name" required value="@Model.Name" />
-        </div>
-        <div class="form-group" id="categoryParentEdit">
-            <label for="CategoryParentId">Thuộc chuyên mục gốc?</label>
-            <select name="CategoryParentId" id="CateoryParentId" class="form-control">
-                <option value="">--Không thuộc danh mục gốc nào--</option>
-                @if (Model.ParentList != null)
-                {
-                    foreach (var item in Model.ParentList)
-                    {
-                        <option value="@item.CategoryId">@item.Name</option>
-                    }
-                }
-            </select>
         </div>
     </div>
     <div class="modal-footer justify-content-between">

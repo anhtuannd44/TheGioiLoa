@@ -72,7 +72,8 @@ function showModalEditCategory(a) {
 };
 function showModalRemoveCategory(a) {
     var elm = $(a);
-    $("#removeCategoryContent #CategoryId").val(elm.attr("data-id"));
+    var delValue = (elm.attr("data-id"));
+    $("#removeCategoryContent #CategoryId").val(delValue);
     $("#CategoryTitle").html(elm.attr("data-name"));
     $("#loadingRemoveModal").removeClass().addClass("d-none");
 };
