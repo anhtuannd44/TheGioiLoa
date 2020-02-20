@@ -150,7 +150,7 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult CreateProduct(CreateProductViewModel product)
         {
             //try
@@ -166,31 +166,66 @@ namespace TheGioiLoa.Controllers
                     DateModified = DateTime.Now,
                     Price = product.Price,
                     ListedPrice = product.ListedPrice,
-                    Status = product.Status
+                    Status = product.Status,
+                    Characteristics = product.Characteristics,
+                    Promotion = product.Promotion,
+                    Videos = product.Video,
+                    Details = product.Details
                 };
                 db.Product.Add(addProduct);
                 db.SaveChanges();
 
-                var categoryIdList = Request["CategoryId"];
 
                 var productId = db.Product.Where(a => a.Name == product.Name).OrderByDescending(x => x.ProductId).Take(1).Single().ProductId;
+
+                //Add Category
+                var categoryIdList = Request["CategoryId"];
                 if (!string.IsNullOrEmpty(categoryIdList))
                 {
-                    db.Configuration.AutoDetectChangesEnabled = false;
 
                     string[] categoryIdArray = categoryIdList.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i=0; i< categoryIdArray.Length; i++)
+                    for (int i = 0; i < categoryIdArray.Length; i++)
                     {
-                        db.CategoryProduct.Add( new CategoryProducts()
+                        db.CategoryProduct.Add(new CategoryProducts()
                         {
                             ProductId = productId,
                             CategoryId = Convert.ToInt32(categoryIdArray[i])
                         });
-                        
+
                     }
                     db.SaveChanges();
-                    db.Dispose();
                 }
+
+                //Add Image
+                if (!string.IsNullOrEmpty(product.Image))
+                {
+                    var imageListArray = product.Image.Split('|');
+                    foreach (var item in imageListArray)
+                    {
+                        db.Product_Image.Add(new Product_Image()
+                        {
+                            ImageId = item,
+                            ProductId = productId,
+                            IsMain = false
+                        });
+                        db.SaveChanges();
+                    }
+                }
+
+                //Add Tags
+                if (!string.IsNullOrEmpty(product.Tag))
+                {
+                    var imageListArray = product.Tag.Split(',');
+                    foreach (var item in imageListArray)
+                    {
+                        db.Tag.Add(new Tag()
+                        {
+                            Name = item,
+                        });
+                        db.SaveChanges();
+                    }
+                }
+
                 return RedirectToAction("ProductList");
             }
             //catch
@@ -204,13 +239,54 @@ namespace TheGioiLoa.Controllers
 
         public JsonResult UploadImage(HttpPostedFileBase File)
         {
-            UploadImageViewModel result = new UploadImageViewModel()
-            { 
-                status = "ok",
-                path = "/Content/Admin/img/prod-2.jpg"
-            };
+            UploadImageViewModel result = new UploadImageViewModel();
+            try
+            {
+                var fileName = _helper.RandomString() + Path.GetExtension(File.FileName);
+                string path = Path.Combine(Server.MapPath("~/Content/Upload/Images/"), fileName);
+                File.SaveAs(path);
+                result.status = "ok";
+                result.path = path;
+            }
+            catch (Exception ex)
+            {
+                result.status = "error";
+                result.message = ex.Message;
+            }
+
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult LoadLibraryImage()
+        {
+            string[] filePaths = Directory.GetFiles(Server.MapPath("/Content/Upload/Images/"));
+            List<GetFileViewModel> model = new List<GetFileViewModel>();
+            foreach (var item in filePaths)
+            {
+                var addItem = new GetFileViewModel()
+                {
+                    FileName = item.Substring(item.LastIndexOf("\\") + 1)
+                };
+                model.Add(addItem);
+            }
+            return PartialView("_ImageLibraryPartial", model);
+
+        }
+
+        public ActionResult LoadSelectImage(string imageList)
+        {
+            var imageListArray = imageList.Split('|');
+            List<GetFileViewModel> model = new List<GetFileViewModel>();
+            foreach (var item in imageListArray)
+            {
+                var addItem = new GetFileViewModel()
+                {
+                    FileName = item
+                };
+                model.Add(addItem);
+            }
+            return PartialView("_ImageSelectedPartial", model);
+        }
     }
 }

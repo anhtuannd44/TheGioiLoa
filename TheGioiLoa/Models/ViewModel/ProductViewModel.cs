@@ -50,6 +50,8 @@ namespace TheGioiLoa.Models.ViewModel
         public int Status { get; set; }
 
         public string Tag { get; set; }
+
+        public string Image { get; set; }
     }
 
     public class CreateProductActionViewModel
@@ -81,5 +83,6 @@ namespace TheGioiLoa.Models.ViewModel
     {
         public string status { get; set; }
         public string path { get; set; }
+        public string message { get; set; }
     }
 }

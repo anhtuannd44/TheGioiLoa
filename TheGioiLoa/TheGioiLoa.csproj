@@ -211,6 +211,7 @@
     <Compile Include="Models\Product\Tag.cs" />
     <Compile Include="Models\TheGioiLoaModel.cs" />
     <Compile Include="Models\ViewModel\CategoryViewModel.cs" />
+    <Compile Include="Models\ViewModel\ImageViewModel.cs" />
     <Compile Include="Models\ViewModel\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CategoryService.cs" />
@@ -1905,8 +1906,11 @@
     <Content Include="Content\Home\lib\owlcarousel\assets\owl.video.play.png" />
     <Content Include="Content\Home\lib\owlcarousel\owl.carousel.js" />
     <Content Include="Content\Home\lib\owlcarousel\owl.carousel.min.js" />
+    <Content Include="Content\Upload\Images\CDGUEGOIVGUMYFP..jpg" />
+    <Content Include="Content\Upload\Images\GVNKDZTSIGGIBZE..jpg" />
+    <Content Include="Content\Upload\Images\TYRFPOXFQNXEWQH..jpg" />
+    <Content Include="Content\Upload\Images\YHXAENNUEVFVAPX..jpg" />
     <Content Include="Content\Upload\pmh-10.jpg" />
-    <Content Include="Content\Upload\Product\5445_atxp_combo_3.jpg" />
     <Content Include="Content\Upload\Slider\slider-2.jpg" />
     <Content Include="Content\Upload\Slider\slider-1.jpg" />
     <Content Include="favicon.ico" />
@@ -2196,6 +2200,8 @@
     <Content Include="Views\Admin\_EditCategoryPartial.cshtml" />
     <Content Include="Views\Admin\CreateProduct.cshtml" />
     <Content Include="Views\Admin\Data.cshtml" />
+    <Content Include="Views\Shared\_ImageLibraryPartial.cshtml" />
+    <Content Include="Views\Shared\_ImageSelectedPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -575,7 +575,7 @@ a:hover {
 .image-box::before {
     content: "";
     display: block;
-    padding-top: 100%
+    padding-top: 90%
 }
 
 .image-box .image {
@@ -605,7 +605,7 @@ a:hover {
     }
 
 .image-box.ratio-1-1::before {
-    padding-top: 100%
+    padding-top: 90%
 }
 
 .image-box.ratio-2-1::before {

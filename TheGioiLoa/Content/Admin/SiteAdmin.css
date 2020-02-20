@@ -142,3 +142,73 @@ label:not(.form-check-label):not(.custom-file-label)
 
 	border-style: solid;
 }
+.image-box::before {
+    content: "";
+    display: block;
+    padding-top: 100%
+}
+
+.image-box .image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 10px;
+    right: 10px;
+    margin: auto;
+    padding: 2px;
+    background-position: center;
+    background-size: cover;
+}
+
+.image-big {
+    transition: .5s
+}
+
+.list-image .col-2 {
+    padding: 5px !important
+}
+
+    .list-image .col-2:hover {
+        padding: 4px !important;
+        border: 1px solid red
+    }
+
+.image-box.ratio-1-1::before {
+    padding-top: 100%
+}
+
+.image-box.ratio-2-1::before {
+    padding-top: 50%
+}
+
+.image-box.ratio-1-2::before {
+    padding-top: 200%
+}
+
+.image-box.ratio-4-3:before {
+    padding-top: 75%
+}
+
+.image-box.ratio-5-3:before {
+    padding-top: 60%
+}
+
+.image-box.ratio-16-9:before {
+    padding-top: 56.25%
+}
+
+.image-box.ratio-16-5:before {
+    padding-top: 31.25%
+}
+
+.image-box.ratio-16-8:before {
+    padding-top: 50%
+}
+
+.image-box.ratio-16-10:before {
+    padding-top: 66.6666%
+}
+
+.image-box.ratio-16-6:before {
+    padding-top: 37.5%
+}

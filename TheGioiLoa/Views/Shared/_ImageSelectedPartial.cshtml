@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.GetFileViewModel>
+
+
+@foreach (var item in Model)
+{
+    <div class="col-md-3">
+        <div class="image-box ratio-1-1">
+            <div href="#" class="image" style="background-image: url('../Content/Upload/Images/@item.FileName');">
+            </div>
+        </div>
+    </div>
+}

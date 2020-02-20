@@ -1,0 +1,20 @@
+﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.GetFileViewModel>
+
+
+@foreach (var item in Model)
+{
+    <div class="col-md-2">
+        <div class="image-box ratio-1-1">
+            <a href="#" class="image image-big"
+               data-name="@item.FileName"
+               style="background-image: url('../Content/Upload/Images/@item.FileName');"
+               onclick="addImageToList(this)">
+                <span id="check-@item.FileName" class="position-absolute d-none" style="top: 5px; right: 5px">
+                    <i class="fa fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
+                </span>
+            </a>
+            
+        </div>
+
+    </div>
+}

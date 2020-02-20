@@ -245,6 +245,7 @@
                 </div>
                 <div class="card-body">
                     <div class="input-group input-group-sm">
+
                         <input type="text" class="form-control rounded-0">
                         <span class="input-group-append">
                             <button type="button" class="btn btn-info btn-flat rounded-0">Thêm Tag</button>
@@ -263,15 +264,17 @@
                     <h3 class="card-title">Album hình ảnh sản phẩm</h3>
                 </div>
                 <div class="card-body">
+                    @Html.HiddenFor(model => model.Image)
                     <div class="text-center">
-                        <a class="btn btn-info btn-flat text-white" data-toggle="modal" data-target="#uploadImage">
+                        <a class="btn btn-info btn-flat text-white" data-toggle="modal" data-target="#uploadImage" onclick="uploadClick()">
                             <i class="fa fa-upload"></i>
                             Upload hoặc chọn hình
                         </a>
                     </div>
-                    <p class="my-2 font-italic small text-center">Bạn có thể chọn 1 hoặc nhiều hình để hiển thị trên trang sản phẩm</p>
-                    <div class="tag-area">
+                    <div class="row mt-2" id="renderImage">
+
                     </div>
+                    <p class="my-2 font-italic small text-center">Bạn có thể chọn 1 hoặc nhiều hình để hiển thị trên trang sản phẩm</p>
                 </div>
             </div>
 
@@ -297,17 +300,16 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="upload-tabContent">
-                    <div class="tab-pane fade active show" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                    <div class="tab-pane fade active show p-4" id="upload" role="tabpanel" aria-labelledby="upload-tab">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
-
                                 <!-- Our markup, the important part here! -->
                                 <div id="drag-and-drop-zone" class="dm-uploader p-5">
                                     <h3 class="mb-5 mt-5 text-muted">Click vào bên dưới để chọn hình</h3>
 
                                     <div class="btn btn-primary btn-block mb-5">
                                         <span>Chọn Hình ảnh từ máy tính</span>
-                                        <input name="File" id="File" type="file" title='Click để chọn hình' />
+                                        <input name="File" id="File" accept=".JPG,.JPEG,.PNG,.GIF" type="file" title='Click để chọn hình' />
                                     </div>
                                 </div><!-- /uploader -->
 
@@ -328,7 +330,7 @@
                             <li class="media">
                                 <div class="media-body mb-1">
                                     <p class="mb-2">
-                                        <strong>%%filename%%</strong><br/>Trạng thái: <span class="text-muted">Đang đăng ...</span>
+                                        <strong>%%filename%%</strong><br />Trạng thái: <span class="text-muted">Đang đăng ...</span>
                                     </p>
                                     <div class="progress mb-2">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
@@ -342,14 +344,24 @@
                             </li>
                         </script>
                     </div>
-                    <div class="tab-pane fade" id="library" role="tabpanel" aria-labelledby="library-tab">
-                        Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                    <div class="tab-pane fade p-4" id="library" role="tabpanel" aria-labelledby="library-tab">
+                        <div class="row" id="renderLibrary">
+
+                        </div>
+                        <div class="clearfix">
+                            <div class="float-left">
+                                <a href="#" class="btn btn-primary btn-flat btn-sm">< Trang trước</a>
+                            </div>
+                            <div class="float-right">
+                                <a href="#" class="btn btn-primary btn-flat btn-sm">Trang sau ></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer py-1">
-                <a class="btn btn-info text-white float-right btn-sm btn-flat">Thiết lập ảnh sản phẩm</a>
+                <a class="btn btn-info text-white float-right btn-sm btn-flat" id="submitModalImage">Thiết lập ảnh sản phẩm</a>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -437,12 +449,12 @@
 
 
             tagInputResult = tagResult;
-            $("#Tag").val(tagInputResult.join('-'));
+            $("#Tag").val(tagInputResult.join(','));
         });
 
         function removeTag(e) {
             tagInputResult.splice(tagInputResult.indexOf($(e).attr("data-id")), 1);
-            $("#Tag").val(tagInputResult.join('-'));
+            $("#Tag").val(tagInputResult.join(','));
             var result = "";
             for (var b in tagInputResult) {
                 if (tagInputResult != null) {
@@ -464,7 +476,6 @@
             $('#drag-and-drop-zone').dmUploader({ //
                 url: '/Admin/UploadImage',
                 maxFileSize: 3000000, // 3 Megs
-                allowedTypes: 'jpg',
                 onDragEnter: function () {
                     // Happens when dragging something over the DnD area
                     this.addClass('active');
@@ -501,12 +512,11 @@
                     // Updating file progress
                     ui_multi_update_file_progress(id, percent);
                 },
-                onUploadSuccess: function (id, data) {
+                onUploadSuccess: function (id) {
                     // A file was successfully uploaded
-                    ui_add_log('Server Response for file #' + id + ': ' + JSON.stringify(data));
-                    ui_add_log('Upload of file #' + id + ' COMPLETED', 'success');
                     ui_multi_update_file_status(id, 'success', 'Thành công');
                     ui_multi_update_file_progress(id, 100, 'success', false);
+                    loadLibraryImage();
                 },
                 onUploadError: function (id, xhr, status, message) {
                     ui_multi_update_file_status(id, 'danger', message);
@@ -577,5 +587,60 @@
                 bar.addClass('bg-' + color);
             }
         }
+        function loadLibraryImage() {
+            $.ajax({
+                url: "/Admin/LoadLibraryImage",
+                success: function (data) {
+                    $("#renderLibrary").html(data)
+                }
+            });
+        }
+
+        var listImage = new Array();
+        var img = 0;
+
+        function uploadClick() {
+            if (listImage.length == 0) {
+                listImage = [];
+                img = 0;
+                loadLibraryImage();
+            }
+        }
+
+        function addImageToList(e) {
+            $(e).children().removeClass("d-none");
+            $(e).attr("onclick", "removeImageFromList(this)");
+            listImage[img] = $(e).attr("data-name");
+            img++;
+            console.log(listImage);
+        }
+        function removeImageFromList(e) {
+            $(e).children().addClass("d-none");
+            $(e).attr("onclick", "addImageToList(this)");
+            listImage.splice(listImage.indexOf($(e).attr("data-name")), 1);
+            img--;
+            console.log(listImage);
+        }
+
+        $("#submitModalImage").click(function () {
+            if (listImage.length != 0) {
+                var result = listImage.join('|');
+                $("#Image").val(result);
+                $.ajax({
+                    url: "/Admin/LoadSelectImage",
+                    data: { imageList: result },
+                    success: function (data) {
+                        $("#renderImage").html(data)
+                    }
+                });
+            }
+            $("#uploadImage").modal("hide");
+
+
+
+
+
+            console.log(result);
+        });
     </script>
 }

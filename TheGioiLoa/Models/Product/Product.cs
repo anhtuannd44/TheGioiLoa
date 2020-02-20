@@ -5,6 +5,7 @@ namespace TheGioiLoa.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web.Mvc;
 
     [Table("Product")]
     public partial class Product
@@ -28,6 +29,7 @@ namespace TheGioiLoa.Models
         [StringLength(500)]
         public string Name { get; set; }
 
+        [AllowHtml]
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
@@ -43,17 +45,22 @@ namespace TheGioiLoa.Models
 
         public int Status { get; set; }
 
+        [AllowHtml]
         [StringLength(100)]
         public string Promotion { get; set; }
 
+        [AllowHtml]
         [Column(TypeName = "ntext")]
         public string Characteristics { get; set; }
 
+        [AllowHtml]
         [Column(TypeName = "ntext")]
         public string Details { get; set; }
 
+        [AllowHtml]
         [StringLength(300)]
         public string Videos { get; set; }
+
 
         public virtual Brand Brand { get; set; }
 
