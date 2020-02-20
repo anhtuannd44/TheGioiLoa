@@ -231,7 +231,8 @@
                         </span>
                     </div>
                     <p class="my-2 font-italic small">Phân cách các thẻ bằng dấu phẩy</p>
-                    <div class="tag-area d-flex" id="renderTag">
+                    <div class="tag-area row px-2" id="renderTag">
+
                     </div>
                 </div>
             </div>
@@ -262,13 +263,13 @@
                     <h3 class="card-title">Album hình ảnh sản phẩm</h3>
                 </div>
                 <div class="card-body">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control rounded-0">
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-info btn-flat rounded-0">Thêm Tag</button>
-                        </span>
+                    <div class="text-center">
+                        <a class="btn btn-info btn-flat text-white" data-toggle="modal" data-target="#uploadImage">
+                            <i class="fa fa-upload"></i>
+                            Upload hoặc chọn hình
+                        </a>
                     </div>
-                    <p class="my-2 font-italic small">Phân cách các thẻ bằng dấu phẩy</p>
+                    <p class="my-2 font-italic small text-center">Bạn có thể chọn 1 hoặc nhiều hình để hiển thị trên trang sản phẩm</p>
                     <div class="tag-area">
                     </div>
                 </div>
@@ -277,15 +278,91 @@
         </div>
     </div>
 }
+<div class="modal fade" id="uploadImage" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content rounded-0">
+            <div class="modal-header border-0">
+                <h4 class="card-title font-weight-bold">Ảnh sản phẩm</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body py-0">
+                <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active rounded-0 py-1 px-2" id="upload-tab" data-toggle="pill" href="#upload" role="tab" aria-controls="upload" aria-selected="true">Tải lên tập tin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rounded-0 py-1 px-2" id="upload-tab" data-toggle="pill" href="#library" role="tab" aria-controls="library" aria-selected="false">Thư viện</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="upload-tabContent">
+                    <div class="tab-pane fade active show" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
 
+                                <!-- Our markup, the important part here! -->
+                                <div id="drag-and-drop-zone" class="dm-uploader p-5">
+                                    <h3 class="mb-5 mt-5 text-muted">Click vào bên dưới để chọn hình</h3>
+
+                                    <div class="btn btn-primary btn-block mb-5">
+                                        <span>Chọn Hình ảnh từ máy tính</span>
+                                        <input name="File" id="File" type="file" title='Click để chọn hình' />
+                                    </div>
+                                </div><!-- /uploader -->
+
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="card h-100 rounded-0">
+                                    <div class="card-header">
+                                        Thông tin
+                                    </div>
+
+                                    <ul class="list-unstyled p-2 d-flex flex-column col" id="files">
+                                        <li class="text-muted text-center empty">Chưa có hình để đăng.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- /file list -->
+                        <script type="text/html" id="files-template">
+                            <li class="media">
+                                <div class="media-body mb-1">
+                                    <p class="mb-2">
+                                        <strong>%%filename%%</strong><br/>Trạng thái: <span class="text-muted">Đang đăng ...</span>
+                                    </p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                             role="progressbar"
+                                             style="width: 0%"
+                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                    <hr class="mt-1 mb-1" />
+                                </div>
+                            </li>
+                        </script>
+                    </div>
+                    <div class="tab-pane fade" id="library" role="tabpanel" aria-labelledby="library-tab">
+                        Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer py-1">
+                <a class="btn btn-info text-white float-right btn-sm btn-flat">Thiết lập ảnh sản phẩm</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 @section Heads {
 
-    <link href="~/Content/Admin/plugins/upload-image/dist/styles.imageuploader.css" rel="stylesheet" />
+
 }
 @section Scripts {
 
-    <script src="~/Content/Admin/plugins/upload-image/dist/jquery.imageuploader.js"></script>
     <script>
         $(".category-click").click(function (e) {
             if ($(this).is(":checked")) {
@@ -332,21 +409,173 @@
             }
         });
 
-        var tagResult = "";
         //AddTag
-        $("#addTag").click(function (e) {
-            var tags = $("#AddTag").val().replace(/\s{2,}/g, ' ');;
-            var tag = tags.split(',');
-            var result = "";
-            for (a in tag) {
-                result += "<div id='parent"+tag[a]+"'><a href='#' onclick='removeTag(this)' class='removeTag' data-id='" + tag[a] + "'><i class='fas fa-times-circle small text-danger mb-1'></i></a><span class='mr-2 badge badge-info' value='" + tag[a] + "'>" + tag[a] + "</span></div>";
-            }
+        var tagInputResult = new Array();
 
-            $("#renderTag").append(result);
+        $("#addTag").click(function (e) {
+            var tags = $("#AddTag").val().replace(/\s{2,}/g, ' ');
+            var tag = tags.split(',');
+            tag = tag.map(s => s.trim());
+
+            tag = tagInputResult.concat(tag);
+            var tagResult = [];
+            tag.forEach((element) => {
+                if (!tagResult.includes(element)) {
+                    if (element != "")
+                        tagResult.push(element)
+                }
+            });
+            console.log(tagResult);
+            var result = "";
+            for (var b in tagResult) {
+                if (tagResult != null) {
+                    result += "<div id='parent" + tagResult[b] + "'><a href='#' onclick='removeTag(this)' class='removeTag' data-id='" + tagResult[b] + "'><i class='fas fa-times-circle small text-danger mb-1'></i></a><span class='mr-2 badge badge-light border' value='" + tagResult[b] + "'>" + tagResult[b] + "</span></div>";
+                }
+            }
+            $("#renderTag").html(result);
+            $("#AddTag").val("");
+
+
+            tagInputResult = tagResult;
+            $("#Tag").val(tagInputResult.join('-'));
         });
 
         function removeTag(e) {
-            $("#parent" + $(e).attr("data-id")).remove();
+            tagInputResult.splice(tagInputResult.indexOf($(e).attr("data-id")), 1);
+            $("#Tag").val(tagInputResult.join('-'));
+            var result = "";
+            for (var b in tagInputResult) {
+                if (tagInputResult != null) {
+                    result += "<div id='parent" + tagInputResult[b] + "'><a href='#' onclick='removeTag(this)' class='removeTag' data-id='" + tagInputResult[b] + "'><i class='fas fa-times-circle small text-danger mb-1'></i></a><span class='mr-2 badge badge-light border' value='" + tagInputResult[b] + "'>" + tagInputResult[b] + "</span></div>";
+                }
+            }
+            $("#renderTag").html(result);
         };
+    </script>
+
+    <script>
+        $(function () {
+            /*
+             * For the sake keeping the code clean and the examples simple this file
+             * contains only the plugin configuration & callbacks.
+             *
+             * UI functions ui_* can be located in: demo-ui.js
+             */
+            $('#drag-and-drop-zone').dmUploader({ //
+                url: '/Admin/UploadImage',
+                maxFileSize: 3000000, // 3 Megs
+                allowedTypes: 'jpg',
+                onDragEnter: function () {
+                    // Happens when dragging something over the DnD area
+                    this.addClass('active');
+                },
+                onDragLeave: function () {
+                    // Happens when dragging something OUT of the DnD area
+                    this.removeClass('active');
+                },
+                onInit: function () {
+                    // Plugin is ready to use
+                    ui_add_log('Penguin initialized :)', 'info');
+                },
+                onComplete: function () {
+                    // All files in the queue are processed (success or error)
+                    ui_add_log('All pending tranfers finished');
+                },
+                onNewFile: function (id, file) {
+                    // When a new file is added using the file selector or the DnD area
+                    ui_add_log('New file added #' + id);
+                    ui_multi_add_file(id, file);
+                },
+                onBeforeUpload: function (id) {
+                    // about tho start uploading a file
+                    ui_add_log('Starting the upload of #' + id);
+                    ui_multi_update_file_status(id, 'uploading', 'Đang đăng ...');
+                    ui_multi_update_file_progress(id, 0, '', true);
+                },
+                onUploadCanceled: function (id) {
+                    // Happens when a file is directly canceled by the user.
+                    ui_multi_update_file_status(id, 'warning', 'Canceled by User');
+                    ui_multi_update_file_progress(id, 0, 'warning', false);
+                },
+                onUploadProgress: function (id, percent) {
+                    // Updating file progress
+                    ui_multi_update_file_progress(id, percent);
+                },
+                onUploadSuccess: function (id, data) {
+                    // A file was successfully uploaded
+                    ui_add_log('Server Response for file #' + id + ': ' + JSON.stringify(data));
+                    ui_add_log('Upload of file #' + id + ' COMPLETED', 'success');
+                    ui_multi_update_file_status(id, 'success', 'Thành công');
+                    ui_multi_update_file_progress(id, 100, 'success', false);
+                },
+                onUploadError: function (id, xhr, status, message) {
+                    ui_multi_update_file_status(id, 'danger', message);
+                    ui_multi_update_file_progress(id, 0, 'danger', false);
+                },
+                onFileSizeError: function (file) {
+                    ui_add_log('Hình \'' + file.name + '\' không thể đăng: Vượt quá dung lượng cho phép', 'danger');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function ui_add_log(message, color) {
+            var d = new Date();
+
+            var dateString = (('0' + d.getHours())).slice(-2) + ':' +
+                (('0' + d.getMinutes())).slice(-2) + ':' +
+                (('0' + d.getSeconds())).slice(-2);
+
+            color = (typeof color === 'undefined' ? 'muted' : color);
+
+            var template = $('#debug-template').text();
+            template = template.replace('%%date%%', dateString);
+            template = template.replace('%%message%%', message);
+            template = template.replace('%%color%%', color);
+
+            $('#debug').find('li.empty').fadeOut(); // remove the 'no messages yet'
+            $('#debug').prepend(template);
+        }
+
+        // Creates a new file and add it to our list
+        function ui_multi_add_file(id, file) {
+            var template = $('#files-template').text();
+            template = template.replace('%%filename%%', file.name);
+
+            template = $(template);
+            template.prop('id', 'uploaderFile' + id);
+            template.data('file-id', id);
+
+            $('#files').find('li.empty').fadeOut(); // remove the 'no files yet'
+            $('#files').prepend(template);
+        }
+
+        // Changes the status messages on our list
+        function ui_multi_update_file_status(id, status, message) {
+            $('#uploaderFile' + id).find('span').html(message).prop('class', 'status text-' + status);
+        }
+
+        // Updates a file progress, depending on the parameters it may animate it or change the color.
+        function ui_multi_update_file_progress(id, percent, color, active) {
+            color = (typeof color === 'undefined' ? false : color);
+            active = (typeof active === 'undefined' ? true : active);
+
+            var bar = $('#uploaderFile' + id).find('div.progress-bar');
+
+            bar.width(percent + '%').attr('aria-valuenow', percent);
+            bar.toggleClass('progress-bar-striped progress-bar-animated', active);
+
+            if (percent === 0) {
+                bar.html('');
+            } else {
+                bar.html(percent + '%');
+            }
+
+            if (color !== false) {
+                bar.removeClass('bg-success bg-info bg-warning bg-danger');
+                bar.addClass('bg-' + color);
+            }
+        }
     </script>
 }

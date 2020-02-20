@@ -42,7 +42,8 @@ namespace TheGioiLoa
                       "~/Content/Admin/dist/js/pages/dashboard2.js",
                       "~/Content/Admin/plugins/ekko-lightbox/ekko-lightbox.min.js",
                       "~/Content/Admin/plugins/toastr/toastr.min.js",
-                      "~/Content/Admin/plugins/summernote/summernote-bs4.min.js"
+                      "~/Content/Admin/plugins/summernote/summernote-bs4.min.js",
+                      "~/Content/Admin/plugins/upload/dist/js/jquery.dm-uploader.min.js"
                       ));
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
@@ -71,6 +72,7 @@ namespace TheGioiLoa
                       "~/Content/Admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
                       "~/Content/Admin/plugins/toastr/toastr.min.css",
                       "~/Content/Admin/plugins/summernote/summernote-bs4.css",
+                      "~/Content/Admin/plugins/upload/dist/css/jquery.dm-uploader.min.css",
                       "~/Content/Admin/SiteAdmin.css"
                       ));
         }

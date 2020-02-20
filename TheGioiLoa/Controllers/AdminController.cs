@@ -202,5 +202,15 @@ namespace TheGioiLoa.Controllers
 
         }
 
+        public JsonResult UploadImage(HttpPostedFileBase File)
+        {
+            UploadImageViewModel result = new UploadImageViewModel()
+            { 
+                status = "ok",
+                path = "/Content/Admin/img/prod-2.jpg"
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

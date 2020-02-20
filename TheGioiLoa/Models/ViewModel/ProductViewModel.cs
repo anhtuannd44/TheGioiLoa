@@ -76,5 +76,10 @@ namespace TheGioiLoa.Models.ViewModel
         [Display(Name = "Thương hiệu")]
         public int? BrandId { get; set; }
     }
-
+    
+    public class UploadImageViewModel
+    {
+        public string status { get; set; }
+        public string path { get; set; }
+    }
 }
