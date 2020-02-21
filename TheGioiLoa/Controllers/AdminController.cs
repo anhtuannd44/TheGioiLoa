@@ -212,19 +212,22 @@ namespace TheGioiLoa.Controllers
                     }
                 }
 
-                //Add Tags
-                if (!string.IsNullOrEmpty(product.Tag))
-                {
-                    var imageListArray = product.Tag.Split(',');
-                    foreach (var item in imageListArray)
-                    {
-                        db.Tag.Add(new Tag()
-                        {
-                            Name = item,
-                        });
-                        db.SaveChanges();
-                    }
-                }
+                ////Add Tags
+                //if (!string.IsNullOrEmpty(product.Tag))
+                //{
+                //    var imageListArray = product.Tag.Split(',');
+                //    List<Tag> addTag = new List<Tag>();
+                //    foreach (var item in imageListArray)
+                //    {
+                //        var check = db.Tag.Where(a => a.Name == item);
+                //        if (check.Count() != 0)
+                //        {
+                //            addTag.Add(new Tag() { Name = item });
+                //        }
+                //    }
+                //    db.Tag.AddRange(addTag);
+                //    db.SaveChanges();
+                //}
 
                 return RedirectToAction("ProductList");
             }
@@ -258,6 +261,7 @@ namespace TheGioiLoa.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
         public ActionResult LoadLibraryImage()
         {
             string[] filePaths = Directory.GetFiles(Server.MapPath("/Content/Upload/Images/"));
@@ -287,6 +291,53 @@ namespace TheGioiLoa.Controllers
                 model.Add(addItem);
             }
             return PartialView("_ImageSelectedPartial", model);
+        }
+
+        public ActionResult CreateBrand()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string CreateBrand(CreateBrandViewModel brand)
+        {
+            if (!string.IsNullOrEmpty(brand.Name))
+            {
+                try
+                {
+                    brand.Name = _helper.DeleteSpace(brand.Name);
+                    db.Brand.Add(new Brand()
+                    {
+                        Url = _helper.CreateUrl(brand.Name),
+                        Name = brand.Name
+                    });
+                    db.SaveChanges();
+                    return "successed";
+                }
+                catch
+                {
+                    return "error";
+                }
+            }
+            else return "empty";
+        }
+
+        
+        [HttpPost]
+        public PartialViewResult LoadBrandList()
+        {
+            var model = new BrandViewModel();
+            var brandList = db.Brand;
+            if (brandList.Count() != 0)
+            {
+                model.BrandList = brandList.ToList();
+                return PartialView("_BrandListPartial", model);
+            }
+            else
+            {
+                return PartialView("Admin/_NullDataPartial");
+            }
         }
     }
 }

@@ -91,19 +91,22 @@
     border: none !important;
     border-radius: 0;
 }
-#createProductPage .card-header {
+#adminPage .card {
+    border-radius: 0 !important;
+}
+#adminPage .card-header {
     padding: .6rem
 }
-#createProductPage .card-body {
+#adminPage .card-body {
     padding: .6rem;
 }
-#createProductPage .form-group {
+#adminPage .form-group {
     margin: .6rem 0;
 }
-#createProductPage .note-editor {
+#adminPage .note-editor {
     margin: 0;
 }
-#createProductPage .card-title {
+#adminPage .card-title {
     font-weight: 600;
     font-size: .9rem;
     color: #0094ff;
@@ -211,4 +214,8 @@ label:not(.form-check-label):not(.custom-file-label)
 
 .image-box.ratio-16-6:before {
     padding-top: 37.5%
+}
+.overlay {
+    background: rgba(0,0,0,0.6) !important;
+    border-radius: 0 !important;
 }

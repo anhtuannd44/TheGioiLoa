@@ -1,7 +1,4 @@
-﻿$(document).ready(function () {
-    loadCategoryList();
-});
-function loadCategoryList() {
+﻿function loadCategoryList() {
     loadingGif();
     $.ajax({
         type: "POST",

@@ -211,6 +211,7 @@
     <Compile Include="Models\Product\Tag.cs" />
     <Compile Include="Models\TheGioiLoaModel.cs" />
     <Compile Include="Models\ViewModel\CategoryViewModel.cs" />
+    <Compile Include="Models\ViewModel\BrandViewModel.cs" />
     <Compile Include="Models\ViewModel\ImageViewModel.cs" />
     <Compile Include="Models\ViewModel\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1918,7 +1919,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Admin\adminlte.js" />
     <Content Include="Scripts\Admin\adminlte.min.js" />
-    <Content Include="Scripts\Admin\Category.js" />
+    <Content Include="Scripts\Admin\Admin.js" />
     <Content Include="Scripts\Admin\demo.js" />
     <Content Include="Scripts\Admin\pages\dashboard.js" />
     <Content Include="Scripts\Admin\pages\dashboard2.js" />
@@ -2202,6 +2203,9 @@
     <Content Include="Views\Admin\Data.cshtml" />
     <Content Include="Views\Shared\_ImageLibraryPartial.cshtml" />
     <Content Include="Views\Shared\_ImageSelectedPartial.cshtml" />
+    <Content Include="Views\Admin\CreateBrand.cshtml" />
+    <Content Include="Views\Admin\_BrandListPartial.cshtml" />
+    <Content Include="Views\Shared\Admin\_NullDataPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

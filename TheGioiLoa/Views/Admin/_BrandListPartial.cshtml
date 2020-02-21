@@ -1,0 +1,20 @@
+﻿@model TheGioiLoa.Models.ViewModel.BrandViewModel
+
+@foreach (var item in Model.BrandList)
+{
+    <a href="#" class="float-left"
+       onclick="showModalEditCategory(this)"
+       data-toggle="modal"
+       data-target="#editBrandModal"
+       data-id="@item.BrandId"
+       data-name="@item.Name">
+        @item.Name
+    </a>
+    <div class="card-tools float-lg-right">
+        <button type="button" class="btn btn-tool" data-id="@item.BrandId" onclick="showModalRemoveBrand(this)" data-toggle="modal" data-target="#removeBrandModal" data-name="@item.Name">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+    <div class="clearfix"></div>
+
+}

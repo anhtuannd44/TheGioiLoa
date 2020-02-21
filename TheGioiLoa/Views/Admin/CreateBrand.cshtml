@@ -1,0 +1,128 @@
+﻿@model TheGioiLoa.Models.ViewModel.CreateBrandViewModel
+
+@{
+    ViewBag.Title = "Tạo thương hiệu";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+
+
+<div class="row" id="adminPage">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tạo thương hiệu</h3>
+            </div>
+            <div class="overlay position-absolute justify-content-center align-items-center w-100 h-100 d-none" id="loading" style="top:0; left:0; z-index: 9999">
+                <i class="fas fa-2x fa-sync fa-spin text-white"></i>
+            </div>
+            <div class="card-body py-4">
+
+                @using (Ajax.BeginForm("CreateBrand", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "loadingBgOverlay",
+                    OnSuccess = "createSuccess",
+                    OnComplete = "removeBgOverlay"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group input-group-sm">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        <span class="input-group-append">
+                            <button type="submit" class="btn btn-info btn-flat">Tạo thương hiệu</button>
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách thương hiệu</h3>
+            </div>
+            <div class="card-body" id="brandList">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editBrandModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="editBrandContent">
+            <p>Tên thương hiệu bạn muốn đổi thành?</p>
+            <div class="input-group input-group-sm">
+                <input class="form-control" id="BrandId" hidden value="" />
+                <input class="form-control" id="Name" />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-info btn-flat">Tạo thương hiệu</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeCategoryModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="removeCategoryContent">
+            @using (Ajax.BeginForm("RemoveCategory", "Admin", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnBegin = "showBgOverlay",
+                OnSuccess = "loadingNoti",
+                OnComplete = "removeBgOverlay",
+                OnFailure = "removeCategoryFailure",
+            }, new { @id = "RemoveCategoryForm" }))
+            {
+                <div class="overlay d-flex justify-content-center align-items-center" id="loadingRemoveModal">
+                    <i class="fas fa-2x fa-sync fa-spin"></i>
+                </div>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="titleModal">Xóa danh mục</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input hidden type="text" id="CategoryId" name="CategoryId" />
+                    <h5>Bạn chắc chắn muốn xóa danh mục "<span id="CategoryTitle" class="text-danger font-weight-bold"></span>" không?</h5>
+                    <p class="text-danger">Lưu ý: <span class="text-dark">Sau khi xóa, những sản phẩm thuộc danh mục này sẽ không thuộc danh mục nào cả!</span></p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-primary">Xóa Ngay</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/Admin/Admin.js"></script>
+    <script>
+        $(document).ready(function () {
+            loadBrandList();
+        });
+        function loadBrandList() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadBrandList",
+                success: function (data) {
+                    $("#brandList").html(data);
+                }
+            });
+        }
+        function createSuccess(e) {
+            loadingNoti(e.data);
+            loadBrandList();
+        }
+        function loadingBgOverlay() {
+            $("#loading").removeClass("d-none");
+        }
+        function removeBgOverlay() {
+            $("#loading").addClass("d-none");
+        }
+    </script>
+}
