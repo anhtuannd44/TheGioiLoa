@@ -46,9 +46,9 @@
                         <div class="col-md-10">
                             <select name="BrandId" id="BrandId" class="form-control form-control-sm">
                                 <option value="">-- Không có thương hiệu --</option>
-                                @if (ViewBag.Brand != null)
+                                @if (ViewBag.BrandId != null)
                                 {
-                                    foreach (var item in ViewBag.Brand)
+                                    foreach (var item in ViewBag.BrandId)
                                     {
                                         <option value="@item.BrandId">@item.Name</option>
                                     }
@@ -137,7 +137,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.TextAreaFor(model => model.Video, new { @class = "textarea", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                    @Html.TextAreaFor(model => model.Videos, new { @class = "textarea", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
                 </div>
             </div>
 
@@ -218,7 +218,7 @@
             </div>
 
             @*Tag Sản Phẩm*@
-            @*<div class="card">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Từ khóa sản phẩm (Tag)</h3>
                 </div>
@@ -235,7 +235,7 @@
 
                     </div>
                 </div>
-            </div>*@
+            </div>
 
 
             @*Ảnh Sản Phẩm*@

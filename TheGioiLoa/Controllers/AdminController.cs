@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -10,13 +9,15 @@ using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
 using TheGioiLoa.Service;
+using Unity;
 
 namespace TheGioiLoa.Controllers
 {
     public class AdminController : Controller
     {
 
-        public ICategoryService CategoryService { get; set; }
+        //private readonly ICategoryService _categoryService;
+        private readonly ProductService _productService = new ProductService();
 
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly HelperFunction _helper = new HelperFunction();
@@ -139,9 +140,99 @@ namespace TheGioiLoa.Controllers
 
         public ActionResult ProductList()
         {
-            return View();
+            var model = new List<ProductViewModel>();
+
+            var productList = db.Product;
+            foreach (var item in productList)
+            {
+                var addProduct = new ProductViewModel()
+                {
+                    ProductId = item.ProductId,
+                    Description = item.Description,
+                    Cover = item.Cover,
+                    ListedPrice = item.ListedPrice,
+                    Price = item.Price,
+                    Status = item.Status,
+                    Name = item.Name,
+                    Url = item.Url
+                };
+                var Categories = db.CategoryProduct.Include(a => a.Category).Where(a => a.ProductId == item.ProductId);
+                if (Categories.Count() != 0)
+                {
+                    var addListCategory = new List<Category>();
+                    foreach (var category in Categories)
+                    {
+                        addListCategory.Add(new Category()
+                        {
+                            CategoryId = category.CategoryId,
+                            CategoryParentId = category.Category.CategoryParentId,
+                            Name = category.Category.Name,
+                            Url = category.Category.Url,
+                            DateCreated = category.Category.DateCreated,
+                            DateModified = category.Category.DateModified
+                        });
+                    }
+                    addProduct.Categories = addListCategory.ToList();
+                }
+                var Images = db.Product_Image.Where(a => a.ProductId == item.ProductId);
+                if (Images.Count() != 0)
+                {
+                    var addListImage = new List<Product_Image>();
+                    foreach (var image in Images)
+                    {
+                        addListImage.Add(new Product_Image()
+                        {
+                            ImageId = image.ImageId
+                        });
+                    }
+                    addProduct.Image = addListImage;
+                }
+                model.Add(addProduct);
+            }
+
+            return View(model.ToList());
         }
 
+
+        public ActionResult EditProduct(int productId)
+        {
+            var product = db.Product.Find(productId);
+            if (product == null)
+                return HttpNotFound();
+
+            var model = new ProductViewModel()
+            {
+                ProductId = product.ProductId,
+                Name = product.Name,
+                Url = _helper.CreateUrl(product.Name),
+                BrandId = product.BrandId,
+                Description = product.Description,
+                DateModified = DateTime.Now,
+                Price = product.Price,
+                ListedPrice = product.ListedPrice,
+                Status = product.Status,
+                Characteristics = product.Characteristics,
+                Promotion = product.Promotion,
+                Videos = product.Videos,
+                Details = product.Details,
+                Cover = product.Cover
+            };
+            var category = db.CategoryProduct.Include(a => a.Category).Where(a => a.ProductId == productId).ToList();
+            var addCategoryList = new List<Category>();
+            foreach (var item in category)
+            {
+                addCategoryList.Add(new Category()
+                {
+                    CategoryId = item.CategoryId,
+                    Name = item.Category.Name,
+                    CategoryParentId = item.Category.CategoryParentId
+                });
+            }
+            model.Categories = addCategoryList.ToList();
+
+
+            return View();
+        }
         public ActionResult CreateProduct()
         {
             ViewBag.BrandId = db.Brand.ToList();
@@ -153,90 +244,25 @@ namespace TheGioiLoa.Controllers
         [ValidateInput(false)]
         public ActionResult CreateProduct(CreateProductViewModel product)
         {
-            //try
+            product.Name = _helper.DeleteSpace(product.Name);
+
             {
-                product.Name = _helper.DeleteSpace(product.Name);
-                var addProduct = new Product()
-                {
-                    Name = product.Name,
-                    Url = _helper.CreateUrl(product.Name),
-                    BrandId = product.BrandId,
-                    Description = product.Description,
-                    DateCreated = DateTime.Now,
-                    DateModified = DateTime.Now,
-                    Price = product.Price,
-                    ListedPrice = product.ListedPrice,
-                    Status = product.Status,
-                    Characteristics = product.Characteristics,
-                    Promotion = product.Promotion,
-                    Videos = product.Video,
-                    Details = product.Details
-                };
-                db.Product.Add(addProduct);
-                db.SaveChanges();
+                _productService.AddProductToDb(product);
 
-
-                var productId = db.Product.Where(a => a.Name == product.Name).OrderByDescending(x => x.ProductId).Take(1).Single().ProductId;
-
+                var productId = _productService.GetLastestProductId(product.Name);
                 //Add Category
-                var categoryIdList = Request["CategoryId"];
-                if (!string.IsNullOrEmpty(categoryIdList))
-                {
-
-                    string[] categoryIdArray = categoryIdList.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < categoryIdArray.Length; i++)
-                    {
-                        db.CategoryProduct.Add(new CategoryProducts()
-                        {
-                            ProductId = productId,
-                            CategoryId = Convert.ToInt32(categoryIdArray[i])
-                        });
-
-                    }
-                    db.SaveChanges();
-                }
-
+                _productService.AddCategoryToProduct(productId, Request["CategoryId"]);
                 //Add Image
-                if (!string.IsNullOrEmpty(product.Image))
-                {
-                    var imageListArray = product.Image.Split('|');
-                    foreach (var item in imageListArray)
-                    {
-                        db.Product_Image.Add(new Product_Image()
-                        {
-                            ImageId = item,
-                            ProductId = productId,
-                            IsMain = false
-                        });
-                        db.SaveChanges();
-                    }
-                }
-
-                ////Add Tags
-                //if (!string.IsNullOrEmpty(product.Tag))
-                //{
-                //    var imageListArray = product.Tag.Split(',');
-                //    List<Tag> addTag = new List<Tag>();
-                //    foreach (var item in imageListArray)
-                //    {
-                //        var check = db.Tag.Where(a => a.Name == item);
-                //        if (check.Count() != 0)
-                //        {
-                //            addTag.Add(new Tag() { Name = item });
-                //        }
-                //    }
-                //    db.Tag.AddRange(addTag);
-                //    db.SaveChanges();
-                //}
+                _productService.AddImageToProduct(productId, product.Image);
+                //Add Tags
+                _productService.AddTagToProduct(productId, product.Tag);
 
                 return RedirectToAction("ProductList");
+
+                ViewBag.BrandId = db.Brand.ToList();
+                ViewBag.CategoryId = db.Category.ToList();
+                return View(product);
             }
-            //catch
-            //{
-            //    ViewBag.BrandId = db.Brand.ToList();
-            //    ViewBag.CategoryId = db.Category.ToList();
-            //    return View(product);
-            //}
 
         }
 
@@ -250,6 +276,8 @@ namespace TheGioiLoa.Controllers
                 File.SaveAs(path);
                 result.status = "ok";
                 result.path = path;
+                db.Image.Add(new Image() { ImageId = fileName, DateCreated = DateTime.Now });
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -264,16 +292,7 @@ namespace TheGioiLoa.Controllers
 
         public ActionResult LoadLibraryImage()
         {
-            string[] filePaths = Directory.GetFiles(Server.MapPath("/Content/Upload/Images/"));
-            List<GetFileViewModel> model = new List<GetFileViewModel>();
-            foreach (var item in filePaths)
-            {
-                var addItem = new GetFileViewModel()
-                {
-                    FileName = item.Substring(item.LastIndexOf("\\") + 1)
-                };
-                model.Add(addItem);
-            }
+            var model = db.Image.ToList();
             return PartialView("_ImageLibraryPartial", model);
 
         }
@@ -323,7 +342,7 @@ namespace TheGioiLoa.Controllers
             else return "empty";
         }
 
-        
+
         [HttpPost]
         public PartialViewResult LoadBrandList()
         {

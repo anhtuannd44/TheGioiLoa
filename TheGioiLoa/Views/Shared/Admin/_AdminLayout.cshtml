@@ -697,7 +697,7 @@
         <footer class="main-footer py-2 small">
             <strong>&copy; 2020 | <a href="https://facebook.com/anhtuan/nd44">Thế Giới Loa</a></strong>
             <div class="float-right d-none d-sm-inline-block">
-                <b>Designed By | <a href="https://facebook.com/anhtuan.nd44/">Nguyễn Dương Anh Tuấn</a></b> 
+                <b>Designed By | <a href="https://facebook.com/anhtuan.nd44/">Nguyễn Dương Anh Tuấn</a></b>
             </div>
         </footer>
     </div>
@@ -705,6 +705,11 @@
     @Scripts.Render("~/bundles/bootstrap")
 
     @Scripts.Render("~/bundles/AdminJs")
+    <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

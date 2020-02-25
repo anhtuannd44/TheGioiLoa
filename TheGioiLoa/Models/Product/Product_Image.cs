@@ -8,14 +8,13 @@ namespace TheGioiLoa.Models
 
     public partial class Product_Image
     {
-        [Key]
+        [Key, Column(Order = 1)]
         public string ImageId { get; set; }
 
-        [Required]
+        [Key, Column(Order = 2)]
         public int ProductId { get; set; }
 
-        public bool IsMain { get; set; }
-
         public virtual Product Product { get; set; }
+        public virtual Image Image { get; set; }
     }
 }

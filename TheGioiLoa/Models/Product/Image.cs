@@ -6,23 +6,21 @@ namespace TheGioiLoa.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Tag")]
-    public partial class Tag
+    [Table("Image")]
+    public partial class Image
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tag()
+        public Image()
         {
-            Product_Tag = new HashSet<Product_Tag>();
+            Product_Image = new HashSet<Product_Image>();
         }
 
         [Key]
-        public int TagId { get; set; }
+        public string ImageId { get; set; }
 
-        [Required]
-        [StringLength(300)]
-        public string Name { get; set; }
+        public DateTime DateCreated { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product_Tag> Product_Tag { get; set; }
+        public virtual ICollection<Product_Image> Product_Image { get; set; }
     }
 }

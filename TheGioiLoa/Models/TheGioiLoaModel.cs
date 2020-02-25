@@ -21,6 +21,8 @@ namespace TheGioiLoa.Models
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Product_Image> Product_Image { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
+        public virtual DbSet<Product_Tag> Product_Tag { get; set; }
+        public virtual DbSet<Image> Image { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -38,11 +40,6 @@ namespace TheGioiLoa.Models
                 .HasMany(e => e.Product_Image)
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.Tag)
-                .WithMany(e => e.Product)
-                .Map(m => m.ToTable("Product_Tag").MapLeftKey("ProductId").MapRightKey("TagId"));
 
             modelBuilder.Entity<Product_Image>()
                 .Property(e => e.ImageId)
