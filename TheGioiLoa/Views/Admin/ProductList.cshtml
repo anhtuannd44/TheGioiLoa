@@ -62,7 +62,7 @@
                                     <img alt="@item.Name" class="table-avatar" src="../Content/Upload/@item.Cover">
                                 </td>
                                 <td>
-                                    @item.Name
+                                    <a href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" data-placement="top" title="Xem và chỉnh sửa @item.Name">@item.Name</a>
                                 </td>
                                 <td class="">
                                     @item.Price
@@ -89,11 +89,11 @@
                                     }
                                 </td>
                                 <td class="text-center">
-                                    <a class="" href="#" data-toggle="tooltip" title="Xem">
+                                    <a class="" href="" data-toggle="tooltip" title="Xem">
                                         <i class="fas fa-eye text-info">
                                         </i>
                                     </a> |
-                                    <a class="" href="#" data-toggle="tooltip" title="Sửa">
+                                    <a class="" href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" title="Sửa">
                                         <i class="fas fa-pencil-alt text-warning">
                                         </i>
                                     </a> |

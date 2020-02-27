@@ -22,7 +22,7 @@ namespace TheGioiLoa.Controllers
         }
 
         // GET: Products/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -39,7 +39,7 @@ namespace TheGioiLoa.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Name");
+            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Url");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace TheGioiLoa.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductId,Name,Description,Price,BrandId,ListedPrice,DateCreated,DateModified,Status,Promotion,Characteristics,Details,Videos")] Product product)
+        public ActionResult Create([Bind(Include = "ProductId,Url,Name,Description,Price,Cover,BrandId,ListedPrice,DateCreated,DateModified,Status,Promotion,Characteristics,Details,Videos")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -57,12 +57,12 @@ namespace TheGioiLoa.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Name", product.BrandId);
+            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Url", product.BrandId);
             return View(product);
         }
 
         // GET: Products/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -73,7 +73,7 @@ namespace TheGioiLoa.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Name", product.BrandId);
+            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Url", product.BrandId);
             return View(product);
         }
 
@@ -82,7 +82,7 @@ namespace TheGioiLoa.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,Name,Description,Price,BrandId,ListedPrice,DateCreated,DateModified,Status,Promotion,Characteristics,Details,Videos")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductId,Url,Name,Description,Price,Cover,BrandId,ListedPrice,DateCreated,DateModified,Status,Promotion,Characteristics,Details,Videos")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -90,12 +90,12 @@ namespace TheGioiLoa.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Name", product.BrandId);
+            ViewBag.BrandId = new SelectList(db.Brand, "BrandId", "Url", product.BrandId);
             return View(product);
         }
 
         // GET: Products/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -112,7 +112,7 @@ namespace TheGioiLoa.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
             Product product = db.Product.Find(id);
             db.Product.Remove(product);

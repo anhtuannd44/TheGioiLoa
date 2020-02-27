@@ -1,6 +1,6 @@
-﻿
+﻿@model TheGioiLoa.Models.ViewModel.ProductViewModel
 @{
-    ViewBag.Title = "Chi Tiết Sản Phẩm";
+    ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -24,7 +24,7 @@
             <div class="product-image">
                 <div class="product-show-image">
                     <div class="image-box ratio-1-1">
-                        <div class="image image-big" id="image-main" style="background-image: url('../Content/Upload/Product/5445_atxp_combo_3.jpg');">
+                        <div class="image image-big" id="image-main" style="background-image: url('../Content/Upload/Images/@Model.Cover');">
                             <div class="text-center">
                                 <span class="product-discount-label">-10%</span>
                             </div>
@@ -33,49 +33,25 @@
                 </div>
                 <div class="product-list-image">
                     <div class="row">
-                        <div class="col">
-                            <div class="image-box ratio-1-1">
-                                <div class="image image-big" id="image-main" style="background-image: url('../Content/Upload/Product/5445_atxp_combo_3.jpg');">
-                                    <div class="text-center">
-                                        <span class="product-discount-label">-10%</span>
+                        @if (Model.Images !=  null)
+                        {
+                            foreach (var item in Model.Images)
+                            {
+                            <div class="col-md-3">
+                                <div class="image-box ratio-1-1">
+                                    <div class="image image-big" id="image-main" style="background-image: url('../Content/Upload/Images/@item.ImageId');">
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="image-box ratio-1-1">
-                                <div class="image image-big" id="image-main" style="background-image: url('../Content/Upload/Product/5445_atxp_combo_3.jpg');">
-                                    <div class="text-center">
-                                        <span class="product-discount-label">-10%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="image-box ratio-1-1">
-                                <div class="image image-big" id="image-main" style="background-image: url('../Content/Upload/Product/5445_atxp_combo_3.jpg');">
-                                    <div class="text-center">
-                                        <span class="product-discount-label">-10%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="image-box ratio-1-1">
-                                <div class="image image-big" id="image-main" style="background-image: url('../Content/Upload/Product/5445_atxp_combo_3.jpg');">
-                                    <div class="text-center">
-                                        <span class="product-discount-label">-10%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            }
+                        }
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-5">
             <div class="product-title">
-                <h5 class="font-weight-500 mb-1">Combo xem phim CM 06</h5>
+                <h5 class="font-weight-500 mb-1">@Model.Name</h5>
             </div>
             <div class="product-review">
                 <span class="product-star">
@@ -85,15 +61,15 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <span class="feedback-write text-dark">(Viết đánh giá) | </span>
-                    <span class="text-dark">Tình trạng: <span class="text-danger">Còn hàng</span></span>
+                    <span class="text-dark">Tình trạng: <span class="text-danger">@Model.Status</span></span>
                 </span>
             </div>
             <hr class="my-2" />
             <div class="product-price">
-                <h3 class="text-primary font-weight-bold mb-1">96.696.000 đ</h3>
+                <h3 class="text-primary font-weight-bold mb-1">@string.Format("{0:0,0 ₫}", Model.Price)</h3>
                 <p class="product-listed-price">
                     Giá niêm yết
-                    <del>105.680.000 đ</del>
+                    <del>@string.Format("{0:0,0 ₫}", Model.ListedPrice)</del>
                 </p>
             </div>
             <div class="product-services mb-4">
@@ -108,7 +84,8 @@
                     <p><i class="fa fa-gift mr-2"></i>Khuyến Mãi</p>
                 </div>
                 <div class="product-promotion-picture">
-                    <img src="~/Content/Upload/pmh-10.jpg" style="width: 100%" />
+                    @*<img src="~/Content/Upload/pmh-10.jpg" style="width: 100%" />*@
+                    @Html.Raw(Model.Promotion)
                 </div>
 
             </div>
@@ -155,8 +132,8 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="tbl-technical nd mt-2">
-
+                    <div class="tbl-technical nd mt-2" id="productCharacteristicsContent">
+                        @Html.Raw(Model.Characteristics)
                     </div>
                 </div>
                 <div id="productDetails" class="mt-3">
@@ -166,24 +143,8 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="tbl-technical nd mt-2">
-                        <p><strong>Thông số kĩ thuật:&nbsp;<em>Loa Front Jamo S626&nbsp;</em></strong></p>
-                        <p>Công suất:&nbsp; &nbsp; &nbsp; &nbsp; 130W /210W<br>Loại loa:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3 đường tiếng, bass phản xạ âm<br>Loa trầm:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;đường kính 203mm<br>Loa trung&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2 loa đường kính 127mm<br>Tweeter:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;25.4mm công nghệ DTT<br>Tần số đáp ứng(+/-3dB):&nbsp; &nbsp; 42hz - 20.000 Hz<br>Tần số cắt&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 150Hz/2500Hz<br>Trở kháng:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 6Ω<br>Độ nhạy (2.8V/1m)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;89dB</p>
-                        <p><strong>Thông số kĩ thuật :&nbsp;<em>Loa Center Jamo S62</em></strong></p>
-                        <p>Hệ thống loại 2 chiều&nbsp;<br>Trở kháng :&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;6 Ohm<br>Trọng lượng (Kg / lb)&nbsp; 5.2 / 11.5<br>Tweeter (mm / in):&nbsp; &nbsp; &nbsp; &nbsp;25/1<br>Woofer (mm / in) :&nbsp; &nbsp; &nbsp; &nbsp;102/4<br>Kích thước sản phẩm (mm / in, HxWxD) 133 x 400 x 210 / 5,2 x 15,7 x 8,3<br>Đáp ứng tần số (Hz, +/- 3dB) :&nbsp; &nbsp; &nbsp; &nbsp;75-20,000<br>Công suất xử lý :&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;80-130W<br>Độ nhạy :&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;87 Db<br>Vỏ thùng:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;màu đen, vân gỗ</p>
-                        <p><strong>Thông số kĩ thuật :&nbsp;<em>Loa Surround&nbsp;&nbsp;Jamo S622</em></strong></p>
-                        <p>Tần số đáp ứng:&nbsp; &nbsp; &nbsp; &nbsp; 80 – 20.000 Hz <br>Công suất:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;80 / 130W <br>Độ nhạy:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 87 dB <br>Tần số cắt:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2.500Hz <br>Trở kháng loa:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;6 <br>Kích thước sản phẩm (CxRxS): 240x133x210 mm <br>Trọng lượng (kg):&nbsp; &nbsp; &nbsp; &nbsp;15,2 <br>Màu:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Đen, Trắng, Nâu&nbsp;</p>
-                        <p><strong>Thông số kĩ thuật :&nbsp;<em>Loa Subwoofer Jamo SUB J10</em></strong></p>
-                        <p>Công suất :&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 150W / 300W<br>Trọng lượng:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 12kg<br>Loa siêu trầm:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;254mm (10") Aluminized Polyfiber<br>Đầu vào:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Dòng Cấp RCA<br>Kích thước sản phẩm (mm): 368,3(cao) x 317,5(rộng) x 427(sâu)<br>Đáp ứng tần số (+/- 3dB): 31Hz - 120Hz<br>Công suất đánh giá đánh giá: 150W<br>Tần số cắt:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 40-120Hz<br>Kiểm soát chuyển đổi Pha: 0/180</p>
-                        <p><strong>Thông số kĩ thuật :&nbsp;<em>Ampli Yamaha Reciever 7.1ch RX-V585</em></strong></p>
-                        <p>Phần Ampli Kênh 7,2<br>Công suất đầu ra định mức (1kHz, 1ch driven) 115 W (6 ôm, 0,9% THD)<br>Công suất đầu ra định mức (20Hz-20kHz, 2ch driven) 80 W (6 ôm, 0,09% THD)<br>Công suất Đầu ra Hiệu dụng Tối Đa (1kHz, 1ch driven) (JEITA) 145 W (6 ôm, 10% THD)<br>Công suất động mỗi kênh (8/6/4/2 ohms) - / 140 / 170 / 190 W<br>Xử lý Âm Thanh Nổi CINEMA DSP Có (3D)<br>Chương trình DSP 17<br>Điều Chỉnh Mức Thoại Có<br>Chế độ Loa Ảo Có<br>Loa vòm phía sau ảo Có<br>Nâng Cao Lời Thoại Có<br>SILENT CINEMA / CINEMA DSP Ảo Có (Virtual CINEMA FRONT)<br>Dolby Atmos Có<br>Dolby TrueHD Có<br>Dolby Digital Plus Có<br>Dolby Surround Có<br>DTS:X Có<br>DTS-HD Master Audio Có<br>Các đặc điểm audio Style File Format (Định Dạng Tệp Tiết Tấu) MP3 / WMA / MPEG-4 AAC: lên đến 48 kHz / 16 bit, ALAC: lên đến 96 kHz / 24 bit, FLAC: lên đến 192 kHz / 24 bit, WAV / AIFF: lên đến 192 kHz / 32 bit, DSD: lên đến 11,2 MHz<br>Tính năng nâng cao nhạc nén Có (bao gồm bộ tăng cường cho Bluetooth®)<br>Tối ưu hóa âm thanh YPAO Có<br>DRC thích ứng (Kiểm soát dải động) Có<br>Cài đặt Âm lượng tối đa &amp; Âm Lượng Ban đầu Có<br>Công suất 2 ampli Có<br>Độ trễ âm thanh Có (0-500 ms)<br>Bộ chuyển đổi DA DAC Burr-Brown 384 kHz / 32 bit x 4<br>Các đặc điểm video 4K Ultra HD Pass-through và upscaling Có (4K / 60p, 4:4:4)<br>HDMI 3D passthrough Có<br>HDMI eARC Có (thông qua cập nhật phần mềm cơ sở trong tương lai)<br>Kênh phản hồi HDMI Audio Có<br>Nâng cấp độ phân giải HDMI Có (HDMI® sang HDMI<br>Màu sâu/x.v.Color/Tốc độ làm mới 24Hz/Tự động nhép môi Có<br>Kết nối Âm thanh vòm MusicCast Có<br>Ngõ ra/Ngõ vào HDMI 4 / 1 (tương thích HDCP2.2, HDR10 / Dolby Vision / HLG và BT.2020)<br>HDMI CEC Có<br>Ngõ vào USB Bộ nhớ USB, Máy phát âm thanh di động<br>Cổng mạng Có<br>Wi-Fi Có (2,4 / 5 GHz)<br>Preout Loa siêu trầm (2 x mono)</p>
-                        <p>Kích thước (W x H x D):&nbsp; 435 x 161 x 327 mm&nbsp;<br>Trọng lượng :&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;8,1 kg; 17,9 lbs</p>
-                        <p><strong>Thông số kĩ thuật :&nbsp;<em>Đầu&nbsp;HOMEKARA EVO 4K 3TB</em></strong></p>
-                        <p>+ Gắn sẵn ổ cứng dung lượng 3000GB (3TB), chứa 30.000 bài hát Karaoke đầy đủ thể loại, âm thanh chuẩn phòng thu tương đương beat nhạc được ca sỹ dùng để biểu diễn trên sân khấu lớn (lossless,dolby digital,mp3 320kps). ÂM LƯỢNG ĐỒNG ĐỀU nhau hoàn toàn, không có hiện tượng bài to bài nhỏ.</p>
-                        <p>+ Chọn bài bằng remote cầm tay hoặc thông qua iPhone/iPad hoặc điện thoại/máy tính bảng Android. Tốc độ kết nối siêu nhanh, thao tác sử dụng quá dễ. Không cần internet vẫn điều khiển bình thường.</p>
-                        <p>+ Cập nhật bài hát hàng tháng miễn phí tự động nếu có mạng, tất cả đều là những bài hát mới nhất, HOT nhất trên các bảng xếp hạng âm nhạc, chất lượng cao nhất, chưa hề có karaoke ở bất kỳ đâu:</p>
-                        <p>+ Cấu hình cực mạnh: Soc RTD1295,DDR4 2GB,ROM 16GB,WiFi AC,Bluetooth 4.0,Android 6.0.1, HDD 3.5" hỗ trợ 10TB,cổng USB type C, cổng HDMI in,...</p>
-                        <p>+ Xem phim 4K ISO chuyên nghiệp với tốc độ khung hình lên tới 60fps, giải mã &amp; passthouth hoàn toàn âm thanh Dolby Atmos và DTS: X 7.1. Chất lượng hình ảnhCỰC KỲ ĐẸP. Biến phòng khách của bạn thành rạp chiếu phim đẳng cấp.</p>
+                    <div class="tbl-technical nd mt-2" id="productDetailsContent">
+                        @Html.Raw(Model.Details)
                     </div>
                 </div>
                 <div id="productVideos" class="mt-3">
@@ -193,8 +154,8 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="tbl-technical nd mt-2">
-
+                    <div class="tbl-technical nd mt-2" id="productVideosContent">
+                        @Html.Raw(Model.Videos)
                     </div>
                 </div>
                 <div id="productRelateds" class="mt-3">
@@ -204,7 +165,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="tbl-technical nd mt-2">
+                    <div class="tbl-technical nd mt-2" id="productRelatedsContent">
                         <div class="container">
                             <div class="row">
                                 @for (int i = 1; i <= 4; i++)
@@ -245,7 +206,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="tbl-technical nd mt-2">
+                    <div class="tbl-technical nd mt-2" id="productAccessoriesContent">
                         <div class="container">
                             <div class="row">
                                 @for (int i = 1; i <= 4; i++)
@@ -286,7 +247,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="tbl-technical nd mt-2">
+                    <div class="tbl-technical nd mt-2" id="productViewedContent">
                         <div class="container">
                             <div class="row">
                                 @for (int i = 1; i <= 4; i++)
@@ -324,17 +285,17 @@
             <div class="col-md-4">
                 <div class="second-services-right card position-sticky">
                     <div class="product-title card-header text-center">
-                        <h5 class="font-weight-500 mb-1">Combo xem phim CM 06</h5>
+                        <h5 class="font-weight-500 mb-1">@Model.Name</h5>
                     </div>
                     <div class="card-body">
                         <div class="product-price">
                             <p>
                                 Giá bán:
-                                <span class="text-primary font-weight-bold h3 ml-5">96.696.000 đ</span>
+                                <span class="text-primary font-weight-bold h3 ml-5">@string.Format("{0:0,0 ₫}", Model.Price)</span>
                             </p>
                             <p class="product-listed-price">
                                 Giá thị trường:
-                                <del class="ml-3" style="font-size: 16px">105.680.000 đ</del>
+                                <del class="ml-3" style="font-size: 16px">@string.Format("{0:0,0 ₫}", Model.Price)</del>
                             </p>
                         </div>
                         <div class="buy-button mt-3">

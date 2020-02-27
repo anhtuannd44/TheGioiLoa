@@ -9,8 +9,8 @@ using System.Web.Mvc;
 namespace TheGioiLoa.Models.ViewModel
 {
     public class CreateBrandViewModel
-    { 
-        [Display(Name="Tên thương hiệu bạn muốn tạo?")]
+    {
+        [Display(Name = "Tên thương hiệu bạn muốn tạo?")]
         public string Name { get; set; }
     }
 
@@ -19,5 +19,11 @@ namespace TheGioiLoa.Models.ViewModel
         public List<Brand> BrandList { get; set; }
 
         public string Notification { get; set; }
+    }
+    public class BrandSelectedViewModel
+    {
+        public int BrandId { get; set; }
+        public string Name { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

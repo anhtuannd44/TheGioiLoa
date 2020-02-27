@@ -1,16 +1,20 @@
-﻿@model TheGioiLoa.Models.ViewModel.CreateProductViewModel
+﻿@model TheGioiLoa.Models.ViewModel.ProductViewModel
 
 @{
-    ViewBag.Title = "Thêm sản phẩm mới";
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+    var ImageValue = string.Join("|", Model.Images.Select(a => a.ImageId).ToArray());
+    var TagValue="";
+    var TagId="";
 }
-@using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+@using (Html.BeginForm("EditProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ProductId)
     <div class="row" id="adminPage">
         <div class="col-md-9">
-
             <div class="form-group mb-2 mt-0">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control rounded-0", @placeholder = "Tên sản phẩm" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger mt-2" })
@@ -42,15 +46,22 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        @Html.LabelFor(model => model.BrandId, new { @class = "col-md-2 col-form-label-sm" })
+                        <label for="BrandId" class="col-md-2 col-form-label-sm">Thương hiệu</label>
                         <div class="col-md-10">
                             <select name="BrandId" id="BrandId" class="form-control form-control-sm">
                                 <option value="">-- Không có thương hiệu --</option>
-                                @if (ViewBag.BrandId != null)
+                                @if (Model.Brand.FirstOrDefault() != null)
                                 {
-                                    foreach (var item in ViewBag.BrandId)
+                                    foreach (var item in Model.Brand)
                                     {
-                                        <option value="@item.BrandId">@item.Name</option>
+                                        if (item.IsChecked)
+                                        {
+                                            <option value="@item.BrandId" selected>@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.BrandId">@item.Name</option>
+                                        }
                                     }
                                 }
                             </select>
@@ -152,10 +163,17 @@
                 <div class="card-body">
                     <div class="form-group row">
                         <select name="Status" id="Status" class="form-control form-control-sm rounded-0 col-md-8">
-                            <option value="1" checked>Công bố</option>
-                            <option value="2">Chưa đăng</option>
-                            <option value="3">Hết hàng</option>
-                            <option value="4">Đưa vào thùng rác</option>
+                            @foreach (var item in Model.StatusList)
+                            {
+                                if (item.StatusId == Model.Status)
+                                {
+                                    <option value="@item.StatusId" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.StatusId">@item.Name</option>
+                                }
+                            }
                         </select>
                         <div class="col-md-4">
                             <button type="submit" id="submitFormButton" class="btn btn-primary btn-flat btn-sm btn-block">Đăng</button>
@@ -173,35 +191,57 @@
                     <h3 class="card-title">Danh Mục Sản Phẩm</h3>
                 </div>
                 <div class="card-body" id="categoryList">
-                    @if (ViewBag.CategoryId != null)
+                    @if (Model.Categories.FirstOrDefault() != null)
                     {
-                        foreach (var item in ViewBag.CategoryId)
+                        foreach (var item in Model.Categories)
                         {
                             if (item.CategoryParentId == null)
                             {
                                 <div class="custom-control custom-checkbox">
-                                    <input class="custom-control-input category-click" data-level="parent" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId">
+                                    @if (item.IsChecked)
+                                    {
+                                        <input class="custom-control-input category-click" data-level="parent" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId" checked />
+                                    }
+                                    else
+                                    {
+                                        <input class="custom-control-input category-click" data-level="parent" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId" />
+                                    }
                                     <label for="@item.CategoryId" class="custom-control-label font-weight-normal">@item.Name</label>
                                 </div>
 
                                 <div class="parentCategory-@item.CategoryId" style="display: block;">
-                                    @foreach (var child in ViewBag.CategoryId)
+                                    @foreach (var child in Model.Categories)
                                     {
                                         if (child.CategoryParentId == item.CategoryId)
                                         {
                                             <div class="">
                                                 <div class="custom-control custom-checkbox ml-4">
-                                                    <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
+                                                    @if (child.IsChecked)
+                                                    {
+                                                        <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId" checked>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
+                                                    }
                                                     <label for="@child.CategoryId" class="custom-control-label font-weight-normal">@child.Name</label>
                                                 </div>
                                             </div>
                                             <div class="pl-4 childCategory-@child.CategoryId">
-                                                @foreach (var subChild in ViewBag.CategoryId)
+                                                @foreach (var subChild in Model.Categories)
                                                 {
                                                     if (subChild.CategoryParentId == child.CategoryId)
                                                     {
                                                         <div class="custom-control custom-checkbox ml-4">
-                                                            <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="checkbox" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId">
+                                                            @if (subChild.IsChecked)
+                                                            {
+                                                                <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="checkbox" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId" checked />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="checkbox" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId" />
+                                                            }
+                                                            /**/
                                                             <label for="@subChild.CategoryId" class="custom-control-label font-weight-normal">@subChild.Name</label>
                                                         </div>
                                                     }
@@ -224,7 +264,7 @@
                 </div>
                 <div class="card-body">
                     <div class="input-group input-group-sm">
-                        @Html.HiddenFor(model => model.Tag)
+                        <input hidden name="Tag" id="Tag" value="" />
                         <input type="text" id="AddTag" name="AddTag" class="form-control rounded-0">
                         <span class="input-group-append">
                             <button type="button" class="btn btn-info btn-flat rounded-0" id="addTag">Thêm Tag</button>
@@ -233,6 +273,24 @@
                     <p class="my-2 font-italic small">Phân cách các thẻ bằng dấu phẩy</p>
                     <div class="tag-area row px-2" id="renderTag">
 
+                        @if (Model.Tags.FirstOrDefault() != null)
+                        {
+                            foreach (var item in Model.Tags)
+                            {
+                                {
+                                    TagId += "|" + item.TagId;
+                                    TagValue += "|" + item.Name;
+                                }
+                                <div id="parent@(item.TagId)">
+                                    <a href="#" onclick="removeTag(this)" class="removeTag" data-id="@item.TagId" data-name="@item.Name">
+                                        <i class="fas fa-times-circle small text-danger mb-1"></i>
+                                    </a>
+                                    <span class="mr-2 badge badge-light border" value="@item.Name">@item.Name</span>
+                                </div>
+                            }
+                            TagValue = TagValue.Remove(0, 1);
+                            TagId = TagId.Remove(0, 1);
+                        }
                     </div>
                 </div>
             </div>
@@ -264,7 +322,7 @@
                     <h3 class="card-title">Album hình ảnh sản phẩm</h3>
                 </div>
                 <div class="card-body">
-                    @Html.HiddenFor(model => model.Image)
+                    <input name="Image" id="Image" hidden value="@ImageValue" />
                     <div class="text-center">
                         <a class="btn btn-info btn-flat text-white" data-toggle="modal" data-target="#uploadImage" onclick="uploadClick()">
                             <i class="fa fa-upload"></i>
@@ -272,7 +330,7 @@
                         </a>
                     </div>
                     <div class="row mt-2" id="renderImage">
-
+                        @Html.Partial("_ImageSelectedPartial", Model.Images)
                     </div>
                     <p class="my-2 font-italic small text-center">Bạn có thể chọn 1 hoặc nhiều hình để hiển thị trên trang sản phẩm</p>
                 </div>
@@ -375,6 +433,18 @@
         var tagInputResult = [];
         var tagId = [];
         var id = 0;
+
+        $(document).ready(function () {
+            var tagArray = "@TagValue";
+            var tagIdArray = "@TagId";
+            if (tagArray != "") {
+                tagInputResult = tagArray.split("|");
+                tagId = tagIdArray.split("|");
+                id = tagId.length;
+            }
+            console.log("a",$("#Tag").val(),tagInputResult, tagId);
+        });
+
     </script>
     <script src="~/Scripts/Admin/product.js"></script>
 }

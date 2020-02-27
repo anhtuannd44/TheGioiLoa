@@ -77,24 +77,73 @@ namespace TheGioiLoa.Service
             }
         }
 
-        public void AddTagToProduct(int productId, string tagList)
+        public void AddTagToProduct(int productId, string tagArray)
         {
-            if (!string.IsNullOrEmpty(tagList))
+            if (!string.IsNullOrEmpty(tagArray))
             {
-                var imageListArray = tagList.Split(',');
-                List<Tag> addTag = new List<Tag>();
-                foreach (var item in imageListArray)
+                var tagList = tagArray.Split('|');
+                foreach (var item in tagList)
                 {
-                    var tagId = db.Tag.Where(a => a.Name == item).FirstOrDefault();
-                    if (tagId != null)
-                        db.Product_Tag.Add(new Product_Tag()
-                        {
-                            ProductId = productId,
-                            TagId = tagId.TagId
-                        });
+                    int myInt;
+                    db.Product_Tag.Add(new Product_Tag()
+                    {
+                        ProductId = productId,
+                        TagId = (int.TryParse(item, out myInt)) ? myInt : 0
+                    });
                 }
                 db.SaveChanges();
             }
+        }
+
+        public void RemoveCategoryProduct(int productId)
+        {
+            var removeList = db.CategoryProduct.Where(a => a.ProductId == productId);
+            if (removeList != null)
+                db.CategoryProduct.RemoveRange(removeList);
+        }
+
+        public void RemoveProductImage(int productId)
+        {
+            var removeList = db.Product_Image.Where(a => a.ProductId == productId);
+            if (removeList != null)
+                db.Product_Image.RemoveRange(removeList);
+        }
+        public void RemoveProductTag(int productId)
+        {
+            var removeList = db.Product_Tag.Where(a => a.ProductId == productId);
+            if (removeList != null)
+                db.Product_Tag.RemoveRange(removeList);
+        }
+        public void EditProductDb(ProductViewModel product)
+        {
+            var addProduct = db.Product.Find(product.ProductId);
+
+            addProduct.Name = product.Name;
+            addProduct.Url = _helper.CreateUrl(product.Name);
+            addProduct.BrandId = product.BrandId;
+            addProduct.Description = product.Description;
+            addProduct.DateModified = DateTime.Now;
+            addProduct.Price = product.Price;
+            addProduct.ListedPrice = product.ListedPrice;
+            addProduct.Status = product.Status;
+            addProduct.Characteristics = product.Characteristics;
+            addProduct.Promotion = product.Promotion;
+            addProduct.Videos = product.Videos;
+            addProduct.Details = product.Details;
+
+            db.Entry(addProduct).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public List<StatusEnum> GetStatus()
+        {
+            var statusList = new List<StatusEnum>(){
+            new StatusEnum(){StatusId = 1, Name = "Công bố"},
+            new StatusEnum(){StatusId = 2, Name = "Chưa đăng"},
+            new StatusEnum(){StatusId = 3, Name = "Hết hàng"},
+            new StatusEnum(){StatusId = 4, Name = "Đưa vào thùng rác"}
+            };
+            return statusList;
         }
     }
 }
