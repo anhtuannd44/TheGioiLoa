@@ -29,6 +29,7 @@
                         <label for="CategoryParentId">Thuộc danh mục gốc?</label>
                         <select name="CategoryParentId" id="CategoryParentId" class="form-control">
                             <option value="" class="font-weight-bold">Không thuộc danh mục gốc nào</option>
+                            
                             @foreach (var item in Model)
                             {
                                 if (item.CategoryParentId == null)
@@ -57,11 +58,11 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card card-widget widget-user-2">
+        <div class="card card-widget">
             <div class="card-header bg-info">
                 <h3 class="card-title">Danh Mục Sản Phẩm</h3>
             </div>
-            <div class="card-body p-0" id="categoryList">
+            <div class="card-body" id="categoryList">
 
             </div>
             <div id="loadingGif">

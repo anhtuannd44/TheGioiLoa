@@ -20,11 +20,13 @@
     <link href="~/Content/Home/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    @*<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap" rel="stylesheet">*@
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
     @Styles.Render("~/Content/BootstrapCss")
     @Styles.Render("~/Content/HomeCss")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Home/slider-product/dist/styles/vit-gallery.css" rel="stylesheet" />
+
 
 </head>
 <body>
@@ -57,13 +59,13 @@
             <div class="navbar-nav-scroll ml-auto" id="Login">
                 @*Html.Partial("_LoginPartial")*@
                 @*<ul class="navbar-nav bd-navbar-nav flex-row small">
-                    <li class="nav-item py-2">
-                        <a class="nav-link text-white py-0 border-right" href="/Home/Houses">Đăng ký</a>
-                    </li>
-                    <li class="nav-item py-2">
-                        <a class="nav-link text-white py-0" href="#myModal" data-toggle="modal">Đăng Nhập</a>
-                    </li>
-                </ul>*@
+                        <li class="nav-item py-2">
+                            <a class="nav-link text-white py-0 border-right" href="/Home/Houses">Đăng ký</a>
+                        </li>
+                        <li class="nav-item py-2">
+                            <a class="nav-link text-white py-0" href="#myModal" data-toggle="modal">Đăng Nhập</a>
+                        </li>
+                    </ul>*@
             </div>
         </div>
     </nav>
@@ -350,43 +352,43 @@
         </div>
     </footer><!-- #footer -->
     @*@if (!Request.IsAuthenticated)
-    {
-        <div id="myModal" class="modal fade">
-            <div class="modal-dialog modal-login">
-                <div class="modal-content">
-                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="modal-header">
-                            <h5 class="modal-title">Đăng Nhập</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.Email)
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        {
+            <div id="myModal" class="modal fade">
+                <div class="modal-dialog modal-login">
+                    <div class="modal-content">
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="modal-header">
+                                <h5 class="modal-title">Đăng Nhập</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
-                            <div class="form-group">
-                                <div class="clearfix">
-                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                    <a href="#" class="pull-right text-muted"><small>Bạn quên mật khẩu?</small></a>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email)
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                 </div>
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <div class="clearfix">
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                        <a href="#" class="pull-right text-muted"><small>Bạn quên mật khẩu?</small></a>
+                                    </div>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                            <input type="submit" class="btn btn-primary pull-right" value="Login">
-                        </div>
-                    }
+                            <div class="modal-footer">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                                <input type="submit" class="btn btn-primary pull-right" value="Login">
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    }*@
+        }*@
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
@@ -394,8 +396,14 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jshome")
 
+    <script src="~/Content/Home/slider-product/dist/scripts/vit-gallery.js"></script>
+    <script src="~/Content/Home/slider-product/main.js"></script>
     @RenderSection("scripts", required: false)
 
-
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 </body>
 </html>

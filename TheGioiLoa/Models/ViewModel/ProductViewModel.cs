@@ -52,6 +52,8 @@ namespace TheGioiLoa.Models.ViewModel
         public string Tag { get; set; }
 
         public string Image { get; set; }
+        public string CoverName { get; set; }
+        public HttpPostedFileBase Cover { get; set; }
     }
 
     public class ProductViewModel
@@ -68,7 +70,7 @@ namespace TheGioiLoa.Models.ViewModel
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
 
         [Display(Name = "Giá bán")]
         public double? Price { get; set; }
@@ -98,7 +100,8 @@ namespace TheGioiLoa.Models.ViewModel
 
         [Display(Name = "Trạng thái sản phẩm")]
         public int Status { get; set; }
-        public string Cover { get; set; }
+
+        public string CoverName { get; set; }
 
         public string Tag { get; set; }
 
@@ -112,6 +115,9 @@ namespace TheGioiLoa.Models.ViewModel
         public Brand Brands { get; set; }
         public List<string> ImageList { get; set; }
         public List<StatusEnum> StatusList { get; set; }
+        public HttpPostedFileBase Cover { get; set; }
+        public List<Product> ProductRelateds { get; set; }
+        public List<Product> ProductAccessories { get; set; }
     }
 
     public class CategoryProductEditViewModel

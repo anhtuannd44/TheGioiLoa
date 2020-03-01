@@ -1,0 +1,20 @@
+﻿@model IEnumerable<TheGioiLoa.Models.Category>
+
+
+<option value="" class="font-weight-bold">Không thuộc danh mục gốc nào</option>
+@foreach (var item in Model)
+{
+    if (item.CategoryParentId == null)
+    {
+        <option value="@item.CategoryId" class="font-weight-bold">@item.Name</option>
+
+        foreach (var child in Model)
+        {
+            if (child.CategoryParentId == item.CategoryId)
+            {
+                <option value="@child.CategoryId">&nbsp;&nbsp;&nbsp;@child.Name</option>
+            }
+        }
+
+    }
+}

@@ -12,7 +12,7 @@
         <div class="col-md-9">
 
             <div class="form-group mb-2 mt-0">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control rounded-0", @placeholder = "Tên sản phẩm" } })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control rounded-0", @placeholder = "Tên sản phẩm", @required="required" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger mt-2" })
             </div>
 
@@ -137,7 +137,12 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.TextAreaFor(model => model.Videos, new { @class = "textarea", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Videos, new { @class = "col-md-2 col-form-label-sm" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Videos, new { @placeholder = "Dán link Youtube vào đây ...", @class = "form-control form-control-sm" })
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -239,23 +244,24 @@
 
 
             @*Ảnh Sản Phẩm*@
-            @*<div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Ảnh sản phẩm</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="input-group input-group-sm">
+            <div class="card position-relative">
+                <div class="card-header">
+                    <h3 class="card-title">Album hình ảnh sản phẩm</h3>
+                </div>
+                <div class="card-body">
 
-                            <input type="text" class="form-control rounded-0">
-                            <span class="input-group-append">
-                                <button type="button" class="btn btn-info btn-flat rounded-0">Thêm Tag</button>
-                            </span>
-                        </div>
-                        <p class="my-2 font-italic small">Phân cách các thẻ bằng dấu phẩy</p>
-                        <div class="tag-area">
+                    <div class="preview-image w-100">
+                        <img id="previewCover" src="~/Content/Upload/Images/No_Picture.jpg" style="width: 100%; height: auto;" />
+                        <div class="position-absolute d-none" id="removeCover" style="top: 5px; right:10px">
+                            <a href="#" class="text-primary" data-toggle="tooltip" title="Xóa hình cover" style="font-size: 19px"><i class="fa fa-trash"></i></a>
                         </div>
                     </div>
-                </div>*@
+                    
+                    <input type="file" hidden id="Cover" name="Cover" />
+                    <label for="Cover" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
+                    <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho sản phẩm</p> 
+                </div>
+            </div>
 
 
             @*Album hình ảnh sản phẩm*@
@@ -345,7 +351,7 @@
                         </script>
                     </div>
                     <div class="tab-pane fade p-4" id="library" role="tabpanel" aria-labelledby="library-tab">
-                        <div class="row" id="renderLibrary">
+                        <div id="renderLibrary">
 
                         </div>
                         <div class="clearfix">
@@ -354,6 +360,15 @@
                             </div>
                             <div class="float-right">
                                 <a href="#" class="btn btn-primary btn-flat btn-sm">Trang sau ></a>
+                            </div>
+                        </div>
+                        <div id="loadingGif">
+                            <div class="position-relative h-100 w-100">
+                                <div class="loadingio-spinner-spinner-0g9wfi70d3hr">
+                                    <div class="ldio-dmto02pujx">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -375,6 +390,7 @@
         var tagInputResult = [];
         var tagId = [];
         var id = 0;
+
     </script>
     <script src="~/Scripts/Admin/product.js"></script>
 }

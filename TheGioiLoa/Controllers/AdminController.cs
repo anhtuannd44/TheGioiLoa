@@ -29,6 +29,7 @@ namespace TheGioiLoa.Controllers
             var parentList = db.Category.ToList();
             return View(parentList);
         }
+
         public ActionResult LoadCategoryList()
         {
             var category = db.Category;
@@ -44,6 +45,12 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
+        public PartialViewResult LoadCategorySelect()
+        {
+            var model = db.Category.ToList();
+            return PartialView("_SelectListCategory", model);
+        }
+        [HttpPost]
         public string CreateCategory(CreateCategoryViewModel category)
         {
             try
@@ -54,11 +61,9 @@ namespace TheGioiLoa.Controllers
                     Name = category.Name,
                     DateCreated = DateTime.Now,
                     DateModified = DateTime.Now,
-                    Url = _helper.CreateUrl(category.Name)
+                    Url = _helper.CreateUrl(category.Name),
+                    CategoryParentId = category.CategoryParentId
                 });
-                var parent = db.Category.Find(category.CategoryParentId);
-                if (parent == null)
-                    return "error";
                 db.SaveChanges();
                 return "successed";
             }
@@ -143,14 +148,14 @@ namespace TheGioiLoa.Controllers
         {
             var model = new List<ProductViewModel>();
 
-            var productList = db.Product;
+            var productList = db.Product.Where(a => a.Status != 4);
             foreach (var item in productList)
             {
                 var addProduct = new ProductViewModel()
                 {
                     ProductId = item.ProductId,
                     Description = item.Description,
-                    Cover = item.Cover,
+                    CoverName = item.Cover,
                     ListedPrice = item.ListedPrice,
                     Price = item.Price,
                     Status = item.Status,
@@ -212,7 +217,7 @@ namespace TheGioiLoa.Controllers
                 Promotion = product.Promotion,
                 Videos = product.Videos,
                 Details = product.Details,
-                Cover = product.Cover
+                CoverName = product.Cover
             };
             var category = db.Category.ToList();
             var addCategoryList = new List<CategoryProductEditViewModel>();
@@ -273,24 +278,36 @@ namespace TheGioiLoa.Controllers
         [ValidateInput(false)]
         public ActionResult EditProduct(ProductViewModel product)
         {
+            if (product.Cover != null)
+            {
+                var fileName = _helper.RandomString() + Path.GetExtension(product.Cover.FileName);
+                string path = Path.Combine(Server.MapPath("~/Content/Upload/Images/"), fileName);
+                product.Cover.SaveAs(path);
+                product.CoverName = fileName;
+            }
+            else
+            {
+                product.CoverName = "No_Picture.jpg";
+            }
+
             //Edit ProductDb 
             product.Name = _helper.DeleteSpace(product.Name);
             //try
             //{
-                _productService.EditProductDb(product);
-                _productService.RemoveCategoryProduct(product.ProductId);
-                //Add Category
-                _productService.AddCategoryToProduct(product.ProductId, Request["CategoryId"]);
+            _productService.EditProductDb(product);
+            _productService.RemoveCategoryProduct(product.ProductId);
+            //Add Category
+            _productService.AddCategoryToProduct(product.ProductId, Request["CategoryId"]);
 
-                //Add Image
-                _productService.RemoveProductImage(product.ProductId);
-                _productService.AddImageToProduct(product.ProductId, product.Image);
+            //Add Image
+            _productService.RemoveProductImage(product.ProductId);
+            _productService.AddImageToProduct(product.ProductId, product.Image);
 
-                //Add Tags
-                _productService.RemoveProductTag(product.ProductId);
-                _productService.AddTagToProduct(product.ProductId, product.Tag);
+            //Add Tags
+            _productService.RemoveProductTag(product.ProductId);
+            _productService.AddTagToProduct(product.ProductId, product.Tag);
 
-                return RedirectToAction("ProductList");
+            return RedirectToAction("ProductList");
             //}
             //catch
             //{
@@ -314,6 +331,17 @@ namespace TheGioiLoa.Controllers
             product.Name = _helper.DeleteSpace(product.Name);
             try
             {
+                if (product.Cover != null)
+                {
+                    var fileName = _helper.RandomString() + Path.GetExtension(product.Cover.FileName);
+                    string path = Path.Combine(Server.MapPath("~/Content/Upload/Images/"), fileName);
+                    product.Cover.SaveAs(path);
+                    product.CoverName = fileName;
+                }
+                else
+                {
+                    product.CoverName = "No_Picture.jpg";
+                }
                 _productService.AddProductToDb(product);
 
                 var productId = _productService.GetLastestProductId(product.Name);
@@ -326,6 +354,10 @@ namespace TheGioiLoa.Controllers
 
                 //Add Tags
                 _productService.AddTagToProduct(productId, product.Tag);
+
+
+
+
 
                 return RedirectToAction("ProductList");
             }
@@ -441,7 +473,7 @@ namespace TheGioiLoa.Controllers
                 db.SaveChanges();
             }
             var result = db.Tag.Where(a => a.Name == tag).FirstOrDefault();
-            TagViewModel json = new TagViewModel(){ TagId = result.TagId.ToString(), Name = result.Name};
+            TagViewModel json = new TagViewModel() { TagId = result.TagId.ToString(), Name = result.Name };
 
             return Json(json, JsonRequestBehavior.AllowGet);
         }

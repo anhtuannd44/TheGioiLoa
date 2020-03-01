@@ -5,7 +5,7 @@
 <main id="main">
     <div class="container" style="height: 486px;">
         <div class="row">
-            <div div class="col-md-9 offset-md-3 px-0" style="flex: 0 0 80%; max-width: 81%; margin-left: 19%;">
+            <div div class="col-md-9 offset-md-3 px-0" style="flex: 0 0 81%; max-width: 81.2%; margin-left: 17.8%;">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -33,170 +33,354 @@
             </div>
         </div>
     </div>
-    <section id="services" class="section-bg bg-white">
-        <div class="container">
-            <div class="row">   
-                <div class="col-md-4 wow bounceInUp" data-wow-duration="1.4s">
-                    <div class="box text-center shadow">
-                        <i class="fa fa-truck text-primary" style="font-size: 40px;"></i>
-                        <h5 class="mt-3 mb-1"><a href="">GIAO HÀNG MIỄN PHÍ</a></h5>
-                    </div>
+
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="text-center shadow rounded-0 py-2 border border-primary">
+                    <i class="fa fa-truck text-primary" style="font-size: 25px;"></i>
+                    <h6 class="mt-3 mb-1"><a href="">GIAO HÀNG MIỄN PHÍ</a></h6>
                 </div>
-                <div class="col-md-4 wow bounceInUp" data-wow-duration="1.4s">
-                    <div class="box text-center shadow">
-                        <i class="fa fa-credit-card text-primary" style="font-size: 40px;"></i>
-                        <h5 class="mt-3 mb-1"><a href="">THANH TOÁN LINH HOẠT</a></h5>
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center shadow rounded-0 py-2 border border-primary">
+                    <i class="fa fa-credit-card text-primary" style="font-size: 25px;"></i>
+                    <h6 class="mt-3 mb-1"><a href="">THANH TOÁN LINH HOẠT</a></h6>
                 </div>
-                <div class="col-md-4 wow bounceInUp" data-wow-duration="1.4s">
-                    <div class="box text-center shadow">
-                        <i class="fas fa-shield-alt text-primary" style="font-size: 40px;"></i>
-                        <h5 class="mt-3 mb-1"><a href="">BẢO HÀNH UY TÍN</a></h5>
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center shadow rounded-0 py-2 border border-primary">
+                    <i class="fas fa-shield-alt text-primary" style="font-size: 25px;"></i>
+                    <h6 class="mt-3 mb-1"><a href="">BẢO HÀNH UY TÍN</a></h6>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="py-2">
-        <div class="container">
-            <div class="home-header">
-                <div class="home-header-title float-left bg-primary py-1 position-relative">
-                    <h5 class="font-weight-bold my-0 mx-2 text-white">Mua theo Combo</h5>
-                </div>
-                <div class="home-header-sub float-right mt-1">
+
+
+    <div class="container pt-4">
+        <div class="bg-white">
+            <div class="product-header">
+                <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                <div class="product-header-link float-right mt-1">
                     <a href="#">Combo xem phim</a>
                     <a href="#">Combo nghe nhạc</a>
                     <a href="#">Combo âm thanh karaoke</a>
-                    <a href="#" class="view-all text-primary">Xem tất cả <i class="fa fa-angle-double-right"></i></a>
+                    <a href="#">Xem tất cả</a>
                 </div>
-                <div style="clear:both"></div>
+                <div class="clearfix"></div>
             </div>
-            <div class="container">
-                <div class="row">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                            <div class="product-grid">
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                    </a>
-                                    <div class="product-content-hover">
-                                        <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                        <p class="mb-0" style="margin-top: -10px;">...</p>
-                                        <p class="service text-success">Bảo hành 12 tháng</p>
-                                        <a href="#" class="view-now">Xem Ngay</a>
+            <div class="row homeproduct">
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <div class="col-md-3 w-20 producthome-item">
+                        <a href="#">
+                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                            @*<div class="homeproduct-content">
+                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                                    <p class="mb-0" style="margin-top: -10px;">...</p>
+                                    <p class="text-success">Bảo hành 12 tháng</p>
+                                    <div class="position-absolute text-center w-100" style="bottom: 0">
+                                        <div class="text-center">
+                                            <strong class="price">58.000.000 ₫</strong>
+                                            <del class="price-sale">60.000.000 ₫</del>
+                                        </div>
+                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
                                     </div>
-                                    <span class="product-new-label bg-success text-white">Mới</span>
-                                    <span class="product-discount-label">-10%</span>
+
+                                </div>*@
+
+                            <h3>Combo xem phim CM 01</h3>
+                            <div class="text-center">
+                                <strong class="price">58.000.000 ₫</strong>
+                                <del class="price-sale">60.000.000 ₫</del>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="bg-white">
+                    <div class="product-header">
+                        <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                        <div class="product-header-link float-right mt-1">
+                            <a href="#">Combo xem phim</a>
+                            <a href="#">Combo nghe nhạc</a>
+                            <a href="#">Combo âm thanh karaoke</a>
+                            <a href="#">Xem tất cả</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="row homeproduct">
+                        @for (int i = 1; i <= 8; i++)
+                        {
+                            <div class="col-md-3 producthome-item">
+                                <a href="#">
+                                    <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                                    @*<div class="homeproduct-content">
+                                            <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                                            <p class="mb-0" style="margin-top: -10px;">...</p>
+                                            <p class="text-success">Bảo hành 12 tháng</p>
+                                            <div class="position-absolute text-center w-100" style="bottom: 0">
+                                                <div class="text-center">
+                                                    <strong class="price">58.000.000 ₫</strong>
+                                                    <del class="price-sale">60.000.000 ₫</del>
+                                                </div>
+                                                <p class="btn homeproduct-viewnow">Xem Ngay</p>
+                                            </div>
+
+                                        </div>*@
+
+                                    <h3>Combo xem phim CM 01</h3>
+                                    <div class="text-center">
+                                        <strong class="price">58.000.000 ₫</strong>
+                                        <del class="price-sale">60.000.000 ₫</del>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog bg-white">
+                    <div class="blog-header bg-primary text-white py-2 px-2">
+                        <h6 class="font-weight-bold m-0 mt-1 float-left">Tin Tức - Công Nghệ</h6>
+                        <a href="#" class="text-white float-right view-all px-2 py-1 rounded">Xem Thêm <i class="fa fa-angle-double-right"></i></a>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div class="blog-content border">
+                        @for (int i = 1; i <= 6; i++)
+                        {
+                            <div class="row blog-content-list m-0 p-1">
+                                <div class="col-md-4 p-0">
+                                    <div class="image-box ratio-16-9 h-100 my-auto">
+                                        <a href="/Home/Houses?location=H%C3%A0%20N%E1%BB%99i" class="image image-big" id="image-main" style="background-image: url('../../Content/Upload/Product/5445_atxp_combo_3.jpg');"></a>
+                                    </div>
                                 </div>
-                                <div class="product-content">
-                                    <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                    <div class="price">
-                                        58.000.000 ₫
-                                        <span class="price-sale">60.000.000 ₫</span>
+                                <div class="col-md-8 p-0">
+                                    <div class="p-2">
+                                        <a href="#">
+                                            <h4 class="blog-content-title m-0">Lắp đặt âm thanh sân khấu Vietnam Idol 2020</h4>
+                                        </a>
+                                        <p class="blog-time-created mb-0 mt-1">13/08/2019, 03:32 PM</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="home-header">
-                        <div class="home-header-title float-left bg-primary py-1 position-relative">
-                            <h5 class="font-weight-bold my-0 mx-2 text-white">Mua theo Combo</h5>
-                        </div>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="container">
-
-
-                        <div class="row">
-                            @for (int i = 1; i <= 8; i++)
-                            {
-                                <div class="col-md-3 col-sm-4 col-6 px-1 mt-2">
-                                    <div class="product-grid">
-                                        <div class="product-image">
-                                            <a href="#">
-                                                <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                            </a>
-                                            <div class="product-content-hover">
-                                                <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                                <p class="mb-0" style="margin-top: -10px;">...</p>
-                                                <p class="service text-success">Bảo hành 12 tháng</p>
-                                                <a href="#" class="view-now">Xem Ngay</a>
-                                            </div>
-                                            <span class="product-new-label bg-success text-white">Mới</span>
-                                            <span class="product-discount-label">-10%</span>
-                                        </div>
-                                        <div class="product-content">
-                                            <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                            <div class="price">
-                                                58.000.000 ₫
-                                                <span class="price-sale">60.000.000 ₫</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="blog">
-                        <div class="blog-header bg-primary text-white py-2 px-2 rounded-top">
-                            <h6 class="font-weight-bold m-0 mt-1 float-left">Tin Tức - Công Nghệ</h6>
-                            <a href="#" class="text-white float-right view-all px-2 py-1 rounded">Xem Thêm <i class="fa fa-angle-double-right"></i></a>
-                            <div style="clear: both"></div>
-                        </div>
-                        <div class="blog-content border rounded-bottom">
-                            @for (int i = 1; i <= 6; i++)
-                            {
-                                <div class="row blog-content-list m-0 p-1">
-                                    <div class="col-md-4 p-0">
-                                        <div class="image-box ratio-16-9 h-100 my-auto">
-                                            <a href="/Home/Houses?location=H%C3%A0%20N%E1%BB%99i" class="image image-big" id="image-main" style="background-image: url('../../Content/Upload/Product/5445_atxp_combo_3.jpg');"></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8 p-0">
-                                        <div class="p-2">
-                                            <a href="#">
-                                                <h4 class="blog-content-title m-0">Lắp đặt âm thanh sân khấu Vietnam Idol 2020</h4>
-                                            </a>
-                                            <p class="blog-time-created mb-0 mt-1">13/08/2019, 03:32 PM</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr class="m-0" />
-                            }
-                        </div>
+                            <hr class="m-0" />
+                        }
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <section class="py-2">
-        <div class="container">
-            <div class="home-header">
-                <div class="home-header-title float-left bg-primary py-1 position-relative">
-                    <h5 class="font-weight-bold my-0 mx-2 text-white">Âm thanh Karaoke</h5>
-                </div>
-                <div class="home-header-sub float-right mt-1">
+    </div>
+
+    <div class="container">
+        <div class="bg-white">
+            <div class="product-header">
+                <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                <div class="product-header-link float-right mt-1">
                     <a href="#">Combo xem phim</a>
                     <a href="#">Combo nghe nhạc</a>
                     <a href="#">Combo âm thanh karaoke</a>
-                    <a href="#" class="view-all text-primary">Xem tất cả ></a>
+                    <a href="#">Xem tất cả</a>
                 </div>
-                <div style="clear:both"></div>
+                <div class="clearfix"></div>
             </div>
-            <div class="row mt-2">
+            <div class="row homeproduct">
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <div class="col-md-3 w-20 producthome-item">
+                        <a href="#">
+                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                            @*<div class="homeproduct-content">
+                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                                    <p class="mb-0" style="margin-top: -10px;">...</p>
+                                    <p class="text-success">Bảo hành 12 tháng</p>
+                                    <div class="position-absolute text-center w-100" style="bottom: 0">
+                                        <div class="text-center">
+                                            <strong class="price">58.000.000 ₫</strong>
+                                            <del class="price-sale">60.000.000 ₫</del>
+                                        </div>
+                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
+                                    </div>
+
+                                </div>*@
+
+                            <h3>Combo xem phim CM 01</h3>
+                            <div class="text-center">
+                                <strong class="price">58.000.000 ₫</strong>
+                                <del class="price-sale">60.000.000 ₫</del>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="bg-white">
+            <div class="product-header">
+                <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                <div class="product-header-link float-right mt-1">
+                    <a href="#">Combo xem phim</a>
+                    <a href="#">Combo nghe nhạc</a>
+                    <a href="#">Combo âm thanh karaoke</a>
+                    <a href="#">Xem tất cả</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="row homeproduct">
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <div class="col-md-3 w-20 producthome-item">
+                        <a href="#">
+                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                            @*<div class="homeproduct-content">
+                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                                    <p class="mb-0" style="margin-top: -10px;">...</p>
+                                    <p class="text-success">Bảo hành 12 tháng</p>
+                                    <div class="position-absolute text-center w-100" style="bottom: 0">
+                                        <div class="text-center">
+                                            <strong class="price">58.000.000 ₫</strong>
+                                            <del class="price-sale">60.000.000 ₫</del>
+                                        </div>
+                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
+                                    </div>
+
+                                </div>*@
+
+                            <h3>Combo xem phim CM 01</h3>
+                            <div class="text-center">
+                                <strong class="price">58.000.000 ₫</strong>
+                                <del class="price-sale">60.000.000 ₫</del>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="bg-white">
+            <div class="product-header">
+                <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                <div class="product-header-link float-right mt-1">
+                    <a href="#">Combo xem phim</a>
+                    <a href="#">Combo nghe nhạc</a>
+                    <a href="#">Combo âm thanh karaoke</a>
+                    <a href="#">Xem tất cả</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="row homeproduct">
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <div class="col-md-3 w-20 producthome-item">
+                        <a href="#">
+                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                            @*<div class="homeproduct-content">
+                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                                    <p class="mb-0" style="margin-top: -10px;">...</p>
+                                    <p class="text-success">Bảo hành 12 tháng</p>
+                                    <div class="position-absolute text-center w-100" style="bottom: 0">
+                                        <div class="text-center">
+                                            <strong class="price">58.000.000 ₫</strong>
+                                            <del class="price-sale">60.000.000 ₫</del>
+                                        </div>
+                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
+                                    </div>
+
+                                </div>*@
+
+                            <h3>Combo xem phim CM 01</h3>
+                            <div class="text-center">
+                                <strong class="price">58.000.000 ₫</strong>
+                                <del class="price-sale">60.000.000 ₫</del>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="bg-white">
+            <div class="product-header">
+                <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                <div class="product-header-link float-right mt-1">
+                    <a href="#">Combo xem phim</a>
+                    <a href="#">Combo nghe nhạc</a>
+                    <a href="#">Combo âm thanh karaoke</a>
+                    <a href="#">Xem tất cả</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="row homeproduct">
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <div class="col-md-3 w-20 producthome-item">
+                        <a href="#">
+                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                            @*<div class="homeproduct-content">
+                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                                    <p class="mb-0" style="margin-top: -10px;">...</p>
+                                    <p class="text-success">Bảo hành 12 tháng</p>
+                                    <div class="position-absolute text-center w-100" style="bottom: 0">
+                                        <div class="text-center">
+                                            <strong class="price">58.000.000 ₫</strong>
+                                            <del class="price-sale">60.000.000 ₫</del>
+                                        </div>
+                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
+                                    </div>
+
+                                </div>*@
+
+                            <h3>Combo xem phim CM 01</h3>
+                            <div class="text-center">
+                                <strong class="price">58.000.000 ₫</strong>
+                                <del class="price-sale">60.000.000 ₫</del>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="bg-white">
+            <div class="product-header">
+                <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                <div class="product-header-link float-right mt-1">
+                    <a href="#">Combo xem phim</a>
+                    <a href="#">Combo nghe nhạc</a>
+                    <a href="#">Combo âm thanh karaoke</a>
+                    <a href="#">Xem tất cả</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="row homeproduct">
                 <div class="col-md-6">
                     <div class="karaoke-video">
                         <iframe width="100%" height="300" src="https://www.youtube.com/embed/ylgQEQE5YSI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -204,273 +388,82 @@
                 </div>
                 @for (int i = 1; i <= 6; i++)
                 {
-                    <div class="col-md-3">
-                        <div class="product-grid">
-                            <div class="product-image">
-                                <a href="#">
-                                    <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                </a>
-                                <div class="product-content-hover">
-                                    <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="service text-success">Bảo hành 12 tháng</p>
-                                    <a href="#" class="view-now">Xem Ngay</a>
+                    <div class="col-md-3 producthome-item">
+                        <a href="#">
+                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                            @*<div class="homeproduct-content">
+                            <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                            <p class="mb-0" style="margin-top: -10px;">...</p>
+                            <p class="text-success">Bảo hành 12 tháng</p>
+                            <div class="position-absolute text-center w-100" style="bottom: 0">
+                                <div class="text-center">
+                                    <strong class="price">58.000.000 ₫</strong>
+                                    <del class="price-sale">60.000.000 ₫</del>
                                 </div>
-                                <span class="product-new-label bg-success text-white">Mới</span>
-                                <span class="product-discount-label">-10%</span>
+                                <p class="btn homeproduct-viewnow">Xem Ngay</p>
                             </div>
-                            <div class="product-content">
-                                <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                <div class="price">
-                                    58.000.000 ₫
-                                    <span class="price-sale">60.000.000 ₫</span>
-                                </div>
+
+                        </div>*@
+
+                            <h3>Combo xem phim CM 01</h3>
+                            <div class="text-center">
+                                <strong class="price">58.000.000 ₫</strong>
+                                <del class="price-sale">60.000.000 ₫</del>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 }
             </div>
         </div>
-    </section>
-    <section class="py-2">
-        <div class="container">
-            <div class="home-header">
-                <div class="home-header-title float-left bg-primary py-1 position-relative">
-                    <h5 class="font-weight-bold my-0 mx-2 text-white">Âm thanh sân khấu</h5>
-                </div>
-                <div class="home-header-sub float-right mt-1">
+    </div>
+
+    <div class="container">
+        <div class="bg-white">
+            <div class="product-header">
+                <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                <div class="product-header-link float-right mt-1">
                     <a href="#">Combo xem phim</a>
                     <a href="#">Combo nghe nhạc</a>
                     <a href="#">Combo âm thanh karaoke</a>
-                    <a href="#" class="view-all text-primary">Xem tất cả <i class="fa fa-angle-double-right"></i></a>
+                    <a href="#">Xem tất cả</a>
                 </div>
-                <div style="clear:both"></div>
+                <div class="clearfix"></div>
             </div>
-            <div class="container">
-                <div class="row">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                            <div class="product-grid">
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                    </a>
-                                    <div class="product-content-hover">
-                                        <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                        <p class="mb-0" style="margin-top: -10px;">...</p>
-                                        <p class="service text-success">Bảo hành 12 tháng</p>
-                                        <a href="#" class="view-now">Xem Ngay</a>
-                                    </div>
-                                    <span class="product-new-label bg-success text-white">Mới</span>
-                                    <span class="product-discount-label">-10%</span>
-                                </div>
-                                <div class="product-content">
-                                    <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                    <div class="price">
-                                        58.000.000 ₫
-                                        <span class="price-sale">60.000.000 ₫</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-2">
-        <div class="container">
-            <div class="home-header">
-                <div class="home-header-title float-left bg-primary py-1 position-relative">
-                    <h5 class="font-weight-bold my-0 mx-2 text-white">Âm thanh thông báo</h5>
-                </div>
-                <div class="home-header-sub float-right mt-1">
-                    <a href="#">Combo xem phim</a>
-                    <a href="#">Combo nghe nhạc</a>
-                    <a href="#">Combo âm thanh karaoke</a>
-                    <a href="#" class="view-all text-primary">Xem tất cả <i class="fa fa-angle-double-right"></i></a>
-                </div>
-                <div style="clear:both"></div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                            <div class="product-grid">
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                    </a>
-                                    <div class="product-content-hover">
-                                        <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                        <p class="mb-0" style="margin-top: -10px;">...</p>
-                                        <p class="service text-success">Bảo hành 12 tháng</p>
-                                        <a href="#" class="view-now">Xem Ngay</a>
-                                    </div>
-                                    <span class="product-new-label bg-success text-white">Mới</span>
-                                    <span class="product-discount-label">-10%</span>
-                                </div>
-                                <div class="product-content">
-                                    <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                    <div class="price">
-                                        58.000.000 ₫
-                                        <span class="price-sale">60.000.000 ₫</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-2">
-        <div class="container">
-            <div class="home-header">
-                <div class="home-header-title float-left bg-primary py-1 position-relative">
-                    <h5 class="font-weight-bold my-0 mx-2 text-white">Loa bluetooth</h5>
-                </div>
-                <div class="home-header-sub float-right mt-1">
-                    <a href="#">Combo xem phim</a>
-                    <a href="#">Combo nghe nhạc</a>
-                    <a href="#">Combo âm thanh karaoke</a>
-                    <a href="#" class="view-all text-primary">Xem tất cả <i class="fa fa-angle-double-right"></i></a>
-                </div>
-                <div style="clear:both"></div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                            <div class="product-grid">
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                    </a>
-                                    <div class="product-content-hover">
-                                        <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                        <p class="mb-0" style="margin-top: -10px;">...</p>
-                                        <p class="service text-success">Bảo hành 12 tháng</p>
-                                        <a href="#" class="view-now">Xem Ngay</a>
-                                    </div>
-                                    <span class="product-new-label bg-success text-white">Mới</span>
-                                    <span class="product-discount-label">-10%</span>
-                                </div>
-                                <div class="product-content">
-                                    <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                    <div class="price">
-                                        58.000.000 ₫
-                                        <span class="price-sale">60.000.000 ₫</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-2">
-        <div class="container">
-            <div class="home-header">
-                <div class="home-header-title float-left bg-primary py-1 position-relative">
-                    <h5 class="font-weight-bold my-0 mx-2 text-white">Âm thanh Karaoke</h5>
-                </div>
-                <div class="home-header-sub float-right mt-1">
-                    <a href="#">Combo xem phim</a>
-                    <a href="#">Combo nghe nhạc</a>
-                    <a href="#">Combo âm thanh karaoke</a>
-                    <a href="#" class="view-all text-primary">Xem tất cả ></a>
-                </div>
-                <div style="clear:both"></div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-md-6">
-                    <div class="karaoke-video">
-                        <iframe width="100%" height="300" src="https://www.youtube.com/embed/ylgQEQE5YSI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-                @for (int i = 1; i <= 6; i++)
+            <div class="row homeproduct">
+                @for (int i = 1; i <= 10; i++)
                 {
-                    <div class="col-md-3">
-                        <div class="product-grid">
-                            <div class="product-image">
-                                <a href="#">
-                                    <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                </a>
-                                <div class="product-content-hover">
-                                    <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="service text-success">Bảo hành 12 tháng</p>
-                                    <a href="#" class="view-now">Xem Ngay</a>
+                    <div class="col-md-3 w-20 producthome-item">
+                        <a href="#">
+                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
+
+                            @*<div class="homeproduct-content">
+                                <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
+                                <p class="mb-0" style="margin-top: -10px;">...</p>
+                                <p class="text-success">Bảo hành 12 tháng</p>
+                                <div class="position-absolute text-center w-100" style="bottom: 0">
+                                    <div class="text-center">
+                                        <strong class="price">58.000.000 ₫</strong>
+                                        <del class="price-sale">60.000.000 ₫</del>
+                                    </div>
+                                    <p class="btn homeproduct-viewnow">Xem Ngay</p>
                                 </div>
-                                <span class="product-new-label bg-success text-white">Mới</span>
-                                <span class="product-discount-label">-10%</span>
+
+                            </div>*@
+
+                            <h3>Combo xem phim CM 01</h3>
+                            <div class="text-center">
+                                <strong class="price">58.000.000 ₫</strong>
+                                <del class="price-sale">60.000.000 ₫</del>
                             </div>
-                            <div class="product-content">
-                                <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                <div class="price">
-                                    58.000.000 ₫
-                                    <span class="price-sale">60.000.000 ₫</span>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 }
+
             </div>
         </div>
-    </section>
-    <section class="py-2">
-        <div class="container">
-            <div class="home-header">
-                <div class="home-header-title float-left bg-primary py-1 position-relative">
-                    <h5 class="font-weight-bold my-0 mx-2 text-white">Âm thanh xem phim</h5>
-                </div>
-                <div class="home-header-sub float-right mt-1">
-                    <a href="#">Combo xem phim</a>
-                    <a href="#">Combo nghe nhạc</a>
-                    <a href="#">Combo âm thanh karaoke</a>
-                    <a href="#" class="view-all text-primary">Xem tất cả <i class="fa fa-angle-double-right"></i></a>
-                </div>
-                <div style="clear:both"></div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                            <div class="product-grid">
-                                <div class="product-image">
-                                    <a href="#">
-                                        <img class="pic-1" src="~/Content/Upload/Product/5445_atxp_combo_3.jpg" />
-                                    </a>
-                                    <div class="product-content-hover">
-                                        <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                        <p class="mb-0" style="margin-top: -10px;">...</p>
-                                        <p class="service text-success">Bảo hành 12 tháng</p>
-                                        <a href="#" class="view-now">Xem Ngay</a>
-                                    </div>
-                                    <span class="product-new-label bg-success text-white">Mới</span>
-                                    <span class="product-discount-label">-10%</span>
-                                </div>
-                                <div class="product-content">
-                                    <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                    <div class="price">
-                                        58.000.000 ₫
-                                        <span class="price-sale">60.000.000 ₫</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="clients" class="section-bg">
+    </div>
+    <section id="clients" class="bg-white">
         <div class="container">
             @*<div class="section-header">
                     <h3>Our CLients</h3>

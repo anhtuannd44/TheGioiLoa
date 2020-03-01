@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using TheGioiLoa.Helper;
@@ -36,7 +37,8 @@ namespace TheGioiLoa.Service
                 Characteristics = product.Characteristics,
                 Promotion = product.Promotion,
                 Videos = product.Videos,
-                Details = product.Details
+                Details = product.Details,
+                Cover = product.CoverName
             };
             db.Product.Add(addProduct);
             db.SaveChanges();
@@ -130,6 +132,7 @@ namespace TheGioiLoa.Service
             addProduct.Promotion = product.Promotion;
             addProduct.Videos = product.Videos;
             addProduct.Details = product.Details;
+            addProduct.Cover = product.CoverName;
 
             db.Entry(addProduct).State = EntityState.Modified;
             db.SaveChanges();

@@ -1,20 +1,21 @@
 ﻿@model IEnumerable<TheGioiLoa.Models.Image>
 
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-2">
+            <div class="image-box ratio-1-1">
+                <a href="#" class="image image-big"
+                   data-name="@item.ImageId"
+                   style="background-image: url('../Content/Upload/Images/@item.ImageId');"
+                   onclick="addImageToList(this)">
+                    <span id="check-@item.ImageId" class="position-absolute d-none" style="top: 5px; right: 5px">
+                        <i class="fa fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
+                    </span>
+                </a>
 
-@foreach (var item in Model)
-{
-    <div class="col-md-2">
-        <div class="image-box ratio-1-1">
-            <a href="#" class="image image-big"
-               data-name="@item.ImageId"
-               style="background-image: url('../Content/Upload/Images/@item.ImageId');"
-               onclick="addImageToList(this)">
-                <span id="check-@item.ImageId" class="position-absolute d-none" style="top: 5px; right: 5px">
-                    <i class="fa fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
-                </span>
-            </a>
-            
+            </div>
+
         </div>
-
-    </div>
-}
+    }
+</div>

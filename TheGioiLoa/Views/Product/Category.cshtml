@@ -1,0 +1,156 @@
+﻿@model IEnumerable<TheGioiLoa.Models.Category>
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <nav aria-label="breadcrumb" class="float-left">
+        <ol class="breadcrumb m-0 ml-auto px-0">
+            <li class="breadcrumb-item"><a href="#">Trang Chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#">Cửa Hàng</a></li>
+        </ol>
+    </nav>
+    <div class="social-button float-right mt-3">
+        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fthegioiamthanh.vn&width=151&layout=button_count&action=like&size=small&share=true&height=46&appId=2347493918804034" width="151" height="25" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+    </div>
+    <div class="clearfix"></div>
+    <hr class="mt-0 mb-3" />
+</div>
+<div class="container h-100">
+    <div class="row d-flex">
+        <div class="col-md-3">
+            <div class="sticky-top bg-white">
+                <div class="product-header">
+                    <h5 class="product-header-title">Mua theo Combo</h5>
+                </div>
+                <div class="card-body shadow" id="categoryList">
+                    <input hidden id="selectedcategory" />
+
+                    @if (Model != null)
+                    {
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input category-click" checked type="radio" value="" id="allProduct" name="CategoryId">
+                            <label for="allProduct" class="custom-control-label font-weight-normal">Tất cả danh mục</label>
+                        </div>
+                        foreach (var item in Model)
+                        {
+                            if (item.CategoryParentId == null)
+                            {
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input category-click" data-level="parent" type="radio" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId">
+                                    <label for="@item.CategoryId" class="custom-control-label font-weight-normal">@item.Name</label>
+                                </div>
+
+                                <div class="parentCategory-@item.CategoryId" style="display: block;">
+                                    @foreach (var child in Model)
+                                    {
+                                        if (child.CategoryParentId == item.CategoryId)
+                                        {
+                                            <div class="">
+                                                <div class="custom-control custom-radio ml-4">
+                                                    <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="radio" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
+                                                    <label for="@child.CategoryId" class="custom-control-label font-weight-normal">@child.Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="pl-4 childCategory-@child.CategoryId">
+                                                @foreach (var subChild in Model)
+                                                {
+                                                    if (subChild.CategoryParentId == child.CategoryId)
+                                                    {
+                                                        <div class="custom-control custom-radio ml-4">
+                                                            <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="radio" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId">
+                                                            <label for="@subChild.CategoryId" class="custom-control-label font-weight-normal">@subChild.Name</label>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="p-0 bg-white">
+                <div class="product-header">
+                    <h5 class="float-left product-header-title">Mua theo Combo</h5>
+                    <div class="product-header-link float-right">
+                        <div class="d-flex mt-2">
+                            <div id="loadingGif" class="mr-3" style="display: none">
+                                <img src="../Content/Home/loading.gif" width="30" />
+                            </div>
+                            <select class="form-control form-control-sm mr-2" name="productSort" id="productSort">
+                                <option value="null">Sắp xếp theo</option>
+                                <option value="newest">Mới nhất</option>
+                                <option value="priceLowToHigh">Giá Thấp --> Cao</option>
+                                <option value="priceHighToLow">Giá Cao --> Thấp</option>
+                                <option value="mostComment">Nhiều bình luận</option>
+                                <option value="bestReview">Đánh giá cao</option>
+                                <option value="nameAsc">Theo tên A --> Z</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="row homeproduct m-0" id="productByCategory">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            LoadProductByCategory(null, "null");
+        });
+
+
+        $(".category-click").click(function () {
+            var categoryId = $(this).val();
+            var sortBy = $("#productSort").children("option:selected").val();
+            $("#selectedcategory").val(categoryId);
+            LoadProductByCategory(categoryId, sortBy);
+            console.log($("#selectedcategory").val())
+        })
+
+        $("#productSort").change(function () {
+            var categoryId = $("#selectedcategory").val();
+            var sortBy = $(this).children("option:selected").val();
+            console.log(categoryId);
+            LoadProductByCategory(categoryId, sortBy);
+        })
+
+        function LoadProductByCategory(categoryId, sortBy) {
+            $("#loadingGif").show();
+            $("#productByCategory").html("");
+            $.ajax({
+                type: "GET",
+                url: "Product/LoadProductCategory",
+                data: {
+                    categoryId: categoryId,
+                    sortBy: sortBy
+                },
+                success: function (data) {
+                    $("#productByCategory").html(data);
+                    toastr.success("Thành công!");
+                },
+                error: function () {
+                    toastr.error("Có lỗi xảy ra. Vui lòng thử lại");
+                },
+                complete: function () {
+                    $("#loadingGif").hide();
+                }
+            });
+        }
+
+
+    </script>
+}

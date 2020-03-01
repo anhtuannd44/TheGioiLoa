@@ -65,19 +65,19 @@ $("#addTag").click(function (e) {
                 tagInputResult[id] = data.Name;
                 tagId[id] = data.TagId;
 
-                var result = "<div id='parent" + tagId[id] + "'><a href='#' data-name=" + tagInputResult[id] +" onclick='removeTag(this)' class='removeTag' data-id='" + tagId[id] + "'><i class='fas fa-times-circle small text-danger mb-1'></i></a><span class='mr-2 badge badge-light border' value='" + tagId[id] + "'>" + tagInputResult[id] + "</span></div>";
+                var result = "<div id='parent" + tagId[id] + "'><a href='#' data-name=" + tagInputResult[id] + " onclick='removeTag(this)' class='removeTag' data-id='" + tagId[id] + "'><i class='fas fa-times-circle small text-danger mb-1'></i></a><span class='mr-2 badge badge-light border' value='" + tagId[id] + "'>" + tagInputResult[id] + "</span></div>";
                 $("#renderTag").append(result);
 
                 $("#Tag").val(tagId.join('|'));
                 id++;
                 $("#AddTag").val("");
-                console.log(tagInputResult,tagId,id, $("#Tag").val());
+                console.log(tagInputResult, tagId, id, $("#Tag").val());
             }
         });
     }
-   
 
-    
+
+
 });
 
 function removeTag(e) {
@@ -276,3 +276,25 @@ function addImage() {
     }
     $("#uploadImage").modal("hide");
 }
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#previewCover').attr('src', e.target.result);
+            $("#removeCover").removeClass("d-none");
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#Cover").change(function () {
+    readURL(this);
+});
+$("#removeCover").click(function () {
+    $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.jpg");
+    $("#Cover").val(null);
+    $("#removeCover").addClass("d-none");
+});

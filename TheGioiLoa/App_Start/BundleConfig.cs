@@ -28,6 +28,7 @@ namespace TheGioiLoa
                         "~/Scripts/Home/js/isotope/isotope.pkgd.min.js",
                         "~/Content/Home/lib/lightbox/js/lightbox.min.js",
                         "~/Scripts/Home/js/contactform/contactform.js",
+                         "~/Content/Admin/plugins/toastr/toastr.min.js",
                         "~/Scripts/Home/js/main.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/AdminJs").Include(

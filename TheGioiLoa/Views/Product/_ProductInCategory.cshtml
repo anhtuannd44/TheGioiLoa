@@ -1,0 +1,18 @@
+﻿@model IEnumerable<TheGioiLoa.Models.Product>
+
+
+@foreach (var item in Model)
+{
+    <div class="col-md-3 p-0">
+        <div class="producthome-item">
+            <a href="~/San-Pham/@item.Url-@item.ProductId">
+                <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
+                <h3>@item.Name</h3>
+                <div class="text-center">
+                    <strong class="price">@string.Format("{0:0,0 ₫}", item.Price)</strong>
+                    <del class="price-sale">@string.Format("{0:0,0 ₫}", item.ListedPrice)</del>
+                </div>
+            </a>
+        </div>
+    </div>
+}

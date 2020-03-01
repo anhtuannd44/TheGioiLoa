@@ -28,25 +28,26 @@
                 <table class="table table-striped projects">
                     <thead>
                         <tr>
-                            <th style="width: 1%">
+                            <th style="width: 5%">
                                 STT
                             </th>
-                            <th class="text-center" style="width: 10%">
+                            <th class="text-center" style="width: 5%">
                                 <i class="fa fa-image"></i>
                             </th>
                             <th style="width: 20%">
                                 Tên sản phẩm
                             </th>
-                            <th>
+                            <th class="text-center">
                                 Giá
+                            </th>
+
+                            <th>
+                                Danh mục
                             </th>
                             <th style="width: 8%" class="text-center">
                                 Trạng thái
                             </th>
-                            <th>
-                                Danh mục
-                            </th>
-                            <th style="width: 10%">
+                            <th style="width: 10%" class="text-center">
                                 Hành động
                             </th>
                         </tr>
@@ -54,161 +55,71 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @item.ProductId
-                                </td>
-                                <td>
-                                    <img alt="@item.Name" class="table-avatar" src="../Content/Upload/@item.Cover">
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" data-placement="top" title="Xem và chỉnh sửa @item.Name">@item.Name</a>
-                                </td>
-                                <td class="">
-                                    @item.Price
-                                </td>
-                                <td class="text-center">
-                                    <span class="badge badge-success">@item.Status</span>
-                                </td>
-                                <td>
-                                    @{var i = 1;}
-                                    @if (item.Categories != null)
+                        <tr>
+                            <td>
+                                @item.ProductId
+                            </td>
+                            <td class="text-center">
+                                <img alt="@item.Name" class="" src="../Content/Upload/Images/@item.CoverName" height="40"; width="40">
+                            </td>
+                            <td>
+                                <a href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" data-placement="top" title="Xem và chỉnh sửa @item.Name">@item.Name</a>
+                            </td>
+                            <td class="text-right">
+                                @string.Format("{0:0,0 ₫}", item.Price)
+                            </td>
+
+                            <td>
+                                @{var i = 1;}
+                                @if (item.Categories != null)
+                                {
+                                    foreach (var category in item.Categories)
                                     {
-                                        foreach (var category in item.Categories)
+                                        if (i == 1)
                                         {
-                                            if (i == 1)
-                                            {
-                                                <span>@category.Name</span>
-                                                i++;
-                                            }
-                                            else
-                                            {
-                                                <span>, @category.Name</span>
-                                            }
+                                            <span>@category.Name</span>
+                                            i++;
+                                        }
+                                        else
+                                        {
+                                            <span>, @category.Name</span>
                                         }
                                     }
-                                </td>
-                                <td class="text-center">
-                                    <a class="" href="" data-toggle="tooltip" title="Xem">
-                                        <i class="fas fa-eye text-info">
-                                        </i>
-                                    </a> |
-                                    <a class="" href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" title="Sửa">
-                                        <i class="fas fa-pencil-alt text-warning">
-                                        </i>
-                                    </a> |
-                                    <a class="" href="#" data-toggle="tooltip" title="Xóa">
-                                        <i class="fas fa-trash text-danger">
-                                        </i>
-                                    </a>
-                                </td>
-                            </tr>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (item.Status == 1)
+                                {
+                                    <span class="btn btn-xs btn-success btn-status">Đã đăng</span>
+                                }
+                                else if (item.Status == 2)
+                                {
+                                    <span class="btn btn-xs btn-dark btn-status">Chưa đăng</span>
+                                }
+                                else
+                                {
+                                    <span class="btn btn-xs btn-danger btn-status">Hết hàng</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a class="" href="~/San-Pham/@item.Url-@item.ProductId" data-toggle="tooltip" title="Xem">
+                                    <i class="fas fa-eye text-info">
+                                    </i>
+                                </a>
+                                <a class="ml-1" href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" title="Sửa">
+                                    <i class="fas fa-pencil-alt text-warning">
+                                    </i>
+                                </a> 
+                                <a class="ml-1" href="#" data-toggle="tooltip" title="Xóa">
+                                    <i class="fas fa-trash text-danger">
+                                    </i>
+                                </a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
             </div>
-            <!-- /.card-body -->
         </div>
     </div>
 </div>
-@*<p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Brand.Url)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Url)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ListedPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateModified)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Promotion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Characteristics)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Details)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Videos)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Brand.Url)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Url)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ListedPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateCreated)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateModified)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Promotion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Characteristics)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Details)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Videos)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
-                </td>
-            </tr>
-        }
-
-    </table>*@
-@section Scripts {
-   
-}
