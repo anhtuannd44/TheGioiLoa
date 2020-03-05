@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace TheGioiLoa
@@ -8,18 +10,26 @@ namespace TheGioiLoa
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
             routes.MapRoute(
-               name: "AllProductCategory",
-               url: "cua-hang",
-               defaults: new { controller = "Product", action = "Category" }
+              name: "AllProductCategory",
+              url: "cua-hang",
+              defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional }
+          );
+
+            routes.MapRoute(
+               name: "ProductCategory",
+               url: "cua-hang/danh-muc/{categoryId}/{url}",
+               defaults: new { controller = "Product", action = "Category", id= UrlParameter.Optional }
            );
+
             routes.MapRoute(
                name: "Product",
-               url: "san-pham/{Url}-{productId}",
+               url: "cua-hang/san-pham/{productId}/{url}",
                defaults: new { controller = "Product", action = "Details", id = UrlParameter.Optional }
            );
 
-            
+
 
             routes.MapRoute(
                 name: "Default",
@@ -29,5 +39,6 @@ namespace TheGioiLoa
 
 
         }
+
     }
 }

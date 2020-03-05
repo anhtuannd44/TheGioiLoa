@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
 
@@ -13,18 +14,23 @@ namespace TheGioiLoa.Controllers
     public class ProductController : Controller
     {
         private TheGioiLoaModel db = new TheGioiLoaModel();
-
+        private HelperFunction _hepler = new HelperFunction();
         // GET: Product
-        public ActionResult Details(int? productId)
+        public ActionResult Details(int? productId, string url)
         {
-            if (productId == null)
+            if (productId == null || string.IsNullOrEmpty(url))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Product product = db.Product.Find(productId);
 
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
 
-            if (product == null || product.Status == 4 || product.Status == 2)
+            if (product.Url.ToLower() != _hepler.DeleteSpace(url.ToLower()) || product.Status == 4 || product.Status == 2)
             {
                 return HttpNotFound();
             }
@@ -72,50 +78,105 @@ namespace TheGioiLoa.Controllers
             {
                 foreach (var item in category)
                 {
-                    var parentCategory = db.Category.Find(item.ProductId);
-                    if (parentCategory.CategoryParentId == null)
-                    {
-                        var categoryProductRelateds = db.CategoryProduct.Where(a => a.ProductId == productId && a.CategoryId == item.CategoryId).Take(4);
-                        var productRelateds = new List<Product>();
-                        foreach (var addItem in categoryProductRelateds)
+                    var parentCategoryId = db.Category.Find(item.ProductId);
+                    if (parentCategoryId != null)
+                        if (parentCategoryId.CategoryParentId == null)
                         {
-                            productRelateds.Add(db.Product.Find(addItem.ProductId));
+                            var categoryProductRelateds = db.CategoryProduct.Where(a => a.ProductId == productId && a.CategoryId == item.CategoryId).Take(4);
+                            var productRelateds = new List<Product>();
+                            foreach (var addItem in categoryProductRelateds)
+                            {
+                                productRelateds.Add(db.Product.Find(addItem.ProductId));
+                            }
+                            model.ProductRelateds = productRelateds;
+                            break;
                         }
-                        model.ProductRelateds = productRelateds;
-                        break;
-                    }
                 }
             }
 
             return View(model);
+
         }
 
-        public ActionResult Category()
+        public ActionResult AllCategory()
         {
-            ViewBag.BrandId = db.Brand.ToList();
             var model = db.Category.ToList();
             return View(model);
         }
 
-
-        public ActionResult LoadProductCategory(int? categoryId, string sortBy)
+        public ActionResult Category(int? categoryId, string url)
         {
-            var productList = new List<Product>();
+            var model = new List<Category>();
+            if (categoryId == null && !string.IsNullOrEmpty(url) || (categoryId != null && string.IsNullOrEmpty(url)))
+            {
+                return HttpNotFound();
+            }
+            if (categoryId == null && string.IsNullOrEmpty(url))
+            {
+                ViewBag.BrandId = db.Brand.ToList();
+                model = db.Category.ToList();
+                ViewBag.Title = "Cửa Hàng";
+            }
+            else
+            {
+                var category = db.Category.Find(categoryId);
+
+                if (category == null)
+                {
+                    return HttpNotFound();
+                }
+                if (category.Url != url)
+                {
+                    return HttpNotFound();
+                }
+                if (category.CategoryParentId == null)
+                {
+                    var childCategory = db.Category.Where(a => a.CategoryParentId == category.CategoryId).ToList();
+                    if (childCategory.Count() == 0)
+                        model = db.Category.Where(a => a.CategoryParentId == null).ToList();
+                    else
+                        model = childCategory;
+                }
+                else
+                {
+                    var childCategory = db.Category.Where(a => a.CategoryParentId == category.CategoryId).ToList();
+                    if (childCategory.Count() == 0)
+                        model = db.Category.Where(a => a.CategoryParentId == category.CategoryParentId).ToList();
+                    else
+                        model = childCategory;
+                }
+                ViewBag.BrandId = db.Brand.ToList();
+                ViewBag.Title = db.Category.Find(categoryId).Name;
+                
+            }
+            ViewBag.CategoryId = categoryId;
+            return View(model);
+        }
+
+
+        public ActionResult LoadProductCategory(int? categoryId, string sortBy, int priceSortFrom, int priceSortTo)
+        {
+            var productLists = new List<Product>();
             if (categoryId == null)
             {
-                productList = db.Product.Where(a => a.Status == 1 || a.Status == 3).ToList();
+                productLists = db.Product.Where(a => a.Status == 1 || a.Status == 3)/*.Where(a => a.Price >= priceSortFrom && a.Price <= priceSortTo)*/.ToList();
 
             }
             else
             {
-                var productIdList = db.CategoryProduct.Where(a => a.CategoryId == categoryId);
+                var productIdList = db.CategoryProduct.Where(a => a.CategoryId == categoryId).ToList();
                 foreach (var item in productIdList)
                 {
                     var addProduct = db.Product.Find(item.ProductId);
-                    if (addProduct.Status == 1 || addProduct.Status == 3)
-                        productList.Add(addProduct);
+                    if ((addProduct.Status == 1 || addProduct.Status == 3)/* && addProduct.Price >= priceSortFrom && addProduct.Price <= priceSortTo*/)
+                        productLists.Add(addProduct);
                 }
             }
+            var productList = new List<Product>();
+
+            if (priceSortFrom == 0)
+                productList = productLists.Where(a => a.Price <= priceSortTo || a.Price == null).ToList();
+
             switch (sortBy)
             {
                 case "newest":
@@ -134,6 +195,12 @@ namespace TheGioiLoa.Controllers
 
             return PartialView("_ProductInCategory", productList);
 
+        }
+
+        public ActionResult ProductByCategory(int? categoryId, string Url)
+        {
+
+            return View();
         }
     }
 }

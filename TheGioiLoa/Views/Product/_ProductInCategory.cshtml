@@ -1,18 +1,30 @@
 ﻿@model IEnumerable<TheGioiLoa.Models.Product>
 
 
-@foreach (var item in Model)
+@if (Model != null)
 {
-    <div class="col-md-3 p-0">
-        <div class="producthome-item">
-            <a href="~/San-Pham/@item.Url-@item.ProductId">
-                <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
-                <h3>@item.Name</h3>
-                <div class="text-center">
-                    <strong class="price">@string.Format("{0:0,0 ₫}", item.Price)</strong>
-                    <del class="price-sale">@string.Format("{0:0,0 ₫}", item.ListedPrice)</del>
-                </div>
-            </a>
+    foreach (var item in Model)
+    {
+        <div class="w-20 p-0">
+            <div class="producthome-item">
+                <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
+                    <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
+                    <h3>@item.Name</h3>
+                    <div class="text-center">
+                        @if (item.Status == 1)
+                        {
+                            <strong class="price">@((item.Price != null) ? string.Format("{0:0,0 ₫}", item.Price) : "Đang cập nhật")</strong>
+                            <del class="price-sale">@string.Format("{0:0,0 ₫}", item.ListedPrice)</del>
+                        }
+                    </div>
+                </a>
+            </div>
         </div>
+    }
+}
+else
+{
+    <div class="col">
+        <p class="text-dark font-italic">Không tìm thấy sản phẩm</p>
     </div>
 }

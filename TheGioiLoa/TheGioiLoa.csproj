@@ -206,31 +206,13 @@
       <DependentUpon>202002121623260_AddNewUserDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
-    <Compile Include="Migrations\TheGioiLoaModel\202002181818050_InitialCreate.cs" />
-    <Compile Include="Migrations\TheGioiLoaModel\202002181818050_InitialCreate.Designer.cs">
-      <DependentUpon>202002181818050_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\TheGioiLoaModel\202002251321466_ahihModeladd.cs" />
-    <Compile Include="Migrations\TheGioiLoaModel\202002251321466_ahihModeladd.Designer.cs">
-      <DependentUpon>202002251321466_ahihModeladd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\TheGioiLoaModel\202002251714563_FirstMigForPMToola.cs" />
-    <Compile Include="Migrations\TheGioiLoaModel\202002251714563_FirstMigForPMToola.Designer.cs">
-      <DependentUpon>202002251714563_FirstMigForPMToola.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\TheGioiLoaModel\202002251903373_addTagProductTable.cs" />
-    <Compile Include="Migrations\TheGioiLoaModel\202002251903373_addTagProductTable.Designer.cs">
-      <DependentUpon>202002251903373_addTagProductTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\TheGioiLoaModel\202002251906108_addTagProductTable2.cs" />
-    <Compile Include="Migrations\TheGioiLoaModel\202002251906108_addTagProductTable2.Designer.cs">
-      <DependentUpon>202002251906108_addTagProductTable2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
     <Compile Include="Models\Blog\BlogCategory.cs" />
+    <Compile Include="Models\Cart\OrderDetails.cs" />
+    <Compile Include="Models\Cart\Order.cs" />
     <Compile Include="Models\Product\Brand.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Models\Product\Image.cs" />
     <Compile Include="Models\Product\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -241,7 +223,9 @@
     <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Product\Product_Image.cs" />
     <Compile Include="Models\Product\Tag.cs" />
+    <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\TheGioiLoaModel.cs" />
+    <Compile Include="Models\ViewModel\CartViewModel.cs" />
     <Compile Include="Models\ViewModel\CategoryViewModel.cs" />
     <Compile Include="Models\ViewModel\BrandViewModel.cs" />
     <Compile Include="Models\ViewModel\ImageViewModel.cs" />
@@ -1874,6 +1858,9 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\moredetails.png" />
+    <Content Include="Content\default_icon_cat.png" />
+    <Content Include="Content\icon.png" />
     <Content Include="Content\Home\css\scss-files.txt" />
     <Content Include="Content\Home\css\style.css" />
     <Content Include="Content\Home\img\about-extra-1.svg" />
@@ -2267,6 +2254,12 @@
     <Content Include="Views\Admin\_SelectListCategory.cshtml" />
     <Content Include="Views\Product\_ProductInCategory.cshtml" />
     <Content Include="Views\Product\Category.cshtml" />
+    <Content Include="Views\Product\AllCategory.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\_CartDetailPartial.cshtml" />
+    <Content Include="Views\Cart\_CheckOutPartial.cshtml" />
+    <Content Include="Views\Cart\CheckOut.cshtml" />
+    <Content Include="Views\Cart\NoItemInCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2291,21 +2284,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ApplicationDbContext\202002121623260_AddNewUserDetails.resx">
       <DependentUpon>202002121623260_AddNewUserDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202002181818050_InitialCreate.resx">
-      <DependentUpon>202002181818050_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202002251321466_ahihModeladd.resx">
-      <DependentUpon>202002251321466_ahihModeladd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202002251714563_FirstMigForPMToola.resx">
-      <DependentUpon>202002251714563_FirstMigForPMToola.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202002251903373_addTagProductTable.resx">
-      <DependentUpon>202002251903373_addTagProductTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202002251906108_addTagProductTable2.resx">
-      <DependentUpon>202002251906108_addTagProductTable2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

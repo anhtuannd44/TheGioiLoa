@@ -107,6 +107,8 @@ namespace TheGioiLoa.Models.ViewModel
 
         public string Image { get; set; }
 
+        public string Breadcrumb { get; set; }
+
         public List<Tag> Tags { get; set; } 
 
         public List<Image> Images { get; set; }

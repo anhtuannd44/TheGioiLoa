@@ -1,0 +1,160 @@
+﻿@model TheGioiLoa.Models.ViewModel.OrderInformationViewModel
+
+@{
+    var totalListedPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalListedPrice;
+    var totalPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalPrice;
+}
+<div class="container">
+    <ul class="top-checkout">
+        <li class="active"><a id="shoppingCart" href="javascript:void(0)"><i class="number">1</i>Giỏ hàng của bạn</a></li>
+        <li><a id="" href="javascript:void(0)"><i class="number">2</i>Thông tin & Thanh toán</a></li>
+        <li><a id="nk-hoan-tat-don-hang" href="javascript:void(0)"><i class="number">3</i>Hoàn tất đơn hàng</a></li>
+    </ul>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-md-8 col-md-8 col-lg-8 col-lg-8 col-xs-12">
+                <div class="card card-shadow">
+                    <div class="h-100 position-absolute w-100 loading-gift" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
+                        <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
+                    </div>
+                    <div class="card-body cart-content" id="cartContent" data-value="step1">
+
+
+                        <div class="form-horizontal">
+                            <h4>Blog</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UserPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UserPhone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserAdrress, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UserAdrress, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UserAdrress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-md-4 col-lg-4 col-md-4 col-xs-12">
+                <div class="card card-shadow mb-4">
+                    <div class="h-100 position-absolute w-100 loading-gift" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
+                        <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
+                    </div>
+                    <div class="card-body box-payment">
+                        <table style="width: 100%">
+                            <tbody>
+                                <tr>
+                                    <td class="pb-3" style="text-align:left;font-size: 20px;font-weight: bold;" colspan="2">Tóm tắt đơn hàng</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1" width="50%">Tạm tính (Chưa VAT):</td>
+                                    <td id="totalListedPrice" class="py-1" width="50%">@string.Format("{0:0,0 ₫}", totalListedPrice)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1">Giảm giá:</td>
+                                    <td class="py-1" id="cartDiscount">@string.Format("{0:0,0 ₫}", totalListedPrice - totalPrice)</td>
+                                </tr>
+                                @*<tr>
+                                        <td class="py-1">VAT:</td>
+                                        <td class="py-1">92.280 đ</td>
+                                    </tr>*@
+                                <tr style="border-top:solid 1px #e7e7e7; line-height: 45px;">
+                                    <td>Thành tiền:</td>
+                                    <td style="font-size:20px; color:#e82429;font-weight:bold" id="preTotalPrice">
+                                        @string.Format("{0:0,0 ₫}", totalPrice)
+                                    </td>
+
+                                </tr>
+                                <tr class="chonhinhthuc">
+                                    <td colspan="2" style="text-align:right">(Đã bao gồm VAT)</td>
+                                </tr>
+                                @*<tr class="box-tongthanhtien noborbot shonhinhthuc" style="border-bottom:none; display: none;">
+                                        <td style="font-weight:bold;">Thành tiền</td>
+
+                                        <td style="font-size:20px; color:#e82429;font-weight:bold">
+                                            <b id="totalPrice">
+                                                @string.Format("{0:0,0 ₫}", totalPrice)
+                                            </b>
+                                        </td>
+                                    </tr>*@
+                                <tr class="shonhinhthuc" style="border-bottom:none; display: none;">
+                                    <td></td>
+                                    <td>(Đã bao gồm VAT)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cart-continue mb-4 text-right">
+                    <button type="submit" class="btn btn-success btn-block h4 py-3" style="font-size: 1.2rem">TIẾP THEO<i class="fa fa-arrow-circle-right ml-3"></i></button>
+                    <button id="btnBack" class="btn btn-link px-0 mb-0"><-- Quay lại giỏ hàng</button>
+                </div>
+                <div class="card card-shadow">
+                    <div class="card-header bg-white p-0" id="headingOne">
+                        <h5 class="mb-0">
+                            <a href="#promotion" class="btn btn-link btn-block text-left py-3 text-dark px-4" data-toggle="collapse">
+                                Bạn có mã giảm giá? Click vào đây!
+                            </a>
+                        </h5>
+                    </div>
+
+                    <div id="promotion" class="collapse">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+
+}

@@ -23,6 +23,8 @@ namespace TheGioiLoa.Models
         public virtual DbSet<Tag> Tag { get; set; }
         public virtual DbSet<Product_Tag> Product_Tag { get; set; }
         public virtual DbSet<Image> Image { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<OrderDetails> OrderDetails { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

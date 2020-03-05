@@ -47,7 +47,7 @@ namespace TheGioiLoa.Helper
 
             string strFormD = text.Normalize(System.Text.NormalizationForm.FormD);
 
-            return regex.Replace(strFormD, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
+            return regex.Replace(strFormD, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
 
         }
 

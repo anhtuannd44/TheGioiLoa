@@ -2,16 +2,27 @@
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var status = "";
+    switch (Model.Status)
+    {
+        case 1:
+            status = "Còn hàng";
+            break;
+        case 3:
+            status = "Tạm hết hàng";
+            break;
+        default:
+            status = "";
+            break;
+    }
 }
-
-
 
 <div class="container">
     <nav aria-label="breadcrumb" class="float-left">
         <ol class="breadcrumb m-0 ml-auto px-0 bg-white">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Library</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data</li>
+            <li class="breadcrumb-item"><a href="~/"> Trang Chủ</a></li>
+            <li class="breadcrumb-item"><a href="~/cua-hang/"> Cửa Hàng</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
         </ol>
     </nav>
     <div class="social-button float-right mt-3">
@@ -25,7 +36,7 @@
         <div class="col-md-4">
 
             <div class="gallery">
-                <div class="gallery__img-block  ">
+                <div class="gallery__img-block">
                     <img src="~/Content/Upload/Images/@Model.CoverName" thumb-url="~/Content/Upload/Images/@Model.CoverName" class="">
                 </div>
                 @if (Model.Images != null)
@@ -55,15 +66,15 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <span class="feedback-write text-dark">(Viết đánh giá) | </span>
-                    <span class="text-dark">Tình trạng: <span class="text-danger">@Model.Status</span></span>
+                    <span class="text-dark">Tình trạng: <span class="text-danger">@status</span></span>
                 </span>
             </div>
             <hr class="my-2" />
             <div class="product-price">
-                <h3 class="text-primary font-weight-bold mb-1">@string.Format("{0:0,0 ₫}", Model.Price)</h3>
+                <h3 class="text-primary font-weight-bold mb-1">@((Model.Price != null) ? string.Format("{0:0,0 ₫}", Model.Price) : "Đang cập nhật")</h3>
                 <p class="product-listed-price">
                     Giá niêm yết
-                    <del>@string.Format("{0:0,0 ₫}", Model.ListedPrice)</del>
+                    <del>@((Model.ListedPrice != null) ? string.Format("{0:0,0 ₫}", Model.ListedPrice) : "Đang cập nhật")</del>
                 </p>
             </div>
             <div class="product-services mb-4">
@@ -98,7 +109,7 @@
                 </div>
             </div>
             <div class="buy-button mt-3">
-                <a href="#" class="btn btn-primary btn-block">MUA NGAY</a>
+                <a href="#" class="btn btn-primary btn-block add-to-cart" data-id="@Model.ProductId">MUA NGAY</a>
                 <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
                 <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -421,5 +432,28 @@
             $("#imageCover").css("background-image", "url('../Content/Upload/Images/" + image + "')");
             $("#imageCover").animate({ left: '0' }, 0);
         };
+
+        $(function () {
+            $(".add-to-cart").click(function () {
+                pid = $(this).attr("data-id");
+                $.ajax({
+                    url: "/Cart/Add",
+                    data: { productId: pid },
+                    success: function (response) {
+                        $("#nn-cart-count").html(response.Count);
+                        $("#nn-cart-total").html(response.Total);
+                    }
+                });
+
+                // hieu ung bay vao gio
+                //cssfly = ".fly-effect {background:url(?);background-size:100% 100%;}";
+                //src = $("#i" + pid).attr("src");
+                //newcssfly = cssfly.replace("?", src);
+                //$("#cart-fly").html(newcssfly);
+
+                //options = { to: "#nn-cart-image", className: "fly-effect" };
+                //$("#i" + pid).effect("transfer", options, 500, function () { });
+            });
+        });
     </script>
 }

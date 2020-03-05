@@ -28,7 +28,8 @@ namespace TheGioiLoa
                         "~/Scripts/Home/js/isotope/isotope.pkgd.min.js",
                         "~/Content/Home/lib/lightbox/js/lightbox.min.js",
                         "~/Scripts/Home/js/contactform/contactform.js",
-                         "~/Content/Admin/plugins/toastr/toastr.min.js",
+                        "~/Content/Admin/plugins/toastr/toastr.min.js",
+                        "~/Content/Admin/plugins/ion-rangeslider/js/ion.rangeSlider.min.js",
                         "~/Scripts/Home/js/main.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/AdminJs").Include(
@@ -63,6 +64,8 @@ namespace TheGioiLoa
                        "~/Content/Home/lib/owlcarousel/assets/owl.carousel.min.css",
                        "~/Content/Home/lib/lightbox/css/lightbox.min.css",
                        "~/Content/Home/css/style.css",
+                       "~/Content/Home/slider-product/dist/styles/vit-gallery.css",
+                       "~/Content/Admin/plugins/ion-rangeslider/css/ion.rangeSlider.min.css",
                        "~/Content/site.css"));
 
 

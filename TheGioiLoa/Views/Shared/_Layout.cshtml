@@ -25,7 +25,7 @@
     @Styles.Render("~/Content/BootstrapCss")
     @Styles.Render("~/Content/HomeCss")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/Home/slider-product/dist/styles/vit-gallery.css" rel="stylesheet" />
+    @RenderSection("heads", required: false)
 
 
 </head>
@@ -75,7 +75,7 @@
             <div class="container">
                 <div class="row h-100">
                     <div class="col-md-3 h-100 px-0">
-                        <a href="#intro" class="scrollto">
+                        <a href="~/" class="scrollto">
                             <img src="~/Content/Home/img/logo.png" alt="" class="img-fluid">
                         </a>
                     </div>
@@ -395,7 +395,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jshome")
-
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Content/Home/slider-product/dist/scripts/vit-gallery.js"></script>
     <script src="~/Content/Home/slider-product/main.js"></script>
     @RenderSection("scripts", required: false)

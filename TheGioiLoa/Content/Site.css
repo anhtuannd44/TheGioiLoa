@@ -38,7 +38,6 @@
   position: relative;
   color: #fff;
   padding: 10px 15px;
-  transition: 0.3s;
   font-size: 14px;
   font-weight: 500;
 }
@@ -56,7 +55,7 @@
     z-index: 99;
     background: #fff;
     box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-    transition: ease all 0.3s;
+
 }
 .menu-expand .main-menu-ul {
     opacity: 1;
@@ -107,12 +106,14 @@
   font-size: 14px;
   text-transform: uppercase;
   color: #fff;
+  transition: none !important;
 }
 
 .main-nav .drop-down ul a:hover,
 .main-nav .drop-down ul .active > a,
 .main-nav .drop-down ul li:hover > a {
     background: #292929;
+    transition: none !important;
 }
 
 .main-nav .drop-down > a:after {
@@ -241,7 +242,6 @@ a:hover {
 .home-header-sub a {
     color: #5c5c5c;
     padding: 0px 7px;
-    transition: all .3s;
     border-left: 1px solid #5c5c5c;
 }
 
@@ -252,7 +252,7 @@ a:hover {
     .home-header-sub a:hover {
         color: #d42d22;
         text-decoration: underline;
-        transition: all .3s;
+
     }
 
 .product-grid, .product-grid .product-image {
@@ -715,22 +715,25 @@ a:hover {
     font-weight: 600;
     text-transform: uppercase;
     font-size: 1.2rem;
-    padding: .8rem .6rem;
+    padding: .8rem 0rem;
     margin: 0;
 }
-.product-header .product-header-link a {
+.product-header .product-header-link .product-header-link-a {
     padding: .8rem .6rem;
     display: inline-block;
     vertical-align: middle;
 }
 .homeproduct {
-    border-top: 1px solid #eee;
     margin-bottom: 15px;
     padding: 0;
+    border-top: 1px solid #eee;
 }
-.homeproduct .producthome-item {
-    border-right: 1px solid #eee;
+.homeproduct .w-20 {
     border-bottom: 1px solid #eee;
+    border-left: 1px solid #eee;
+}
+.w-20:nth-child(5n) {
+    border-right: 1px solid #eee;
 }
 .homeproduct .producthome-item a {
     padding: 15px 10px 10px 10px;
@@ -795,4 +798,206 @@ a:hover {
 }
 .breadcrumb {
     background: none !important;
+}
+#categoryProduct {
+    z-index: 1 !important;
+}
+@media (min-width: 992px) {
+    .w-12-5 {
+        -ms-flex: 0 0 12.5%;
+        flex: 0 0 12.5%;
+        max-width: 12.5%;
+    }
+}
+.category-list a {
+    transition: all .2s;
+}
+.category-list a.active {
+    border: 1px solid #288ad625;
+    background: #efefef;
+    position: relative;
+}
+.category-list a.active::after {
+    content: "\f058";
+    color: #288ad6;
+    font-size: 18px !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    font: normal normal normal 22px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+.category-list a img {
+    max-width: 35px;
+    max-height: 35px;
+}
+.category-list a:hover {
+    background: #efefef;
+}
+.category-list a .category-item-content {
+    line-height: 1rem;
+}
+.category-list a span {
+    color: #288ad6;
+    line-height: 1rem;
+    font-size: 13px;
+    text-transform: capitalize;
+}
+.category-list a:hover span {
+    color: #d42d22;
+}
+#priceSort:before, #priceSort:after {
+   
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 20px;
+    border-bottom: 10px solid #d9d9d9;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+
+.top-checkout {
+    background-color: #fff;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+
+}
+.top-checkout li {
+    float: left;
+    width: 33.33%;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    background: #fff;
+}
+.top-checkout li a {
+    color: #191919;
+}
+ul.top-checkout li.active {
+    background-color: #e1e7e9;
+}
+ul.top-checkout li.active a::after {
+    background: #E1E7E9;
+}
+ul.top-checkout li.active i.number {
+    background-color: #7ed321;
+    border: 1px solid #7ed321;
+    color: #fff !important;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 22px;
+    text-align: center;
+    margin: 0 8px 0 0;
+    color: #898989;
+}
+ul.top-checkout li i.number {
+    height: 24px;
+    width: 24px;
+    border: 1px solid #9B9B9B;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 22px;
+    text-align: center;
+    margin: 0 8px 0 0;
+    color: #898989;
+    font-size: 14px;
+}
+ul.top-checkout li a::after {
+    position: absolute;
+    top: 8px;
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 35px;
+    height: 35px;
+    border: 1px solid #e7e7e6;
+    border-width: 1px 1px 0 0;
+    background: #fff;
+    content: "";
+    right: -18px;
+    z-index: 9;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.cart-item-count {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+    height: 36px;
+    width: 108px;
+}
+.cart-count-button.dec, .cart-count-button.inc {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    width: 32px;
+    height: 35px;
+    line-height: 35px;
+    font-weight: bold;
+}
+.cart-item-count-input {
+    width: 35px;
+    height: 34px;
+    border: none;
+    border-left: 1px solid #ddd;
+    text-align: center;
+    border-right: 1px solid #ddd;
+    color: red;
+}
+.cart-item:hover {
+    background: #f7f7f7;
+}
+.box-payment table tr td:last-child {
+    text-align: right;
+}
+.card-shadow {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22) !important;
+}
+.btn-delete {
+    color: #222;
+    border-radius: 99px;
+    background: none;
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+    .btn-delete i {
+        position: absolute;
+        top: 6px;
+        left: 7px;
+    }
+.btn-delete:hover {
+    background: #e9bba525;
+    color: #d42d22;
+}
+.cart-information {
+    background: #F8F8F8 !important;
+}
+#cartInformation input, #cartInformation textarea {
+    border: 1px solid #EFF3F4;
+    font-size: .9rem;
+    border-radius: 2px;
+    
+}
+#cartInformation input {
+    height: 45px;
 }
