@@ -101,7 +101,7 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult LoadEditPartial(int categoryId)
+        public PartialViewResult LoadEditCategoryPartial(int categoryId)
         {
             var editItem = db.Category.Find(categoryId);
             var model = new EditCategoryViewModel()
@@ -112,6 +112,7 @@ namespace TheGioiLoa.Controllers
             return PartialView("_EditCategoryPartial", model);
         }
 
+        
         [HttpPost]
         public string RemoveCategory(RemoveCategoryViewMode category)
         {
@@ -355,10 +356,6 @@ namespace TheGioiLoa.Controllers
                 //Add Tags
                 _productService.AddTagToProduct(productId, product.Tag);
 
-
-
-
-
                 return RedirectToAction("ProductList");
             }
             catch
@@ -459,6 +456,41 @@ namespace TheGioiLoa.Controllers
             {
                 return PartialView("Admin/_NullDataPartial");
             }
+        }
+
+        [HttpPost]
+        public ActionResult LoadEditBrandPartial(int brandId)
+        {
+            var model = db.Brand.Find(brandId);
+            return PartialView("_EditBrandPartial", model);
+
+        }
+
+        [HttpPost]
+        public ActionResult EditBrand(Brand brand)
+        {
+            try
+            {
+                var editItem = db.Brand.Find(brand.BrandId);
+                editItem.Name = _helper.DeleteSpace(editItem.Name);
+                editItem.Url = _helper.CreateUrl(editItem.Name);
+                db.Entry(editItem).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new
+                {
+                    message = "Thành công! Thương hiệu đã được chỉnh sửa!",
+                    status = "successed"
+                });
+            }
+            catch
+            {
+                return Json(new
+                {
+                    message = "Có lỗi xảy ra, vui lòng thử lại!",
+                    status = "error"
+                });
+            }
+
         }
 
         public JsonResult CreateTag(string tag)

@@ -52,13 +52,30 @@
 <div class="modal fade" id="editBrandModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="editBrandContent">
-            <p>Tên thương hiệu bạn muốn đổi thành?</p>
-            <div class="input-group input-group-sm">
-                <input class="form-control" id="BrandId" hidden value="" />
-                <input class="form-control" id="Name" />
-                <span class="input-group-append">
-                    <button type="button" class="btn btn-info btn-flat">Tạo thương hiệu</button>
-                </span>
+            <div class="modal-header">
+                <h5 class="modal-title">Chỉnh sửa "<span class="text-primary" id="brandNameTitle"></span>"</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Tên thương hiệu bạn muốn đổi thành?</p>
+                <div class="input-group input-group-sm">
+                    @using (Ajax.BeginForm("EditBrand", "Admin", null, new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        OnBegin = "showBgOverlay",
+                        OnSuccess = "editBrandSuccess",
+                        OnComplete = "removeBgOverlay"
+                    }, new { @id = "EditBrandForm" }))
+                    {
+                        <input class="form-control" id="BrandId" hidden value="" />
+                        <input class="form-control" id="Name" />
+                        <span class="input-group-append">
+                            <button type="submit" onclick="" class="btn btn-info btn-flat">Lưu lại</button>
+                        </span>
+                    }
+                    </div>
             </div>
         </div>
     </div>
@@ -114,8 +131,18 @@
                 }
             });
         }
+        function showModalEditBrand(e) {
+            $("#editBrandModal #BrandId").val($(e).attr("data-id"));
+            $("#editBrandModal #Name").val($(e).attr("data-name"));
+            $("#editBrandModal #brandNameTitle").html($(e).attr("data-name"));
+            $("#editBrandModal").modal("show");
+        }
+        function editBrandSuccess(data) {
+
+        }
+
         function createSuccess(e) {
-            loadingNoti(e.data);
+            loadingNoti(e);
             loadBrandList();
         }
         function loadingBgOverlay() {
