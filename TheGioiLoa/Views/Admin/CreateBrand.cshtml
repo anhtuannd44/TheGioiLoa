@@ -12,7 +12,7 @@
             <div class="card-header">
                 <h3 class="card-title">Tạo thương hiệu</h3>
             </div>
-            <div class="overlay position-absolute justify-content-center align-items-center w-100 h-100 d-none" id="loading" style="top:0; left:0; z-index: 9999">
+            <div class="overlay position-absolute justify-content-center align-items-center w-100 h-100" id="loading" style="top:0; left:0; z-index: 9999; display: none">
                 <i class="fas fa-2x fa-sync fa-spin text-white"></i>
             </div>
             <div class="card-body py-4">
@@ -20,9 +20,8 @@
                 @using (Ajax.BeginForm("CreateBrand", new AjaxOptions
                 {
                     HttpMethod = "POST",
-                    OnBegin = "loadingBgOverlay",
-                    OnSuccess = "createSuccess",
-                    OnComplete = "removeBgOverlay"
+                    OnBegin = "loadingBackgroundOverlay",
+                    OnSuccess = "createBrandSuccess"
                 }))
                 {
                     @Html.AntiForgeryToken()
@@ -52,6 +51,9 @@
 <div class="modal fade" id="editBrandModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="editBrandContent">
+            <div class="overlay justify-content-center align-items-center d-none" id="loadingEditModal">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
             <div class="modal-header">
                 <h5 class="modal-title">Chỉnh sửa "<span class="text-primary" id="brandNameTitle"></span>"</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -60,52 +62,54 @@
             </div>
             <div class="modal-body">
                 <p>Tên thương hiệu bạn muốn đổi thành?</p>
-                <div class="input-group input-group-sm">
-                    @using (Ajax.BeginForm("EditBrand", "Admin", null, new AjaxOptions
-                    {
-                        HttpMethod = "POST",
-                        OnBegin = "showBgOverlay",
-                        OnSuccess = "editBrandSuccess",
-                        OnComplete = "removeBgOverlay"
-                    }, new { @id = "EditBrandForm" }))
-                    {
-                        <input class="form-control" id="BrandId" hidden value="" />
-                        <input class="form-control" id="Name" />
+                @using (Ajax.BeginForm("EditBrand", "Admin", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "showBgOverlay('loadingEditModal')",
+                    OnSuccess = "editBrandSuccess",
+                    OnComplete = "removeBgOverlay('loadingEditModal')"
+                }, new { @id = "EditBrandForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="input-group input-group-sm">
+                        <input class="form-control" id="BrandId" name="BrandId" hidden value="" />
+                        <input class="form-control" id="Name" name="Name" />
                         <span class="input-group-append">
-                            <button type="submit" onclick="" class="btn btn-info btn-flat">Lưu lại</button>
+                            <button type="submit" class="btn btn-info btn-flat">Lưu lại</button>
                         </span>
-                    }
+
                     </div>
+                }
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="removeCategoryModal" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="removeBrandModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" id="removeCategoryContent">
-            @using (Ajax.BeginForm("RemoveCategory", "Admin", null, new AjaxOptions
+        <div class="modal-content" id="removeBrandContent">
+            @using (Ajax.BeginForm("RemoveBrand", "Admin", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                OnBegin = "showBgOverlay",
-                OnSuccess = "loadingNoti",
-                OnComplete = "removeBgOverlay",
-                OnFailure = "removeCategoryFailure",
-            }, new { @id = "RemoveCategoryForm" }))
+                OnBegin = "showBgOverlay('loadingRemoveModal')",
+                OnSuccess = "removeBrandSuccess",
+                OnComplete = "removeBgOverlay('loadingRemoveModal')"
+            }, new { @id = "RemoveBrandForm" }))
             {
-                <div class="overlay d-flex justify-content-center align-items-center" id="loadingRemoveModal">
+                @Html.AntiForgeryToken()
+                <div class="overlay justify-content-center align-items-center d-none" id="loadingRemoveModal">
                     <i class="fas fa-2x fa-sync fa-spin"></i>
                 </div>
                 <div class="modal-header">
-                    <h4 class="modal-title" id="titleModal">Xóa danh mục</h4>
+                    <h4 class="modal-title" id="titleModal">Xóa thương hiệu</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input hidden type="text" id="CategoryId" name="CategoryId" />
-                    <h5>Bạn chắc chắn muốn xóa danh mục "<span id="CategoryTitle" class="text-danger font-weight-bold"></span>" không?</h5>
-                    <p class="text-danger">Lưu ý: <span class="text-dark">Sau khi xóa, những sản phẩm thuộc danh mục này sẽ không thuộc danh mục nào cả!</span></p>
+                    <input hidden type="text" id="BrandId" name="BrandId" />
+                    <h5>Bạn chắc chắn muốn xóa thương hiệu "<span id="brandName" class="text-danger font-weight-bold"></span>" không?</h5>
+                    <p class="text-danger">Lưu ý: <span class="text-dark">Sau khi xóa, những sản phẩm thuộc thương hiệu này sẽ không thuộc thương hiệu nào cả!</span></p>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
@@ -122,14 +126,24 @@
         $(document).ready(function () {
             loadBrandList();
         });
+        function loadingBackgroundOverlay() {
+            $("#loading").show();
+        }
         function loadBrandList() {
             $.ajax({
                 method: "POST",
                 url: "/Admin/LoadBrandList",
                 success: function (data) {
                     $("#brandList").html(data);
+                },
+                complete: function () {
+                    $("#loading").hide();
                 }
             });
+        }
+        function createBrandSuccess(data) {
+            loadNoti(data);
+            $("#loading").hide();
         }
         function showModalEditBrand(e) {
             $("#editBrandModal #BrandId").val($(e).attr("data-id"));
@@ -138,18 +152,37 @@
             $("#editBrandModal").modal("show");
         }
         function editBrandSuccess(data) {
-
+            loadNoti(data);
+            removeBgOverlay();
+            $("#editBrandModal").modal("hide");
+        }
+        function showModalRemoveBrand(e) {
+            $("#removeBrandModal #BrandId").val($(e).attr("data-id"));
+            $("#removeBrandModal #brandName").html($(e).attr("data-name"));
+            $("#removeBrandModal").modal("show");
         }
 
-        function createSuccess(e) {
-            loadingNoti(e);
-            loadBrandList();
+        function removeBrandSuccess(data) {
+            loadNoti(data);
+            $("#removeBrandModal").modal("hide");
         }
-        function loadingBgOverlay() {
-            $("#loading").removeClass("d-none");
+
+        function loadNoti(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                loadBrandList();
+            }
+            else if (data.status == "empty")
+                toastr.error(data.message);
+            else
+                toastr.error(data.message);
         }
-        function removeBgOverlay() {
-            $("#loading").addClass("d-none");
+
+        function showBgOverlay(e) {
+            $("#" + e).addClass('d-flex').removeClass("d-none");
+        }
+        function removeBgOverlay(e) {
+            $("#" + e).addClass("d-none").removeClass('d-flex');
         }
     </script>
 }

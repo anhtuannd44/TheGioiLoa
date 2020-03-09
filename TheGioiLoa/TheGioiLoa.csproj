@@ -206,6 +206,15 @@
       <DependentUpon>202002121623260_AddNewUserDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003052248165_InitialCreate.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003052248165_InitialCreate.Designer.cs">
+      <DependentUpon>202003052248165_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003091801461_fixaddress.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003091801461_fixaddress.Designer.cs">
+      <DependentUpon>202003091801461_fixaddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
     <Compile Include="Models\Blog\BlogCategory.cs" />
@@ -225,6 +234,7 @@
     <Compile Include="Models\Product\Tag.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\TheGioiLoaModel.cs" />
+    <Compile Include="Models\ViewModel\OrderViewModel.cs" />
     <Compile Include="Models\ViewModel\CartViewModel.cs" />
     <Compile Include="Models\ViewModel\CategoryViewModel.cs" />
     <Compile Include="Models\ViewModel\BrandViewModel.cs" />
@@ -2261,6 +2271,7 @@
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Cart\NoItemInCart.cshtml" />
     <Content Include="Views\Admin\_EditBrandPartail.cshtml" />
+    <Content Include="Views\Cart\OrderSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2285,6 +2296,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ApplicationDbContext\202002121623260_AddNewUserDetails.resx">
       <DependentUpon>202002121623260_AddNewUserDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003052248165_InitialCreate.resx">
+      <DependentUpon>202003052248165_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003091801461_fixaddress.resx">
+      <DependentUpon>202003091801461_fixaddress.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -419,7 +419,7 @@ namespace TheGioiLoa.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string CreateBrand(CreateBrandViewModel brand)
+        public ActionResult CreateBrand(CreateBrandViewModel brand)
         {
             if (!string.IsNullOrEmpty(brand.Name))
             {
@@ -432,21 +432,33 @@ namespace TheGioiLoa.Controllers
                         Name = brand.Name
                     });
                     db.SaveChanges();
-                    return "successed";
+                    return Json(new
+                    {
+                        message = "Thành công! Thương hiệu đã được chỉnh sửa!",
+                        status = "success"
+                    });
                 }
                 catch
                 {
-                    return "error";
+                    return Json(new
+                    {
+                        message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại",
+                        status = "error"
+                    });
                 }
             }
-            else return "empty";
+            else return Json(new
+            {
+                message = "Thất bại! Dữ liệu không được trống!",
+                status = "empty"
+            });
         }
 
         [HttpPost]
         public PartialViewResult LoadBrandList()
         {
             var model = new BrandViewModel();
-            var brandList = db.Brand;
+            var brandList = db.Brand.ToList();
             if (brandList.Count() != 0)
             {
                 model.BrandList = brandList.ToList();
@@ -467,19 +479,20 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditBrand(Brand brand)
         {
             try
             {
                 var editItem = db.Brand.Find(brand.BrandId);
-                editItem.Name = _helper.DeleteSpace(editItem.Name);
+                editItem.Name = _helper.DeleteSpace(brand.Name);
                 editItem.Url = _helper.CreateUrl(editItem.Name);
                 db.Entry(editItem).State = EntityState.Modified;
                 db.SaveChanges();
                 return Json(new
                 {
                     message = "Thành công! Thương hiệu đã được chỉnh sửa!",
-                    status = "successed"
+                    status = "success"
                 });
             }
             catch
@@ -490,7 +503,31 @@ namespace TheGioiLoa.Controllers
                     status = "error"
                 });
             }
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveBrand(int brandId)
+        {
+            try
+            {
+                var removeBrand = db.Brand.Find(brandId);
+                db.Brand.Remove(removeBrand);
+                db.SaveChanges();
+                return Json(new
+                {
+                    message = "Thành công! Xóa thành công thương hiệu!",
+                    status = "success"
+                });
+            }
+            catch
+            {
+                return Json(new
+                {
+                    message = "Có lỗi xảy ra, vui lòng thử lại!",
+                    status = "error"
+                });
+            }
         }
 
         public JsonResult CreateTag(string tag)

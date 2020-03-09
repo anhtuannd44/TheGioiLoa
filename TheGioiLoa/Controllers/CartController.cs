@@ -26,6 +26,7 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CheckOut(OrderInformationViewModel info)
         {
             var cart = ShoppingCart.Cart;
@@ -33,42 +34,56 @@ namespace TheGioiLoa.Controllers
                 return RedirectToAction("NoItemInCart");
             if (ModelState.IsValid)
             {
+                var newOrderId = _hepler.RandomString();
+                var addOrder = new Order()
+                {
+                    OrderId = newOrderId,
+                    DateCreated = DateTime.Now,
+                    UserName = info.UserName,
+                    UserPhone = info.UserPhone,
+                    UserEmail = info.UserEmail,
+                    Note = info.Note,
+                    UserAddress = info.UserAddrress,
+                    DateModified = DateTime.Now,
+                    PaymentMethod = 1,
+                    Status = 1
+                };
+                db.Order.Add(addOrder);
 
-                    var newOrderId = _hepler.RandomString();
-                    var addOrder = new Order()
+
+                IList<OrderDetails> listDetails = new List<OrderDetails>();
+                foreach (var item in cart.Items)
+                {
+                    var addDetail = new OrderDetails()
                     {
-                        OrderId = newOrderId,
-                        DateCreated = DateTime.Now,
-                        UserName = info.UserName,
-                        UserPhone = info.UserPhone,
-                        UserEmail = info.UserEmail,
-                        Note = info.Note,
-                        UserAdrress = info.UserAddrress,
-                        DateModified = DateTime.Now,
-                        PaymentMethod = 1,
-                        Status = 1
+                        ProductId = item.ProductId,
+                        Count = item.Count,
+                        Price = item.ListedPrice,
+                        SalePrice = item.Price,
+                        OrderId = newOrderId
                     };
-                    db.Order.Add(addOrder);
-                   
-
-                    IList<OrderDetails> listDetails = new List<OrderDetails>();
-                    foreach (var item in cart.Items)
-                    {
-                        var addDetail = new OrderDetails()
-                        {
-                            ProductId = item.ProductId,
-                            Count = item.Count,
-                            Price = item.ListedPrice,
-                            SalePrice = item.Price,
-                            OrderId = newOrderId
-                        };
-                        db.OrderDetails.Add(addDetail);
-                    }
-                    db.SaveChanges();
+                    db.OrderDetails.Add(addDetail);
+                }
+                db.SaveChanges();
+                cart = null;
+                return RedirectToAction("OrderSuccess", new { orderid = newOrderId });
             }
             return View(info);
         }
 
+        public ActionResult OrderSuccess(string orderid)
+        {
+            if (string.IsNullOrEmpty(orderid))
+                return RedirectToAction("Index", "Home");
+            var order = db.Order.Find(orderid);
+            if (order == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            order.OrderDetails = db.OrderDetails.Where(a => a.OrderId == orderid).ToList();
+
+            return View(order);
+        }
         public ActionResult NoItemInCart()
         {
             return View();

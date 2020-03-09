@@ -24,7 +24,7 @@ namespace TheGioiLoa.Models
                 return cart;
             }
         }
-        //Download source code tại Sharecode.vn
+        
         // Chứa các mặt hàng đã chọn
 
         public List<CartViewModel> Items = new List<CartViewModel>();

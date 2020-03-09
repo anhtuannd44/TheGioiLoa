@@ -28,7 +28,7 @@ namespace TheGioiLoa.Models
 
         public string UserPhone { get; set; }
 
-        public string UserAdrress { get; set; }
+        public string UserAddress { get; set; }
 
         public string Note { get; set; }
 
