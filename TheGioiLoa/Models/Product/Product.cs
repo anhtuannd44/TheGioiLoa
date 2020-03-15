@@ -17,6 +17,7 @@ namespace TheGioiLoa.Models
             CategoryProduct = new HashSet<CategoryProducts>();
             Product_Tag = new HashSet<Product_Tag>();
             Product_Image = new HashSet<Product_Image>();
+            Review = new HashSet<Review>();
         }
 
         [Key]
@@ -39,7 +40,7 @@ namespace TheGioiLoa.Models
 
         public int? BrandId { get; set; }
 
-        public double? ListedPrice { get; set; }
+        public double? PriceSale { get; set; }
 
         public DateTime DateCreated { get; set; }
 
@@ -63,6 +64,7 @@ namespace TheGioiLoa.Models
         [StringLength(300)]
         public string Videos { get; set; }
 
+        public int Guarantee { get; set; }
 
         public virtual Brand Brand { get; set; }
 
@@ -74,5 +76,7 @@ namespace TheGioiLoa.Models
         public virtual ICollection<Product_Tag> Product_Tag { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Image> Product_Image { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Review> Review { get; set; }
     }
 }

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<TheGioiLoa.Models.BlogCategory>
+
+@if (Model.ToList().Count != 0)
+{
+    <ul class="pl-2">
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="#" class="text-info blog-category-action"
+                   data-id="@item.BlogCategoryId",
+                   data-name="@item.Name"
+                   data-toggle="modal"
+                   data-target="#blogCategoryModal"
+                   data-placement="top"
+                   title="Click để Chỉnh Sửa hoặc Xóa">
+                @item.Name
+                </a>
+            </li>
+        }
+    </ul>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $(".blog-category-action").click(function () {
+            $("#BlogCategoryId").val($(this).attr("data-id"));
+            $("#Name").val($(this).attr("data-name"));
+        })
+    </script>
+}
+else
+{
+    <p class="text-danger small text-center">Chưa có chuyên mục</p>
+}
+

@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Trang";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header clearfix">
+                <a href="@Url.Action("CreatePage","Admin")" class="card-title mt-1 btn btn-success">Tạo trang mới</a>
+                <div class="float-right">
+                    <form class="form-inline">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar bg-light" style="border-color: #e3e3e3;" type="search" placeholder="Tìm Kiếm" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar bg-light" style="border-color:#e3e3e3" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>
+                                Tên trang
+                            </th>
+                            <th>
+                                Trạng thái
+                            </th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pageList">
+                        
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            loadPageList();
+        });
+        function loadPageList() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadPageList",
+                success: function (data) {
+                    $("#pageList").html(data);
+                }
+            })
+        };
+    </script>
+}

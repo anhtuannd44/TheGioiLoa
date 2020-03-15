@@ -10,13 +10,13 @@
             toastr.error("Không thể tải dữ liệu Danh mục sản phẩm!");
         },
     });
-    extiLoadingGif();
+    exitLoadingGif();
 };
 function loadingGif() {
-    $("#loadingGift").css("z-index", "9999");
-    $("#loadingGift").css("opacity", "1");
+    $("#loadingGif").css("z-index", "9999");
+    $("#loadingGif").css("opacity", "1");
 };
-function extiLoadingGif() {
+function exitLoadingGif() {
     $("#loadingGif").css("z-index", "-1");
     $("#loadingGif").css("opacity", "0");
 }

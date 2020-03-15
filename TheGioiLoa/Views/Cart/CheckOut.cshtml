@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = "Thông Tin Đặt Hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var totalListedPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalListedPrice;
     var totalPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalPrice;
+    var totalPriceSale = TheGioiLoa.Models.ShoppingCart.Cart.TotalPriceSale;
 }
 
 <div class="container">
@@ -66,11 +66,11 @@
                                 </tr>
                                 <tr>
                                     <td class="py-1" width="50%">Tạm tính (Chưa VAT):</td>
-                                    <td id="totalListedPrice" class="py-1" width="50%">@string.Format("{0:0,0 ₫}", totalListedPrice)</td>
+                                    <td id="totalListedPrice" class="py-1" width="50%">@string.Format("{0:0,0 ₫}", totalPrice)</td>
                                 </tr>
                                 <tr>
                                     <td class="py-1">Giảm giá:</td>
-                                    <td class="py-1" id="cartDiscount">@string.Format("{0:0,0 ₫}", totalListedPrice - totalPrice)</td>
+                                    <td class="py-1" id="cartDiscount">@string.Format("{0:0,0 ₫}", totalPrice - totalPriceSale)</td>
                                 </tr>
                                 @*<tr>
                                         <td class="py-1">VAT:</td>
@@ -79,7 +79,7 @@
                                 <tr style="border-top:solid 1px #e7e7e7; line-height: 45px;">
                                     <td>Thành tiền:</td>
                                     <td style="font-size:20px; color:#e82429;font-weight:bold" id="preTotalPrice">
-                                        @string.Format("{0:0,0 ₫}", totalPrice)
+                                        @string.Format("{0:0,0 ₫}", totalPriceSale)
                                     </td>
 
                                 </tr>

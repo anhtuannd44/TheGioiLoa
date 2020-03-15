@@ -46,8 +46,8 @@ namespace TheGioiLoa.Models
                     Url = item.Url,
                     ProductId = item.ProductId,
                     Cover = item.Cover,
-                    Price = (item.Price == null) ? 0 : (double)item.Price,
-                    ListedPrice = (item.ListedPrice == null) ? 0 : (double)item.ListedPrice,
+                    Price = item.Price,
+                    PriceSale = item.PriceSale,
                     Count = 1
                 });
             }
@@ -93,14 +93,14 @@ namespace TheGioiLoa.Models
         {
             get
             {
-                return Items.Sum(p => p.Price * p.Count);
+                return Items.Sum(p => (double)p.Price * p.Count);
             }
         }
-        public double TotalListedPrice
+        public double TotalPriceSale
         {
             get
             {
-                return Items.Sum(p => p.ListedPrice * p.Count);
+                return Items.Sum(p => (double)p.PriceSale * p.Count);
             }
         }
     }

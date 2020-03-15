@@ -1,4 +1,4 @@
-﻿@model TheGioiLoa.Models.Order
+﻿@model TheGioiLoa.Models.ViewModel.OrderViewModel
 
 @{
     ViewBag.Title = "Đặt Hàng Thành Công";
@@ -13,104 +13,108 @@
     </ul>
 </div>
 
-    <div class="container mb-4">
-        <div class="row">
-            <div class="col-md-8 col-md-8 col-lg-8 col-lg-8 col-xs-12">
-                <div class="card card-shadow cart-information">
-                    <div class="h-100 position-absolute w-100 loading-gift" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
-                        <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
-                    </div>
-                    <div class="card-body cart-content" id="cartInformation" data-value="step2">
-                        <h5 class="card-title">Thông tin đặt hàng</h5>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập họ tên *" } })
-                                
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                @Html.EditorFor(model => model.UserPhone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập số điện thoại *" } })
-                                @Html.ValidationMessageFor(model => model.UserPhone, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Email của bạn *" } })
-                               
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                @Html.EditorFor(model => model.UserAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập địa chỉ *" } })
-                               
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                @Html.TextAreaFor(model => model.Note, new { @class = "form-control w-100", @rows = "6", @placeholder = "Ghi chú thêm cho đơn hàng" })
-                              
-                            </div>
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-8 col-lg-8 col-lg-8 col-xs-12">
+            <div class="card card-shadow cart-information">
+
+                <div class="card-body cart-content" id="cartInformation" data-value="step2">
+                    <h5 class="card-title">Thông tin đặt hàng!</h5>
+                    <h6 class="mt-2">Mã đơn hàng của bạn là: <strong class="text-primary"> @Model.Order.OrderId</strong></h6>
+                    <hr />
+
+                    <p class="mb-1 text-success">Đơn hàng của quý khách đã được ghi nhận!</p>
+                    <p class="font-italic">Trong vòng 30 phút (giờ làm việc) bộ phận khách hàng sẽ liên hệ với quý khách để xác nhận đơn hàng, thời gian, địa điểm giao hàng</p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <p class="mb-1">Tên khách hàng: <span class="text-primary">@Model.Order.UserName</span></p>
+                            <p class="mb-1">Số điện thoại: <span class="text-success">@Model.Order.UserPhone</span></p>
+                            <p>Địa chỉ: <span class="text-success">@Model.Order.UserAddress</span></p>
                         </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <p>Ghi chú: <span class="text-success">@Model.Order.Note</span></p>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn giá</th>
+                                <th scope="col">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{var i = 1; double totalPrice = 0; double totalSalePrice = 0;}
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <tr>
+                                    <th>@i</th>
+                                    <td>
+                                        @item.Product.Name
+                                        @if (item.Guarantee != 0)
+                                        {
+                                            <i class="fas fa-exclamation-circle ml-2" data-toggle="tooltip" title="Bảo hành: @item.Guarantee tháng"></i>
+                                        }
+                                    </td>
+                                    <td>@item.Count</td>
+                                    <td>
+                                        @string.Format("{0:0,0 ₫}", item.PriceSale)<br />
+                                        <del class="small font-italic"> @(item.PriceSale != item.Price ? string.Format("{0:0,0 ₫}", item.Price) : "")</del>
+                                    </td>
+                                    <td>@string.Format("{0:0,0 ₫}", item.PriceSale * item.Count)</td>
+                                </tr>
+                                i++;
+                                totalPrice += (double)item.Price;
+                                totalSalePrice += (double)item.PriceSale;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-md-4 col-lg-4 col-md-4 col-xs-12">
+            <div class="card card-shadow mb-4">
+
+                <div class="card-body box-payment">
+                    <h5 class="text-primary">ĐẶT HÀNG THÀNH CÔNG</h5>
+                    <hr />
+                    <div class="clearfix">
+                        <p class="float-left mb-0">Giá trị hàng:</p>
+                        <p class="float-right mb-0">@string.Format("{0:0,0 ₫}", totalPrice)</p>
+                    </div>
+                    <hr class="my-1" />
+                    <div class="clearfix">
+                        <p class="float-left mb-0">Giảm giá:</p>
+                        <p class="float-right mb-0">@string.Format("{0:0,0 ₫}", totalPrice - totalSalePrice)</p>
+                    </div>
+                    <hr class="my-1" />
+                    <div class="clearfix">
+                        <p class="float-left mb-0">Phí giao hàng:</p>
+                        <p class="float-right mb-0">0</p>
+                    </div>
+                    <hr class="my-1" />
+                    <div class="clearfix">
+                        <p class="float-left mb-0 font-weight-bold">TỔNG:</p>
+                        <p class="float-right mb-0 font-weight-500">@string.Format("{0:0,0 ₫}", totalSalePrice)</p>
+                    </div>
+                    <hr class="my-2" />
+                    <div class="clearfix">
+                        <p class="float-left mb-0 font-weight-bold">Hình thức thanh toán:</p>
+                        <p class="float-right mb-0 font-weight-500">Thanh toán khi nhận hàng</p>
                     </div>
                 </div>
             </div>
-            @*<div class="col-md-4 col-md-4 col-lg-4 col-md-4 col-xs-12">
-                <div class="card card-shadow mb-4">
-                    <div class="h-100 position-absolute w-100 loading-gift" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
-                        <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
-                    </div>
-                    <div class="card-body box-payment">
-                        <table style="width: 100%">
-                            <tbody>
-                                <tr>
-                                    <td class="pb-3" style="text-align:left;font-size: 20px;font-weight: bold;" colspan="2">Tóm tắt đơn hàng</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1" width="50%">Tạm tính (Chưa VAT):</td>
-                                    <td id="totalListedPrice" class="py-1" width="50%">@string.Format("{0:0,0 ₫}", totalListedPrice)</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">Giảm giá:</td>
-                                    <td class="py-1" id="cartDiscount">@string.Format("{0:0,0 ₫}", totalListedPrice - totalPrice)</td>
-                                </tr>
+            <div class="cart-continue mb-4 text-right">
+                <a href="~/" class="btn btn-success btn-block h4 py-3" style="font-size: 1.2rem">TIẾP TỤC MUA SẮM<i class="fa fa-arrow-circle-right ml-3"></i></a>
 
-                                <tr style="border-top:solid 1px #e7e7e7; line-height: 45px;">
-                                    <td>Thành tiền:</td>
-                                    <td style="font-size:20px; color:#e82429;font-weight:bold" id="preTotalPrice">
-                                        @string.Format("{0:0,0 ₫}", totalPrice)
-                                    </td>
-
-                                </tr>
-                                <tr class="chonhinhthuc">
-                                    <td colspan="2" style="text-align:right">(Đã bao gồm VAT)</td>
-                                </tr>
-
-                                <tr class="shonhinhthuc" style="border-bottom:none; display: none;">
-                                    <td></td>
-                                    <td>(Đã bao gồm VAT)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="cart-continue mb-4 text-right">
-                    <button type="submit" class="btn btn-success btn-block h4 py-3" style="font-size: 1.2rem">TIẾP THEO<i class="fa fa-arrow-circle-right ml-3"></i></button>
-
-                </div>
-                <div class="card card-shadow">
-                    <div class="card-header bg-white p-0" id="headingOne">
-                        <h5 class="mb-0">
-                            <a href="#promotion" class="btn btn-link btn-block text-left py-3 text-dark px-4" data-toggle="collapse">
-                                Bạn có mã giảm giá? Click vào đây!
-                            </a>
-                        </h5>
-                    </div>
-
-                    <div id="promotion" class="collapse">
-                        <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>*@
+            </div>
         </div>
     </div>
+</div>
 
 @section heads {
     <style type="text/css">

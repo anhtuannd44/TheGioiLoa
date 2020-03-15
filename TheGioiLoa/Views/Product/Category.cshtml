@@ -56,11 +56,11 @@
     <div class="categoryshow">
         <div class="category-list row m-0 text-center">
             @{var i = 1; var active = false;
-                if (categoryId==null)
+                if (categoryId == null)
                 {
-                    active = true; 
+                    active = true;
                 }
-                }
+            }
             @foreach (var item in Model)
             {
                 if (i <= 7)
@@ -116,65 +116,8 @@
 
 
 <div class="container h-100 pb-3 border-top">
-
-    @*<div class="col-md-3">
-            <div class="sticky-top bg-white" id="categoryProduct">
-                <div class="product-header">
-                    <h5 class="product-header-title">Mua theo Combo</h5>
-                </div>
-                <div class="card-body shadow" id="categoryList">
-                    <input hidden id="selectedcategory" />
-
-                    @if (Model != null)
-                    {
-                        <div class="custom-control custom-radio">
-                            <input class="custom-control-input category-click" checked type="radio" value="" id="allProduct" name="CategoryId">
-                            <label for="allProduct" class="custom-control-label font-weight-normal">Tất cả danh mục</label>
-                        </div>
-                        foreach (var item in Model)
-                        {
-                            if (item.CategoryParentId == null)
-                            {
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input category-click" data-level="parent" type="radio" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId">
-                                    <label for="@item.CategoryId" class="custom-control-label font-weight-normal">@item.Name</label>
-                                </div>
-
-                                <div class="parentCategory-@item.CategoryId" style="display: block;">
-                                    @foreach (var child in Model)
-                                    {
-                                        if (child.CategoryParentId == item.CategoryId)
-                                        {
-                                            <div class="">
-                                                <div class="custom-control custom-radio ml-4">
-                                                    <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="radio" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
-                                                    <label for="@child.CategoryId" class="custom-control-label font-weight-normal">@child.Name</label>
-                                                </div>
-                                            </div>
-                                            <div class="pl-4 childCategory-@child.CategoryId">
-                                                @foreach (var subChild in Model)
-                                                {
-                                                    if (subChild.CategoryParentId == child.CategoryId)
-                                                    {
-                                                        <div class="custom-control custom-radio ml-4">
-                                                            <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="radio" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId">
-                                                            <label for="@subChild.CategoryId" class="custom-control-label font-weight-normal">@subChild.Name</label>
-                                                        </div>
-                                                    }
-                                                }
-                                            </div>
-                                        }
-                                    }
-
-                                </div>
-                            }
-                        }
-                    }
-                </div>
-            </div>
-        </div>*@
     <div class="product-area">
-        <div class="product-header">
+        <div class="product-header clearfix">
             <h5 class="product-header-title float-left">Mua theo Combo</h5>
             <div class="product-header-link float-lg-right">
                 <div class="d-flex mt-2">
@@ -188,7 +131,7 @@
                                 <span>Chọn khoảng giá của bạn muốn</span>
                                 <input type="text" class="product-price-sort" id="priceSort" name="priceSort" value="" />
                                 <button class="btn btn-dark btn-sm mt-2 pull-right px-3" onclick="hidePriceSort()">Hủy</button>
-                                <button class="btn btn-success btn-sm mt-2 pull-right mr-2" onclick="LoadProductByCategory(@categoryId)">Áp dụng</button>
+                                <button class="btn btn-success btn-sm mt-2 pull-right mr-2" onclick="LoadProductByCategory(@(categoryId==null?"null":categoryId),true)">Áp dụng</button>
                             </div>
                         </div>
                     </div>
@@ -205,7 +148,6 @@
                     </select>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
         <input type="text" hidden value="@categoryId" id="categoryId" name="categoryId" />
         <div class="row homeproduct m-0" id="productByCategory">
@@ -220,7 +162,7 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            LoadProductByCategory($("#categoryId").val());
+            LoadProductByCategory($("#categoryId").val(), false);
             console.log($("#categoryId").val());
             $(".product-price-sort").ionRangeSlider({
                 type: "double",
@@ -239,10 +181,10 @@
 
 
         $("#productSort").change(function () {
-            LoadProductByCategory($("#categoryId").val());
+            LoadProductByCategory($("#categoryId").val(), true);
         })
 
-        function LoadProductByCategory(categoryId) {
+        function LoadProductByCategory(categoryId, loadNoti) {
             $("#loadingGif").show();
             var priceSortFrom = $("#priceSortFrom").val();
             var priceSortTo = $("#priceSortTo").val();
@@ -260,7 +202,8 @@
                 },
                 success: function (data) {
                     $("#productByCategory").html(data);
-                    toastr.success("Thành công!");
+                    if (loadNoti)
+                        toastr.success("Thành công!");
                 },
                 error: function () {
                     toastr.error("Có lỗi xảy ra. Vui lòng thử lại");

@@ -13,7 +13,7 @@ namespace TheGioiLoa.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OrderDetails()
         {
-            
+            Product = new HashSet<Product>();
         }
 
         [Key]
@@ -28,13 +28,17 @@ namespace TheGioiLoa.Models
 
         public double? Price { get; set; }
 
-        public double SalePrice { get; set; }
+        public double? SalePrice { get; set; }
+
+        public int Guarantee { get; set; }
 
         [Required]
         public int Count { get; set; }
 
 
         public virtual Order Order { get; set; }
+
+        public virtual ICollection<Product> Product { get; set; }
 
     }
 }

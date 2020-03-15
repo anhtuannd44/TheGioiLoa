@@ -1,6 +1,43 @@
 ﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.CartViewModel>
 @{
-    var totalListedPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalListedPrice;
     var totalPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalPrice;
+    var totalPriceSale = TheGioiLoa.Models.ShoppingCart.Cart.TotalPriceSale;
 }
-
+@foreach (var item in Model)
+{
+    <div id="productId_@item.ProductId">
+        <input hidden id="ProductId" value="@item.ProductId" />
+        <div class="row cart-item align-items-center m-0 py-1 rounded">
+            <div class="col-md-6">
+                <a href="#" class="d-inline-block">
+                    <img src="~/Content/iphone-11-red-400x400.jpg" class="cart-item-img" width="80" />
+                </a>
+                <div class="cart-item-desc d-inline-block">
+                    <p class="cart-item-title h6">@item.Name</p>
+                    <div class="cart-item-service">
+                        <p class="cart-item-service-content"><i class="fas fa-truck mr-2 mb-0"></i>Miễn phí vận chuyển</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="cart-item-count my-auto">
+                    <div class="dec cart-count-button" data-count="False" data-id="@item.ProductId" onclick="changeCount(this)">-</div>
+                    <input name="" readonly="readonly" id="Count_@item.ProductId" value="@item.Count" type="number" class="cart-item-count-input">
+                    <div class="inc cart-count-button" data-count="True" data-id="@item.ProductId" onclick="changeCount(this)">+</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="cart-item-price text-right">
+                    @if (item.PriceSale != null)
+                    {
+                    <h5 class="m-0 text-primary item-price" id="itemPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.PriceSale * item.Count)</h5>
+                    <del id="itemListedPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.Price * item.Count)</del>
+                    }
+                </div>
+                <div class="cart-action-btn mt-1">
+                    <button class="btn btn-delete small pull-right delete-item" data-id="@item.ProductId" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

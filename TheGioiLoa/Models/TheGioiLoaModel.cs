@@ -25,6 +25,7 @@ namespace TheGioiLoa.Models
         public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
+        public virtual DbSet<Review> Review { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

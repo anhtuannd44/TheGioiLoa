@@ -188,11 +188,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\BlogsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -214,6 +213,54 @@
     <Compile Include="Migrations\TheGioiLoaModel\202003091801461_fixaddress.Designer.cs">
       <DependentUpon>202003091801461_fixaddress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003101454363_link.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003101454363_link.Designer.cs">
+      <DependentUpon>202003101454363_link.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003101555376_Price.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003101555376_Price.Designer.cs">
+      <DependentUpon>202003101555376_Price.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003111223172_add_guarantee.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003111223172_add_guarantee.Designer.cs">
+      <DependentUpon>202003111223172_add_guarantee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003111239420_add_guaranteeOrder.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003111239420_add_guaranteeOrder.Designer.cs">
+      <DependentUpon>202003111239420_add_guaranteeOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003111254214_PriceNotNull.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003111254214_PriceNotNull.Designer.cs">
+      <DependentUpon>202003111254214_PriceNotNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003111312101_PriceNotNullPrice.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003111312101_PriceNotNullPrice.Designer.cs">
+      <DependentUpon>202003111312101_PriceNotNullPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003111338162_PriceAllowNull.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003111338162_PriceAllowNull.Designer.cs">
+      <DependentUpon>202003111338162_PriceAllowNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003111834546_Review.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003111834546_Review.Designer.cs">
+      <DependentUpon>202003111834546_Review.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003111845286_ReviewMoreCol.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003111845286_ReviewMoreCol.Designer.cs">
+      <DependentUpon>202003111845286_ReviewMoreCol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003140823033_notauthor.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003140823033_notauthor.Designer.cs">
+      <DependentUpon>202003140823033_notauthor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003140850151_blogInt.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003140850151_blogInt.Designer.cs">
+      <DependentUpon>202003140850151_blogInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003141357445_notauthos.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003141357445_notauthos.Designer.cs">
+      <DependentUpon>202003141357445_notauthos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
@@ -227,6 +274,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\Product\Review.cs" />
     <Compile Include="Models\Product\Product_Tag.cs" />
     <Compile Include="Models\Product\CategoryProducts.cs" />
     <Compile Include="Models\Product\Product.cs" />
@@ -234,6 +282,8 @@
     <Compile Include="Models\Product\Tag.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\TheGioiLoaModel.cs" />
+    <Compile Include="Models\ViewModel\ViewModel.cs" />
+    <Compile Include="Models\ViewModel\BlogViewModel.cs" />
     <Compile Include="Models\ViewModel\OrderViewModel.cs" />
     <Compile Include="Models\ViewModel\CartViewModel.cs" />
     <Compile Include="Models\ViewModel\CategoryViewModel.cs" />
@@ -241,8 +291,9 @@
     <Compile Include="Models\ViewModel\ImageViewModel.cs" />
     <Compile Include="Models\ViewModel\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\BlogService.cs" />
+    <Compile Include="Service\ImageService.cs" />
     <Compile Include="Service\ProductService.cs" />
-    <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1868,6 +1919,107 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\ckeditor\adapters\jquery.js" />
+    <Content Include="Content\ckeditor\build-config.js" />
+    <Content Include="Content\ckeditor\ckeditor.js" />
+    <Content Include="Content\ckeditor\config.js" />
+    <Content Include="Content\ckeditor\contents.css" />
+    <Content Include="Content\ckeditor\lang\en.js" />
+    <Content Include="Content\ckeditor\lang\vi.js" />
+    <Content Include="Content\ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="Content\ckeditor\plugins\about\dialogs\hidpi\logo_ckeditor.png" />
+    <Content Include="Content\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="Content\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Content\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Content\ckeditor\plugins\dialog\styles\dialog.css" />
+    <Content Include="Content\ckeditor\plugins\icons.png" />
+    <Content Include="Content\ckeditor\plugins\icons_hidpi.png" />
+    <Content Include="Content\ckeditor\plugins\image2\dialogs\image2.js" />
+    <Content Include="Content\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="Content\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="Content\ckeditor\plugins\link\images\anchor.png" />
+    <Content Include="Content\ckeditor\plugins\link\images\hidpi\anchor.png" />
+    <Content Include="Content\ckeditor\plugins\widget\images\handle.png" />
+    <Content Include="Content\ckeditor\samples\css\samples.css" />
+    <Content Include="Content\ckeditor\samples\img\github-top.png" />
+    <Content Include="Content\ckeditor\samples\img\header-bg.png" />
+    <Content Include="Content\ckeditor\samples\img\header-separator.png" />
+    <Content Include="Content\ckeditor\samples\img\logo.png" />
+    <Content Include="Content\ckeditor\samples\img\logo.svg" />
+    <Content Include="Content\ckeditor\samples\img\navigation-tip.png" />
+    <Content Include="Content\ckeditor\samples\index.html" />
+    <Content Include="Content\ckeditor\samples\js\sample.js" />
+    <Content Include="Content\ckeditor\samples\js\sf.js" />
+    <Content Include="Content\ckeditor\samples\old\ajax.html" />
+    <Content Include="Content\ckeditor\samples\old\api.html" />
+    <Content Include="Content\ckeditor\samples\old\appendto.html" />
+    <Content Include="Content\ckeditor\samples\old\assets\inlineall\logo.png" />
+    <Content Include="Content\ckeditor\samples\old\assets\outputxhtml\outputxhtml.css" />
+    <Content Include="Content\ckeditor\samples\old\assets\posteddata.php" />
+    <Content Include="Content\ckeditor\samples\old\assets\sample.jpg" />
+    <Content Include="Content\ckeditor\samples\old\assets\uilanguages\languages.js" />
+    <Content Include="Content\ckeditor\samples\old\datafiltering.html" />
+    <Content Include="Content\ckeditor\samples\old\dialog\assets\my_dialog.js" />
+    <Content Include="Content\ckeditor\samples\old\dialog\dialog.html" />
+    <Content Include="Content\ckeditor\samples\old\divreplace.html" />
+    <Content Include="Content\ckeditor\samples\old\enterkey\enterkey.html" />
+    <Content Include="Content\ckeditor\samples\old\image2\assets\image1.jpg" />
+    <Content Include="Content\ckeditor\samples\old\image2\assets\image2.jpg" />
+    <Content Include="Content\ckeditor\samples\old\image2\image2.html" />
+    <Content Include="Content\ckeditor\samples\old\index.html" />
+    <Content Include="Content\ckeditor\samples\old\inlineall.html" />
+    <Content Include="Content\ckeditor\samples\old\inlinebycode.html" />
+    <Content Include="Content\ckeditor\samples\old\inlinetextarea.html" />
+    <Content Include="Content\ckeditor\samples\old\jquery.html" />
+    <Content Include="Content\ckeditor\samples\old\readonly.html" />
+    <Content Include="Content\ckeditor\samples\old\replacebyclass.html" />
+    <Content Include="Content\ckeditor\samples\old\replacebycode.html" />
+    <Content Include="Content\ckeditor\samples\old\sample.css" />
+    <Content Include="Content\ckeditor\samples\old\sample.js" />
+    <Content Include="Content\ckeditor\samples\old\sample_posteddata.php" />
+    <Content Include="Content\ckeditor\samples\old\tabindex.html" />
+    <Content Include="Content\ckeditor\samples\old\toolbar\toolbar.html" />
+    <Content Include="Content\ckeditor\samples\old\uicolor.html" />
+    <Content Include="Content\ckeditor\samples\old\uilanguages.html" />
+    <Content Include="Content\ckeditor\samples\old\wysiwygarea\fullpage.html" />
+    <Content Include="Content\ckeditor\samples\old\xhtmlstyle.html" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\css\fontello.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.svg" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\LICENSE.txt" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\index.html" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\abstracttoolbarmodifier.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\fulltoolbareditor.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\toolbarmodifier.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\toolbartextmodifier.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\javascript.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\neo.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.js" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog_ie.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog_ie8.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog_iequirks.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_gecko.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_ie.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_ie8.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_iequirks.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\icons.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\icons_hidpi.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\arrow.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\close.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\close.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\lock-open.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\lock.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\refresh.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\lock-open.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\lock.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\refresh.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\spinner.gif" />
+    <Content Include="Content\ckeditor\styles.js" />
+    <Content Include="Content\ckeditor\vendor\promise.js" />
     <Content Include="Content\moredetails.png" />
     <Content Include="Content\default_icon_cat.png" />
     <Content Include="Content\icon.png" />
@@ -1958,12 +2110,10 @@
     <Content Include="Content\Home\slider-product\index.html" />
     <Content Include="Content\Home\slider-product\main.js" />
     <Content Include="Content\iphone-11-red-400x400.jpg" />
+    <Content Include="Content\rating\bootstrap-rating.css" />
+    <Content Include="Content\rating\bootstrap-rating.min.js" />
     <Content Include="Content\samsung-galaxy-a71-silver-600x600-400x400.jpg" />
-    <Content Include="Content\Upload\Images\CDGUEGOIVGUMYFP..jpg" />
-    <Content Include="Content\Upload\Images\GVNKDZTSIGGIBZE..jpg" />
     <Content Include="Content\Upload\Images\No_Picture.jpg" />
-    <Content Include="Content\Upload\Images\TYRFPOXFQNXEWQH..jpg" />
-    <Content Include="Content\Upload\Images\YHXAENNUEVFVAPX..jpg" />
     <Content Include="Content\Upload\pmh-10.jpg" />
     <Content Include="Content\Upload\Slider\slider-2.jpg" />
     <Content Include="Content\Upload\Slider\slider-1.jpg" />
@@ -2090,6 +2240,15 @@
     <Content Include="Content\Admin\plugins\toastr\toastr.js.map" />
     <Content Include="Scripts\Admin\adminlte.js.map" />
     <Content Include="Scripts\Admin\adminlte.min.js.map" />
+    <Content Include="Content\ckeditor\CHANGES.md" />
+    <Content Include="Content\ckeditor\LICENSE.md" />
+    <Content Include="Content\ckeditor\README.md" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\config.json" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\readme.md" />
     <None Include="Scripts\bootstrap-jquery\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-jquery\jquery-3.4.1.js" />
     <Content Include="Scripts\bootstrap-jquery\jquery-3.4.1.min.js" />
@@ -2237,16 +2396,6 @@
     <Content Include="Scripts\bootstrap-jquery\popper-utils.js.map" />
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\_LoginModalPartial.cshtml" />
-    <Content Include="Views\Products\Create.cshtml" />
-    <Content Include="Views\Products\Delete.cshtml" />
-    <Content Include="Views\Products\Details.cshtml" />
-    <Content Include="Views\Products\Edit.cshtml" />
-    <Content Include="Views\Products\Index.cshtml" />
-    <Content Include="Views\Categories\Create.cshtml" />
-    <Content Include="Views\Categories\Delete.cshtml" />
-    <Content Include="Views\Categories\Details.cshtml" />
-    <Content Include="Views\Categories\Edit.cshtml" />
-    <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Shared\Admin\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Categories.cshtml" />
@@ -2270,8 +2419,24 @@
     <Content Include="Views\Cart\_CheckOutPartial.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Cart\NoItemInCart.cshtml" />
-    <Content Include="Views\Admin\_EditBrandPartail.cshtml" />
+    <Content Include="Views\Admin\_EditBrandPartial.cshtml" />
     <Content Include="Views\Cart\OrderSuccess.cshtml" />
+    <Content Include="Views\Cart\_CartTotalPartial.cshtml" />
+    <Content Include="Views\Product\_ReviewPartial.cshtml" />
+    <Content Include="Views\Admin\Blog.cshtml" />
+    <Content Include="Views\Admin\_BlogCategory.cshtml" />
+    <Content Include="Views\Admin\CreateBlog.cshtml" />
+    <Content Include="Views\Blogs\Create.cshtml" />
+    <Content Include="Views\Blogs\Delete.cshtml" />
+    <Content Include="Views\Blogs\Details.cshtml" />
+    <Content Include="Views\Blogs\Edit.cshtml" />
+    <Content Include="Views\Blogs\Index.cshtml" />
+    <Content Include="Views\Admin\EditBlog.cshtml" />
+    <Content Include="Views\Admin\_BlogListPartial.cshtml" />
+    <Content Include="Views\Admin\Page.cshtml" />
+    <Content Include="Views\Admin\CreatePage.cshtml" />
+    <Content Include="Views\Admin\EditPage.cshtml" />
+    <Content Include="Views\Admin\_PageListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2302,6 +2467,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003091801461_fixaddress.resx">
       <DependentUpon>202003091801461_fixaddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003101454363_link.resx">
+      <DependentUpon>202003101454363_link.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003101555376_Price.resx">
+      <DependentUpon>202003101555376_Price.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003111223172_add_guarantee.resx">
+      <DependentUpon>202003111223172_add_guarantee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003111239420_add_guaranteeOrder.resx">
+      <DependentUpon>202003111239420_add_guaranteeOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003111254214_PriceNotNull.resx">
+      <DependentUpon>202003111254214_PriceNotNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003111312101_PriceNotNullPrice.resx">
+      <DependentUpon>202003111312101_PriceNotNullPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003111338162_PriceAllowNull.resx">
+      <DependentUpon>202003111338162_PriceAllowNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003111834546_Review.resx">
+      <DependentUpon>202003111834546_Review.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003111845286_ReviewMoreCol.resx">
+      <DependentUpon>202003111845286_ReviewMoreCol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003140823033_notauthor.resx">
+      <DependentUpon>202003140823033_notauthor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003140850151_blogInt.resx">
+      <DependentUpon>202003140850151_blogInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003141357445_notauthos.resx">
+      <DependentUpon>202003141357445_notauthos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

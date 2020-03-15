@@ -9,13 +9,13 @@ using System.Web.Mvc;
 namespace TheGioiLoa.Models.ViewModel
 {
     public class CreateProductViewModel
-    { 
+    {
         [Display(Name = "Tên sản phẩm")]
-        [Required(ErrorMessage ="Bạn chưa nhập tên sản phẩm")]
+        [Required(ErrorMessage = "Bạn chưa nhập tên sản phẩm")]
         [StringLength(500)]
         public string Name { get; set; }
 
-        [Display(Name="Mô tả ngắn")]
+        [Display(Name = "Mô tả ngắn")]
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
@@ -25,8 +25,8 @@ namespace TheGioiLoa.Models.ViewModel
         [Display(Name = "Giá bán")]
         public double? Price { get; set; }
 
-        [Display(Name = "Giá niêm yết")]
-        public double? ListedPrice { get; set; }
+        [Display(Name = "Giá đã giảm")]
+        public double? PriceSale { get; set; }
 
         [AllowHtml]
         [Display(Name = "Đặc điểm nổi bật")]
@@ -48,6 +48,8 @@ namespace TheGioiLoa.Models.ViewModel
 
         [Display(Name = "Trạng thái sản phẩm")]
         public int Status { get; set; }
+
+        public int Guarantee { get; set; }
 
         public string Tag { get; set; }
 
@@ -75,8 +77,8 @@ namespace TheGioiLoa.Models.ViewModel
         [Display(Name = "Giá bán")]
         public double? Price { get; set; }
 
-        [Display(Name = "Giá niêm yết")]
-        public double? ListedPrice { get; set; }
+        [Display(Name = "Giá đã giảm")]
+        public double? PriceSale { get; set; }
 
         public DateTime DateModified { get; set; }
 
@@ -93,13 +95,14 @@ namespace TheGioiLoa.Models.ViewModel
         [AllowHtml]
         [Display(Name = "Khuyến mãi")]
         public string Promotion { get; set; }
-         
+
         [AllowHtml]
         [Display(Name = "Video")]
         public string Videos { get; set; }
 
         [Display(Name = "Trạng thái sản phẩm")]
         public int Status { get; set; }
+        public int Guarantee { get; set; }
 
         public string CoverName { get; set; }
 
@@ -109,7 +112,7 @@ namespace TheGioiLoa.Models.ViewModel
 
         public string Breadcrumb { get; set; }
 
-        public List<Tag> Tags { get; set; } 
+        public List<Tag> Tags { get; set; }
 
         public List<Image> Images { get; set; }
         public List<CategoryProductEditViewModel> Categories { get; set; }
@@ -120,8 +123,21 @@ namespace TheGioiLoa.Models.ViewModel
         public HttpPostedFileBase Cover { get; set; }
         public List<Product> ProductRelateds { get; set; }
         public List<Product> ProductAccessories { get; set; }
+        public ReviewViewModel Review { get; set; }
     }
 
+    public class ReviewViewModel
+    {
+        public List<EachReviewViewModel> EachReviewViewModel { get; set; }
+        public double AvgStar { get; set; }
+        public int CommentCount { get; set; }
+    }
+    public class EachReviewViewModel
+    {
+        public int Star { get; set; }
+        public double Percent { get; set; }
+        public int Count { get; set; }
+    }
     public class CategoryProductEditViewModel
     {
         public int CategoryId { get; set; }

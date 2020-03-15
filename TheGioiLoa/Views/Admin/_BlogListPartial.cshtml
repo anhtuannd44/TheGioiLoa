@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.BlogViewModel>
+
+@{
+    var i = 1;
+}
+@foreach (var item in Model)
+{
+    <tr id="blog_@item.BlogId">
+        <td>@i</td>
+        <td>
+            <a href="@Url.Action("EditBlog","Admin",new { blogId = item.BlogId})" class="text-dark">
+                @Html.DisplayFor(modelItem => item.Title)
+            </a>
+        </td>
+        <td>
+            @item.BlogCategoryName
+        </td>
+        <td>
+            @if (item.Status == 1)
+            {
+                <span class="btn btn-xs btn-success btn-status">Đã đăng</span>
+            }
+            else
+            {
+                <span class="btn btn-xs btn-danger btn-status">Chưa đăng</span>
+            }
+        </td>
+        <td>
+            <a class="" href="~/tin-tuc/@item.BlogId/@item.Url" data-toggle="tooltip" title="Xem">
+                <i class="fas fa-eye text-info">
+                </i>
+            </a>
+            <a class="ml-2" href="@Url.Action("EditBlog", "Admin", new {blogId = item.BlogId })" data-toggle="tooltip" title="Sửa">
+                <i class="fas fa-pencil-alt text-warning">
+                </i>
+            </a>
+            <button type="button" class="ml-1 bg-transparent border-0 delete-blog" data-id="@item.BlogId" data-name="@item.Title" data-toggle="tooltip" title="Xóa">
+                <i class="fas fa-trash text-danger">
+                </i>
+            </button>
+        </td>
+    </tr>
+    i++;
+}

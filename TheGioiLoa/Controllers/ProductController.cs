@@ -47,7 +47,7 @@ namespace TheGioiLoa.Controllers
                 Promotion = product.Promotion,
                 Videos = product.Videos,
                 Price = product.Price,
-                ListedPrice = product.ListedPrice,
+                PriceSale = product.PriceSale,
                 Status = product.Status
             };
             var image = db.Product_Image.Include(a => a.Image).Where(a => a.ProductId == productId);
@@ -147,12 +147,11 @@ namespace TheGioiLoa.Controllers
                 }
                 ViewBag.BrandId = db.Brand.ToList();
                 ViewBag.Title = db.Category.Find(categoryId).Name;
-                
+
             }
             ViewBag.CategoryId = categoryId;
             return View(model);
         }
-
 
         public ActionResult LoadProductCategory(int? categoryId, string sortBy, int priceSortFrom, int priceSortTo)
         {
@@ -160,7 +159,6 @@ namespace TheGioiLoa.Controllers
             if (categoryId == null)
             {
                 productLists = db.Product.Where(a => a.Status == 1 || a.Status == 3)/*.Where(a => a.Price >= priceSortFrom && a.Price <= priceSortTo)*/.ToList();
-
             }
             else
             {
@@ -176,6 +174,8 @@ namespace TheGioiLoa.Controllers
 
             if (priceSortFrom == 0)
                 productList = productLists.Where(a => a.Price <= priceSortTo || a.Price == null).ToList();
+            else
+                productList = productLists.Where(a => a.PriceSale >= priceSortFrom && a.PriceSale <= priceSortTo).ToList();
 
             switch (sortBy)
             {
@@ -199,8 +199,80 @@ namespace TheGioiLoa.Controllers
 
         public ActionResult ProductByCategory(int? categoryId, string Url)
         {
-
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddReview(int productId, string reviewComment, int starCount, string userName, string phone, string email)
+        {
+            try
+            {
+                var product = db.Product.Find(productId);
+                if (product != null)
+                {
+                    var addReview = new Review()
+                    {
+                        ProductId = productId,
+                        Comment = reviewComment,
+                        StarCount = starCount,
+                        UserName = userName,
+                        Phone = phone,
+                        Email = email
+                    };
+                    db.Review.Add(addReview);
+                    db.SaveChanges();
+                    var json = new
+                    {
+                        status = "success",
+                        message = "Cảm ơn! Đánh giá của bạn đã được chúng tôi ghi nhận!"
+                    };
+                    return Json(json, JsonRequestBehavior.DenyGet);
+                }
+                else
+                {
+                    var json = new
+                    {
+                        status = "error",
+                        message = "Có lỗi xảy ra, vui lòng thử lại"
+                    };
+                    return Json(json, JsonRequestBehavior.DenyGet);
+                }
+                
+            }
+            catch
+            {
+                var json = new
+                {
+                    status = "error",
+                    message = "Có lỗi xảy ra, vui lòng thử lại"
+                };
+                return Json(json, JsonRequestBehavior.DenyGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult LoadReview(int productId)
+        {
+            var model = new ReviewViewModel();
+            model.AvgStar = 0;
+            var review = db.Review.Where(a => a.ProductId == productId);
+            model.CommentCount = review.Count();
+            var sumStar = 0;
+            var listReview = new List<EachReviewViewModel>();
+            for (int i=1;i<=5;i++)
+            {
+                var addReview = new EachReviewViewModel()
+                {
+                    Star = i,
+                    Count = review.Where(a => a.StarCount == i).Count(),
+                    Percent = Math.Round((double)review.Where(a => a.StarCount == i).Count() / (double)model.CommentCount*100)
+                };
+                sumStar += review.Where(a => a.StarCount == i).Count()*i;
+                listReview.Add(addReview);
+            }
+            model.AvgStar = Math.Round((double)sumStar / (double)review.Count());
+            model.EachReviewViewModel = listReview;
+            return PartialView("_ReviewPartial", model);
         }
     }
 }

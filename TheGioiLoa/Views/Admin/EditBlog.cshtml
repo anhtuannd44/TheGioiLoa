@@ -1,0 +1,134 @@
+﻿@model TheGioiLoa.Models.ViewModel.BlogViewModel
+
+@{
+    ViewBag.Title = "Chỉnh Sửa Bài Viết";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm("EditBlog", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model=>model.BlogId)
+    <div class="row" id="adminPage">
+        <div class="col-md-9">
+            <div class="form-group mb-2 mt-0">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control rounded-0", @placeholder = "Tiêu đề bài viết" })
+                <div class="mt-1">
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*Mô tả ngắn*@
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Nội dung bài viết</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @Html.TextAreaFor(model => model.BlogContent, new { @class = "textarea" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            @*Submit Form Card*@
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Đăng</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.BlogCategoryId, "Chọn chuyên mục", htmlAttributes: new { @class = "control-label" })
+                        <select name="BlogCategoryId" id="BlogCategoryId" class="form-control form-control-sm rounded-0">
+                            <option value="">Trống</option>
+                            @foreach (var item in Model.CategoryList)
+                            {
+                                <option value="@item.BlogCategoryId" @(item.BlogCategoryId==Model.BlogCategoryId?"selected":string.Empty)>@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <select name="Status" id="Status" class="form-control form-control-sm rounded-0 col-md-8">
+                            @foreach (var item in Model.StatusList)
+                            {
+                                <option value="@item.StatusId" @(item.StatusId==Model.Status?"selected":string.Empty)>@item.Name</option>
+                            }
+                        </select>
+                        <div class="col-md-4">
+                            <button type="submit" id="submitFormButton" class="btn btn-primary btn-flat btn-sm btn-block">Đăng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            // Summernote
+            $('.textarea').summernote({
+                height: 600,
+                focus: true,
+                callbacks: {
+                    onImageUpload: function (files) {
+                        for (let i = 0; i < files.length; i++) {
+                            uploadImage(files[i], $(this).attr("id"));
+                        }
+                    },
+                    onMediaDelete: function (file) {
+                        var image = $(file).attr("src");
+                        var lastIndex = image.lastIndexOf('/') + 1;
+                        var imageName = image.slice(lastIndex);
+                        deleteImage(imageName);
+                    }
+                }
+            });
+            function uploadImage(file, id) {
+                var url = '/Admin/UploadImageSummerNote';
+                formData = new FormData();
+                formData.append("aUploadedFile", file);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (FileUrl) {
+                        var imgNode = document.createElement('img');
+                        imgNode.src = FileUrl;
+                        $("#" + id).summernote('insertNode', imgNode);
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+            function deleteImage(name) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/DeleteImageSummerNote',
+                    data: { imageName: name },
+                    cache: false,
+                    success: function (data) {
+                        if (data.status == "success")
+                            toastr.success(data.message);
+                        else
+                            toastr.error(data.message);
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+        });
+    </script>
+}

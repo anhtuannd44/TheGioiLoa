@@ -13,8 +13,19 @@
                     <div class="text-center">
                         @if (item.Status == 1)
                         {
-                            <strong class="price">@((item.Price != null) ? string.Format("{0:0,0 ₫}", item.Price) : "Đang cập nhật")</strong>
-                            <del class="price-sale">@string.Format("{0:0,0 ₫}", item.ListedPrice)</del>
+                            if (item.PriceSale != null)
+                            {
+                                <strong class="price-sale">@string.Format("{0:0,0 ₫}", item.PriceSale)</strong>
+                                <del class="price">@string.Format("{0:0,0 ₫}", item.Price)</del>
+                            }
+                            else
+                            {
+                                <strong class="price-sale">@(item.Price != null ? string.Format("{0:0,0 ₫}", item.PriceSale):"Đang cập nhật")</strong>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-danger small">Tạm hết hàng</p>
                         }
                     </div>
                 </a>

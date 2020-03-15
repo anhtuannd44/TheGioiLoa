@@ -391,7 +391,6 @@ a:hover {
         }
 
 .product-grid .price {
-    color: #d42d22;
     font-size: 15px;
     font-weight: 700;
     margin: 0 2px 2px 0;
@@ -756,7 +755,7 @@ a:hover {
     margin-bottom: 0;
 }
 .homeproduct .producthome-item a .price {
-    color: #d42d22 !important;
+    color: #222 !important;
 }
 .homeproduct .producthome-item a del {
     font-size: 12px;
@@ -989,9 +988,7 @@ input[type=number] {
     background: #e9bba525;
     color: #d42d22;
 }
-.cart-information {
-    background: #F8F8F8 !important;
-}
+
 #cartInformation input, #cartInformation textarea {
     border: 1px solid #EFF3F4;
     font-size: .9rem;

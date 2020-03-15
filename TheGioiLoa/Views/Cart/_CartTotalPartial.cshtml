@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.CartViewModel>
+
+@{
+    var totalPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalPrice;
+    var totalPriceSale = TheGioiLoa.Models.ShoppingCart.Cart.TotalPriceSale;
+}
+<table style="width: 100%">
+    <tbody>
+        <tr>
+            <td class="pb-3" style="text-align:left;font-size: 20px;font-weight: bold;" colspan="2">Tóm tắt đơn hàng</td>
+        </tr>
+        <tr>
+            <td class="py-1" width="50%">Tạm tính (Chưa VAT):</td>
+            <td id="totalListedPrice" class="py-1" width="50%">@string.Format("{0:0,0 ₫}", totalPrice)</td>
+        </tr>
+        <tr>
+            <td class="py-1">Giảm giá:</td>
+            <td class="py-1" id="cartDiscount">@string.Format("{0:0,0 ₫}", totalPrice - totalPriceSale)</td>
+        </tr>
+        <tr style="border-top:solid 1px #e7e7e7; line-height: 45px;">
+            <td>Thành tiền:</td>
+            <td style="font-size:20px; color:#e82429;font-weight:bold" id="preTotalPrice">
+                @string.Format("{0:0,0 ₫}", totalPriceSale)
+            </td>
+
+        </tr>
+        <tr class="chonhinhthuc">
+            <td colspan="2" style="text-align:right">(Đã bao gồm VAT)</td>
+        </tr>
+
+        <tr class="shonhinhthuc" style="border-bottom:none; display: none;">
+            <td></td>
+            <td>(Đã bao gồm VAT)</td>
+        </tr>
+    </tbody>
+</table>

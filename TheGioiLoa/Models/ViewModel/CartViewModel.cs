@@ -16,11 +16,11 @@ namespace TheGioiLoa.Models.ViewModel
 
         public string Name { get; set; }
 
-        public double Price { get; set; }
+        public double? Price { get; set; }
 
         public string Cover { get; set; }
 
-        public double ListedPrice { get; set; }
+        public double? PriceSale { get; set; }
         public int Count { get; set; }
     }
     

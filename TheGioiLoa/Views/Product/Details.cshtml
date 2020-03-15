@@ -71,11 +71,18 @@
             </div>
             <hr class="my-2" />
             <div class="product-price">
-                <h3 class="text-primary font-weight-bold mb-1">@((Model.Price != null) ? string.Format("{0:0,0 ₫}", Model.Price) : "Đang cập nhật")</h3>
-                <p class="product-listed-price">
-                    Giá niêm yết
-                    <del>@((Model.ListedPrice != null) ? string.Format("{0:0,0 ₫}", Model.ListedPrice) : "Đang cập nhật")</del>
-                </p>
+                @if (Model.PriceSale != null)
+                {
+                    <h3 class="text-primary font-weight-bold mb-1">@string.Format("{0:0,0 ₫}", Model.PriceSale)</h3>
+                    <p class="product-listed-price">
+                        Giá niêm yết
+                        <del>@string.Format("{0:0,0 ₫}", Model.Price)</del>
+                    </p>
+                }
+                else
+                {
+                    <h3 class="text-primary font-weight-bold mb-1">@((Model.Price != null) ? string.Format("{0:0,0 ₫}", Model.Price) : "Đang cập nhật")</h3>
+                }
             </div>
             <div class="product-services mb-4">
                 <p class="font-weight-bold mb-1"><i class="fa fa-plus-circle mr-2 text-danger"></i>Giao hàng toàn quốc</p>
@@ -108,11 +115,14 @@
                     <p class="mb-1"><i class="fa fa-check-circle mr-2 text-danger"></i>Giá cạnh tranh nhất thị trường</p>
                 </div>
             </div>
-            <div class="buy-button mt-3">
-                <a href="#" class="btn btn-primary btn-block add-to-cart" data-id="@Model.ProductId">MUA NGAY</a>
-                <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
-                <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
+            @if (Model.Price != null)
+            {
+                <div class="buy-button mt-3">
+                    <a href="#" class="btn btn-primary btn-block add-to-cart" data-id="@Model.ProductId">MUA NGAY</a>
+                    <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
+                    <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -200,7 +210,7 @@
                                                     <h4 class="title"><a href="#">@item.Name</a></h4>
                                                     <div class="price">
                                                         @string.Format("{0:0,0 ₫}", item.Price)
-                                                        <span class="price-sale">@string.Format("{0:0,0 ₫}", item.ListedPrice)</span>
+                                                        <span class="price-sale">@string.Format("{0:0,0 ₫}", item.Price)</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -302,20 +312,33 @@
                     </div>
                     <div class="card-body">
                         <div class="product-price">
-                            <p>
-                                Giá bán:
-                                <span class="text-primary font-weight-bold h3 ml-5">@string.Format("{0:0,0 ₫}", Model.Price)</span>
-                            </p>
-                            <p class="product-listed-price">
-                                Giá thị trường:
-                                <del class="ml-3" style="font-size: 16px">@string.Format("{0:0,0 ₫}", Model.Price)</del>
-                            </p>
+                            @if (Model.PriceSale != null)
+                            {
+                                <p>
+                                    Giá bán:
+                                    <span class="text-primary font-weight-bold h3 ml-5">@string.Format("{0:0,0 ₫}", Model.PriceSale)</span>
+                                </p>
+                                <p class="product-listed-price">
+                                    Giá thị trường:
+                                    <del class="ml-3" style="font-size: 16px">@string.Format("{0:0,0 ₫}", Model.Price)</del>
+                                </p>
+                            }
+                            else
+                            {
+                                <p>
+                                    Giá bán:
+                                    <span class="text-primary font-weight-bold h3 ml-5">@(Model.Price != null ? string.Format("{0:0,0 ₫}", Model.Price) : "Đang cập nhật")</span>
+                                </p>
+                            }
                         </div>
-                        <div class="buy-button mt-3">
-                            <a href="#" class="btn btn-primary btn-block">MUA NGAY</a>
-                            <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
-                            <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
+                        @if (Model.Price != null)
+                        {
+                            <div class="buy-button mt-3">
+                                <a href="#" class="btn btn-primary btn-block">MUA NGAY</a>
+                                <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
+                                <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -342,60 +365,31 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="tbl-technical nd mt-2">
-                        <div class="product-review star-list">
-                            <span class="product-star" style="font-size: 15px;">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <span class="feedback-write text-info">(1 người đánh giá)</span>
-                            </span>
+                    <div class="mt-2">
+                        <div class="reviewPartial" id="reviewPartial">
+                            
                         </div>
-                        <div class="product-review-details">
-                            <p><b id="starCount">5</b>/5 sao</p>
-                            <div class="line-rating text-info">
-                                <div class="line-rating-details">
-                                    <h6 class="text-info float-left">5 sao</h6>
-                                    <div class="progress w-75 float-left ml-3">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 60%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="text-info float-left ml-3">6</h6>
-                                    <div class="clearfix"></div>
+                        <hr class="mt-1 mb-3" />
+                        <div class="startReview shadow p-3 rounded">
+                            <h6 class="mb-1">Để lại đánh giá của bạn</h6>
+                            <input type="hidden" name="productId" value="@Model.ProductId" id="productId" />
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="userName" placeholder="Tên của bạn" />
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" class="form-control" id="phone" placeholder="Số điện thoại" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="email" placeholder="Email" />
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="reviewComment" rows="3"></textarea>
+                            </div>
+                            <div class="clearfix">
+                                <div class="startReviewChoose float-left">
+                                    <input type="hidden" class="rating" value="5">
                                 </div>
-                                <div class="line-rating-details">
-                                    <h6 class="text-info float-left">4 sao</h6>
-                                    <div class="progress w-75 float-left ml-3">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 30%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="text-info float-left ml-3">3</h6>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="line-rating-details">
-                                    <h6 class="text-info float-left">3 sao</h6>
-                                    <div class="progress w-75 float-left ml-3">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 10%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="text-info float-left ml-3">1</h6>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="line-rating-details">
-                                    <h6 class="text-info float-left">2 sao</h6>
-                                    <div class="progress w-75 float-left ml-3">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="text-info float-left ml-3">0</h6>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="line-rating-details">
-                                    <h6 class="text-info float-left">1 sao</h6>
-                                    <div class="progress w-75 float-left ml-3">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="text-info float-left ml-3">0</h6>
-                                    <div class="clearfix"></div>
-                                </div>
+                                <button class="btn btn-primary btn-sm px-4 float-right" id="submitRating">Gửi</button>
                             </div>
                         </div>
                     </div>
@@ -417,6 +411,18 @@
                 description: false,
                 animateSpeed: 600
             })
+            $(".rating").rating();
+
+            var ProductID = $("#productId").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/Product/LoadReview",
+                data: {productId : ProductID},
+                success: function (data) {
+                    $("#reviewPartial").html(data);
+                }
+            })
         })
 
         var image;
@@ -437,23 +443,44 @@
             $(".add-to-cart").click(function () {
                 pid = $(this).attr("data-id");
                 $.ajax({
+                    method: "POST",
                     url: "/Cart/Add",
                     data: { productId: pid },
                     success: function (response) {
-                        $("#nn-cart-count").html(response.Count);
-                        $("#nn-cart-total").html(response.Total);
+                        window.location = "../../../Cart";
                     }
                 });
-
-                // hieu ung bay vao gio
-                //cssfly = ".fly-effect {background:url(?);background-size:100% 100%;}";
-                //src = $("#i" + pid).attr("src");
-                //newcssfly = cssfly.replace("?", src);
-                //$("#cart-fly").html(newcssfly);
-
-                //options = { to: "#nn-cart-image", className: "fly-effect" };
-                //$("#i" + pid).effect("transfer", options, 500, function () { });
             });
         });
+
+        $("#submitRating").click(function () {
+            var productId = $("#productId").val();
+            var reviewComment = $("#reviewComment").val();
+            var starCount = $(".rating").val();
+            var userName = $("#userName").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            $.ajax({
+                method: "POST",
+                url: "/Product/AddReview",
+                data: {
+                    productId: productId,
+                    reviewComment: reviewComment,
+                    starCount: starCount,
+                    userName: userName,
+                    phone: phone,
+                    email: email
+                },
+                success: function (data) {
+                    console.log(data.status);
+                    if (data.status == "success") {
+                        toastr.success(data.message);
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+                }
+            })
+        })
     </script>
 }

@@ -17,7 +17,7 @@
                 HttpMethod = "POST",
                 OnBegin = "loadingGif",
                 OnSuccess = "loadingNoti",
-                OnComplete = "extiLoadingGif"
+                OnComplete = "exitLoadingGif"
             }))
             {
                 <div class="card-body">
@@ -77,6 +77,7 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

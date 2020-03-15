@@ -13,7 +13,7 @@ function loadCategoryList() {
             toastr.error("Không thể tải dữ liệu Danh mục sản phẩm!");
         },
     });
-    extiLoadingGif();
+    exitLoadingGif();
 };
 function loadSelectCategory() {
     $.ajax({
@@ -31,28 +31,22 @@ function loadingGif() {
     $("#loadingGift").css("z-index", "9999");
     $("#loadingGift").css("opacity", "1");
 };
-function extiLoadingGif() {
+function exitLoadingGif() {
     $("#loadingGif").css("z-index", "-1");
     $("#loadingGif").css("opacity", "0");
 }
 function loadingNoti(data) {
-    switch (data) {
-        case "successed":
-            toastr.success('Thành công!');
+    switch (data.status) {
+        case "success":
+            toastr.success(data.message);
             loadCategoryList();
             loadSelectCategory();
             break;
         case "error":
-            toastr.error('Thất bại! Vui lòng kiểm tra và thử lại!');
-            break;
-        case "existed":
-            toastr.error('Thất bại! Dữ liệu đã tồn tại');
-            break;
-        case "editfaild":
-            toastr.error('Thất bại! Danh mục chưa được chính sửa!');
+            toastr.error(data.message);
             break;
         case "empty":
-            toastr.error('Thất bại! Tên danh mục không được để trống!');
+            toastr.error(data.message);
             break;
         default:
             toastr.warning('Có lỗi xảy ra, vui lòng thử lại!');
@@ -63,7 +57,7 @@ function showModalEditCategory(a) {
     var elm = $(a);
     $.ajax({
         type: "POST",
-        url: "/Admin/LoadEditPartial",
+        url: "/Admin/LoadEditCategoryPartial",
         data: { categoryId: elm.attr("data-id") },
         success: function (data) {
             $("#editCategoryContent").html(data);
@@ -99,8 +93,4 @@ function closeModal() {
     $("#editCategoryModal").modal('hide');
     $(".modal-backdrop").remove();
     $("body").removeClass("modal-open").css("padding-right", '0')
-};
-
-function editCategorySuccess(data) {
-    loadingNoti(data);
 };

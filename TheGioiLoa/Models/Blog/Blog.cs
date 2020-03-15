@@ -5,6 +5,7 @@ namespace TheGioiLoa.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web.Mvc;
 
     [Table("Blog")]
     public partial class Blog
@@ -20,10 +21,10 @@ namespace TheGioiLoa.Models
         [StringLength(300)]
         public string Title { get; set; }
 
+        [AllowHtml]
         [Column(TypeName = "ntext")]
         public string BlogContent { get; set; }
 
-        [Required]
         [StringLength(128)]
         public string Author { get; set; }
 
@@ -31,7 +32,9 @@ namespace TheGioiLoa.Models
 
         public DateTime DateModified { get; set; }
 
-        public bool Status { get; set; }
+        public int Status { get; set; }
+
+        public int Type { get; set; }
         
         public int? BlogCategoryId { get; set; }
 

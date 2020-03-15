@@ -20,8 +20,24 @@ namespace TheGioiLoa.Controllers
             return View(cart.Items);
         }
 
+        [HttpPost]
+        public ActionResult LoadCartDetails()
+        {
+            var cart = ShoppingCart.Cart;
+            return PartialView("_CartDetailPartial", cart.Items);
+        }
+
+        [HttpPost]
+        public ActionResult LoadCartTotal()
+        {
+            var cart = ShoppingCart.Cart;
+            return PartialView("_CartTotalPartial", cart.Items);
+        }
         public ActionResult CheckOut()
         {
+            var cart = ShoppingCart.Cart;
+            if (cart.Count == 0)
+                return RedirectToAction("NoItemInCart");
             return View();
         }
 
@@ -58,8 +74,8 @@ namespace TheGioiLoa.Controllers
                     {
                         ProductId = item.ProductId,
                         Count = item.Count,
-                        Price = item.ListedPrice,
-                        SalePrice = item.Price,
+                        Price = item.Price,
+                        SalePrice = item.PriceSale,
                         OrderId = newOrderId
                     };
                     db.OrderDetails.Add(addDetail);
@@ -80,62 +96,57 @@ namespace TheGioiLoa.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            order.OrderDetails = db.OrderDetails.Where(a => a.OrderId == orderid).ToList();
+            var model = new OrderViewModel
+            {
+                Order = order
+            };
 
-            return View(order);
+            var orderItem = db.OrderDetails.Where(a => a.OrderId == orderid);
+            var orderDetailsList = new List<OrderDeltailViewModel>();
+            foreach (var item in orderItem)
+            {
+
+                var orderDetail = new OrderDeltailViewModel()
+                {
+                    Product = db.Product.Find(item.ProductId),
+                    Price = item.Price,
+                    PriceSale = item.SalePrice,
+                    Count = item.Count,
+                    Guarantee = item.Guarantee
+
+                };
+                orderDetailsList.Add(orderDetail);
+            }
+            model.OrderDetails = orderDetailsList;
+            return View(model);
         }
         public ActionResult NoItemInCart()
         {
             return View();
         }
 
-        public ActionResult Add(int productId)
+        [HttpPost]
+        public void Add(int productId)
         {
             var cart = ShoppingCart.Cart;
             cart.Add(productId);
-
-            var info = new
-            {
-                cart.Count,
-                cart.TotalPrice,
-                cart.TotalListedPrice
-            };
-            return Json(info, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Remove(int productId)
+        [HttpPost]
+        public void Remove(int productId)
         {
             var cart = ShoppingCart.Cart;
             cart.Remove(productId);
-
-            var info = new
-            {
-                cart.Count,
-                cart.TotalPrice,
-                cart.TotalListedPrice,
-                cartDiscount = cart.TotalListedPrice - cart.TotalPrice
-            };
-            return Json(info, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Update(int productId, bool isCount)
+        [HttpPost]
+        public void Update(int productId, bool isCount)
         {
             var cart = ShoppingCart.Cart;
             cart.Update(productId, isCount);
-
-            var p = cart.Items.Single(i => i.ProductId == productId);
-            var info = new
-            {
-                newItemTotalPrice = p.Count * p.Price,
-                newItemTotalListedPrice = p.Count * p.ListedPrice,
-                cart.Count,
-                cart.TotalPrice,
-                cart.TotalListedPrice,
-                cartDiscount = cart.TotalListedPrice - cart.TotalPrice
-            };
-            return Json(info, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult Clear()
         {
             var cart = ShoppingCart.Cart;

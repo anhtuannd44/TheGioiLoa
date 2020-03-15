@@ -30,6 +30,7 @@ namespace TheGioiLoa
                         "~/Scripts/Home/js/contactform/contactform.js",
                         "~/Content/Admin/plugins/toastr/toastr.min.js",
                         "~/Content/Admin/plugins/ion-rangeslider/js/ion.rangeSlider.min.js",
+                        "~/Content/rating/bootstrap-rating.min.js",
                         "~/Scripts/Home/js/main.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/AdminJs").Include(
@@ -66,6 +67,8 @@ namespace TheGioiLoa
                        "~/Content/Home/css/style.css",
                        "~/Content/Home/slider-product/dist/styles/vit-gallery.css",
                        "~/Content/Admin/plugins/ion-rangeslider/css/ion.rangeSlider.min.css",
+                       "~/Content/Admin/plugins/toastr/toastr.min.css",
+                       "~/Content/rating/bootstrap-rating.css",
                        "~/Content/site.css"));
 
 

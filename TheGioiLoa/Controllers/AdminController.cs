@@ -19,6 +19,8 @@ namespace TheGioiLoa.Controllers
 
         //private readonly ICategoryService _categoryService;
         private readonly ProductService _productService = new ProductService();
+        private readonly ImageService _imageService = new ImageService();
+        private readonly BlogService _blogService = new BlogService();
 
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly HelperFunction _helper = new HelperFunction();
@@ -50,54 +52,48 @@ namespace TheGioiLoa.Controllers
             var model = db.Category.ToList();
             return PartialView("_SelectListCategory", model);
         }
+
         [HttpPost]
-        public string CreateCategory(CreateCategoryViewModel category)
+        public ActionResult CreateCategory(CreateCategoryViewModel category)
         {
+            var result = new JsonStatusViewModel();
             try
             {
-                category.Name = _helper.DeleteSpace(category.Name);
-                db.Category.Add(new Category()
-                {
-                    Name = category.Name,
-                    DateCreated = DateTime.Now,
-                    DateModified = DateTime.Now,
-                    Url = _helper.CreateUrl(category.Name),
-                    CategoryParentId = category.CategoryParentId
-                });
-                db.SaveChanges();
-                return "successed";
+                _productService.CreateCategory(category);
+                result.status = "success";
+                result.message = "Thành công! Chuyên mục đã được tạo";
             }
             catch
             {
-                return "error";
+                result.status = "success";
+                result.message = "Thành công! Chuyên mục đã được tạo";
             }
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
-        public string EditCategory(EditCategoryViewModel category)
+        public ActionResult EditCategory(EditCategoryViewModel category)
         {
+            var result = new JsonStatusViewModel();
             category.Name = _helper.DeleteSpace(category.Name);
             if (string.IsNullOrEmpty(category.Name))
-                return "empty";
-            else
             {
                 try
                 {
-                    var editItem = db.Category.Find(category.CategoryId);
-
-                    editItem.DateModified = DateTime.Now;
-                    editItem.Name = category.Name;
-                    editItem.Url = _helper.CreateUrl(category.Name);
-
-                    db.Entry(editItem).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return "successed";
+                    _productService.EditCategory(category);
+                    result.status = "success";
+                    result.message = "Thành công! Chuyên mục đã được chỉnh sửa.";
                 }
                 catch
                 {
-                    return "editfaild";
+                    result.status = "error";
+                    result.message = "Thất bại! Có lỗi xảy ra, vui long thử lại.";
                 }
+                return Json(result, JsonRequestBehavior.DenyGet);
             }
+            result.status = "empty";
+            result.message = "Thất bại! Tên chuyên mục không được để trống.";
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
@@ -112,94 +108,34 @@ namespace TheGioiLoa.Controllers
             return PartialView("_EditCategoryPartial", model);
         }
 
-        
+
         [HttpPost]
-        public string RemoveCategory(RemoveCategoryViewMode category)
+        public ActionResult RemoveCategory(int CategoryId)
         {
+            var result = new JsonStatusViewModel();
             try
             {
-                var removeItem = db.Category.Find(category.CategoryId);
-                db.Category.Remove(removeItem);
-                db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == category.CategoryId));
-
-                var childCategoryList = db.Category.Where(a => a.CategoryParentId == category.CategoryId);
-                if (childCategoryList != null)
-                    foreach (var child in childCategoryList)
-                    {
-                        db.Category.RemoveRange(db.Category.Where(a => a.CategoryParentId == child.CategoryId || a.CategoryId == child.CategoryId));
-                        db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == child.CategoryId));
-                        var subChildList = db.Category.Where(a => a.CategoryParentId == child.CategoryId);
-                        if (subChildList != null)
-                            foreach (var subChild in subChildList.ToList())
-                            {
-                                db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == subChild.CategoryId));
-                            }
-                    }
-
-                db.SaveChanges();
-                return "successed";
+                _productService.RemoveCategory(CategoryId);
+                result.status = "success";
+                result.message = "Thành công! Chuyên mục đã được xóa.";
             }
             catch
             {
-                return "error";
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
             }
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         public ActionResult ProductList()
         {
-            var model = new List<ProductViewModel>();
-
-            var productList = db.Product.Where(a => a.Status != 4);
-            foreach (var item in productList)
-            {
-                var addProduct = new ProductViewModel()
-                {
-                    ProductId = item.ProductId,
-                    Description = item.Description,
-                    CoverName = item.Cover,
-                    ListedPrice = item.ListedPrice,
-                    Price = item.Price,
-                    Status = item.Status,
-                    Name = item.Name,
-                    Url = item.Url
-                };
-                var Categories = db.CategoryProduct.Include(a => a.Category).Where(a => a.ProductId == item.ProductId);
-                if (Categories.Count() != 0)
-                {
-                    var addListCategory = new List<CategoryProductEditViewModel>();
-                    foreach (var category in Categories)
-                    {
-                        addListCategory.Add(new CategoryProductEditViewModel()
-                        {
-                            CategoryId = category.CategoryId,
-                            CategoryParentId = category.Category.CategoryParentId,
-                            Name = category.Category.Name
-                        });
-                    }
-                    addProduct.Categories = addListCategory.ToList();
-                }
-                var Images = db.Product_Image.Where(a => a.ProductId == item.ProductId);
-                if (Images.Count() != 0)
-                {
-                    var addListImage = new List<Image>();
-                    foreach (var image in Images)
-                    {
-                        addListImage.Add(new Image()
-                        {
-                            ImageId = image.ImageId
-                        });
-                    }
-                    addProduct.Images = addListImage;
-                }
-                model.Add(addProduct);
-            }
-
+            var model = _productService.GetProductList();
             return View(model.ToList());
         }
 
-
-        public ActionResult EditProduct(int productId)
+        public ActionResult EditProduct(int productId, string error)
         {
+            ViewBag.NotiPrice = error;
             var product = db.Product.Find(productId);
             if (product == null)
                 return HttpNotFound();
@@ -212,13 +148,14 @@ namespace TheGioiLoa.Controllers
                 Description = product.Description,
                 DateModified = DateTime.Now,
                 Price = product.Price,
-                ListedPrice = product.ListedPrice,
+                PriceSale = product.PriceSale,
                 Status = product.Status,
                 Characteristics = product.Characteristics,
                 Promotion = product.Promotion,
                 Videos = product.Videos,
                 Details = product.Details,
-                CoverName = product.Cover
+                CoverName = product.Cover,
+                Guarantee = product.Guarantee
             };
             var category = db.Category.ToList();
             var addCategoryList = new List<CategoryProductEditViewModel>();
@@ -257,7 +194,6 @@ namespace TheGioiLoa.Controllers
                 });
             }
             model.Brand = addBrandList.ToList();
-
             var tag = db.Product_Tag.Include(a => a.Tag).Where(a => a.ProductId == productId);
             var addTagList = new List<Tag>();
             foreach (var item in tag)
@@ -269,53 +205,55 @@ namespace TheGioiLoa.Controllers
                 });
             }
             model.Tags = addTagList.ToList();
-
             model.StatusList = _productService.GetStatus();
-
-
             return View(model);
         }
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult EditProduct(ProductViewModel product)
         {
-            if (product.Cover != null)
+            var error = "";
+            if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
             {
-                var fileName = _helper.RandomString() + Path.GetExtension(product.Cover.FileName);
-                string path = Path.Combine(Server.MapPath("~/Content/Upload/Images/"), fileName);
-                product.Cover.SaveAs(path);
-                product.CoverName = fileName;
+                error = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán!";
             }
             else
             {
-                product.CoverName = "No_Picture.jpg";
+                try
+                {
+                    if (product.Cover != null)
+                    {
+                        var fileName = _helper.RandomString() + Path.GetExtension(product.Cover.FileName);
+                        string path = Path.Combine(Server.MapPath("~/Content/Upload/Images/"), fileName);
+                        product.Cover.SaveAs(path);
+                        product.CoverName = fileName;
+                    }
+                    else
+                    {
+                        product.CoverName = "No_Picture.jpg";
+                    }
+
+                    //Edit ProductDb 
+                    product.Name = _helper.DeleteSpace(product.Name);
+                    //try
+                    //{
+                    _productService.EditProductDb(product);
+                    _productService.RemoveCategoryProduct(product.ProductId);
+                    //Add Category
+                    _productService.AddCategoryToProduct(product.ProductId, Request["CategoryId"]);
+
+                    //Add Image
+                    _productService.RemoveProductImage(product.ProductId);
+                    _productService.AddImageToProduct(product.ProductId, product.Image);
+
+                    //Add Tags
+                    _productService.RemoveProductTag(product.ProductId);
+                    _productService.AddTagToProduct(product.ProductId, product.Tag);
+                    return RedirectToAction("ProductList");
+                }
+                catch { }
             }
-
-            //Edit ProductDb 
-            product.Name = _helper.DeleteSpace(product.Name);
-            //try
-            //{
-            _productService.EditProductDb(product);
-            _productService.RemoveCategoryProduct(product.ProductId);
-            //Add Category
-            _productService.AddCategoryToProduct(product.ProductId, Request["CategoryId"]);
-
-            //Add Image
-            _productService.RemoveProductImage(product.ProductId);
-            _productService.AddImageToProduct(product.ProductId, product.Image);
-
-            //Add Tags
-            _productService.RemoveProductTag(product.ProductId);
-            _productService.AddTagToProduct(product.ProductId, product.Tag);
-
-            return RedirectToAction("ProductList");
-            //}
-            //catch
-            //{
-            //    ViewBag.BrandId = db.Brand.ToList();
-            //    ViewBag.CategoryId = db.Category.ToList();
-            //    return View(product);
-            //}
+            return RedirectToAction("EditProduct", new { productId = product.ProductId, error = error });
 
         }
         public ActionResult CreateProduct()
@@ -330,41 +268,67 @@ namespace TheGioiLoa.Controllers
         public ActionResult CreateProduct(CreateProductViewModel product)
         {
             product.Name = _helper.DeleteSpace(product.Name);
+            if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
+            {
+                ViewBag.NotiPrice = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán!";
+            }
+            else
+            {
+                try
+                {
+                    if (product.Cover != null)
+                    {
+                        var fileName = _helper.RandomString() + Path.GetExtension(product.Cover.FileName);
+                        string path = Path.Combine(Server.MapPath("~/Content/Upload/Images/"), fileName);
+                        product.Cover.SaveAs(path);
+                        product.CoverName = fileName;
+                    }
+                    else
+                    {
+                        product.CoverName = "No_Picture.jpg";
+                    }
+                    _productService.AddProductToDb(product);
+
+                    var productId = _productService.GetLastestProductId(product.Name);
+
+                    //Add Category
+                    _productService.AddCategoryToProduct(productId, Request["CategoryId"]);
+
+                    //Add Image
+                    _productService.AddImageToProduct(productId, product.Image);
+
+                    //Add Tags
+                    _productService.AddTagToProduct(productId, product.Tag);
+
+                    return RedirectToAction("ProductList");
+                }
+                catch
+                {
+
+                }
+            }
+            ViewBag.BrandId = db.Brand.ToList();
+            ViewBag.CategoryId = db.Category.ToList();
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteProduct(int productId)
+        {
+            var result = new JsonStatusViewModel();
             try
             {
-                if (product.Cover != null)
-                {
-                    var fileName = _helper.RandomString() + Path.GetExtension(product.Cover.FileName);
-                    string path = Path.Combine(Server.MapPath("~/Content/Upload/Images/"), fileName);
-                    product.Cover.SaveAs(path);
-                    product.CoverName = fileName;
-                }
-                else
-                {
-                    product.CoverName = "No_Picture.jpg";
-                }
-                _productService.AddProductToDb(product);
-
-                var productId = _productService.GetLastestProductId(product.Name);
-
-                //Add Category
-                _productService.AddCategoryToProduct(productId, Request["CategoryId"]);
-
-                //Add Image
-                _productService.AddImageToProduct(productId, product.Image);
-
-                //Add Tags
-                _productService.AddTagToProduct(productId, product.Tag);
-
-                return RedirectToAction("ProductList");
+                db.Product.Remove(db.Product.Find(productId));
+                db.SaveChanges();
+                result.status = "success";
+                result.message = "Thành công! Sản phẩm đã được xóa";
             }
             catch
             {
-                ViewBag.BrandId = db.Brand.ToList();
-                ViewBag.CategoryId = db.Category.ToList();
-                return View(product);
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
             }
-
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         public JsonResult UploadImage(HttpPostedFileBase File)
@@ -385,8 +349,6 @@ namespace TheGioiLoa.Controllers
                 result.status = "error";
                 result.message = ex.Message;
             }
-
-
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -421,7 +383,13 @@ namespace TheGioiLoa.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateBrand(CreateBrandViewModel brand)
         {
-            if (!string.IsNullOrEmpty(brand.Name))
+            var result = new JsonStatusViewModel();
+            if (string.IsNullOrEmpty(brand.Name))
+            {
+                result.message = "Thất bại! Dữ liệu không được trống!";
+                result.status = "empty";
+            }
+            else
             {
                 try
                 {
@@ -432,26 +400,16 @@ namespace TheGioiLoa.Controllers
                         Name = brand.Name
                     });
                     db.SaveChanges();
-                    return Json(new
-                    {
-                        message = "Thành công! Thương hiệu đã được chỉnh sửa!",
-                        status = "success"
-                    });
+                    result.message = "Thành công! Thương hiệu đã được chỉnh sửa!";
+                    result.status = "success";
                 }
                 catch
                 {
-                    return Json(new
-                    {
-                        message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại",
-                        status = "error"
-                    });
+                    result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+                    result.status = "error";
                 }
             }
-            else return Json(new
-            {
-                message = "Thất bại! Dữ liệu không được trống!",
-                status = "empty"
-            });
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
@@ -475,13 +433,13 @@ namespace TheGioiLoa.Controllers
         {
             var model = db.Brand.Find(brandId);
             return PartialView("_EditBrandPartial", model);
-
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditBrand(Brand brand)
         {
+            var result = new JsonStatusViewModel();
             try
             {
                 var editItem = db.Brand.Find(brand.BrandId);
@@ -489,45 +447,37 @@ namespace TheGioiLoa.Controllers
                 editItem.Url = _helper.CreateUrl(editItem.Name);
                 db.Entry(editItem).State = EntityState.Modified;
                 db.SaveChanges();
-                return Json(new
-                {
-                    message = "Thành công! Thương hiệu đã được chỉnh sửa!",
-                    status = "success"
-                });
+
+                result.message = "Thành công! Thương hiệu đã được chỉnh sửa!";
+                result.status = "success";
             }
             catch
             {
-                return Json(new
-                {
-                    message = "Có lỗi xảy ra, vui lòng thử lại!",
-                    status = "error"
-                });
+                result.message = "Có lỗi xảy ra, vui lòng thử lại!";
+                result.status = "error";
             }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RemoveBrand(int brandId)
         {
+            var result = new JsonStatusViewModel();
             try
             {
                 var removeBrand = db.Brand.Find(brandId);
                 db.Brand.Remove(removeBrand);
                 db.SaveChanges();
-                return Json(new
-                {
-                    message = "Thành công! Xóa thành công thương hiệu!",
-                    status = "success"
-                });
+                result.message = "Thành công! Xóa thành công thương hiệu!";
+                result.status = "success";
             }
             catch
             {
-                return Json(new
-                {
-                    message = "Có lỗi xảy ra, vui lòng thử lại!",
-                    status = "error"
-                });
+                result.message = "Có lỗi xảy ra, vui lòng thử lại!";
+                result.status = "error";
             }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CreateTag(string tag)
@@ -543,8 +493,295 @@ namespace TheGioiLoa.Controllers
             }
             var result = db.Tag.Where(a => a.Name == tag).FirstOrDefault();
             TagViewModel json = new TagViewModel() { TagId = result.TagId.ToString(), Name = result.Name };
-
             return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Blog()
+        {
+            return View();
+        }
+        public ActionResult LoadBlogList()
+        {
+            var model = _blogService.GetBlogList("All", 1).ToList();
+            return PartialView("_BlogListPartial", model);
+        }
+        public ActionResult CreateBlog()
+        {
+            var categories = db.BlogCategory.ToList();
+            var model = new BlogViewModel
+            {
+                CategoryList = categories,
+                StatusList = _blogService.GetStatus()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateBlog(BlogViewModel blog)
+        {
+            try
+            {
+                _blogService.CreateBlog(blog, 1);
+                return RedirectToAction("Blog");
+            }
+            catch
+            {
+                var categories = db.BlogCategory.ToList();
+                blog.CategoryList = categories;
+                blog.StatusList = _blogService.GetStatus();
+                return View(blog);
+            }
+        }
+        public ActionResult EditBlog(int blogId)
+        {
+            var blog = db.Blog.Find(blogId);
+            if (blog == null)
+                return HttpNotFound();
+            var model = new BlogViewModel()
+            {
+                BlogId = blog.BlogId,
+                Title = blog.Title,
+                BlogContent = blog.BlogContent,
+                Status = blog.Status,
+                BlogCategoryId = blog.BlogCategoryId
+            };
+            var categories = db.BlogCategory.ToList();
+            model.CategoryList = categories;
+            model.StatusList = _blogService.GetStatus();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBlog(BlogViewModel blog)
+        {
+            try
+            {
+                _blogService.EditBlog(blog);
+                return RedirectToAction("Blog");
+            }
+            catch
+            {
+                var categories = db.BlogCategory.ToList();
+                blog.CategoryList = categories;
+                blog.StatusList = _blogService.GetStatus();
+                return View(blog);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteBlog(int blogId)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                db.Blog.Remove(db.Blog.Find(blogId));
+                db.SaveChanges();
+                result.status = "success";
+                result.message = "Thành công! Bài viết đã được xóa.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        public ActionResult LoadBlogCategory()
+        {
+            return PartialView("_BlogCategory", db.BlogCategory.ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateBlogCategory(string blogCategoryName)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _blogService.CreateBlogCategory(blogCategoryName);
+                result.status = "success";
+                result.message = "Thành công " + blogCategoryName + " đã được tạo!";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại!";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        public ActionResult EditBlogCategory(int blogCategoryId, string Name)
+        {
+            var result = new JsonStatusViewModel();
+            if (string.IsNullOrEmpty(Name))
+            {
+                result.status = "empty";
+                result.message = "Thất bại! Tên chuyên mục vui lòng không để trống!";
+            }
+            else
+            {
+                try
+                {
+                    _blogService.EditBlogCateogry(blogCategoryId, Name);
+                    result.status = "success";
+                    result.message = "Thành công! Danh mục đã được chỉnh sửa!";
+                }
+                catch
+                {
+                    result.status = "error";
+                    result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+                }
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteBlogCategory(int blogCategoryId)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _blogService.DeleteBlogCategory(blogCategoryId);
+                result.status = "success";
+                result.message = "Thành công! Danh mục đã được xóa!";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại!";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult UploadImageSummerNote(HttpPostedFileBase aUploadedFile)
+        {
+            var vReturnImagePath = string.Empty;
+            if (aUploadedFile.ContentLength > 0)
+            {
+                string imageName = _helper.RandomString() + Path.GetExtension(aUploadedFile.FileName);
+                _imageService.SaveImageInDb(imageName);
+                aUploadedFile.SaveAs(Server.MapPath("/Content/Upload/Images/") + imageName);
+                vReturnImagePath = "/Content/Upload/Images/" + imageName;
+            }
+            return Json(Convert.ToString(vReturnImagePath), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteImageSummerNote(string imageName)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                var deleteImageInDbStatus = _imageService.RemoveImageInDb(imageName);
+                if (deleteImageInDbStatus == 1)
+                {
+                    string fullPath = Request.MapPath("/Content/Upload/Images/" + imageName);
+                    _imageService.RemoveImageInServer(fullPath);
+                }
+                result.status = "success";
+                result.message = "Xóa hình ảnh thành công";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại!";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult Page()
+        {
+            var model = _blogService.GetBlogList("All", 2).ToList();
+            return View(model);
+        }
+        public ActionResult LoadPageList()
+        {
+            var model = _blogService.GetBlogList("All", 2).ToList();
+            return PartialView("_PageListPartial", model);
+        }
+        public ActionResult CreatePage()
+        {
+            var model = new BlogViewModel
+            {
+                StatusList = _blogService.GetStatus()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePage(BlogViewModel page)
+        {
+            try
+            {
+                _blogService.CreateBlog(page, 2);
+                return RedirectToAction("Page");
+            }
+            catch
+            {
+                page.StatusList = _blogService.GetStatus();
+                return View(page);
+            }
+        }
+        public ActionResult EditPage(int pageId)
+        {
+            var page = db.Blog.Find(pageId);
+            if (page == null)
+                return HttpNotFound();
+            var model = new BlogViewModel()
+            {
+                BlogId = page.BlogId,
+                Title = page.Title,
+                BlogContent = page.BlogContent,
+                Status = page.Status
+            };
+            model.StatusList = _blogService.GetStatus();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPage(BlogViewModel page)
+        {
+            try
+            {
+                _blogService.EditBlog(page);
+                return RedirectToAction("Page");
+            }
+            catch
+            {
+                page.StatusList = _blogService.GetStatus();
+                return View(page);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeletePage(int pageId)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                db.Blog.Remove(db.Blog.Find(pageId));
+                db.SaveChanges();
+                result.status = "success";
+                result.message = "Thành công! Trang đã được xóa.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
     }
 }

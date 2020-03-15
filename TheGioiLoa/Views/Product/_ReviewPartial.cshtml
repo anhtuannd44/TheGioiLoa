@@ -1,0 +1,38 @@
+﻿@model TheGioiLoa.Models.ViewModel.ReviewViewModel
+@{
+    var star = Model.AvgStar;
+    var starCount = 0;
+    var count = 1;
+}
+
+<div class="product-review star-list">
+    <span class="product-star" style="font-size: 15px;">
+        @for (var i = 1; i <= star; i++)
+        {
+            starCount++;
+            <i class="fas fa-star"></i>
+        }
+        @for (var i = 1; i <= (5 - starCount); i++)
+        {
+            <i class="far fa-star"></i>
+        }
+        <span class="feedback-write text-info">(@Model.CommentCount người đánh giá)</span>
+    </span>
+</div>
+<div class="product-review-details">
+    <p><b id="starCount">@starCount</b>/5 sao</p>
+    <div class="line-rating text-info">
+        @foreach (var item in Model.EachReviewViewModel)
+        {
+            <div class="line-rating-details">
+                <h6 class="text-info float-left">@item.Star sao</h6>
+                <div class="progress w-75 float-left ml-3">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: @item.Percent%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h6 class="text-info float-left ml-3">@item.Count</h6>
+                <div class="clearfix"></div>
+            </div>
+            count++;
+        }
+    </div>
+</div>

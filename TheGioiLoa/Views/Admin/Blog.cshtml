@@ -1,0 +1,226 @@
+﻿@{
+    ViewBag.Title = "Bài viết Tin Tức";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header clearfix">
+                <a href="@Url.Action("CreateBlog","Admin")" class="card-title mt-1 btn btn-success">Tạo bài viết mới</a>
+                <div class="float-right">
+                    <form class="form-inline">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar bg-light" style="border-color: #e3e3e3;" type="search" placeholder="Tìm Kiếm" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar bg-light" style="border-color:#e3e3e3" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>
+                                Tên bài viết
+                            </th>
+                            <th>
+                                Chuyên Mục
+                            </th>
+                            <th>
+                                Trạng thái
+                            </th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blogList">
+                        
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tạo chuyên mục</h3>
+            </div>
+            <div class="card-body">
+                @using (Ajax.BeginForm("CreateBlogCategory", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "loadingGif",
+                    OnSuccess = "createBlogCategorySent"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" required name="blogCategoryName" id="blogCategoryName">
+                            <span class="input-group-append">
+                                <button type="submit" class="btn btn-info btn-flat">Tạo</button>
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách chuyên mục</h3>
+            </div>
+            <div class="card-body" id="blogCategory">
+
+            </div>
+            <div id="loadingGif">
+                <div class="position-relative h-100 w-100">
+                    <div class="loadingio-spinner-spinner-0g9wfi70d3hr">
+                        <div class="ldio-dmto02pujx">
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="blogCategoryModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="removeBrandContent">
+            <div class="overlay justify-content-center align-items-center d-none" id="loadingBlogCategoryModal">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleModal">Chỉnh sửa hoặc xóa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body position-relative">
+                <input hidden type="text" id="BlogCategoryId" name="BlogCategoryId" />
+                <div class="form-group">
+                    <input type="text" class="form-control" required name="Name" id="Name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBlogCategory" class="btn btn-danger rounded" data-toggle="tooltip" title="Xóa danh mục"><i class="fas fa-trash"></i></button>
+                <button type="button" id="editBlogCategory" class="btn btn-success">Lưu Chỉnh Sửa</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Admin/Admin.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            loadBlogCategory();
+            loadBlogList();
+        })
+
+        function loadBlogCategory() {
+            loadingGif();
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadBlogCategory",
+                success: function (data) {
+                    $("#blogCategory").html(data);
+                    exitLoadingGif();
+                }
+            });
+        }
+
+        function createBlogCategorySent(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                loadBlogCategory();
+            }
+            else
+                toastr.error(data.message);
+        }
+
+        $("#deleteBlogCategory").click(function () {
+            var blogCategoryId = $("#BlogCategoryId").val();
+            $.ajax({
+                method: "POST",
+                url: "/Admin/DeleteBlogCategory",
+                data: {
+                    blogCategoryId: blogCategoryId
+                },
+                success: function (data) {
+                    if (data.status == "success") {
+                        toastr.success(data.message);
+                        loadBlogCategory();
+                    }
+                    else
+                        toastr.error(data.message);
+                    $("#blogCategoryModal").modal("hide");
+                }
+            });
+        });
+
+        $("#editBlogCategory").click(function () {
+            var blogCategoryId = $("#BlogCategoryId").val();
+            var blogName = $("#Name").val();
+            $.ajax({
+                method: "POST",
+                url: "/Admin/EditBlogCategory",
+                data: {
+                    blogCategoryId: blogCategoryId,
+                    Name: blogName
+                },
+                success: function (data) {
+                    if (data.status == "success") {
+                        toastr.success(data.message);
+                        loadBlogCategory();
+                    }
+                    else
+                        toastr.error(data.message);
+                    $("#blogCategoryModal").modal("hide");
+                }
+            });
+        });
+        $(".delete-blog").click(function () {
+            var blogId = $(this).attr("data-id");
+            var r = confirm("Bạn có muốn xóa bài viết '" + $(this).attr("data-name") + "' này không?");
+            if (r == true) {
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/DeleteBlog",
+                    data: { blogId: blogId },
+                    success: function (data) {
+                        if (data.status == "success") {
+                            toastr.success(data.message);
+                            loadBlogList();
+                        }
+                    }
+                })
+            }
+            else {
+
+            }
+        })
+
+        function loadBlogList() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadBlogList",
+                success: function (data) {
+                    $("#blogList").html(data);
+                }
+            })
+        }
+    </script>
+}

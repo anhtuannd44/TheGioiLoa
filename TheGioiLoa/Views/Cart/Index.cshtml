@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "Giỏ Hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var totalListedPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalListedPrice;
     var totalPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalPrice;
+    var totalPriceSale = TheGioiLoa.Models.ShoppingCart.Cart.TotalPriceSale;
 }
 <div class="container">
     <ul class="top-checkout">
@@ -17,99 +17,25 @@
     <div class="row">
         <div class="col-md-8 col-md-8 col-lg-8 col-lg-8 col-xs-12">
             <div class="card card-shadow card-information">
-                <div class="h-100 position-absolute w-100 loading-gift" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
+                <div class="h-100 position-absolute w-100 loading-gift" id="loadingGif_Details" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
                     <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
                 </div>
                 <div class="card-body cart-content" id="cartContent" data-value="step1">
                     <h5 class="card-title">Giỏ hàng của bạn</h5>
                     <hr />
-                    @foreach (var item in Model)
-                    {
-                        <div id="productId_@item.ProductId">
-                            <input hidden id="ProductId" value="@item.ProductId" />
-                            <div class="row cart-item align-items-center m-0 py-1 rounded">
-                                <div class="col-md-6">
-                                    <a href="#" class="d-inline-block">
-                                        <img src="~/Content/iphone-11-red-400x400.jpg" class="cart-item-img" width="80" />
-                                    </a>
-                                    <div class="cart-item-desc d-inline-block">
-                                        <p class="cart-item-title h6">@item.Name</p>
-                                        <div class="cart-item-service">
-                                            <p class="cart-item-service-content"><i class="fas fa-truck mr-2 mb-0"></i>Miễn phí vận chuyển</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="cart-item-count my-auto">
-                                        <div class="dec cart-count-button" data-count="False">-</div>
-                                        <input name="" readonly="readonly" id="Count_@item.ProductId" value="@item.Count" type="number" class="cart-item-count-input">
-                                        <div class="inc cart-count-button" data-count="True">+</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="cart-item-price text-right">
-                                        <h5 class="m-0 text-primary item-price" id="itemPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.Price * item.Count)</h5>
-                                        <del id="itemListedPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.ListedPrice * item.Count)</del>
-                                    </div>
-                                    <div class="cart-action-btn mt-1">
-                                        <button class="btn btn-delete small pull-right delete-item" data-id="@item.ProductId"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
+                    <div class="cartInformation" id="cartDetails">
+                        @Html.Partial("_CartDetailPartial", Model)
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4 col-md-4 col-lg-4 col-md-4 col-xs-12">
             <div class="card card-shadow mb-4">
-                <div class="h-100 position-absolute w-100 loading-gift" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
+                <div class="h-100 position-absolute w-100 loading-gift" id="loadingGif_Total" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
                     <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
                 </div>
-                <div class="card-body box-payment">
-                    <table style="width: 100%">
-                        <tbody>
-                            <tr>
-                                <td class="pb-3" style="text-align:left;font-size: 20px;font-weight: bold;" colspan="2">Tóm tắt đơn hàng</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1" width="50%">Tạm tính (Chưa VAT):</td>
-                                <td id="totalListedPrice" class="py-1" width="50%">@string.Format("{0:0,0 ₫}", totalListedPrice)</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1">Giảm giá:</td>
-                                <td class="py-1" id="cartDiscount">@string.Format("{0:0,0 ₫}", totalListedPrice - totalPrice)</td>
-                            </tr>
-                            @*<tr>
-                                    <td class="py-1">VAT:</td>
-                                    <td class="py-1">92.280 đ</td>
-                                </tr>*@
-                            <tr style="border-top:solid 1px #e7e7e7; line-height: 45px;">
-                                <td>Thành tiền:</td>
-                                <td style="font-size:20px; color:#e82429;font-weight:bold" id="preTotalPrice">
-                                    @string.Format("{0:0,0 ₫}", totalPrice)
-                                </td>
-
-                            </tr>
-                            <tr class="chonhinhthuc">
-                                <td colspan="2" style="text-align:right">(Đã bao gồm VAT)</td>
-                            </tr>
-                            @*<tr class="box-tongthanhtien noborbot shonhinhthuc" style="border-bottom:none; display: none;">
-                                    <td style="font-weight:bold;">Thành tiền</td>
-
-                                    <td style="font-size:20px; color:#e82429;font-weight:bold">
-                                        <b id="totalPrice">
-                                            @string.Format("{0:0,0 ₫}", totalPrice)
-                                        </b>
-                                    </td>
-                                </tr>*@
-                            <tr class="shonhinhthuc" style="border-bottom:none; display: none;">
-                                <td></td>
-                                <td>(Đã bao gồm VAT)</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card-body box-payment" id="cartTotal">
+                    @Html.Partial("_CartTotalPartial", Model)
                 </div>
             </div>
             <div class="cart-continue mb-4 text-right">
@@ -146,119 +72,65 @@
 }
 @section scripts{
     <script>
-        $(function () {
-            // Xóa khỏi giỏ
-            $(".delete-item").click(function () {
-                $(".loading-gift").show();
-                removeItem($(this).attr("data-id"));
+
+        // Xóa khỏi giỏ
+        function deleteItem(e) {
+            $(".loading-gift").show();
+            removeItem($(e).attr("data-id"));
+        };
+
+        function removeItem(productId) {
+            $.ajax({
+                method: "POST",
+                url: "/Cart/Remove",
+                data: { productId: productId },
+                success: function () {
+                    updateCart();
+                }
             });
-
-            function removeItem(productId) {
-                $.ajax({
-                    url: "/Cart/Remove",
-                    data: { productId: productId },
-                    success: function (data) {
-                        $("#productId_" + productId).hide(700);
-                        updateCart(data, productId, true);
-                    }
-                });
-            }
-            function changeCountItem(productId, isCount) {
-                $.ajax({
-                    url: "/Cart/Update",
-                    data: { productId: productId, isCount: isCount },
-                    success: function (data) {
-                        updateCart(data, productId, false);
-                    }
-                });
-            }
-            function updateCart(data, productId, isRemove) {
-                if (!isRemove) {
-                    var newItemTotalPrice = data.newItemTotalPrice;
-                    if (newItemTotalPrice != 0) {
-                        $("#itemPrice_" + productId).html(customNumber(newItemTotalPrice, 0, ',', '.') + " ₫");
-                    }
-                    else {
-                        $("#itemPrice_" + productId).html("0 ₫");
-                    }
-                    var newItemTotalListedPrice = data.newItemTotalListedPrice;
-                    if (newItemTotalListedPrice != 0) {
-                        $("#itemListedPrice_" + productId).html(customNumber(newItemTotalListedPrice, 0, ',', '.') + " ₫");
-                    }
-                    else {
-                        $("#itemListedPrice_" + productId).html("0 ₫");
-                    }
-                }
-
-                var TotalListedPrice = data.TotalListedPrice;
-                if (TotalListedPrice != 0) {
-                    $("#totalListedPrice").html(customNumber(TotalListedPrice, 0, ',', '.') + " ₫");
-                }
-                else {
-                    $("#totalListedPrice").html("0 ₫")
-                }
-
-                var cartDiscount = data.cartDiscount;
-                if (cartDiscount != 0) {
-                    $("#cartDiscount").html(customNumber(cartDiscount, 0, ',', '.') + " ₫");
-                }
-                else {
-                    $("#cartDiscount").html("0 ₫")
-                }
-
-                var TotalPrice = data.TotalPrice;
-                if (TotalPrice != 0) {
-                    $("#preTotalPrice").html(customNumber(TotalPrice, 0, ',', '.') + " ₫");
-                    $("#TotalPrice").html(customNumber(TotalPrice, 0, ',', '.') + " ₫");
-                }
-                else {
-                    $("#preTotalPrice").html("0 ₫");
-                    $("#TotalPrice").html("0 ₫");
-                }
-
-                
-                $(".loading-gift").hide();
-            }
-            // Cập nhật số lượng
-            $(".cart-count-button").click(function () {
-                $(".loading-gift").show();
-                isCount = (/true/i).test($(this).attr("data-count"));
-                productId = $("#ProductId").val();
-                var countValue = parseInt($("#Count_" + productId).val());
-                if (isCount) {
-                    $("#Count_" + productId).val(countValue + 1);
-                }
-                else {
-                    if (countValue == 1) {
-                        removeItem(productId);
-                        return;
-                    }
-                    else {
-                        $("#Count_" + productId).val(countValue - 1);
-                    }
-                }
-                changeCountItem(productId, isCount)
-
-            });
-        });
-
-
-
-        function customNumber(number, decimals, dec_point, thousands_sep) {
-            number = number.toFixed(decimals);
-
-            var nstr = number.toString();
-            nstr += '';
-            x = nstr.split('.');
-            x1 = x[0];
-            x2 = x.length > 1 ? dec_point + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
-
-            while (rgx.test(x1))
-                x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
-
-            return x1 + x2;
         }
+        function changeCountItem(productId, isCount) {
+            $(".loading-gift").show();
+            $.ajax({
+                method: "POST",
+                url: "/Cart/Update",
+                data: { productId: productId, isCount: isCount },
+                success: function () {
+                    updateCart();
+                }
+            });
+        }
+
+        function updateCart() {
+            $.ajax({
+                method: "POST",
+                url: "/Cart/LoadCartDetails",
+                success: function (data) {
+                    $("#cartDetails").html(data);
+                    $("#loadingGif_Details").hide();
+                    $.ajax({
+                        method: "POST",
+                        url: "/Cart/LoadCartTotal",
+                        success: function (data) {
+                            $("#cartTotal").html(data);
+                            $("#loadingGif_Total").hide();
+                        }
+                    });
+                }
+            });
+
+
+        }
+
+
+        // Cập nhật số lượng
+        function changeCount(e) {
+            $(".loading-gift").show();
+            var isCount = (/true/i).test($(e).attr("data-count"));
+            var productId = $(e).attr("data-id");
+            changeCountItem(productId, isCount);
+        };
+
     </script>
 }
 

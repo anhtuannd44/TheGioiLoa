@@ -4,11 +4,10 @@
 {
     HttpMethod = "POST",
     OnBegin = "closeModal",
-    OnSuccess = "editCategorySuccess",
+    OnSuccess = "loadingNoti",
     OnFailure = "editCategoryFailure",
 }, new { @id = "EditCategoryForm" }))
 {
-
     <div class="modal-header">
         <h4 class="modal-title" id="titleModal">Chỉnh sửa danh mục</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
