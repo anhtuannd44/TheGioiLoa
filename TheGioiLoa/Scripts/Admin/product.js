@@ -1,4 +1,5 @@
-﻿$(".category-click").click(function (e) {
+﻿
+$(".category-click").click(function (e) {
     if ($(this).is(":checked")) {
         if ($(this).attr("data-level") == "child") {
             $("#createProduct #" + $(this).attr("data-parent-id")).prop('checked', true);
@@ -25,6 +26,16 @@ $(function () {
     $('.textarea').summernote({
         height: 250,
         focus: true,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'image', 'video']],
+            ['view', ['fullscreen', 'codeview']],
+        ],
         callbacks: {
             onImageUpload: function (files) {
                 for (let i = 0; i < files.length; i++) {
@@ -33,10 +44,13 @@ $(function () {
             },
             onMediaDelete: function (file) {
                 var image = $(file).attr("src");
-                var lastIndex = image.lastIndexOf('/')+1;
+                var lastIndex = image.lastIndexOf('/') + 1;
                 var imageName = image.slice(lastIndex);
                 deleteImage(imageName);
             }
+        },
+        buttons: {
+            image: uploadImageButton
         }
     });
     function uploadImage(file, id) {
@@ -109,6 +123,7 @@ $("#addTag").click(function (e) {
 
     if (check) {
         $.ajax({
+            method: "POST",
             url: "/Admin/CreateTag",
             data: { tag: tag },
             success: function (data) {
@@ -145,13 +160,7 @@ function removeTag(e) {
 };
 
 $(function () {
-    /*
-     * For the sake keeping the code clean and the examples simple this file
-     * contains only the plugin configuration & callbacks.
-     *
-     * UI functions ui_* can be located in: demo-ui.js
-     */
-    $('#drag-and-drop-zone').dmUploader({ //
+    $('#drag-and-drop-zone').dmUploader({
         url: '/Admin/UploadImage',
         maxFileSize: 3000000, // 3 Megs
         onDragEnter: function () {
@@ -194,7 +203,7 @@ $(function () {
             // A file was successfully uploaded
             ui_multi_update_file_status(id, 'success', 'Thành công');
             ui_multi_update_file_progress(id, 100, 'success', false);
-            loadLibraryImage();
+            loadLibraryImage(true);
         },
         onUploadError: function (id, xhr, status, message) {
             ui_multi_update_file_status(id, 'danger', message);
@@ -264,88 +273,119 @@ function ui_multi_update_file_progress(id, percent, color, active) {
     }
 }
 
-var listImage = new Array();
-var img = 0;
-
-function loadLibraryImage() {
+function loadLibraryImage(IsMultiple, imageList, selectedImage) {
     $.ajax({
+        method: "POST",
         url: "/Admin/LoadLibraryImage",
+        data: {
+            IsMultiple: IsMultiple,
+            imageList: imageList,
+            selectedImage: selectedImage
+        },
         success: function (data) {
             $("#renderLibrary").html(data);
-            listImage = [];
-            img = 0;
         }
     });
 }
 
 
-
-function uploadClick() {
-    if (listImage.length == 0) {
-        listImage = [];
-        img = 0;
-        loadLibraryImage();
-    }
-}
+$("#uploadImageList").click(function () {
+    var imageList = $("#Image").val();
+    loadLibraryImage(true, imageList, null);
+});
 
 function addImageToList(e) {
     $(e).children().removeClass("d-none");
-    $(e).attr("onclick", "removeImageFromList(this)");
-    listImage[img] = $(e).attr("data-name");
-    img++;
-    console.log(listImage);
+    $(e).attr("onclick", "removeImageFromList(this)")
+    $(e).attr("data-selected", "True");
 }
 function removeImageFromList(e) {
     $(e).children().addClass("d-none");
-    $(e).attr("onclick", "addImageToList(this)");
-    listImage.splice(listImage.indexOf($(e).attr("data-name")), 1);
-    img--;
-    console.log(listImage);
+    $(e).attr("onclick", "addImageToList(this)")
+    $(e).attr("data-selected", "False");
 }
 
-$('#uploadImage').on('hidden.bs.modal', function () {
-    addImage();
-});
-$("#submitModalImage").click(function () {
-    addImage();
-});
-
 function addImage() {
-    if (listImage.length != 0) {
-        var result = listImage.join('|');
-        $("#Image").val(result);
-        $.ajax({
-            url: "/Admin/LoadSelectImage",
-            data: { imageList: result },
-            success: function (data) {
-                $("#renderImage").html(data)
-            }
-        });
-    }
-    else {
-        $("#renderImage").html("");
-    }
+    var listImage = "";
+    $(".image-item").each(function () {
+        if ($(this).attr("data-selected") == "True") {
+            listImage += $(this).attr("data-name") + ",";
+        }
+    });
+
+    $.ajax({
+        method: "POST",
+        url: "/Admin/LoadSelectImage",
+        data: {
+            imageList: listImage
+        },
+        success: function (data) {
+            $("#renderImage").html(data);
+            $("#Image").val(listImage);
+        }
+    });
     $("#uploadImage").modal("hide");
 }
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $('#previewCover').attr('src', e.target.result);
-            $("#removeCover").removeClass("d-none");
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-$("#Cover").change(function () {
-    readURL(this);
+$("#Cover").click(function () {
+    var cover = $(this).val();
+    loadLibraryImage(false, null, cover);
 });
+function selectImage(e) {
+    $(".image-item").attr("onclick", "selectImage(this)");
+    $(".image-item").attr("data-selected", "False");
+    $(".image-item").children().addClass("d-none");
+    $(e).children().removeClass("d-none");
+    $(e).attr("onclick", "removeSelectedImage(this)");
+    $(e).attr("data-selected", "True");
+}
+function removeSelectedImage(e) {
+    $(".image-item").children().addClass("d-none");
+    $(".image-item").attr("onclick", "selectImage(this)");
+    $(e).attr("data-selected", "False");
+}
 $("#removeCover").click(function () {
     $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.jpg");
     $("#Cover").val(null);
     $("#removeCover").addClass("d-none");
 });
+
+$(document).on("click", "#submitModalImage", function () {
+    if ($(this).attr("data-multiple") == "True")
+        addImage();
+    else {
+        addCover();
+    }
+});
+
+function addCover() {
+    $("#uploadImage").modal("hide");
+    var hasCover = false;
+    $(".image-item").each(function () {
+        if ($(this).attr("data-selected") == "True") {
+            $("#Cover").val($(this).attr("data-name"));
+            $("#previewCover").attr("src", "../Content/Upload/Images/" + $(this).attr("data-name"));
+            $("#removeCover").removeClass("d-none");
+            hasCover = true;
+        }
+    });
+    if (!hasCover) {
+        $("#Cover").val(null);
+        $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.JPG");
+        $("#removeCover").addClass("d-none");
+    }
+}
+
+var uploadImageButton = function (context) {
+    var ui = $.summernote.ui;
+    var button = ui.button({
+        contents: '<i class="fas fa-image"/>',
+        tooltip: 'Upload hình ảnh',
+        click: function () {
+            $("#uploadImage").modal("show");
+            loadLibraryImage(false);
+        }
+    });
+    return button.render();
+}

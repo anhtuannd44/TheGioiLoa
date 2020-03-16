@@ -331,6 +331,7 @@ namespace TheGioiLoa.Controllers
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
+
         public JsonResult UploadImage(HttpPostedFileBase File)
         {
             UploadImageViewModel result = new UploadImageViewModel();
@@ -352,24 +353,66 @@ namespace TheGioiLoa.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
-        public ActionResult LoadLibraryImage()
+        [HttpPost]
+        public ActionResult LoadLibraryImage(bool IsMultiple, string imageList, string selectedImage)
         {
-            var model = db.Image.ToList();
+            var image = db.Image.ToList();
+            var model = new ListImageViewModel();
+            var addImageList = new List<ImageViewModel>();
+            foreach (var item in image)
+            {
+                var addItem = new ImageViewModel()
+                {
+                    ImageId = item.ImageId
+                };
+                addImageList.Add(addItem);
+            }
+            model.ImageList = addImageList.ToList();
+            if (!string.IsNullOrEmpty(imageList))
+            {
+                var imageListArray = imageList.Split(',');
+                foreach (var item in addImageList)
+                {
+                    foreach (var select in imageListArray)
+                    {
+                        if (select == item.ImageId)
+                            item.IsSelected = true;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in addImageList)
+                {
+                    if (selectedImage == item.ImageId)
+                    {
+                        item.IsSelected = true;
+                        break;
+                    }
+                }
+            }
+            if (IsMultiple)
+                model.IsMultiple = true;
+            else
+                model.IsMultiple = false;
             return PartialView("_ImageLibraryPartial", model);
         }
 
+        [HttpPost]
         public ActionResult LoadSelectImage(string imageList)
         {
-            var imageListArray = imageList.Split('|');
+            var imageListArray = imageList.Split(',');
             List<Image> model = new List<Image>();
             foreach (var item in imageListArray)
             {
-                var addItem = new Image()
+                if (!string.IsNullOrEmpty(item))
                 {
-                    ImageId = item
-                };
-                model.Add(addItem);
+                    var addItem = new Image()
+                    {
+                        ImageId = item
+                    };
+                    model.Add(addItem);
+                }
             }
             return PartialView("_ImageSelectedPartial", model);
         }
@@ -480,6 +523,7 @@ namespace TheGioiLoa.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public JsonResult CreateTag(string tag)
         {
             var addTag = db.Tag.Where(a => a.Name == tag).FirstOrDefault();
@@ -493,7 +537,7 @@ namespace TheGioiLoa.Controllers
             }
             var result = db.Tag.Where(a => a.Name == tag).FirstOrDefault();
             TagViewModel json = new TagViewModel() { TagId = result.TagId.ToString(), Name = result.Name };
-            return Json(json, JsonRequestBehavior.AllowGet);
+            return Json(json, JsonRequestBehavior.DenyGet);
         }
 
         public ActionResult Blog()
