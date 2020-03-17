@@ -110,6 +110,85 @@ namespace TheGioiLoa.Service
             }
             return model;
         }
+        public ProductViewModel GetAllInformationOfProductItem(Product product)
+        {
+            try
+            {
+                var model = new ProductViewModel()
+                {
+                    ProductId = product.ProductId,
+                    Name = product.Name,
+                    Url = _helper.CreateUrl(product.Name),
+                    Description = product.Description,
+                    DateModified = DateTime.Now,
+                    Price = product.Price,
+                    PriceSale = product.PriceSale,
+                    Status = product.Status,
+                    Characteristics = product.Characteristics,
+                    Promotion = product.Promotion,
+                    Videos = product.Videos,
+                    Details = product.Details,
+                    CoverName = product.Cover,
+                    Guarantee = product.Guarantee
+                };
+                var category = db.Category.ToList();
+                var addCategoryList = new List<CategoryProductEditViewModel>();
+                foreach (var item in category)
+                {
+                    addCategoryList.Add(new CategoryProductEditViewModel()
+                    {
+                        CategoryId = item.CategoryId,
+                        Name = item.Name,
+                        CategoryParentId = item.CategoryParentId,
+                        IsChecked = (db.CategoryProduct.Find(item.CategoryId, product.ProductId) != null) ? true : false
+                    });
+                }
+                model.Categories = addCategoryList.ToList();
+
+                var image = db.Product_Image.Include(a => a.Image).Where(a => a.ProductId == product.ProductId).ToList();
+                var imageList = "";
+                foreach (var item in image)
+                {
+                    imageList += item.ImageId + ",";
+                }
+                model.Image = imageList;
+
+                var brand = db.Brand.ToList();
+                var addBrandList = new List<BrandSelectedViewModel>();
+                foreach (var item in brand)
+                {
+                    addBrandList.Add(new BrandSelectedViewModel()
+                    {
+                        BrandId = item.BrandId,
+                        Name = item.Name,
+                        IsChecked = (db.Product.Find(product.ProductId).BrandId == item.BrandId) ? true : false
+                    });
+                }
+                model.Brand = addBrandList.ToList();
+                var tag = db.Product_Tag.Include(a => a.Tag).Where(a => a.ProductId == product.ProductId);
+                var addTagList = new List<Tag>();
+                foreach (var item in tag)
+                {
+                    addTagList.Add(new Tag()
+                    {
+                        TagId = item.TagId,
+                        Name = item.Tag.Name
+                    });
+                }
+                model.Tags = addTagList.ToList();
+                model.StatusList = GetStatus();
+                model.IsGetDataSuccess = true;
+                return model;
+            }
+            catch
+            {
+                var model = new ProductViewModel()
+                { IsGetDataSuccess = false };
+                return model;
+            }
+
+        }
+
         public int GetLastestProductId(string productName)
         {
             return db.Product.Where(a => a.Name == productName).OrderByDescending(x => x.ProductId).Take(1).Single().ProductId;
@@ -132,7 +211,7 @@ namespace TheGioiLoa.Service
                 Promotion = product.Promotion,
                 Videos = product.Videos,
                 Details = product.Details,
-                Cover = product.CoverName,
+                Cover = !string.IsNullOrEmpty(product.CoverName) ? product.CoverName : "No_Picture.JPG",
                 Guarantee = product.Guarantee
             };
             db.Product.Add(addProduct);
@@ -161,14 +240,17 @@ namespace TheGioiLoa.Service
         {
             if (!string.IsNullOrEmpty(imageList))
             {
-                var imageListArray = imageList.Split('|');
+                var imageListArray = imageList.Split(',');
                 foreach (var item in imageListArray)
                 {
-                    db.Product_Image.Add(new Product_Image()
+                    if (!string.IsNullOrEmpty(item))
                     {
-                        ImageId = item,
-                        ProductId = productId
-                    });
+                        db.Product_Image.Add(new Product_Image()
+                        {
+                            ImageId = item,
+                            ProductId = productId
+                        });
+                    }
                 }
                 db.SaveChanges();
             }
@@ -227,7 +309,7 @@ namespace TheGioiLoa.Service
             addProduct.Promotion = product.Promotion;
             addProduct.Videos = product.Videos;
             addProduct.Details = product.Details;
-            addProduct.Cover = product.CoverName;
+            addProduct.Cover = !string.IsNullOrEmpty(product.CoverName) ? product.CoverName : "No_Picture.JPG";
             addProduct.Guarantee = product.Guarantee;
 
             db.Entry(addProduct).State = EntityState.Modified;

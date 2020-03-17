@@ -124,6 +124,7 @@ namespace TheGioiLoa.Models.ViewModel
         public List<Product> ProductRelateds { get; set; }
         public List<Product> ProductAccessories { get; set; }
         public ReviewViewModel Review { get; set; }
+        public bool IsGetDataSuccess { get; set; }
     }
 
     public class ReviewViewModel

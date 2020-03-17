@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Chỉnh sửa sản phẩm";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
-    var ImageValue = string.Join("|", Model.Images.Select(a => a.ImageId).ToArray());
     var TagValue = "";
     var TagId = "";
     var classRemoveImage = "";
@@ -330,7 +329,6 @@
                     <h3 class="card-title">Album hình ảnh sản phẩm</h3>
                 </div>
                 <div class="card-body">
-
                     <div class="preview-image w-100">
                         <img id="previewCover" src="~/Content/Upload/Images/@Model.CoverName" style="width: 100%; height: auto;" />
 
@@ -338,13 +336,11 @@
                             <a href="#" class="text-primary" data-toggle="tooltip" title="Xóa hình cover" style="font-size: 19px"><i class="fa fa-trash"></i></a>
                         </div>
                     </div>
-
-                    <input type="file" hidden id="Cover" name="Cover" value="@Model.CoverName" />
-                    <label for="Cover" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
+                    <input type="text" hidden id="CoverName" name="CoverName" value="@Model.CoverName" data-toggle="modal" data-target="#uploadImage" />
+                    <label for="CoverName" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
                     <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho sản phẩm</p>
                 </div>
             </div>
-
 
             @*Album hình ảnh sản phẩm*@
             <div class="card">
@@ -352,17 +348,17 @@
                     <h3 class="card-title">Album hình ảnh sản phẩm</h3>
                 </div>
                 <div class="card-body">
-                    <input name="Image" id="Image" hidden value="@ImageValue" />
+                    <input name="Image" id="Image" hidden value="@Model.Image" />
+                    <div class="row mt-2" id="renderImage">
+                        
+                    </div>
+                    <p class="my-2 font-italic small text-center">Bạn có thể chọn 1 hoặc nhiều hình để hiển thị trên trang sản phẩm</p>
                     <div class="text-center">
-                        <a class="btn btn-info btn-flat text-white" data-toggle="modal" data-target="#uploadImage" onclick="uploadClick()">
+                        <a class="btn btn-info btn-flat text-white" id="uploadImageList" data-toggle="modal" data-target="#uploadImage">
                             <i class="fa fa-upload"></i>
                             Upload hoặc chọn hình
                         </a>
                     </div>
-                    <div class="row mt-2" id="renderImage">
-                        @Html.Partial("_ImageSelectedPartial", Model.Images)
-                    </div>
-                    <p class="my-2 font-italic small text-center">Bạn có thể chọn 1 hoặc nhiều hình để hiển thị trên trang sản phẩm</p>
                 </div>
             </div>
 
@@ -381,14 +377,14 @@
             <div class="modal-body py-0">
                 <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active rounded-0 py-1 px-2" id="upload-tab" data-toggle="pill" href="#upload" role="tab" aria-controls="upload" aria-selected="true">Tải lên tập tin</a>
+                        <a class="nav-link rounded-0 py-1 px-2 active" id="upload-tab" data-toggle="pill" href="#upload" role="tab" aria-controls="upload" aria-selected="false">Tải lên tập tin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link rounded-0 py-1 px-2" id="upload-tab" data-toggle="pill" href="#library" role="tab" aria-controls="library" aria-selected="false">Thư viện</a>
+                        <a class="nav-link rounded-0 py-1 px-2" id="upload-tab" data-toggle="pill" href="#library" role="tab" aria-controls="library" aria-selected="true">Thư viện</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="upload-tabContent">
-                    <div class="tab-pane fade active show p-4" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                    <div class="tab-pane fade p-4 active show" id="upload" role="tabpanel" aria-labelledby="upload-tab">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <!-- Our markup, the important part here! -->
@@ -436,20 +432,20 @@
                         <div class="row" id="renderLibrary">
 
                         </div>
-                        <div class="clearfix">
-                            <div class="float-left">
-                                <a href="#" class="btn btn-primary btn-flat btn-sm">< Trang trước</a>
-                            </div>
-                            <div class="float-right">
-                                <a href="#" class="btn btn-primary btn-flat btn-sm">Trang sau ></a>
-                            </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <a href="#" class="btn btn-primary btn-flat btn-sm">< Trang trước</a>
+                        </div>
+                        <div class="float-right">
+                            <a href="#" class="btn btn-primary btn-flat btn-sm">Trang sau ></a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer py-1">
-                <a class="btn btn-info text-white float-right btn-sm btn-flat" id="submitModalImage">Thiết lập ảnh sản phẩm</a>
+                <button type="button" class="btn btn-info text-white float-right btn-sm btn-flat submit-modal" id="submitModalImage" data-image-target="">Thiết lập ảnh sản phẩm</button>
             </div>
         </div>
         <!-- /.modal-content -->

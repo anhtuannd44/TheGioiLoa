@@ -2027,6 +2027,7 @@
     <Content Include="Scripts\Admin\pages\dashboard.js" />
     <Content Include="Scripts\Admin\pages\dashboard2.js" />
     <Content Include="Scripts\Admin\pages\dashboard3.js" />
+    <Content Include="Scripts\Admin\upload-img.js" />
     <Content Include="Scripts\Admin\product.js" />
     <Content Include="Scripts\bootstrap-jquery\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap-jquery\bootstrap.bundle.min.js" />
