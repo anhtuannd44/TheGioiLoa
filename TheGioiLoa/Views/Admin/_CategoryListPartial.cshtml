@@ -1,7 +1,5 @@
 ﻿@model TheGioiLoa.Models.ViewModel.CategoryViewModel
 
-
-
 @foreach (var item in Model.CategoryList)
 {
     if (item.CategoryParentId == null)
@@ -12,9 +10,7 @@
                data-toggle="tooltip"
                title="Chỉnh sửa @item.Name"
                data-id="@item.CategoryId"
-               data-name="@item.Name"
-               data-parent-id=""
-               data-parent-name="">
+               data-name="@item.Name">
                 @item.Name
             </a>
             <div class="float-right">
@@ -26,15 +22,17 @@
                    data-toggle="tooltip"
                    title="Chỉnh sửa @item.Name"
                    data-id="@item.CategoryId"
-                   data-name="@item.Name"
-                   data-parent-id=""
-                   data-parent-name="">
+                   data-name="@item.Name">
                     <i class="fas fa-pencil-alt text-warning"></i>
                 </a>
                 <a href="#" class="ml-2" data-id="@item.CategoryId" onclick="showModalRemoveCategory(this)" data-toggle="tooltip" title="Xóa @item.Name" data-name="@item.Name">
                     <i class="fas fa-trash text-danger">
                     </i>
                 </a>
+            </div>
+            <div class="custom-control custom-checkbox float-right" data-toggle="tooltip" title="Hiển thị trên Menu?">
+                <input class="custom-control-input" data-level="parent" type="checkbox" @(item.IsShowMenu?"checked":"") id="isShowMenu_@item.CategoryId" data-id="@item.CategoryId" value="@item.IsShowMenu.ToString()">
+                <label for="isShowMenu_@item.CategoryId" class="custom-control-label is-show-menu" data-id="@item.CategoryId"></label>
             </div>
             <div class="clearfix"></div>
 
@@ -171,8 +169,31 @@
     </div>
 </div>
 
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $(".is-show-menu").click(function () {
+        var elm = $(this);
+        var categoryId = elm.attr("data-id");
+        if (!$("#isShowMenu_" + categoryId).is(':checked'))
+            $("#isShowMenu_" + categoryId).val("True");
+        else
+            $("#isShowMenu_" + categoryId).val("False");
+        $.ajax({
+            method: "POST",
+            url: "/Admin/UpdateMenuCategory",
+            data: {
+                categoryId: categoryId,
+                IsShowMenu: $("#isShowMenu_" + categoryId).val()
+            },
+            success: function (data) {
+                if (data.status == "success")
+                    toastr.success(data.message);
+                else
+                    toastr.error(data.message);
+            }
+        })
+    })
+</script>

@@ -1,26 +1,4 @@
 ﻿$(function () {
-    // Summernote
-    $('.textarea').summernote({
-        height: 400,
-        focus: true,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'image', 'video']],
-            ['view', ['fullscreen', 'codeview']],
-        ],
-        buttons: {
-            image: uploadImageButton
-        }
-    });
-});
-
-//AddTag
-$(function () {
     $('#drag-and-drop-zone').dmUploader({
         url: '/Admin/UploadImage',
         maxFileSize: 3000000, // 3 Megs
@@ -36,10 +14,6 @@ $(function () {
             // Plugin is ready to use
             ui_add_log('Penguin initialized :)', 'info');
         },
-        onComplete: function () {
-            // All files in the queue are processed (success or error)
-            ui_add_log('All pending tranfers finished');
-        },
         onNewFile: function (id, file) {
             // When a new file is added using the file selector or the DnD area
             ui_add_log('New file added #' + id);
@@ -50,11 +24,6 @@ $(function () {
             ui_add_log('Starting the upload of #' + id);
             ui_multi_update_file_status(id, 'uploading', 'Đang đăng ...');
             ui_multi_update_file_progress(id, 0, '', true);
-        },
-        onUploadCanceled: function (id) {
-            // Happens when a file is directly canceled by the user.
-            ui_multi_update_file_status(id, 'warning', 'Canceled by User');
-            ui_multi_update_file_progress(id, 0, 'warning', false);
         },
         onUploadProgress: function (id, percent) {
             // Updating file progress
@@ -134,27 +103,24 @@ function ui_multi_update_file_progress(id, percent, color, active) {
     }
 }
 
-function loadLibraryImage(target, IsMultiple, imageList, selectedImage) {
-    $("#submitModalImage").attr("data-image-target", target);
+function loadLibraryImage(target, IsMultiple, selectedImage) {
+    $("#modal-loading").show();
     $.ajax({
         method: "POST",
         url: "/Admin/LoadLibraryImage",
         data: {
             IsMultiple: IsMultiple,
-            imageList: imageList,
             selectedImage: selectedImage
         },
         success: function (data) {
-            $("#renderLibrary").html(data);
+            $("#modalContent").html(data);
+            $("#submitModalImage").attr("data-image-target", target);
+            $("#modal-loading").hide();
         }
     });
+    
 }
-
-$("#uploadImageList").click(function () {
-    var imageList = $("#Image").val();
-    loadLibraryImage("imageList", true, imageList, null);
-});
-
+//Select Multiple Images
 function addImageToList(e) {
     $(e).children().removeClass("d-none");
     $(e).attr("onclick", "removeImageFromList(this)")
@@ -165,36 +131,7 @@ function removeImageFromList(e) {
     $(e).attr("onclick", "addImageToList(this)")
     $(e).attr("data-selected", "False");
 }
-
-function addImage() {
-    var listImage = "";
-    $(".image-item").each(function () {
-        if ($(this).attr("data-selected") == "True") {
-            listImage += $(this).attr("data-name") + ",";
-        }
-    });
-    renderSelectedImage(listImage);
-    $("#uploadImage").modal("hide");
-}
-
-function renderSelectedImage(listImage) {
-    $.ajax({
-        method: "POST",
-        url: "/Admin/LoadSelectImage",
-        data: {
-            imageList: listImage
-        },
-        success: function (data) {
-            $("#renderImage").html(data);
-            $("#Image").val(listImage);
-        }
-    });
-}
-
-$("#CoverName").click(function () {
-    var cover = $(this).val();
-    loadLibraryImage("imageCover", false, null, cover);
-});
+//Select 1 Image
 function selectImage(e) {
     $(".image-item").attr("onclick", "selectImage(this)");
     $(".image-item").attr("data-selected", "False");
@@ -208,46 +145,37 @@ function removeSelectedImage(e) {
     $(".image-item").attr("onclick", "selectImage(this)");
     $(e).attr("data-selected", "False");
 }
-$("#removeCover").click(function () {
-    $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.jpg");
-    $("#CoverName").val(null);
-    $("#removeCover").addClass("d-none");
-});
 
-$(document).on("click", "#submitModalImage", function () {
-    switch ($(this).attr("data-image-target")) {
-        case "imageList":
-            addImage();
-            break;
-        case "imageCover":
-            addCover();
-            break;
-        case "imageTextarea":
-            addToTextArea($(this).attr("data-id"));
-            break;
-        default:
-            $("#uploadImage").modal("hide");
-            toastr.error("Có lỗi xảy ra, vui lòng thử lại!");
-            break;
-    }
-});
-
-function addCover() {
-    $("#uploadImage").modal("hide");
-    var hasCover = false;
-    $(".image-item").each(function () {
-        if ($(this).attr("data-selected") == "True") {
-            $("#CoverName").val($(this).attr("data-name"));
-            $("#previewCover").attr("src", "../Content/Upload/Images/" + $(this).attr("data-name"));
-            $("#removeCover").removeClass("d-none");
-            hasCover = true;
+$(function () {
+    // Summernote
+    $('.textarea').summernote({
+        height: 400,
+        focus: true,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'image', 'video']],
+            ['view', ['fullscreen', 'codeview']],
+        ],
+        buttons: {
+            image: uploadImageButton
         }
     });
-    if (!hasCover) {
-        $("#CoverName").val(null);
-        $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.JPG");
-        $("#removeCover").addClass("d-none");
-    }
+});
+
+function addToTextArea() {
+    $(".image-item").each(function () {
+        if ($(this).attr("data-selected") == "True") {
+            $('.textarea').summernote('editor.restoreRange');
+            $('.textarea').summernote('editor.focus');
+            $('.textarea').summernote('editor.insertImage', $(this).css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1'));
+            return false;
+        }
+    });
 }
 
 var textAreaId = 0;
@@ -259,22 +187,31 @@ var uploadImageButton = function () {
         contents: '<i class="note-icon-picture"/>',
         tooltip: 'Upload hình ảnh',
         click: function () {
-            $("#uploadImage").modal("show");
+            $("#ModalTemplate").modal("show");
             loadLibraryImage("imageTextarea", false);
-            $("#submitModalImage").attr("data-id", id);
             $('.text-area-' + id).summernote('editor.saveRange');
         }
     });
     textAreaId++;
     return button.render();
 }
-function addToTextArea(id) {
-    $("#uploadImage").modal("hide");
-    $(".image-item").each(function () {
-        if ($(this).attr("data-selected") == "True") {
-            $('.text-area-' + id).summernote('editor.restoreRange');
-            $('.text-area-' + id).summernote('editor.focus');
-            $('.text-area-' + id).summernote('editor.insertImage', $(this).css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1'));
-        }
-    });
-}
+$(document).on("click", "#submitModalImage", function () {
+    switch ($(this).attr("data-image-target")) {
+        case "imageList":
+            addImage();
+            break;
+        case "imageCover":
+            addCover();
+            break;
+        case "imageTextarea":
+            addToTextArea($(this).attr("data-textarea"));
+            break;
+        case "logo":
+            addLogo();
+            break;
+        default:
+            break;
+    }
+    $("#ModalTemplate").modal("hide");
+    $("#renderLibrary").html("");
+});

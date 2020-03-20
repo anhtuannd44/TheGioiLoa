@@ -6,21 +6,23 @@ namespace TheGioiLoa.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Page")]
-    public partial class Page
+    [Table("Menu")]
+    public partial class Menu
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Menu()
+        {
+
+        }
+
         [Key]
-        public int PageId { get; set; }
+        public int MenuId { get; set; }
 
         [Required]
         [StringLength(300)]
-        public string Url { get; set; }
-
-        [Required]
-        [StringLength(100)]
         public string Name { get; set; }
 
-        [Column(TypeName = "ntext")]
-        public string Content { get; set; }
+        public string Url { get; set; }
+        public int Type { get; set; }
     }
 }

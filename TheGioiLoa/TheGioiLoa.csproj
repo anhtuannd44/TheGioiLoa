@@ -261,27 +261,61 @@
     <Compile Include="Migrations\TheGioiLoaModel\202003141357445_notauthos.Designer.cs">
       <DependentUpon>202003141357445_notauthos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003181229437_deleepage.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003181229437_deleepage.Designer.cs">
+      <DependentUpon>202003181229437_deleepage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003190730003_topmenu.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003190730003_topmenu.Designer.cs">
+      <DependentUpon>202003190730003_topmenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003191220154_fixorderMenu.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003191220154_fixorderMenu.Designer.cs">
+      <DependentUpon>202003191220154_fixorderMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003191600471_Information.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003191600471_Information.Designer.cs">
+      <DependentUpon>202003191600471_Information.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003191601327_Information2.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003191601327_Information2.Designer.cs">
+      <DependentUpon>202003191601327_Information2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003191705228_social.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003191705228_social.Designer.cs">
+      <DependentUpon>202003191705228_social.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003191953408_changeMenu.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003191953408_changeMenu.Designer.cs">
+      <DependentUpon>202003191953408_changeMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003191956209_changeMenu2.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003191956209_changeMenu2.Designer.cs">
+      <DependentUpon>202003191956209_changeMenu2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
     <Compile Include="Models\Blog\BlogCategory.cs" />
     <Compile Include="Models\Cart\OrderDetails.cs" />
     <Compile Include="Models\Cart\Order.cs" />
+    <Compile Include="Models\Information.cs" />
     <Compile Include="Models\Product\Brand.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Models\Product\Image.cs" />
     <Compile Include="Models\Product\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Page.cs" />
     <Compile Include="Models\Product\Review.cs" />
     <Compile Include="Models\Product\Product_Tag.cs" />
     <Compile Include="Models\Product\CategoryProducts.cs" />
     <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Product\Product_Image.cs" />
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Product\Tag.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\TheGioiLoaModel.cs" />
+    <Compile Include="Models\ViewModel\InformationViewModel.cs" />
     <Compile Include="Models\ViewModel\ViewModel.cs" />
     <Compile Include="Models\ViewModel\BlogViewModel.cs" />
     <Compile Include="Models\ViewModel\OrderViewModel.cs" />
@@ -291,6 +325,7 @@
     <Compile Include="Models\ViewModel\ImageViewModel.cs" />
     <Compile Include="Models\ViewModel\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\InformationService.cs" />
     <Compile Include="Service\BlogService.cs" />
     <Compile Include="Service\ImageService.cs" />
     <Compile Include="Service\ProductService.cs" />
@@ -343,8 +378,6 @@
     <Content Include="Content\Admin\img\user6-128x128.jpg" />
     <Content Include="Content\Admin\img\user7-128x128.jpg" />
     <Content Include="Content\Admin\img\user8-128x128.jpg" />
-    <Content Include="Content\Admin\Loading-Spinner.gif" />
-    <Content Include="Content\Admin\loading.gif" />
     <Content Include="Content\Admin\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
     <Content Include="Content\Admin\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css" />
     <Content Include="Content\Admin\plugins\bootstrap-colorpicker\js\bootstrap-colorpicker.js" />
@@ -1912,7 +1945,6 @@
     <Content Include="Content\Admin\plugins\upload\dist\css\jquery.dm-uploader.min.css" />
     <Content Include="Content\Admin\plugins\upload\dist\js\jquery.dm-uploader.min.js" />
     <Content Include="Content\Admin\SiteAdmin.css" />
-    <Content Include="Content\Admin\Spinner-1.1s-200px.gif" />
     <Content Include="Content\bootstrap\bootstrap-grid.css" />
     <Content Include="Content\bootstrap\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap\bootstrap-reboot.css" />
@@ -2016,13 +2048,14 @@
     <Content Include="Content\Upload\pmh-10.jpg" />
     <Content Include="Content\Upload\Slider\slider-2.jpg" />
     <Content Include="Content\Upload\Slider\slider-1.jpg" />
+    <Content Include="Content\Spinner.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Admin\adminlte.js" />
     <Content Include="Scripts\Admin\adminlte.min.js" />
     <Content Include="Scripts\Admin\Admin.js" />
-    <Content Include="Scripts\Admin\Category.js" />
+    <Content Include="Scripts\Admin\category.js" />
     <Content Include="Scripts\Admin\demo.js" />
     <Content Include="Scripts\Admin\pages\dashboard.js" />
     <Content Include="Scripts\Admin\pages\dashboard2.js" />
@@ -2328,6 +2361,20 @@
     <Content Include="Views\Admin\CreatePage.cshtml" />
     <Content Include="Views\Admin\EditPage.cshtml" />
     <Content Include="Views\Admin\_PageListPartial.cshtml" />
+    <Content Include="Views\Shared\_MenuCategoryPartial.cshtml" />
+    <Content Include="Views\Admin\MenuTop.cshtml" />
+    <Content Include="Views\Admin\MenuTop\_MenuTopList.cshtml" />
+    <Content Include="Views\Admin\MenuTop\_EditMenuTopPartial.cshtml" />
+    <Content Include="Views\Shared\_MenuTopPartial.cshtml" />
+    <Content Include="Views\Admin\Information.cshtml" />
+    <Content Include="Views\Admin\Information\_LogoPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_ContactPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_SocialPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_MenuFooterPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_EditMenuFooterPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_AddMenuFooterPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_DeleteMenuFooterPartial.cshtml" />
+    <Content Include="Views\Shared\_FooterMiddle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2394,6 +2441,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003141357445_notauthos.resx">
       <DependentUpon>202003141357445_notauthos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003181229437_deleepage.resx">
+      <DependentUpon>202003181229437_deleepage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003190730003_topmenu.resx">
+      <DependentUpon>202003190730003_topmenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003191220154_fixorderMenu.resx">
+      <DependentUpon>202003191220154_fixorderMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003191600471_Information.resx">
+      <DependentUpon>202003191600471_Information.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003191601327_Information2.resx">
+      <DependentUpon>202003191601327_Information2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003191705228_social.resx">
+      <DependentUpon>202003191705228_social.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003191953408_changeMenu.resx">
+      <DependentUpon>202003191953408_changeMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003191956209_changeMenu2.resx">
+      <DependentUpon>202003191956209_changeMenu2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

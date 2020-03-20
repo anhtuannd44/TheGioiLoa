@@ -1,0 +1,258 @@
+﻿@{
+    ViewBag.Title = "Thông Tin Chung";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+<div class="information" id="adminPage">
+    <div class="information-title">
+        <h4 class="text-primary">Header</h4>
+    </div>
+    <div class="row row-flex mb-4">
+        <div class="col-md-4">
+            <div class="card h-100" id="renderLogoPartial">
+                @Html.Action("LoadEditLogo", "Admin")
+            </div>
+            <div id="updateLogo-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card position-relative h-100" id="renderContact">
+                @Html.Action("LoadEditContact", "Admin")
+            </div>
+            <div id="updateContact-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100" id="renderSocial">
+                @Html.Action("LoadEditSocial", "Admin")
+            </div>
+            <div id="updateSocial-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
+    <div class="information-title">
+        <h4 class="text-primary">Footer</h4>
+    </div>
+    <div class="row row-flex">
+        <div class="col-md-4">
+            <div class="card h-100" id="renderMenuFooter1">
+                @Html.Action("LoadMenuFooter", "Admin", new { type = 1 })
+            </div>
+            <div id="updateMenuFooter1-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100" id="renderMenuFooter2">
+                @Html.Action("LoadMenuFooter", "Admin", new { type = 2 })
+            </div>
+            <div id="updateMenuFooter2-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100" id="renderMenuFooter3">
+                @Html.Action("LoadMenuFooter", "Admin", new { type = 3 })
+            </div>
+            <div id="updateMenuFooter3-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        function loadingGifLogo() {
+            $("#updateLogo-Loading").show();
+        }
+        function loadingGifContact() {
+            $("#updateContact-Loading").show();
+        }
+        function loadingGifSocial() {
+            $("#updateSocial-Loading").show();
+        }
+        function loadingGifSocial() {
+            $("#updateMenuFooter1-Loading").show();
+        }
+        function loadingGifSocial() {
+            $("#updateMenuFooter2-Loading").show();
+        }
+        function loadingGifSocial() {
+            $("#updateMenuFooter3-Loading").show();
+        }
+        function loadingGifModal() {
+            $("#modalNormal-loading").show();
+        }
+        //Logo
+        $(document).on("click", "#selectLogo", function () {
+            loadLibraryImage("logo", false, $("#Logo").val());
+        })
+        function addLogo() {
+            var hasLogo = false;
+            $(".image-item").each(function () {
+                if ($(this).attr("data-selected") == "True") {
+                    $("#Logo").val($(this).attr("data-name"));
+                    $("#previewLogo").attr("src", "../Content/Upload/Images/" + $(this).attr("data-name"));
+                    $("#removeLogo").removeClass("d-none");
+                    hasLogo = true;
+                }
+            });
+            if (!hasLogo) {
+                $("#Logo").val("");
+                $("#previewLogo").attr("src", "../Content/Upload/Images/No_Picture.JPG");
+                $("#removeLogo").addClass("d-none");
+            }
+        }
+        $(document).on("click", "#removeLogo", function () {
+            $("#previewLogo").attr("src", "../Content/Upload/Images/No_Picture.jpg");
+            $("#Logo").val(null);
+            $("#removeLogo").addClass("d-none");
+        });
+        function updateLogoSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                reloadLogoPartial();
+            }
+            else {
+                toastr.error(data.message);
+                $("#updateLogo-Loading").hide();
+            }
+        }
+        function reloadLogoPartial() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadEditLogo",
+                success: function (data) {
+                    $("#renderLogoPartial").html(data);
+                    $("#updateLogo-Loading").hide();
+                }
+            })
+        }
+
+        //Contact
+        function updateContactSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                reloadContactPartial();
+            }
+            else {
+                toastr.error(data.message);
+                $("#updateContact-Loading").hide();
+            }
+        }
+        function reloadContactPartial() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadEditContact",
+                success: function (data) {
+                    $("#renderContactPartial").html(data);
+                    $("#updateContact-Loading").hide();
+                }
+            })
+        }
+        //Social Network
+        function updateSocialSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                reloadSocialPartial();
+            }
+            else {
+                toastr.error(data.message);
+                $("#updateContact-Loading").hide();
+            }
+        }
+        function reloadSocialPartial() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadEditSocial",
+                success: function (data) {
+                    $("#renderMenuFooterPartial").html(data);
+                    $("#updateSocial-Loading").hide();
+                }
+            })
+        }
+
+        //Menu Footer
+        $(document).on("click", "#addMenu", function () {
+            var e = $(this);
+            id = e.data("footer");
+            $("#modalNormal-loading").show();
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadAddMenuFooterPartial",
+                data: {
+                    type: e.data("footer")
+                },
+                success: function (data) {
+                    $("#modalContentNormal").html(data);
+                    $("#modalNormal-loading").hide();
+                }
+            })
+        })
+        
+        $(document).on("click", ".menu-action", function () {
+            $("#modalNormal-loading").show();
+            $.ajax({
+                method: "POST",
+                url: $(this).data("url"),
+                data: {
+                    menuId: $(this).data("id")
+                },
+                success: function (data) {
+                    $("#modalContentNormal").html(data);
+                    $("#modalNormal-loading").hide();
+                }
+            })
+        })
+        $(document).on("click", ".delete-menu", function () {
+            var menuId = $(this).data("id");
+            var type = $(this).data("type");
+            var r = confirm("Bạn có muốn xóa menu '" + $(this).attr("data-name") + "' này không?");
+            if (r == true) {
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/DeleteMenu",
+                    data: { menuId: menuId },
+                    success: function (data) {
+                        if (data.status == "success") {
+                            toastr.success(data.message);
+                            reloadFooter(type);
+                        }
+                    }
+                })
+            }
+        })
+        function FooterSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                reloadFooter($("#Type").val());
+            }
+            else {
+                toastr.error(data.message);
+            }
+            $("#ModalTemplateNormal").modal("hide");
+        }
+        function reloadFooter(footerId) {
+            $("#updateMenuFooter" + footerId + "-Loading").show();
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadMenuFooter",
+                data: {
+                    type: footerId
+                },
+                success: function (data) {
+                    $("#renderMenuFooter" + footerId).html(data);
+                    $("#updateMenuFooter" + footerId + "-Loading").hide();
+                }
+            })
+        }
+    </script>
+
+    <script src="~/Scripts/Admin/upload-img.js"></script>
+}
+

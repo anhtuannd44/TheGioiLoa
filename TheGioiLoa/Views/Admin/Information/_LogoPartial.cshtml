@@ -1,0 +1,26 @@
+﻿@using (Ajax.BeginForm("UpdateLogo", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "loadingGifLogo",
+    OnSuccess = "updateLogoSuccess"
+}))
+{
+    @Html.AntiForgeryToken()
+    <div class="card-header clearfix">
+        <h3 class="card-title float-left">Thêm hoặc thay đổi Logo của bạn</h3>
+        <div class="float-right">
+            <button type="submit" class="btn btn-success btn-sm btn-flat text-right">Cập Nhật</button>
+        </div>
+    </div>
+    <div class="card-body text-center position-relative">
+        <img id="previewLogo" src="~/Content/Upload/Images/@ViewBag.Logo" style="width: 100px; height: auto;" />
+        <div class="position-absolute d-none" id="removeLogo" style="top: 5px; right:10px">
+            <a class="text-primary" data-toggle="tooltip" title="Xóa Logo" style="font-size: 19px"><i class="fa fa-trash"></i></a>
+        </div>
+        <div class="action">
+            <p class="my-2 small text-center">Hình này sẽ đặt làm logo tại Header (Kích thước chuẩn 300x80px)</p>
+            <input type="text" hidden id="Logo" name="Logo" data-toggle="modal" data-target="#ModalTemplate" value="@ViewBag.Logo" />
+            <label for="Logo" class="btn btn-default btn-flat my-1" id="selectLogo">Chọn Hình</label>
+        </div>
+    </div>
+}

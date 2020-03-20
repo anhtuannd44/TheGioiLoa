@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.TextAreaFor(model => model.BlogContent, new { @class = "textarea" })
+                    @Html.TextAreaFor(model => model.BlogContent, new { @class = "textarea text-area-0" })
                 </div>
             </div>
         </div>
@@ -70,64 +70,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(function () {
-            // Summernote
-            $('.textarea').summernote({
-                height: 600,
-                focus: true,
-                callbacks: {
-                    onImageUpload: function (files) {
-                        for (let i = 0; i < files.length; i++) {
-                            uploadImage(files[i], $(this).attr("id"));
-                        }
-                    },
-                    onMediaDelete: function (file) {
-                        var image = $(file).attr("src");
-                        var lastIndex = image.lastIndexOf('/') + 1;
-                        var imageName = image.slice(lastIndex);
-                        deleteImage(imageName);
-                    }
-                }
-            });
-            function uploadImage(file, id) {
-                var url = '/Admin/UploadImageSummerNote';
-                formData = new FormData();
-                formData.append("aUploadedFile", file);
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (FileUrl) {
-                        var imgNode = document.createElement('img');
-                        imgNode.src = FileUrl;
-                        $("#" + id).summernote('insertNode', imgNode);
-                    },
-                    error: function (data) {
-                        alert(data.responseText);
-                    }
-                });
-            }
-            function deleteImage(name) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/DeleteImageSummerNote',
-                    data: { imageName: name },
-                    cache: false,
-                    success: function (data) {
-                        if (data.status == "success")
-                            toastr.success(data.message);
-                        else
-                            toastr.error(data.message);
-                    },
-                    error: function (data) {
-                        alert(data.responseText);
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="~/Scripts/Admin/upload-img.js"></script>
 }

@@ -1,0 +1,52 @@
+﻿@model TheGioiLoa.Models.ViewModel.FooterViewModel
+<div class="col-md-3 footer-links">
+    <div class="footer-title">
+        <h4 class="mb-1">THÔNG TIN CÔNG TY</h4>
+        <hr class="mt-1 mb-3" style="border-color: #808080" />
+    </div>
+    <ul>
+        @foreach (var item in Model.Footer1)
+        {
+            <li><a href="@item.Url">@item.Name</a></li>
+        }
+    </ul>
+</div>
+<div class="col-md-3 footer-links">
+    <div class="footer-title">
+        <h4 class="mb-1">THÔNG TIN CÔNG TY</h4>
+        <hr class="mt-1 mb-3" style="border-color: #808080" />
+    </div>
+    <ul>
+        @foreach (var item in Model.Footer2)
+        {
+            <li><a href="@item.Url">@item.Name</a></li>
+        }
+    </ul>
+</div>
+<div class="col-md-3 footer-links">
+    <div class="footer-title">
+        <h4 class="mb-1">THÔNG TIN CÔNG TY</h4>
+        <hr class="mt-1 mb-3" style="border-color: #808080" />
+    </div>
+    <ul>
+        @foreach (var item in Model.Footer3)
+        {
+            <li><a href="@item.Url">@item.Name</a></li>
+        }
+    </ul>
+</div>
+<div class="col-md-3 footer-links">
+    <div class="footer-title">
+        <h4 class="mb-1">HÌNH THỨC THANH TOÁN</h4>
+        <hr class="mt-1 mb-3" style="border-color: #808080" />
+    </div>
+    <div class="payment">
+        <a href="#" class="text-light"><i class="fa fa-cc-visa"></i></a>
+        <a href="#" class="text-light"><i class="fa fa-cc-mastercard"></i></a>
+        <a href="#" class="text-light"><i class="fa fa-credit-card"></i></a>
+        <a href="#" class="text-light"><i class="fas fa-money-check-alt"></i></a>
+    </div>
+    <div class="business-register">
+        <img width="200" src="~/Content/Home/img/register-business.png" />
+    </div>
+</div>

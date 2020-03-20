@@ -1,0 +1,11 @@
+﻿@model IEnumerable<TheGioiLoa.Models.Menu>
+
+
+<ul class="navbar-nav bd-navbar-nav flex-row small">
+    @foreach (var item in Model)
+    {
+        <li class="nav-item py-2">
+            <a class="nav-link text-white py-0 border-right" href="@item.Url">@item.Name</a>
+        </li>
+    }
+</ul>

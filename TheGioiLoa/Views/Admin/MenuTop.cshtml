@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "Menu Top";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+
+<div class="row" id="adminPage">
+    <div class="col-md-8">
+        <div class="card position-relative">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách Menu Top</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" id="menuTopList">
+                @Html.Action("LoadMenuList", "Admin", new { type = 0 })
+            </div>
+            <div id="menuTopListLoading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card position-relative">
+            <div class="card-header">
+                <h3 class="card-title">Thêm Menu Mới</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                @using (Ajax.BeginForm("AddMenu", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "loadingGif",
+                    OnSuccess = "addMenuSuccess"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input hidden value="0" name="Type" id="Type" />
+                    <div class="form-group row align-items-center">
+                        <label for="Name" class="col-md-4 m-0">Tên Menu</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm" id="Name" name="Name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                        <label for="Url" class="col-md-4 m-0">Đường dẫn (URL)</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm" id="Url" name="Url" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-success text-right">Thêm Menu</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div id="addMenuLoading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function loadingGif() {
+            $("#addMenuLoading").show();
+        }
+        function addMenuSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                $("#addMenuLoading").hide();
+                reloadMenuTopList();
+            }
+            else {
+                toastr.error(data.message);
+                $("#addMenuLoading").hide();
+            }
+        }
+
+        function loadingGifModal() {
+            $("#modalNormal-loading").show();
+        }
+
+        $(document).on("click", ".edit-menu-top", function () {
+            $("#modalNormal-loading").show();
+            $("#ModalTemplateNormal").modal("show");
+            var e = $(this);
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadEditMenu",
+                data: {
+                    menuId: e.data("id")
+                },
+                success: function (data) {
+                    $("#modalContentNormal").html(data);
+                    $("#modalNormal-loading").hide();
+                }
+            })
+        })
+        function editMenuSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                $("#modalNormal-loading").hide();
+                $("#ModalTemplateNormal").modal("hide");
+                reloadMenuTopList();
+            }
+            else {
+                toastr.error(data.message);
+                $("#modalNormal-loading").hide();
+            }
+        }
+
+        $(document).on("click", ".delete-menu-top", function () {
+            var menuId = $(this).data("id");
+            var r = confirm("Bạn có muốn xóa menu '" + $(this).attr("data-name") + "' này không?");
+            if (r == true) {
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/DeleteMenu",
+                    data: { menuId: menuId },
+                    success: function (data) {
+                        if (data.status == "success") {
+                            toastr.success(data.message);
+                            reloadMenuTopList();
+                        }
+                    }
+                })
+            }
+        })
+
+        function reloadMenuTopList() {
+            $("#menuTopListLoading").show();
+            $.ajax({
+                method: "GET",
+                url: "/Admin/LoadMenuList",
+                data: {
+                    type: 0
+                },
+                success: function (data) {
+                    $("#menuTopList").html(data);
+                    $("#menuTopListLoading").hide();
+                }
+            })
+        }
+
+    </script>
+}

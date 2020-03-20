@@ -240,3 +240,19 @@ label:not(.form-check-label):not(.custom-file-label)
 .category-parent .clearfix {
     border-bottom: 1px solid #f5f5f5;
 }
+.spinner-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,.8);
+    z-index: 10002;
+}
+.spinner-loading img {
+    position: absolute;
+    width: 80px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

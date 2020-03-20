@@ -38,7 +38,7 @@ namespace TheGioiLoa.Models.ViewModel
         public string UserPhone { get; set; }
 
         [Required(ErrorMessage = "Bạn chưa nhập địa chỉ của mình")]
-        public string UserAddrress { get; set; }
+        public string UserAddress { get; set; }
 
         public string Note { get; set; }
     }

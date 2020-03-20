@@ -21,6 +21,7 @@ namespace TheGioiLoa.Controllers
         private readonly ProductService _productService = new ProductService();
         private readonly ImageService _imageService = new ImageService();
         private readonly BlogService _blogService = new BlogService();
+        private readonly InformationService _informationService = new InformationService();
 
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly HelperFunction _helper = new HelperFunction();
@@ -76,7 +77,7 @@ namespace TheGioiLoa.Controllers
         {
             var result = new JsonStatusViewModel();
             category.Name = _helper.DeleteSpace(category.Name);
-            if (string.IsNullOrEmpty(category.Name))
+            if (!string.IsNullOrEmpty(category.Name))
             {
                 try
                 {
@@ -176,7 +177,7 @@ namespace TheGioiLoa.Controllers
                     _productService.AddTagToProduct(product.ProductId, product.Tag);
                     return RedirectToAction("ProductList");
                 }
-                catch {}
+                catch { }
             }
             return RedirectToAction("EditProduct", new { productId = product.ProductId, error });
 
@@ -262,7 +263,7 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoadLibraryImage(bool IsMultiple, string imageList, string selectedImage)
+        public ActionResult LoadLibraryImage(bool IsMultiple, string selectedImage)
         {
             var image = db.Image.ToList();
             var model = new ListImageViewModel();
@@ -276,9 +277,9 @@ namespace TheGioiLoa.Controllers
                 addImageList.Add(addItem);
             }
             model.ImageList = addImageList.ToList();
-            if (!string.IsNullOrEmpty(imageList))
+            if (!string.IsNullOrEmpty(selectedImage))
             {
-                var imageListArray = imageList.Split(',');
+                var imageListArray = selectedImage.Split(',');
                 foreach (var item in addImageList)
                 {
                     foreach (var select in imageListArray)
@@ -288,17 +289,7 @@ namespace TheGioiLoa.Controllers
                     }
                 }
             }
-            else
-            {
-                foreach (var item in addImageList)
-                {
-                    if (selectedImage == item.ImageId)
-                    {
-                        item.IsSelected = true;
-                        break;
-                    }
-                }
-            }
+
             if (IsMultiple)
                 model.IsMultiple = true;
             else
@@ -734,6 +725,196 @@ namespace TheGioiLoa.Controllers
                 result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateMenuCategory(int categoryId, bool IsShowMenu)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                var editItem = db.Category.Find(categoryId);
+                editItem.IsShowMenu = IsShowMenu;
+                db.Entry(editItem).State = EntityState.Modified;
+                db.SaveChanges();
+                result.status = "success";
+                result.message = "Thành công! Dữ liệu đã được cập nhật.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult MenuTop()
+        {
+            return View();
+        }
+        public ActionResult LoadMenuList(int type)
+        {
+            var model = _informationService.GetMenuList(type);
+            return PartialView("~/Views/Admin/MenuTop/_MenuTopList.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult AddMenu(Menu menu)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _informationService.AddMenu(menu);
+                result.status = "success";
+                result.message = "Thành công! Menu đã được tạo.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMenu(Menu menu)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _informationService.EditMenu(menu);
+                result.status = "success";
+                result.message = "Thành công! Menu đã được chỉnh sửa.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+        [HttpPost]
+        public ActionResult LoadEditMenu(int menuId)
+        {
+            try
+            {
+                var model = _informationService.GetMenu(menuId);
+                return PartialView("~/Views/Admin/MenuTop/_EditMenuTopPartial.cshtml", model);
+            }
+            catch
+            {
+                return PartialView("_NullDataPartial");
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteMenu(int menuId)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _informationService.DeleteMenu(menuId);
+                result.status = "success";
+                result.message = "Thành công! Đã xóa thành công.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult Information()
+        {
+            var InformationCount = db.Information.ToList().Count;
+            if (InformationCount == 0)
+                _informationService.CreateInformation();
+            return View();
+        }
+
+        public ActionResult LoadEditLogo()
+        {
+            ViewBag.Logo = db.Information.Find("Main").Logo;
+            return PartialView("~/Views/Admin/Information/_LogoPartial.cshtml");
+        }
+
+        public ActionResult UpdateLogo(string logo)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                logo = string.IsNullOrEmpty(logo) ? "No_Picture.JPG" : logo;
+                _informationService.UpdateLogo(logo);
+                result.status = "success";
+                result.message = "Thành công! Đã cập nhật Logo.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult LoadEditContact()
+        {
+            var model = _informationService.GetContact();
+            return PartialView("~/Views/Admin/Information/_ContactPartial.cshtml", model);
+        }
+        public ActionResult UpdateContact(ContactViewModel contact)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _informationService.UpdateContact(contact);
+                result.status = "success";
+                result.message = "Thành công! Đã cập nhật Thông Tin Liên Lạc.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+        public ActionResult LoadEditSocial()
+        {
+            var model = _informationService.GetSocial();
+            return PartialView("~/Views/Admin/Information/_SocialPartial.cshtml", model);
+        }
+        public ActionResult UpdateSocial(SocialViewModel social)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _informationService.UpdateSocial(social);
+                result.status = "success";
+                result.message = "Thành công! Đã cập nhật Social Network.";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult LoadMenuFooter(int type)
+        {
+            ViewBag.Type = type;
+            var model = _informationService.GetMenuList(type);
+            return PartialView("~/Views/Admin/Information/_MenuFooterPartial.cshtml", model);
+        }
+        public ActionResult LoadAddMenuFooterPartial(int type)
+        {
+            ViewBag.Type = type;
+            return PartialView("~/Views/Admin/Information/_AddMenuFooterPartial.cshtml");
+        }
+        public ActionResult LoadEditMenuFooterPartial(int menuId)
+        {
+            var model = _informationService.GetMenu(menuId);
+            return PartialView("~/Views/Admin/Information/_EditMenuFooterPartial.cshtml", model);
         }
     }
 }

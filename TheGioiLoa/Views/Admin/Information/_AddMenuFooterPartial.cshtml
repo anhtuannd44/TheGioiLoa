@@ -1,0 +1,37 @@
+﻿@model TheGioiLoa.Models.Menu
+<div class="modal-header border-0">
+    <h4 class="card-title font-weight-bold">Thêm Menu Footer @ViewBag.Type</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+<div class="modal-body py-0">
+    @using (Ajax.BeginForm("AddMenu", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnBegin = "loadingGifModal",
+        OnSuccess = "FooterSuccess"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="@ViewBag.Type" name="Type" id="Type" />
+        <div class="form-group row align-items-center">
+            <label for="Name" class="col-md-4 m-0">Tên Menu</label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control form-control-sm rounded-0", @placeholder = "Tên menu" })
+            </div>
+        </div>
+        <div class="form-group row align-items-center">
+            <label for="Url" class="col-md-4 m-0">Đường dẫn (URL)</label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.Url, new { @class = "form-control form-control-sm rounded-0", @placeholder = "Đường dẫn tĩnh" })
+            </div>
+        </div>
+        <div class="form-group text-right">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-success btn-flat text-right">Thêm Mới</button>
+                <button type="button" class="btn btn-danger btn-flat text-right" data-dismiss="modal">Hủy Bỏ</button>
+            </div>
+        </div>
+    }
+</div>

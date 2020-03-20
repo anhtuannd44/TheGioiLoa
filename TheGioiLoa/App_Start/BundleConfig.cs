@@ -36,7 +36,6 @@ namespace TheGioiLoa
             bundles.Add(new ScriptBundle("~/bundles/AdminJs").Include(
                       "~/Scripts/jquery.unobtrusive-ajax.min.js",
                       "~/Content/Admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js",
-                      "~/Scripts/Admin/adminlte.min.js",
                       "~/Content/Admin/plugins/jquery-mousewheel/jquery.mousewheel.js",
                       "~/Content/Admin/plugins/raphael/raphael.min.js",
                       "~/Content/Admin/plugins/jquery-mapael/jquery.mapael.min.js",
@@ -45,6 +44,7 @@ namespace TheGioiLoa
                       "~/Content/Admin/dist/js/pages/dashboard2.js",
                       "~/Content/Admin/plugins/ekko-lightbox/ekko-lightbox.min.js",
                       "~/Content/Admin/plugins/toastr/toastr.min.js",
+                       "~/Scripts/Admin/adminlte.min.js",
                       "~/Content/Admin/plugins/summernote/summernote-bs4.min.js",
                       "~/Content/Admin/plugins/upload/dist/js/jquery.dm-uploader.min.js"
                       ));

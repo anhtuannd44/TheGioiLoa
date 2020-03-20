@@ -59,7 +59,7 @@ namespace TheGioiLoa.Controllers
                     UserPhone = info.UserPhone,
                     UserEmail = info.UserEmail,
                     Note = info.Note,
-                    UserAddress = info.UserAddrress,
+                    UserAddress = info.UserAddress,
                     DateModified = DateTime.Now,
                     PaymentMethod = 1,
                     Status = 1

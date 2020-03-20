@@ -133,7 +133,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p>
@@ -171,6 +171,35 @@
                                 <p>Trang</p>
                             </a>
                         </li>
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>
+                                    Thông Tin Trang
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Information","Admin")" class="nav-link">
+                                        <i class="fas fa-home nav-icon"></i>
+                                        <p>Thông Tin Chung</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("MenuTop","Admin")" class="nav-link">
+                                        <i class="fas fa-ellipsis-h nav-icon"></i>
+                                        <p>Menu Top</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("categories","Admin")" class="nav-link">
+                                        <i class="fas fa-ellipsis-v nav-icon"></i>
+                                        <p>Menu Chuyên Mục</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -180,6 +209,7 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <h1 class="m-0 text-dark font-weight-normal">@ViewBag.Title</h1>
+                    <hr class="mb-1"/>
                 </div>
             </div>
             <section class="content">
@@ -196,11 +226,30 @@
             </div>
         </footer>
     </div>
+
+    <div class="modal fade" id="ModalTemplate" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="min-height: 100px">
+            <div class="modal-content rounded-0" id="modalContent">
+
+            </div>
+            <div id="modal-loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ModalTemplateNormal" aria-hidden="true">
+        <div class="modal-dialog position-relative" style="min-height: 100px">
+            <div class="modal-content rounded-0" id="modalContentNormal">
+
+            </div>
+            <div id="modalNormal-loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
     @Scripts.Render("~/bundles/AdminJs")
-
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
         $('[data-toggle="tooltip"]').tooltip();

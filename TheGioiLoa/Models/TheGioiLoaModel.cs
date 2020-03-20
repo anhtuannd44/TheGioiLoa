@@ -17,7 +17,6 @@ namespace TheGioiLoa.Models
         public virtual DbSet<Brand> Brand { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<CategoryProducts> CategoryProduct { get; set; }
-        public virtual DbSet<Page> Page { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Product_Image> Product_Image { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
@@ -26,7 +25,8 @@ namespace TheGioiLoa.Models
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
         public virtual DbSet<Review> Review { get; set; }
-
+        public virtual DbSet<Menu> Menu { get; set; }
+        public virtual DbSet<Information> Information { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
