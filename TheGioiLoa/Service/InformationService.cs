@@ -98,5 +98,25 @@ namespace TheGioiLoa.Service
             var model = db.Menu.Remove(db.Menu.Find(menuId));
             db.SaveChanges();
         }
+        public SocialLinkViewModel GetSocialLink(string social)
+        {
+            var information = db.Information.Find("Main");
+            if (information == null)
+                CreateInformation();
+            var socialLink = new SocialLinkViewModel();
+            if (social == "Youtube")
+            {
+                var link = information.Youtube;
+                if (!string.IsNullOrEmpty(link))
+                {
+                    link = link.Remove(0, link.IndexOf('=')+1);
+                    link = link.Remove(link.IndexOf('&'));
+                }
+                socialLink.Link = link;
+            }
+            else if (social == "Facebook")
+                socialLink.Link = information.Facebook;
+            return socialLink;
+        }
     }
 }

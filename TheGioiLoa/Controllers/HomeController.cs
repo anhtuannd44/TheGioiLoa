@@ -39,6 +39,13 @@ namespace TheGioiLoa.Controllers
             };
             return PartialView("_FooterMiddle", model);
         }
+        public ActionResult LoadSocial(string social)
+        {
+            var model = _informationService.GetSocialLink(social);
+            if (social == "Facebook")
+                return PartialView("Social/_FacebookPartial", model);
+            return PartialView("Social/_YoutubePartial", model);
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

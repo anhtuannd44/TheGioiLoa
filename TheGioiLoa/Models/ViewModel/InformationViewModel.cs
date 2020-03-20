@@ -28,7 +28,7 @@ namespace TheGioiLoa.Models.ViewModel
         [Url(ErrorMessage = "Chưa đúng định dạng URL")]
         public string Facebook { get; set; }
 
-        [Display(Name = "Facebook (Url Video)")]
+        [Display(Name = "Youtube (Url Video)")]
         [Url(ErrorMessage = "Chưa đúng định dạng URL")]
         public string Youtube { get; set; }
 
@@ -41,5 +41,9 @@ namespace TheGioiLoa.Models.ViewModel
         public List<Menu> Footer1 { get; set; }
         public List<Menu> Footer2 { get; set; }
         public List<Menu> Footer3 { get; set; }
+    }
+    public class SocialLinkViewModel
+    {
+        public string Link { get; set; }
     }
 }

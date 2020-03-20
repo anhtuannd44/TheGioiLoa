@@ -916,5 +916,6 @@ namespace TheGioiLoa.Controllers
             var model = _informationService.GetMenu(menuId);
             return PartialView("~/Views/Admin/Information/_EditMenuFooterPartial.cshtml", model);
         }
+        
     }
 }
