@@ -1,0 +1,84 @@
+﻿@model TheGioiLoa.Models.ViewModel.ListImageViewModel
+
+
+<div class="modal-header border-0">
+    <h4 class="card-title font-weight-bold">Ảnh sản phẩm</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+<div class="modal-body py-0">
+    <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link rounded-0 py-1 px-2 active" id="upload-tab" data-toggle="pill" href="#upload" role="tab" aria-controls="upload" aria-selected="false">Tải lên tập tin</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link rounded-0 py-1 px-2" id="upload-tab" data-toggle="pill" href="#library" role="tab" aria-controls="library" aria-selected="true">Thư viện</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="upload-tabContent">
+        <div class="tab-pane fade p-4 active show" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <!-- Our markup, the important part here! -->
+                    <div id="drag-and-drop-zone" class="dm-uploader p-5" data-target="@Model.Target" data-multiple="@Model.IsMultiple">
+                        <h3 class="mb-5 mt-5 text-muted">Click vào bên dưới để chọn hình</h3>
+
+                        <div class="btn btn-primary btn-block mb-5">
+                            <span>Chọn Hình ảnh từ máy tính</span>
+                            <input name="File" id="File" accept=".JPG,.JPEG,.PNG,.GIF" type="file" title='Click để chọn hình' />
+                        </div>
+                    </div><!-- /uploader -->
+
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="card h-100 rounded-0">
+                        <div class="card-header">
+                            Thông tin
+                        </div>
+
+                        <ul class="list-unstyled p-2 d-flex flex-column col" id="files">
+                            <li class="text-muted text-center empty">Chưa có hình để đăng.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- /file list -->
+            <script type="text/html" id="files-template">
+                <li class="media">
+                    <div class="media-body mb-1">
+                        <p class="mb-2">
+                            <strong>%%filename%%</strong><br />Trạng thái: <span class="text-muted">Đang đăng ...</span>
+                        </p>
+                        <div class="progress mb-2">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                 role="progressbar"
+                                 style="width: 0%"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <hr class="mt-1 mb-1" />
+                    </div>
+                </li>
+            </script>
+        </div>
+        <div class="tab-pane fade p-4" id="library" role="tabpanel" aria-labelledby="library-tab">
+            <div class="row" id="libraryImageList" style="overflow-y: scroll !important; max-height: 500px">
+                @Html.Partial("_ImageLibraryPartial",Model)
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="float-left">
+                <a href="#" class="btn btn-primary btn-flat btn-sm">< Trang trước</a>
+            </div>
+            <div class="float-right">
+                <a href="#" class="btn btn-primary btn-flat btn-sm">Trang sau ></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-info text-white float-right btn-sm btn-flat submit-modal" id="submitModalImage" data-image-target="@Model.Target" data-textarea="">Thiết lập ảnh sản phẩm</button>
+</div>
+
+
+<script src="~/Scripts/Admin/ImageUpload/uploadFile.js"></script>

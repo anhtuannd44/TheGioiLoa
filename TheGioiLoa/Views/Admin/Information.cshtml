@@ -3,10 +3,10 @@
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
 }
 <div class="information" id="adminPage">
-    <div class="information-title">
+    <div class="information-title mt-4">
         <h4 class="text-primary">Header</h4>
     </div>
-    <div class="row row-flex mb-4">
+    <div class="row row-flex">
         <div class="col-md-4">
             <div class="card h-100" id="renderLogoPartial">
                 @Html.Action("LoadEditLogo", "Admin")
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <div class="information-title">
+    <div class="information-title mt-4">
         <h4 class="text-primary">Footer</h4>
     </div>
     <div class="row row-flex">
@@ -59,6 +59,14 @@
             <div id="updateMenuFooter3-Loading" class="spinner-loading" style="display: none;">
                 <img src="~/Content/Spinner.png" alt="Loading..." />
             </div>
+        </div>
+    </div>
+    <div class="information-title mt-4">
+        <h4 class="text-primary">Slider Home</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            @Html.Action("LoadEditSlider", "Admin")
         </div>
     </div>
 </div>
@@ -194,7 +202,7 @@
                 }
             })
         })
-        
+
         $(document).on("click", ".menu-action", function () {
             $("#modalNormal-loading").show();
             $.ajax({

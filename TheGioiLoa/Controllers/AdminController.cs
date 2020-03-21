@@ -263,7 +263,7 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoadLibraryImage(bool IsMultiple, string selectedImage)
+        public ActionResult LoadLibraryImage(string target, bool IsMultiple, string selectedImage, string notLoadAll)
         {
             var image = db.Image.ToList();
             var model = new ListImageViewModel();
@@ -294,8 +294,14 @@ namespace TheGioiLoa.Controllers
                 model.IsMultiple = true;
             else
                 model.IsMultiple = false;
-            return PartialView("_ImageLibraryPartial", model);
+            model.Target = target;
+
+            if (notLoadAll == "notLoadAll")
+                return PartialView("_ImageLibraryPartial", model);
+
+            return PartialView("_ImageLibraryModalPartial", model);
         }
+
 
         [HttpPost]
         public ActionResult LoadSelectImage(string imageList)
@@ -755,7 +761,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadMenuList(int type)
         {
             var model = _informationService.GetMenuList(type);
-            return PartialView("~/Views/Admin/MenuTop/_MenuTopList.cshtml", model);
+            return PartialView("MenuTop/_MenuTopList", model);
         }
 
         [HttpPost]
@@ -800,7 +806,7 @@ namespace TheGioiLoa.Controllers
             try
             {
                 var model = _informationService.GetMenu(menuId);
-                return PartialView("~/Views/Admin/MenuTop/_EditMenuTopPartial.cshtml", model);
+                return PartialView("MenuTop/_EditMenuTopPartial", model);
             }
             catch
             {
@@ -836,7 +842,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadEditLogo()
         {
             ViewBag.Logo = db.Information.Find("Main").Logo;
-            return PartialView("~/Views/Admin/Information/_LogoPartial.cshtml");
+            return PartialView("Information/_LogoPartial");
         }
 
         public ActionResult UpdateLogo(string logo)
@@ -860,7 +866,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadEditContact()
         {
             var model = _informationService.GetContact();
-            return PartialView("~/Views/Admin/Information/_ContactPartial.cshtml", model);
+            return PartialView("Information/_ContactPartial", model);
         }
         public ActionResult UpdateContact(ContactViewModel contact)
         {
@@ -881,7 +887,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadEditSocial()
         {
             var model = _informationService.GetSocial();
-            return PartialView("~/Views/Admin/Information/_SocialPartial.cshtml", model);
+            return PartialView("Information/_SocialPartial", model);
         }
         public ActionResult UpdateSocial(SocialViewModel social)
         {
@@ -904,18 +910,21 @@ namespace TheGioiLoa.Controllers
         {
             ViewBag.Type = type;
             var model = _informationService.GetMenuList(type);
-            return PartialView("~/Views/Admin/Information/_MenuFooterPartial.cshtml", model);
+            return PartialView("Information/_MenuFooterPartial", model);
         }
         public ActionResult LoadAddMenuFooterPartial(int type)
         {
             ViewBag.Type = type;
-            return PartialView("~/Views/Admin/Information/_AddMenuFooterPartial.cshtml");
+            return PartialView("Information/_AddMenuFooterPartial");
         }
         public ActionResult LoadEditMenuFooterPartial(int menuId)
         {
             var model = _informationService.GetMenu(menuId);
-            return PartialView("~/Views/Admin/Information/_EditMenuFooterPartial.cshtml", model);
+            return PartialView("Information/_EditMenuFooterPartial", model);
         }
-        
+        public ActionResult LoadEditSlider()
+        {
+            return PartialView("Information/_EditSliderPartial");
+        }
     }
 }

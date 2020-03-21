@@ -17,6 +17,7 @@ namespace TheGioiLoa.Service
         private TheGioiLoaModel db = new TheGioiLoaModel();
         private HelperFunction _helper = new HelperFunction();
 
+        //Type: 1-Blog 2-Page
         public void CreateBlog(BlogViewModel blog, int type)
         {
             blog.Title = _helper.DeleteSpace(blog.Title);
@@ -34,6 +35,7 @@ namespace TheGioiLoa.Service
             db.Blog.Add(addBlog);
             db.SaveChanges();
         }
+
 
         public List<BlogViewModel> GetBlogList(string status, int type)
         {

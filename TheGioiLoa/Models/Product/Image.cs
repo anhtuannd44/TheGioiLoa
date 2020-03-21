@@ -20,6 +20,8 @@ namespace TheGioiLoa.Models
 
         public DateTime DateCreated { get; set; }
 
+        public bool IsSlider {get;set;}
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Image> Product_Image { get; set; }
     }

@@ -293,6 +293,10 @@
     <Compile Include="Migrations\TheGioiLoaModel\202003191956209_changeMenu2.Designer.cs">
       <DependentUpon>202003191956209_changeMenu2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003201908384_isslider.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003201908384_isslider.Designer.cs">
+      <DependentUpon>202003201908384_isslider.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
@@ -2057,10 +2061,13 @@
     <Content Include="Scripts\Admin\Admin.js" />
     <Content Include="Scripts\Admin\category.js" />
     <Content Include="Scripts\Admin\demo.js" />
+    <Content Include="Scripts\Admin\ImageUpload\uploadFile.js" />
     <Content Include="Scripts\Admin\pages\dashboard.js" />
     <Content Include="Scripts\Admin\pages\dashboard2.js" />
     <Content Include="Scripts\Admin\pages\dashboard3.js" />
-    <Content Include="Scripts\Admin\upload-img.js" />
+    <Content Include="Scripts\Admin\blog.js" />
+    <Content Include="Scripts\Admin\upload-image-plugin.js" />
+    <Content Include="Scripts\Admin\ImageUpload\upload-img.js" />
     <Content Include="Scripts\Admin\product.js" />
     <Content Include="Scripts\bootstrap-jquery\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap-jquery\bootstrap.bundle.min.js" />
@@ -2377,6 +2384,9 @@
     <Content Include="Views\Shared\_FooterMiddle.cshtml" />
     <Content Include="Views\Shared\Social\_FacebookPartial.cshtml" />
     <Content Include="Views\Shared\Social\_YoutubePartial.cshtml" />
+    <Content Include="Views\Shared\_BlogHomePartial.cshtml" />
+    <Content Include="Views\Admin\Information\_EditSliderPartial.cshtml" />
+    <Content Include="Views\Shared\_ImageLibraryModalPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2467,6 +2477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003191956209_changeMenu2.resx">
       <DependentUpon>202003191956209_changeMenu2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003201908384_isslider.resx">
+      <DependentUpon>202003201908384_isslider.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -16,6 +16,7 @@ namespace TheGioiLoa.Models.ViewModel
     {
         public List<ImageViewModel> ImageList { get; set; }
         public bool IsMultiple { get; set; }
+        public string Target { get; set; }
     }
     public class ImageViewModel
     {

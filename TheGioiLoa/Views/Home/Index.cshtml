@@ -5,7 +5,7 @@
 <main id="main">
     <div class="container" style="height: 486px;">
         <div class="row">
-            <div div class="col-md-9 offset-md-3 px-0" style="flex: 0 0 81%; max-width: 81.2%; margin-left: 18.8%;">
+            <div div class="col-md-9 offset-md-3 px-0" style="flex: 0 0 81%; max-width: 80%; margin-left: 18.8%;">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -160,25 +160,7 @@
                         <div style="clear: both"></div>
                     </div>
                     <div class="blog-content border">
-                        @for (int i = 1; i <= 6; i++)
-                        {
-                            <div class="row blog-content-list m-0 p-1">
-                                <div class="col-md-4 p-0">
-                                    <div class="image-box ratio-16-9 h-100 my-auto">
-                                        <a href="/Home/Houses?location=H%C3%A0%20N%E1%BB%99i" class="image image-big" id="image-main" style="background-image: url('../../Content/Upload/Product/5445_atxp_combo_3.jpg');"></a>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 p-0">
-                                    <div class="p-2">
-                                        <a href="#">
-                                            <h4 class="blog-content-title m-0">Lắp đặt âm thanh sân khấu Vietnam Idol 2020</h4>
-                                        </a>
-                                        <p class="blog-time-created mb-0 mt-1">13/08/2019, 03:32 PM</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="m-0" />
-                        }
+                        @Html.Action("GetBlogHome","Home")
                     </div>
                 </div>
             </div>

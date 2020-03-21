@@ -13,6 +13,7 @@ namespace TheGioiLoa.Controllers
     {
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly InformationService _informationService = new InformationService();
+        private readonly BlogService _blogService = new BlogService();
         public ActionResult Index()
         {
             ViewBag.IsMenuExpand = true;
@@ -45,6 +46,12 @@ namespace TheGioiLoa.Controllers
             if (social == "Facebook")
                 return PartialView("Social/_FacebookPartial", model);
             return PartialView("Social/_YoutubePartial", model);
+        }
+
+        public ActionResult GetBlogHome()
+        {
+            var model = _blogService.GetBlogList("Public", 1);
+            return PartialView("_BlogHomePartial", model);
         }
         public ActionResult About()
         {
