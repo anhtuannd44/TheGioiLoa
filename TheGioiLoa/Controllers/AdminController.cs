@@ -44,14 +44,14 @@ namespace TheGioiLoa.Controllers
                 model.Notification = "nodata";
 
             ViewBag.CategoryParentList = db.Category.Where(a => a.CategoryParentId == null).ToList();
-            return PartialView("_CategoryListPartial", model);
+            return PartialView("ProductAndCategory/_CategoryListPartial", model);
         }
 
         [HttpPost]
         public PartialViewResult LoadCategorySelect()
         {
             var model = db.Category.ToList();
-            return PartialView("_SelectListCategory", model);
+            return PartialView("ProductAndCategory/_SelectListCategory", model);
         }
 
         [HttpPost]
@@ -106,7 +106,7 @@ namespace TheGioiLoa.Controllers
                 Name = editItem.Name,
                 CategoryId = editItem.CategoryId
             };
-            return PartialView("_EditCategoryPartial", model);
+            return PartialView("ProductAndCategory/_EditCategoryPartial", model);
         }
 
 
@@ -143,7 +143,7 @@ namespace TheGioiLoa.Controllers
             var model = _productService.GetAllInformationOfProductItem(product);
             if (!model.IsGetDataSuccess)
                 return RedirectToAction("ProductList");
-            return View(model);
+            return View("ProductAndCategory/EditProduct", model);
         }
         [HttpPost]
         [ValidateInput(false)]
@@ -186,7 +186,7 @@ namespace TheGioiLoa.Controllers
         {
             ViewBag.BrandId = db.Brand.ToList();
             ViewBag.CategoryId = db.Category.ToList();
-            return View();
+            return View("ProductAndCategory/CreateProduct");
         }
 
         [HttpPost]
@@ -218,7 +218,7 @@ namespace TheGioiLoa.Controllers
             }
             ViewBag.BrandId = db.Brand.ToList();
             ViewBag.CategoryId = db.Category.ToList();
-            return View(product);
+            return View("ProductAndCategory/CreateProduct", product);
         }
 
         [HttpPost]
@@ -368,7 +368,7 @@ namespace TheGioiLoa.Controllers
             if (brandList.Count() != 0)
             {
                 model.BrandList = brandList.ToList();
-                return PartialView("_BrandListPartial", model);
+                return PartialView("Brand/_BrandListPartial", model);
             }
             else
             {
@@ -380,7 +380,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadEditBrandPartial(int brandId)
         {
             var model = db.Brand.Find(brandId);
-            return PartialView("_EditBrandPartial", model);
+            return PartialView("Brand/_EditBrandPartial", model);
         }
 
         [HttpPost]
@@ -452,7 +452,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadBlogList()
         {
             var model = _blogService.GetBlogList("All", 1).ToList();
-            return PartialView("_BlogListPartial", model);
+            return PartialView("BlogAndPage/_BlogListPartial", model);
         }
         public ActionResult CreateBlog()
         {
@@ -462,7 +462,7 @@ namespace TheGioiLoa.Controllers
                 CategoryList = categories,
                 StatusList = _blogService.GetStatus()
             };
-            return View(model);
+            return View("BlogAndPage/CreateBlog", model);
         }
 
         [HttpPost]
@@ -480,7 +480,7 @@ namespace TheGioiLoa.Controllers
                 var categories = db.BlogCategory.ToList();
                 blog.CategoryList = categories;
                 blog.StatusList = _blogService.GetStatus();
-                return View(blog);
+                return View("BlogAndPage/CreateBlog", blog);
             }
         }
         public ActionResult EditBlog(int blogId)
@@ -488,18 +488,8 @@ namespace TheGioiLoa.Controllers
             var blog = db.Blog.Find(blogId);
             if (blog == null)
                 return HttpNotFound();
-            var model = new BlogViewModel()
-            {
-                BlogId = blog.BlogId,
-                Title = blog.Title,
-                BlogContent = blog.BlogContent,
-                Status = blog.Status,
-                BlogCategoryId = blog.BlogCategoryId
-            };
-            var categories = db.BlogCategory.ToList();
-            model.CategoryList = categories;
-            model.StatusList = _blogService.GetStatus();
-            return View(model);
+            var model = _blogService.GetBlog(blog);
+            return View("BlogAndPage/EditBlog", model);
         }
 
         [HttpPost]
@@ -517,7 +507,7 @@ namespace TheGioiLoa.Controllers
                 var categories = db.BlogCategory.ToList();
                 blog.CategoryList = categories;
                 blog.StatusList = _blogService.GetStatus();
-                return View(blog);
+                return View("BlogAndPage/EditBlog", blog);
             }
         }
 
@@ -543,7 +533,7 @@ namespace TheGioiLoa.Controllers
         [HttpPost]
         public ActionResult LoadBlogCategory()
         {
-            return PartialView("_BlogCategory", db.BlogCategory.ToList());
+            return PartialView("BlogAndPage/_BlogCategoryPartial", db.BlogCategory.ToList());
         }
 
         [HttpPost]
@@ -648,13 +638,13 @@ namespace TheGioiLoa.Controllers
 
         public ActionResult Page()
         {
-            var model = _blogService.GetBlogList("All", 2).ToList();
+            var model = _blogService.GetBlogList("All", 2);
             return View(model);
         }
         public ActionResult LoadPageList()
         {
-            var model = _blogService.GetBlogList("All", 2).ToList();
-            return PartialView("_PageListPartial", model);
+            var model = _blogService.GetBlogList("All", 2);
+            return PartialView("BlogAndPage/_PageListPartial", model);
         }
         public ActionResult CreatePage()
         {
@@ -662,7 +652,7 @@ namespace TheGioiLoa.Controllers
             {
                 StatusList = _blogService.GetStatus()
             };
-            return View(model);
+            return View("BlogAndPage/CreatePage", model);
         }
 
         [HttpPost]
@@ -678,7 +668,7 @@ namespace TheGioiLoa.Controllers
             catch
             {
                 page.StatusList = _blogService.GetStatus();
-                return View(page);
+                return View("BlogAndPage/CreatePage", page);
             }
         }
         public ActionResult EditPage(int pageId)
@@ -686,15 +676,8 @@ namespace TheGioiLoa.Controllers
             var page = db.Blog.Find(pageId);
             if (page == null)
                 return HttpNotFound();
-            var model = new BlogViewModel()
-            {
-                BlogId = page.BlogId,
-                Title = page.Title,
-                BlogContent = page.BlogContent,
-                Status = page.Status
-            };
-            model.StatusList = _blogService.GetStatus();
-            return View(model);
+            var model = _blogService.GetBlog(page);
+            return View("BlogAndPage/EditPage", model);
         }
 
         [HttpPost]
@@ -710,7 +693,7 @@ namespace TheGioiLoa.Controllers
             catch
             {
                 page.StatusList = _blogService.GetStatus();
-                return View(page);
+                return View("BlogAndPage/EditPage", page);
             }
         }
 
@@ -761,7 +744,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadMenuList(int type)
         {
             var model = _informationService.GetMenuList(type);
-            return PartialView("MenuTop/_MenuTopList", model);
+            return PartialView("MenuTop/_MenuTopListPartial", model);
         }
 
         [HttpPost]
@@ -924,7 +907,100 @@ namespace TheGioiLoa.Controllers
         }
         public ActionResult LoadEditSlider()
         {
-            return PartialView("Information/_EditSliderPartial");
+            var model = _informationService.GetSliderImageList();
+            return PartialView("Information/_EditSliderPartial", model);
+        }
+        public ActionResult LoadCreateSliderModal()
+        {
+            return PartialView("Information/_CreateSliderPartial");
+        }
+        public ActionResult AddImageToSlider(Slider slider)
+        {
+            var result = new JsonStatusViewModel();
+            var image = db.Image.Find(slider.ImageId);
+            if (image == null)
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+            }
+            else
+            {
+                try
+                {
+                    _informationService.AddImageToSlider(slider);
+                    result.status = "success";
+                    result.message = "Thành công! Đã thêm slider";
+                }
+                catch
+                {
+                    result.status = "error";
+                    result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+                }
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult DeleteSlider(int sliderId)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _informationService.DeleteSlider(sliderId);
+                result.status = "success";
+                result.message = "Thành công! Đã xóa slider";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+        public ActionResult LoadProductHomePage()
+        {
+            var model = _productService.GetProductHomePage();
+            ViewBag.Category = db.Category.Where(a => a.CategoryParentId == null).ToList();
+            return PartialView("Information/_ProductHomePagePartial", model);
+        }
+        public ActionResult UpdateProductHomePage(List<ProductHomePage> productHomePageList)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _productService.UpdateProductHomePage(productHomePageList);
+                result.status = "success";
+                result.message = "Thành công! Đã cập nhật sản phẩm Trang Chủ";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult LoadFooterContact()
+        {
+            var model = _informationService.GetFooterContact();
+            return PartialView("Information/_EditFooterContactPartial", model);
+        }
+
+        [ValidateInput(false)]
+        public ActionResult UpdateFooterContact(string FooterContact, string FooterCopyright)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                _informationService.UpdateFooterContact(FooterContact, FooterCopyright);
+                result.status = "success";
+                result.message = "Thành công! Đã cập nhật Footer Contact";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
     }
 }

@@ -28,6 +28,8 @@ namespace TheGioiLoa.Models
         [StringLength(128)]
         public string Author { get; set; }
 
+        public string  Cover { get; set; }
+
         public DateTime DateCreated { get; set; }
 
         public DateTime DateModified { get; set; }

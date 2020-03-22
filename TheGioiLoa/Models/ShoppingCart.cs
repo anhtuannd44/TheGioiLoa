@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
 
 namespace TheGioiLoa.Models
@@ -14,9 +12,8 @@ namespace TheGioiLoa.Models
         {
             get
             {
-                var cart = HttpContext.Current.Session["Cart"] as ShoppingCart;
                 // Nếu chưa có giỏ hàng trong session -> tạo mới và lưu vào session
-                if (cart == null)
+                if (!(HttpContext.Current.Session["Cart"] is ShoppingCart cart))
                 {
                     cart = new ShoppingCart();
                     HttpContext.Current.Session["Cart"] = cart;

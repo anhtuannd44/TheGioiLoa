@@ -69,6 +69,8 @@ $(document).on("click", "#submitModalImage", function () {
         case "logo":
             addLogo();
             break;
+        case "slider":
+            addToSlider();
         default:
             break;
     }

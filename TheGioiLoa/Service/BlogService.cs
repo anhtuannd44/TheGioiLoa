@@ -30,13 +30,31 @@ namespace TheGioiLoa.Service
                 DateModified = DateTime.Now,
                 BlogCategoryId = blog.BlogCategoryId,
                 Status = blog.Status,
-                Type = type
+                Type = type,
+                Cover = blog.Cover
             };
             db.Blog.Add(addBlog);
             db.SaveChanges();
         }
 
-
+        public BlogViewModel GetBlog(Blog blog)
+        {
+            var model = new BlogViewModel()
+            {
+                BlogId = blog.BlogId,
+                Title = blog.Title,
+                BlogContent = blog.BlogContent,
+                Status = blog.Status,
+                BlogCategoryId = blog.BlogCategoryId,
+                Type = blog.Type,
+                Cover = blog.Cover,
+                StatusLabel = GetStatus(blog.Status)
+            };
+            var categories = db.BlogCategory.ToList();
+            model.CategoryList = categories;
+            model.StatusList = GetStatus();
+            return model;
+        }
         public List<BlogViewModel> GetBlogList(string status, int type)
         {
             var blogList = db.Blog.Where(a => a.Type == type).ToList();
@@ -66,7 +84,9 @@ namespace TheGioiLoa.Service
                     Url = item.Url,
                     BlogCategoryId = item.BlogCategoryId,
                     Status = item.Status,
-                    DateCreated = item.DateCreated
+                    DateCreated = item.DateCreated,
+                    StatusLabel = GetStatus(item.Status),
+                    Cover = item.Cover
                 };
                 addBlog.BlogCategoryName = (item.BlogCategoryId == null) ? "Chưa phân loại" : blogCategory.Find(item.BlogCategoryId).Name;
                 result.Add(addBlog);
@@ -83,6 +103,7 @@ namespace TheGioiLoa.Service
             editItem.DateModified = DateTime.Now;
             editItem.BlogCategoryId = blog.BlogCategoryId;
             editItem.Status = blog.Status;
+            editItem.Cover = blog.Cover;
             db.Entry(editItem).State = EntityState.Modified;
             db.SaveChanges();
         }
@@ -132,6 +153,13 @@ namespace TheGioiLoa.Service
             }
             db.BlogCategory.Remove(db.BlogCategory.Find(blogCategoryId));
             db.SaveChanges();
+        }
+        public string GetStatus(int status)
+        {
+            if (status == 1)
+                return "Đã đăng";
+            else
+                return "Chưa đăng";
         }
     }
 }

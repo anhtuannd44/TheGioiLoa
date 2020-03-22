@@ -1,0 +1,34 @@
+﻿@model TheGioiLoa.Models.Slider
+
+@using (Ajax.BeginForm("AddImageToSlider", "Admin", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "loadingGifSliderModal",
+    OnSuccess = "addImageToSliderSuccess",
+}))
+{
+    <div class="modal-header">
+        <h4 class="modal-title" id="titleModal">Thêm slider</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(model => model.ImageId)
+        <div class="form-group row">
+            <div class="preview-image w-100 text-center">
+                <img id="previewImageSlider" src="~/Content/Upload/Images/No_Picture.jpg" style="width: 400px; height: 180px; text-align: center" />
+            </div>
+            <input type="text" hidden id="ImageId" name="ImageId" />
+            <label for="ImageId" class="btn btn-primary mt-3 mx-auto" id="ImageIdLabel">Chọn Hình Cover</label>
+        </div>
+        <div class="form-group mb-3">
+            <label for="Url">Đường dẫn (URL)</label>
+            <input type="text" name="Url" id="Url" class="form-control input-form-name" />
+        </div>
+        <div class="form-group text-right">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
+            <button type="submit" class="btn btn-success">Lưu Lại</button>
+        </div>
+    </div>
+}

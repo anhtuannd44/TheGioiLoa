@@ -13,6 +13,7 @@ namespace TheGioiLoa.Models
         public Image()
         {
             Product_Image = new HashSet<Product_Image>();
+            Slider = new HashSet<Slider>();
         }
 
         [Key]
@@ -24,5 +25,6 @@ namespace TheGioiLoa.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Image> Product_Image { get; set; }
+        public virtual ICollection<Slider> Slider { get; set; }
     }
 }

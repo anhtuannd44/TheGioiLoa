@@ -12,6 +12,7 @@ namespace TheGioiLoa.Models
         public Category()
         {
             CategoryProduct = new HashSet<CategoryProducts>();
+            ProductHomePage = new HashSet<ProductHomePage>();
         }
 
         [Key]
@@ -35,5 +36,7 @@ namespace TheGioiLoa.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoryProducts> CategoryProduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductHomePage> ProductHomePage { get; set; }
     }
 }

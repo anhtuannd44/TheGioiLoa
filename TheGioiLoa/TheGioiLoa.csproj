@@ -297,13 +297,67 @@
     <Compile Include="Migrations\TheGioiLoaModel\202003201908384_isslider.Designer.cs">
       <DependentUpon>202003201908384_isslider.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211125104_coverPage.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211125104_coverPage.Designer.cs">
+      <DependentUpon>202003211125104_coverPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211354453_slider.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211354453_slider.Designer.cs">
+      <DependentUpon>202003211354453_slider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211406293_imageLinkToSlider.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211406293_imageLinkToSlider.Designer.cs">
+      <DependentUpon>202003211406293_imageLinkToSlider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211714366_producthomepage.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211714366_producthomepage.Designer.cs">
+      <DependentUpon>202003211714366_producthomepage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211733421_producthomepageID.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211733421_producthomepageID.Designer.cs">
+      <DependentUpon>202003211733421_producthomepageID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211740070_producthomepageIDnull.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211740070_producthomepageIDnull.Designer.cs">
+      <DependentUpon>202003211740070_producthomepageIDnull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211913270_Youtube.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211913270_Youtube.Designer.cs">
+      <DependentUpon>202003211913270_Youtube.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211925109_Youtubea.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211925109_Youtubea.Designer.cs">
+      <DependentUpon>202003211925109_Youtubea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211935452_Youtubeas.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211935452_Youtubeas.Designer.cs">
+      <DependentUpon>202003211935452_Youtubeas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211937239_Youtubeas102.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211937239_Youtubeas102.Designer.cs">
+      <DependentUpon>202003211937239_Youtubeas102.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003211939294_Youtubeas102string.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003211939294_Youtubeas102string.Designer.cs">
+      <DependentUpon>202003211939294_Youtubeas102string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003220959425_csdfhrf.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003220959425_csdfhrf.Designer.cs">
+      <DependentUpon>202003220959425_csdfhrf.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003221034341_csdfhrfa.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003221034341_csdfhrfa.Designer.cs">
+      <DependentUpon>202003221034341_csdfhrfa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
     <Compile Include="Models\Blog\BlogCategory.cs" />
     <Compile Include="Models\Cart\OrderDetails.cs" />
     <Compile Include="Models\Cart\Order.cs" />
+    <Compile Include="Models\ProductHomePage.cs" />
     <Compile Include="Models\Information.cs" />
+    <Compile Include="Models\Slider.cs" />
     <Compile Include="Models\Product\Brand.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Models\Product\Image.cs" />
@@ -2066,6 +2120,7 @@
     <Content Include="Scripts\Admin\pages\dashboard2.js" />
     <Content Include="Scripts\Admin\pages\dashboard3.js" />
     <Content Include="Scripts\Admin\blog.js" />
+    <Content Include="Scripts\Admin\summnernote.js" />
     <Content Include="Scripts\Admin\upload-image-plugin.js" />
     <Content Include="Scripts\Admin\ImageUpload\upload-img.js" />
     <Content Include="Scripts\Admin\product.js" />
@@ -2330,18 +2385,18 @@
     <Content Include="Views\Shared\Admin\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Categories.cshtml" />
-    <Content Include="Views\Admin\_CategoryListPartial.cshtml" />
-    <Content Include="Views\Admin\_EditCategoryPartial.cshtml" />
-    <Content Include="Views\Admin\CreateProduct.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\_CategoryListPartial.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\_EditCategoryPartial.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\CreateProduct.cshtml" />
     <Content Include="Views\Admin\Data.cshtml" />
     <Content Include="Views\Shared\_ImageLibraryPartial.cshtml" />
     <Content Include="Views\Shared\_ImageSelectedPartial.cshtml" />
     <Content Include="Views\Admin\CreateBrand.cshtml" />
-    <Content Include="Views\Admin\_BrandListPartial.cshtml" />
+    <Content Include="Views\Admin\Brand\_BrandListPartial.cshtml" />
     <Content Include="Views\Shared\Admin\_NullDataPartial.cshtml" />
     <Content Include="Views\Admin\ProductList.cshtml" />
-    <Content Include="Views\Admin\EditProduct.cshtml" />
-    <Content Include="Views\Admin\_SelectListCategory.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\EditProduct.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\_SelectListCategory.cshtml" />
     <Content Include="Views\Product\_ProductInCategory.cshtml" />
     <Content Include="Views\Product\Category.cshtml" />
     <Content Include="Views\Product\AllCategory.cshtml" />
@@ -2350,29 +2405,29 @@
     <Content Include="Views\Cart\_CheckOutPartial.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Cart\NoItemInCart.cshtml" />
-    <Content Include="Views\Admin\_EditBrandPartial.cshtml" />
+    <Content Include="Views\Admin\Brand\_EditBrandPartial.cshtml" />
     <Content Include="Views\Cart\OrderSuccess.cshtml" />
     <Content Include="Views\Cart\_CartTotalPartial.cshtml" />
     <Content Include="Views\Product\_ReviewPartial.cshtml" />
     <Content Include="Views\Admin\Blog.cshtml" />
-    <Content Include="Views\Admin\_BlogCategory.cshtml" />
-    <Content Include="Views\Admin\CreateBlog.cshtml" />
+    <Content Include="Views\Admin\BlogAndPage\_BlogCategoryPartial.cshtml" />
+    <Content Include="Views\Admin\BlogAndPage\CreateBlog.cshtml" />
     <Content Include="Views\Blogs\Create.cshtml" />
     <Content Include="Views\Blogs\Delete.cshtml" />
     <Content Include="Views\Blogs\Details.cshtml" />
     <Content Include="Views\Blogs\Edit.cshtml" />
     <Content Include="Views\Blogs\Index.cshtml" />
-    <Content Include="Views\Admin\EditBlog.cshtml" />
-    <Content Include="Views\Admin\_BlogListPartial.cshtml" />
+    <Content Include="Views\Admin\BlogAndPage\EditBlog.cshtml" />
+    <Content Include="Views\Admin\BlogAndPage\_BlogListPartial.cshtml" />
     <Content Include="Views\Admin\Page.cshtml" />
-    <Content Include="Views\Admin\CreatePage.cshtml" />
-    <Content Include="Views\Admin\EditPage.cshtml" />
-    <Content Include="Views\Admin\_PageListPartial.cshtml" />
-    <Content Include="Views\Shared\_MenuCategoryPartial.cshtml" />
+    <Content Include="Views\Admin\BlogAndPage\CreatePage.cshtml" />
+    <Content Include="Views\Admin\BlogAndPage\EditPage.cshtml" />
+    <Content Include="Views\Admin\BlogAndPage\_PageListPartial.cshtml" />
+    <Content Include="Views\Shared\Header\_MenuCategoryPartial.cshtml" />
     <Content Include="Views\Admin\MenuTop.cshtml" />
-    <Content Include="Views\Admin\MenuTop\_MenuTopList.cshtml" />
+    <Content Include="Views\Admin\MenuTop\_MenuTopListPartial.cshtml" />
     <Content Include="Views\Admin\MenuTop\_EditMenuTopPartial.cshtml" />
-    <Content Include="Views\Shared\_MenuTopPartial.cshtml" />
+    <Content Include="Views\Shared\Header\_MenuTopPartial.cshtml" />
     <Content Include="Views\Admin\Information.cshtml" />
     <Content Include="Views\Admin\Information\_LogoPartial.cshtml" />
     <Content Include="Views\Admin\Information\_ContactPartial.cshtml" />
@@ -2381,12 +2436,23 @@
     <Content Include="Views\Admin\Information\_EditMenuFooterPartial.cshtml" />
     <Content Include="Views\Admin\Information\_AddMenuFooterPartial.cshtml" />
     <Content Include="Views\Admin\Information\_DeleteMenuFooterPartial.cshtml" />
-    <Content Include="Views\Shared\_FooterMiddle.cshtml" />
+    <Content Include="Views\Shared\Footer\_FooterMiddle.cshtml" />
     <Content Include="Views\Shared\Social\_FacebookPartial.cshtml" />
     <Content Include="Views\Shared\Social\_YoutubePartial.cshtml" />
     <Content Include="Views\Shared\_BlogHomePartial.cshtml" />
     <Content Include="Views\Admin\Information\_EditSliderPartial.cshtml" />
     <Content Include="Views\Shared\_ImageLibraryModalPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_SliderListPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_CreateSliderPartial.cshtml" />
+    <Content Include="Views\Shared\Social\_ZaloPartial.cshtml" />
+    <Content Include="Views\Shared\Slider\_SliderPartial.cshtml" />
+    <Content Include="Views\Shared\Header\_HeaderContact.cshtml" />
+    <Content Include="Views\Shared\Header\_MiniCartPartial.cshtml" />
+    <Content Include="Views\Admin\Information\_ProductHomePagePartial.cshtml" />
+    <Content Include="Views\Shared\_ProductHomePagePartial.cshtml" />
+    <Content Include="Views\Admin\Information\_EditFooterContactPartial.cshtml" />
+    <Content Include="Views\Shared\Footer\_FooterCopyrightPartial.cshtml" />
+    <Content Include="Views\Shared\Footer\_FooterContactPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2480,6 +2546,45 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003201908384_isslider.resx">
       <DependentUpon>202003201908384_isslider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211125104_coverPage.resx">
+      <DependentUpon>202003211125104_coverPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211354453_slider.resx">
+      <DependentUpon>202003211354453_slider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211406293_imageLinkToSlider.resx">
+      <DependentUpon>202003211406293_imageLinkToSlider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211714366_producthomepage.resx">
+      <DependentUpon>202003211714366_producthomepage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211733421_producthomepageID.resx">
+      <DependentUpon>202003211733421_producthomepageID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211740070_producthomepageIDnull.resx">
+      <DependentUpon>202003211740070_producthomepageIDnull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211913270_Youtube.resx">
+      <DependentUpon>202003211913270_Youtube.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211925109_Youtubea.resx">
+      <DependentUpon>202003211925109_Youtubea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211935452_Youtubeas.resx">
+      <DependentUpon>202003211935452_Youtubeas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211937239_Youtubeas102.resx">
+      <DependentUpon>202003211937239_Youtubeas102.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003211939294_Youtubeas102string.resx">
+      <DependentUpon>202003211939294_Youtubeas102string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003220959425_csdfhrf.resx">
+      <DependentUpon>202003220959425_csdfhrf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003221034341_csdfhrfa.resx">
+      <DependentUpon>202003221034341_csdfhrfa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

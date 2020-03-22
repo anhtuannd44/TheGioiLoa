@@ -8,7 +8,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header clearfix">
-                <a href="@Url.Action("CreateBlog","Admin")" class="card-title mt-1 btn btn-success">Tạo bài viết mới</a>
+                <a href="@Url.Action("CreateBlog","Admin")" class="btn btn-success">Tạo bài viết mới</a>
                 <div class="float-right">
                     <form class="form-inline">
                         <div class="input-group input-group-sm">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <table class="table table-striped projects">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>STT</th>
@@ -62,13 +62,11 @@
                 }))
                 {
                     @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" required name="blogCategoryName" id="blogCategoryName">
-                            <span class="input-group-append">
-                                <button type="submit" class="btn btn-info btn-flat">Tạo</button>
-                            </span>
-                        </div>
+                    <div class="form-group row">
+                            <input type="text" class="form-control form-control-sm col-md-8" required name="blogCategoryName" id="blogCategoryName">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-info btn-block">Tạo Mới</button>
+                            </div>
                     </div>
                 }
             </div>
@@ -81,13 +79,7 @@
 
             </div>
             <div id="loadingGif">
-                <div class="position-relative h-100 w-100">
-                    <div class="loadingio-spinner-spinner-0g9wfi70d3hr">
-                        <div class="ldio-dmto02pujx">
-                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

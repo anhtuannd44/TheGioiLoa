@@ -1,30 +1,20 @@
-﻿@model TheGioiLoa.Models.ViewModel.ProductViewModel
+﻿@model TheGioiLoa.Models.ViewModel.CreateProductViewModel
 
 @{
-    ViewBag.Title = "Chỉnh sửa sản phẩm";
+    ViewBag.Title = "Thêm sản phẩm mới";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
-    var TagValue = "";
-    var TagId = "";
-    var classRemoveImage = "";
-    if (Model.CoverName == "No_Picture.jpg")
-    {
-        classRemoveImage = "d-none";
-    }
 }
-
-@using (Html.BeginForm("EditProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.ProductId)
     <p class="text-danger">@ViewBag.NotiPrice</p>
     <div class="row" id="adminPage">
         <div class="col-md-9">
-            <div class="form-group mb-2 mt-0">
-                @Html.TextBoxFor(model => model.Name, new { @class = "form-control rounded-0", @placeholder = "Tên sản phẩm", @required = "required" })
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Tên sản phẩm", @required = "required" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger mt-2" })
             </div>
-
             @*Mô tả ngắn*@
             <div class="card">
                 <div class="card-header">
@@ -51,22 +41,15 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <label for="BrandId" class="col-md-2 col-form-label-sm">Thương hiệu</label>
+                        @Html.LabelFor(model => model.BrandId, new { @class = "col-md-2 col-form-label-sm" })
                         <div class="col-md-10">
                             <select name="BrandId" id="BrandId" class="form-control form-control-sm">
                                 <option value="">-- Không có thương hiệu --</option>
-                                @if (Model.Brand.FirstOrDefault() != null)
+                                @if (ViewBag.BrandId != null)
                                 {
-                                    foreach (var item in Model.Brand)
+                                    foreach (var item in ViewBag.BrandId)
                                     {
-                                        if (item.IsChecked)
-                                        {
-                                            <option value="@item.BrandId" selected>@item.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.BrandId">@item.Name</option>
-                                        }
+                                        <option value="@item.BrandId">@item.Name</option>
                                     }
                                 }
                             </select>
@@ -93,7 +76,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -164,7 +146,6 @@
 
         </div>
         <div class="col-md-3">
-
             @*Submit Form Card*@
             <div class="card">
                 <div class="card-header">
@@ -172,24 +153,15 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <select name="Status" id="Status" class="form-control form-control-sm rounded-0 col-md-8">
-                            @foreach (var item in Model.StatusList)
-                            {
-                                if (item.StatusId == Model.Status)
-                                {
-                                    <option value="@item.StatusId" selected>@item.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.StatusId">@item.Name</option>
-                                }
-                            }
-                        </select>
-                        <div class="col-md-4">
-                            <button type="submit" id="submitFormButton" class="btn btn-primary btn-flat btn-sm btn-block">Đăng</button>
+                        <div class="col-md-8">
+                            <select name="Status" id="Status" class="form-control form-control-sm">
+                                <option value="1" checked>Công bố</option>
+                                <option value="2">Chưa đăng</option>
+                                <option value="3">Hết hàng</option>
+                            </select>
                         </div>
-                        <div class="col-md-12 d-none" id="deleteNoti">
-                            <p class="my-2 small font-italic text-danger">Lưu ý: Những thay đổi của bạn sẽ không được lưu!</p>
+                        <div class="col-md-4">
+                            <button type="submit" id="submitFormButton" class="btn btn-primary btn-flat btn-sm btn-block">Tạo Sản Phẩm</button>
                         </div>
                     </div>
                 </div>
@@ -201,56 +173,35 @@
                     <h3 class="card-title">Danh Mục Sản Phẩm</h3>
                 </div>
                 <div class="card-body" id="categoryList">
-                    @if (Model.Categories.FirstOrDefault() != null)
+                    @if (ViewBag.CategoryId != null)
                     {
-                        foreach (var item in Model.Categories)
+                        foreach (var item in ViewBag.CategoryId)
                         {
                             if (item.CategoryParentId == null)
                             {
                                 <div class="custom-control custom-checkbox">
-                                    @if (item.IsChecked)
-                                    {
-                                        <input class="custom-control-input category-click" data-level="parent" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId" checked />
-                                    }
-                                    else
-                                    {
-                                        <input class="custom-control-input category-click" data-level="parent" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId" />
-                                    }
+                                    <input class="custom-control-input category-click" data-level="parent" type="checkbox" id="@item.CategoryId" value="@item.CategoryId" name="CategoryId">
                                     <label for="@item.CategoryId" class="custom-control-label font-weight-normal">@item.Name</label>
                                 </div>
 
                                 <div class="parentCategory-@item.CategoryId" style="display: block;">
-                                    @foreach (var child in Model.Categories)
+                                    @foreach (var child in ViewBag.CategoryId)
                                     {
                                         if (child.CategoryParentId == item.CategoryId)
                                         {
                                             <div class="">
                                                 <div class="custom-control custom-checkbox ml-4">
-                                                    @if (child.IsChecked)
-                                                    {
-                                                        <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId" checked>
-                                                    }
-                                                    else
-                                                    {
-                                                        <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
-                                                    }
+                                                    <input class="custom-control-input category-click child-category" data-level="child" data-parent-id="@item.CategoryId" type="checkbox" id="@child.CategoryId" value="@child.CategoryId" name="CategoryId">
                                                     <label for="@child.CategoryId" class="custom-control-label font-weight-normal">@child.Name</label>
                                                 </div>
                                             </div>
                                             <div class="pl-4 childCategory-@child.CategoryId">
-                                                @foreach (var subChild in Model.Categories)
+                                                @foreach (var subChild in ViewBag.CategoryId)
                                                 {
                                                     if (subChild.CategoryParentId == child.CategoryId)
                                                     {
                                                         <div class="custom-control custom-checkbox ml-4">
-                                                            @if (subChild.IsChecked)
-                                                            {
-                                                                <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="checkbox" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId" checked />
-                                                            }
-                                                            else
-                                                            {
-                                                                <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="checkbox" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId" />
-                                                            }
+                                                            <input class="custom-control-input category-click sub-child-category" data-level="subChild" data-parent-id="@child.CategoryId" type="checkbox" id="@subChild.CategoryId" value="@subChild.CategoryId" name="CategoryId">
                                                             <label for="@subChild.CategoryId" class="custom-control-label font-weight-normal">@subChild.Name</label>
                                                         </div>
                                                     }
@@ -272,14 +223,16 @@
                     <h3 class="card-title">Bảo hành</h3>
                 </div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label>Thời gian bảo hành</label>
-                        <select class="form-control form-control-sm rounded-0" name="Guarantee" id="Guarantee">
-                            @for (int i = 1; i <= 72; i++)
-                            {
-                                <option value="@i" @(Model.Guarantee == i ? "selected='selected'" : "")>@i tháng</option>
-                            }
-                        </select>
+                    <div class="form-group row align-items-center">
+                        <label for="Guarantee" class="col-md-7 col-form-label-sm">Thời gian bảo hành</label>
+                        <div class="col-md-5">
+                            <select class="form-control form-control-sm" name="Guarantee" id="Guarantee">
+                                @for (int i = 1; i <= 72; i++)
+                                {
+                                    <option value="@i">@i tháng</option>
+                                }
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -291,33 +244,15 @@
                 </div>
                 <div class="card-body">
                     <div class="input-group input-group-sm">
-                        <input hidden name="Tag" id="Tag" value="" />
-                        <input type="text" id="AddTag" name="AddTag" class="form-control rounded-0">
+                        @Html.HiddenFor(model => model.Tag)
+                        <input type="text" id="AddTag" name="AddTag" class="form-control">
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-info btn-flat rounded-0" id="addTag">Thêm Tag</button>
+                            <button type="button" class="btn btn-info" id="addTag">Thêm Tag</button>
                         </span>
                     </div>
                     <p class="my-2 font-italic small">Phân cách các thẻ bằng dấu phẩy</p>
                     <div class="tag-area row px-2" id="renderTag">
 
-                        @if (Model.Tags.FirstOrDefault() != null)
-                        {
-                            foreach (var item in Model.Tags)
-                            {
-                                {
-                                    TagId += "|" + item.TagId;
-                                    TagValue += "|" + item.Name;
-                                }
-                                <div id="parent@(item.TagId)">
-                                    <a href="#" onclick="removeTag(this)" class="removeTag" data-id="@item.TagId" data-name="@item.Name">
-                                        <i class="fas fa-times-circle small text-danger mb-1"></i>
-                                    </a>
-                                    <span class="mr-2 badge badge-light border" value="@item.Name">@item.Name</span>
-                                </div>
-                            }
-                            TagValue = TagValue.Remove(0, 1);
-                            TagId = TagId.Remove(0, 1);
-                        }
                     </div>
                 </div>
             </div>
@@ -326,21 +261,23 @@
             @*Ảnh Sản Phẩm*@
             <div class="card position-relative">
                 <div class="card-header">
-                    <h3 class="card-title">Album hình ảnh sản phẩm</h3>
+                    <h3 class="card-title">Hình Cover sản phẩm</h3>
                 </div>
                 <div class="card-body">
-                    <div class="preview-image w-100">
-                        <img id="previewCover" src="~/Content/Upload/Images/@Model.CoverName" style="width: 100%; height: auto;" />
 
-                        <div class="position-absolute @classRemoveImage" id="removeCover" style="top: 5px; right:10px">
-                            <a href="#" class="text-primary" data-toggle="tooltip" title="Xóa hình cover" style="font-size: 19px"><i class="fa fa-trash"></i></a>
+                    <div class="preview-image w-100">
+                        <img id="previewCover" src="~/Content/Upload/Images/No_Picture.jpg" style="width: 100%; height: auto;" />
+                        <div class="position-absolute d-none" id="removeCover" style="top: 5px; right:10px">
+                            <a class="text-primary" data-toggle="tooltip" title="Xóa hình cover" style="font-size: 19px"><i class="fa fa-trash"></i></a>
                         </div>
                     </div>
-                    <input type="text" hidden id="CoverName" name="CoverName" value="@Model.CoverName" data-toggle="modal" data-target="#uploadImage" />
+
+                    <input type="text" hidden id="CoverName" name="CoverName" data-toggle="modal" data-target="#ModalTemplate" value="No_Picture.JPG" />
                     <label for="CoverName" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
                     <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho sản phẩm</p>
                 </div>
             </div>
+
 
             @*Album hình ảnh sản phẩm*@
             <div class="card">
@@ -348,13 +285,13 @@
                     <h3 class="card-title">Album hình ảnh sản phẩm</h3>
                 </div>
                 <div class="card-body">
-                    <input name="Image" id="Image" hidden value="@Model.Image" />
-                    <div class="row mt-2" id="renderImage">
+                    @Html.HiddenFor(model => model.Image)
+                    <div class="row mt-2 mx-0" id="renderImage">
 
                     </div>
                     <p class="my-2 font-italic small text-center">Bạn có thể chọn 1 hoặc nhiều hình để hiển thị trên trang sản phẩm</p>
                     <div class="text-center">
-                        <a class="btn btn-info btn-flat text-white" id="uploadImageList" data-toggle="modal" data-target="#uploadImage">
+                        <a class="btn btn-info" id="uploadImageList" data-toggle="modal" data-target="#ModalTemplate">
                             <i class="fa fa-upload"></i>
                             Upload hoặc chọn hình
                         </a>
@@ -367,25 +304,15 @@
 }
 
 
-
 @section Scripts {
     <script>
         var tagInputResult = [];
         var tagId = [];
         var id = 0;
 
-        $(document).ready(function () {
-            var tagArray = "@TagValue";
-            var tagIdArray = "@TagId";
-            if (tagArray != "") {
-                tagInputResult = tagArray.split("|");
-                tagId = tagIdArray.split("|");
-                id = tagId.length;
-            }
-            console.log("a",$("#Tag").val(),tagInputResult, tagId);
-        });
-
     </script>
-    <script src="~/Scripts/Admin/upload-img.js"></script>
+
+    <script src="~/Scripts/Admin/summnernote.js"></script>
+    <script src="~/Scripts/Admin/ImageUpload/upload-img.js"></script>
     <script src="~/Scripts/Admin/product.js"></script>
 }

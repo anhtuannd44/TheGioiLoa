@@ -1,0 +1,33 @@
+﻿@model TheGioiLoa.Models.ViewModel.FooterContactViewModel
+
+@using (Ajax.BeginForm("UpdateFooterContact", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "loadingGifFooterContact",
+    OnSuccess = "updateFooterContactSuccess"
+}))
+{
+    <div class="card-header">
+        <h3 class="card-title float-left">Chỉnh Sửa Footer Contact</h3>
+        <div class="float-right">
+            <button type="submit" class="btn btn-success btn-sm text-right">Cập Nhật</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="FooterContact" class="mb-2">Phần thông tin liên hệ</label>
+                    @Html.TextAreaFor(model => model.FooterContact, new { @class = "textarea text-area-0", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="FooterCopyright" class="mb-2">Phần Copyright (Dưới cùng)</label>
+                    @Html.TextAreaFor(model => model.FooterCopyright, new { @class = "textarea text-area-1", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/Admin/summnernote.js"></script>

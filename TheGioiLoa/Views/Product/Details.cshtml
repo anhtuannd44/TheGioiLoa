@@ -334,7 +334,7 @@
                         @if (Model.Price != null)
                         {
                             <div class="buy-button mt-3">
-                                <a href="#" class="btn btn-primary btn-block">MUA NGAY</a>
+                                <a href="#" class="btn btn-primary btn-block add-to-cart">MUA NGAY</a>
                                 <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
                                 <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
@@ -446,7 +446,7 @@
                     method: "POST",
                     url: "/Cart/Add",
                     data: { productId: pid },
-                    success: function (response) {
+                    success: function () {
                         window.location = "../../../Cart";
                     }
                 });

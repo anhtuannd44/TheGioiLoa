@@ -95,7 +95,7 @@ namespace TheGioiLoa.Service
         }
         public void DeleteMenu(int menuId)
         {
-            var model = db.Menu.Remove(db.Menu.Find(menuId));
+            db.Menu.Remove(db.Menu.Find(menuId));
             db.SaveChanges();
         }
         public SocialLinkViewModel GetSocialLink(string social)
@@ -104,19 +104,47 @@ namespace TheGioiLoa.Service
             if (information == null)
                 CreateInformation();
             var socialLink = new SocialLinkViewModel();
-            if (social == "Youtube")
+            if (social == "Youtube" && !string.IsNullOrEmpty(information.Youtube))
             {
-                var link = information.Youtube;
-                if (!string.IsNullOrEmpty(link))
-                {
-                    link = link.Remove(0, link.IndexOf('=')+1);
-                    link = link.Remove(link.IndexOf('&'));
-                }
-                socialLink.Link = link;
+                socialLink.Link = _helper.GetYoutubeVideoId(information.Youtube);
             }
             else if (social == "Facebook")
                 socialLink.Link = information.Facebook;
+            else if (social == "Zalo")
+                socialLink.Link = information.Zalo;
             return socialLink;
         }
+        public List<Slider> GetSliderImageList()
+        {
+            return db.Slider.ToList();
+        }
+        public void AddImageToSlider(Slider slider)
+        {
+            db.Slider.Add(slider);
+            db.SaveChanges();
+        }
+        public void DeleteSlider(int sliderId)
+        {
+            db.Slider.Remove(db.Slider.Find(sliderId));
+            db.SaveChanges();
+        }
+        public FooterContactViewModel GetFooterContact()
+        {
+            var information = db.Information.Find("Main");
+            return new FooterContactViewModel()
+            {
+                FooterContact = information.FooterContact,
+                FooterCopyright = information.FooterCopyright
+            };
+        }
+        public void UpdateFooterContact(string footerContact, string footerCopyright)
+        {
+            var item = db.Information.Find("Main");
+            item.FooterContact =  footerContact;
+            item.FooterCopyright = footerCopyright;
+            db.Entry(item).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
     }
 }

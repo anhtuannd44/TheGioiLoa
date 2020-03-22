@@ -14,6 +14,8 @@ namespace TheGioiLoa.Controllers
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly InformationService _informationService = new InformationService();
         private readonly BlogService _blogService = new BlogService();
+        private readonly ProductService _productService = new ProductService();
+
         public ActionResult Index()
         {
             ViewBag.IsMenuExpand = true;
@@ -23,12 +25,12 @@ namespace TheGioiLoa.Controllers
         {
             var model = db.Category.ToList();
             ViewBag.IsMenuExpand = isMenuExpand;
-            return PartialView("_MenuCategoryPartial", model);
+            return PartialView("Header/_MenuCategoryPartial", model);
         }
         public ActionResult MenuTop()
         {
             var model = _informationService.GetMenuList(0);
-            return PartialView("_MenuTopPartial", model);
+            return PartialView("Header/_MenuTopPartial", model);
         }
         public ActionResult FooterMiddlePartial()
         {
@@ -38,33 +40,55 @@ namespace TheGioiLoa.Controllers
                 Footer2 = _informationService.GetMenuList(2),
                 Footer3 = _informationService.GetMenuList(3)
             };
-            return PartialView("_FooterMiddle", model);
+            return PartialView("Footer/_FooterMiddle", model);
         }
         public ActionResult LoadSocial(string social)
         {
             var model = _informationService.GetSocialLink(social);
             if (social == "Facebook")
                 return PartialView("Social/_FacebookPartial", model);
-            return PartialView("Social/_YoutubePartial", model);
+            if (social == "Youtube")
+                return PartialView("Social/_YoutubePartial", model);
+            return PartialView("Social/_ZaloPartial", model);
         }
-
+        public ActionResult LoadSlider()
+        {
+            var model = _informationService.GetSliderImageList();
+            return PartialView("Slider/_SliderPartial",model);
+        }
         public ActionResult GetBlogHome()
         {
-            var model = _blogService.GetBlogList("Public", 1);
+            var model = _blogService.GetBlogList("Public", 1).OrderByDescending(a=>a.DateCreated).Take(7);
             return PartialView("_BlogHomePartial", model);
         }
-        public ActionResult About()
+        public ActionResult HeaderContact()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            var model = _informationService.GetContact();
+            return PartialView("Header/_HeaderContact", model);
         }
-
-        public ActionResult Contact()
+        public ActionResult FooterContact()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var model = _informationService.GetFooterContact();
+            return PartialView("Footer/_FooterContactPartial", model);
+        }
+        public ActionResult FooterCopyright()
+        {
+            var model = _informationService.GetFooterContact();
+            return PartialView("Footer/_FooterCopyrightPartial", model);
+        }
+        public ActionResult LoadProductHomePage(int Id)
+        {
+            var model = _productService.GetProductHomePageList(Id);
+            if (Id == 6)
+            {
+                model.LinkYoutube = _productService.GetYoutubeLink();
+            }
+            return PartialView("_ProductHomePagePartial", model);
+        }
+        public ActionResult MiniCart()
+        {
+            var cart = ShoppingCart.Cart;
+            return PartialView("Header/_MiniCartPartial", cart.Items);
         }
     }
 }

@@ -63,21 +63,21 @@
         </div>
         <div class="tab-pane fade p-4" id="library" role="tabpanel" aria-labelledby="library-tab">
             <div class="row" id="libraryImageList" style="overflow-y: scroll !important; max-height: 500px">
-                @Html.Partial("_ImageLibraryPartial",Model)
+                @Html.Partial("_ImageLibraryPartial", Model)
             </div>
-        </div>
-        <div class="clearfix">
-            <div class="float-left">
-                <a href="#" class="btn btn-primary btn-flat btn-sm">< Trang trước</a>
-            </div>
-            <div class="float-right">
-                <a href="#" class="btn btn-primary btn-flat btn-sm">Trang sau ></a>
+            <div class="clearfix pt-4 pb-0">
+                <div class="float-left">
+                    <a href="#" class="btn btn-primary btn-sm">< Trang trước</a>
+                </div>
+                <div class="float-right">
+                    <a href="#" class="btn btn-primary btn-sm">Trang sau ></a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div class="modal-footer py-1">
-    <button type="button" class="btn btn-info text-white float-right btn-sm btn-flat submit-modal" id="submitModalImage" data-image-target="@Model.Target" data-textarea="">Thiết lập ảnh sản phẩm</button>
+    <button type="button" class="btn btn-info float-right btn-sm submit-modal" id="submitModalImage" data-image-target="@Model.Target" data-textarea="">Thiết lập ảnh sản phẩm</button>
 </div>
 
 

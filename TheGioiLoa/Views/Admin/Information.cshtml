@@ -3,10 +3,7 @@
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
 }
 <div class="information" id="adminPage">
-    <div class="information-title mt-4">
-        <h4 class="text-primary">Header</h4>
-    </div>
-    <div class="row row-flex">
+    <div class="row row-flex mb-5">
         <div class="col-md-4">
             <div class="card h-100" id="renderLogoPartial">
                 @Html.Action("LoadEditLogo", "Admin")
@@ -32,10 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="information-title mt-4">
-        <h4 class="text-primary">Footer</h4>
-    </div>
-    <div class="row row-flex">
+    <div class="row row-flex mb-5">
         <div class="col-md-4">
             <div class="card h-100" id="renderMenuFooter1">
                 @Html.Action("LoadMenuFooter", "Admin", new { type = 1 })
@@ -61,12 +55,33 @@
             </div>
         </div>
     </div>
-    <div class="information-title mt-4">
-        <h4 class="text-primary">Slider Home</h4>
-    </div>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-6">
-            @Html.Action("LoadEditSlider", "Admin")
+            <div class="card" id="renderEditSlider">
+                @Html.Action("LoadEditSlider", "Admin")
+            </div>
+            @*<div class="card" id="renderFooterContact">
+                    @Html.Action("LoadFooterContact", "Admin")
+                </div>*@
+            <div id="updateSlider-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100" id="renderProductHomePage">
+                @Html.Action("LoadProductHomePage", "Admin")
+            </div>
+            <div id="updateProductHomePage-Loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
+    <div class="position-relative h-100 w-100">
+        <div class="card" id="renderFooterContact">
+            @Html.Action("LoadFooterContact", "Admin")
+        </div>
+        <div id="updateFooterContact-Loading" class="spinner-loading" style="display: none;">
+            <img src="~/Content/Spinner.png" alt="Loading..." />
         </div>
     </div>
 </div>
@@ -84,17 +99,17 @@
         function loadingGifSocial() {
             $("#updateSocial-Loading").show();
         }
-        function loadingGifSocial() {
-            $("#updateMenuFooter1-Loading").show();
-        }
-        function loadingGifSocial() {
-            $("#updateMenuFooter2-Loading").show();
-        }
-        function loadingGifSocial() {
-            $("#updateMenuFooter3-Loading").show();
-        }
         function loadingGifModal() {
             $("#modalNormal-loading").show();
+        }
+        function loadingGifSliderModal() {
+            $("#modalNormal-loading").show();
+        }
+        function loadingGifProductHomePage() {
+            $("#updateProductHomePage-Loading").show();
+        }
+        function loadingGifFooterContact() {
+            $("#updateFooterContact-Loading").show();
         }
         //Logo
         $(document).on("click", "#selectLogo", function () {
@@ -259,8 +274,121 @@
                 }
             })
         }
-    </script>
 
-    <script src="~/Scripts/Admin/upload-img.js"></script>
+        //Slider
+        $(document).on("click", "#addImageToSlider", function () {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadCreateSliderModal",
+                success: function (data) {
+                    $("#modalContentNormal").html(data);
+                    $("#modalNormal-loading").hide();
+                }
+            })
+
+        })
+        $(document).on("click", "#ImageIdLabel", function () {
+            $("#modal-loading").show();
+            $("#ModalTemplate").modal("show");
+            loadLibraryImage("slider", false);
+        })
+
+        function addToSlider() {
+            $(".image-item").each(function () {
+                if ($(this).attr("data-selected") == "True") {
+                    $("#ImageId").val($(this).attr("data-name"));
+                    $("#previewImageSlider").attr("src", "../Content/Upload/Images/" + $(this).attr("data-name"));
+                }
+            });
+        }
+
+        function addImageToSliderSuccess(data) {
+            $("#ModalTemplateNormal").modal("hide");
+            if (data.status == "success") {
+                toastr.success(data.message);
+                reloadSlider();
+            }
+            else {
+                toastr.error(data.message);
+                $("#updateSlider-Loading").hide();
+            }
+        }
+        function reloadSlider() {
+            $("#updateSlider-Loading").show();
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadEditSlider",
+                success: function (data) {
+                    $("#renderEditSlider").html(data);
+                    $("#updateSlider-Loading").hide();
+                }
+            })
+        }
+        $(document).on("click", ".delete-slider", function () {
+            var sliderId = $(this).data("value");
+            var r = confirm("Bạn có muốn xóa slider này không?");
+            if (r == true) {
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/DeleteSlider",
+                    data: { sliderId: sliderId },
+                    success: function (data) {
+                        if (data.status == "success") {
+                            toastr.success(data.message);
+                            reloadSlider();
+                        }
+                        else
+                            toastr.error(data.message)
+                    }
+                })
+            }
+        })
+
+        //ProductHomePage
+        function updateProductHomePageSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                reloadProductHomePage();
+            }
+            else {
+                toastr.error(data.message);
+                $("#updateProductHomePage-Loading").hide();
+            }
+        }
+        function reloadProductHomePage() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadProductHomePage",
+                success: function (data) {
+                    $("#renderProductHomePage").html(data);
+                    $("#updateProductHomePage-Loading").hide();
+                }
+            })
+        }
+
+        //Footer COntact
+        function updateFooterContactSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                reloadFooterContact();
+            }
+            else {
+                toastr.error(data.message);
+                $("#updateFooterContact-Loading").hide();
+            }
+        }
+        function reloadFooterContact() {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoadFooterContact",
+                success: function (data) {
+                    $("#renderFooterContact").html(data);
+                    $("#updateFooterContact-Loading").hide();
+                }
+            })
+        }
+    </script>
+    <script src="~/Scripts/Admin/ImageUpload/upload-img.js"></script>
+    <script src="~/Scripts/Admin/summnernote.js"></script>
 }
 

@@ -211,7 +211,7 @@ namespace TheGioiLoa.Service
                 Promotion = product.Promotion,
                 Videos = product.Videos,
                 Details = product.Details,
-                Cover = !string.IsNullOrEmpty(product.CoverName) ? product.CoverName : "No_Picture.JPG",
+                Cover = product.CoverName,
                 Guarantee = product.Guarantee
             };
             db.Product.Add(addProduct);
@@ -315,7 +315,111 @@ namespace TheGioiLoa.Service
             db.Entry(addProduct).State = EntityState.Modified;
             db.SaveChanges();
         }
+        public List<ProductHomePage> GetProductHomePage()
+        {
+            var productHomePage = db.ProductHomePage.Count();
+            if (productHomePage == 0)
+            {
+                CreateProductHomePage();
+            }
+            else if (productHomePage != 10)
+            {
+                RemoveAllProductHomePage();
+                CreateProductHomePage();
+            }
+            return db.ProductHomePage.ToList();
+        }
+        public void RemoveAllProductHomePage()
+        {
+            db.ProductHomePage.RemoveRange(db.ProductHomePage);
+            db.SaveChanges();
+        }
+        public void CreateProductHomePage()
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                var addItem = new ProductHomePage()
+                {
+                    Id = i.ToString(),
+                    Position = i,
+                    CategoryId = null,
+                    IsShow = false,
+                    YoutubeLink = null
+                };
+                db.ProductHomePage.Add(addItem);
+            }
+            db.SaveChanges();
+        }
+        public ProductHomePageViewModel GetProductHomePageList(int id)
+        {
+            var productHomePage = db.ProductHomePage.Count();
+            if (productHomePage == 0)
+            {
+                CreateProductHomePage();
+            }
+            else if (productHomePage != 10)
+            {
+                RemoveAllProductHomePage();
+                CreateProductHomePage();
+            }
 
+            var result = new ProductHomePageViewModel();
+            var productHomePageItem = db.ProductHomePage.Find(id.ToString());
+
+            if (productHomePageItem.CategoryId != null)
+            {
+                var count = 10;
+                if (id == 2)
+                    count = 8;
+                else if (id == 7)
+                    count = 6;
+                var categoryProductList = db.CategoryProduct.Where(a => a.CategoryId == productHomePageItem.CategoryId).Take(count).ToList();
+                if (categoryProductList.Count != 0)
+                {
+                    var productList = new List<Product>();
+                    foreach (var item in categoryProductList)
+                    {
+                        productList.Add(item.Product);
+                    }
+                    result.Product = productList;
+
+                    var categoryList = new List<Category>();
+                    var categoryId = categoryProductList.FirstOrDefault().CategoryId;
+                    var childCategory = db.Category.Where(a => a.CategoryParentId == categoryId).ToList();
+                    if (childCategory.Count != 0)
+                        foreach (var item in childCategory)
+                        {
+                            categoryList.Add(item);
+                            var subCategory = db.Category.Where(a => a.CategoryParentId == item.CategoryId).ToList();
+                            if (subCategory.Count != 0)
+                                foreach (var subItem in subCategory)
+                                {
+                                    categoryList.Add(subItem);
+                                }
+                        }
+                    result.CategoryList = categoryList;
+                    result.Category = db.Category.Find(categoryId);
+                    result.Count = count;
+                    result.Id = id;
+                }
+            }
+            return result;
+        }
+        public string GetYoutubeLink()
+        {
+            var link = db.ProductHomePage.Find(6.ToString()).YoutubeLink;
+            if (!string.IsNullOrEmpty(link))
+                link = _helper.GetYoutubeVideoId(link);
+            return link;
+        }
+        public void UpdateProductHomePage(List<ProductHomePage> productHomePageList)
+        {
+            foreach (var item in productHomePageList)
+            {
+                db.Entry(item).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+        }
         public List<StatusEnum> GetStatus()
         {
             var statusList = new List<StatusEnum>(){

@@ -27,6 +27,8 @@ namespace TheGioiLoa.Models
         public virtual DbSet<Review> Review { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<Information> Information { get; set; }
+        public virtual DbSet<Slider> Slider { get; set; }
+        public virtual DbSet<ProductHomePage> ProductHomePage { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

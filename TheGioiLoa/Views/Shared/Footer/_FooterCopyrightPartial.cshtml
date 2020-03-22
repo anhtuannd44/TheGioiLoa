@@ -1,0 +1,10 @@
+﻿@model TheGioiLoa.Models.ViewModel.FooterContactViewModel
+
+@if (!string.IsNullOrEmpty(Model.FooterCopyright))
+{
+    <div class="footer-bottom">
+        <div class="container">
+            @Html.Raw(Model.FooterCopyright)
+        </div>
+    </div>
+}

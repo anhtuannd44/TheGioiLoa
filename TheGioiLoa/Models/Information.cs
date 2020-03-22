@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace TheGioiLoa.Models
 {
@@ -25,5 +26,10 @@ namespace TheGioiLoa.Models
         public string Facebook { get; set; }
         public string Youtube { get; set; }
         public string Zalo { get; set; }
+
+        [AllowHtml]
+        public string FooterContact { get; set; }
+        [AllowHtml]
+        public string FooterCopyright { get; set; }
     }
 }

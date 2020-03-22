@@ -113,18 +113,27 @@ namespace TheGioiLoa.Models.ViewModel
         public string Breadcrumb { get; set; }
 
         public List<Tag> Tags { get; set; }
-
+        public Category Category { get; set; }
         public List<Image> Images { get; set; }
         public List<CategoryProductEditViewModel> Categories { get; set; }
         public List<BrandSelectedViewModel> Brand { get; set; }
         public Brand Brands { get; set; }
         public List<string> ImageList { get; set; }
         public List<StatusEnum> StatusList { get; set; }
-        public HttpPostedFileBase Cover { get; set; }
         public List<Product> ProductRelateds { get; set; }
         public List<Product> ProductAccessories { get; set; }
         public ReviewViewModel Review { get; set; }
         public bool IsGetDataSuccess { get; set; }
+    }
+
+    public class ProductHomePageViewModel
+    {
+        public int Id { get; set; }
+        public int Count { get; set; }
+        public List<Product> Product { get; set; }
+        public Category Category { get; set; }
+        public List<Category> CategoryList { get; set; }
+        public string LinkYoutube { get; set; }
     }
 
     public class ReviewViewModel

@@ -64,5 +64,13 @@ namespace TheGioiLoa.Helper
             return builder.ToString();
         }
 
+        public string GetYoutubeVideoId(string link)
+        {
+            link = link.Remove(0, link.IndexOf('=') + 1);
+            var index2 = link.IndexOf('&');
+            if (index2 != -1)
+                link = link.Remove(index2);
+            return link;
+        }
     }
 }

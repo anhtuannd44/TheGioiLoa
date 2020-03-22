@@ -46,4 +46,11 @@ namespace TheGioiLoa.Models.ViewModel
     {
         public string Link { get; set; }
     }
+    public class FooterContactViewModel
+    {
+        [AllowHtml]
+        public string FooterContact { get; set; }
+        [AllowHtml]
+        public string FooterCopyright {get;set;}
+    }
 }

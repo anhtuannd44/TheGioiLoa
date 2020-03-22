@@ -22,6 +22,8 @@ namespace TheGioiLoa.Models.ViewModel
         public DateTime DateCreated { get; set; }
         public string Url { get; set; }
         public int Status { get; set; }
+        public string StatusLabel { get; set; }
+        public string Cover { get; set; }
 
         public int? BlogCategoryId { get; set; }
 
@@ -33,4 +35,5 @@ namespace TheGioiLoa.Models.ViewModel
 
         public List<StatusEnum> StatusList { get; set; }
     }
+
 }

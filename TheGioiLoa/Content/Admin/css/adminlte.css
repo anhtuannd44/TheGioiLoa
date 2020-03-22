@@ -1688,7 +1688,7 @@ pre {
 
 .table-hover tbody tr:hover {
     color: #212529;
-    background-color: rgba(0,0,0,.075)
+    background-color: #f7fbfc
 }
 
 .table-primary, .table-primary > td, .table-primary > th {
@@ -2547,36 +2547,35 @@ a.btn.disabled, fieldset:disabled a.btn {
         }
 
 .btn-success {
-    color: #fff;
-    background-color: #46ab61;
-    border-color: #46ab61;
+    color: #40B279;
+    background-color: #e8faf1;
+    border-color: none;
     box-shadow: none
 }
 
     .btn-success:hover {
         color: #fff;
-        background-color: #218838;
-        border-color: #1e7e34
+        background-color: #40B279;
     }
 
     .btn-success.focus, .btn-success:focus {
-        box-shadow: none,0 0 0 0 rgba(72,180,97,.5)
+        box-shadow: none,0 0 0 0 rgba(72,180,97,.5) color: #fff;
+        background-color: #40B279;
     }
 
     .btn-success.disabled, .btn-success:disabled {
         color: #fff;
-        background-color: #46ab61;
-        border-color: #46ab61
+        background-color: #40B279;
     }
 
     .btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show > .btn-success.dropdown-toggle {
         color: #fff;
-        background-color: #1e7e34;
-        border-color: #1c7430
+        background-color: #40B279;
     }
 
         .btn-success:not(:disabled):not(.disabled).active:focus, .btn-success:not(:disabled):not(.disabled):active:focus, .show > .btn-success.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0 rgba(72,180,97,.5)
+            box-shadow: 0 0 0 0 rgba(72,180,97,.5) color: #fff;
+            background-color: #40B279;
         }
 
 .btn-info {
@@ -2591,7 +2590,9 @@ a.btn.disabled, fieldset:disabled a.btn {
     }
 
     .btn-info.focus, .btn-info:focus {
-        box-shadow: none,0 0 0 0 rgba(30, 150, 235,.5)
+        box-shadow: none,0 0 0 0 rgba(30, 150, 235,.5);
+        color: #fff;
+        background-color: #6bbded;
     }
 
     .btn-info.disabled, .btn-info:disabled {
@@ -2642,36 +2643,36 @@ a.btn.disabled, fieldset:disabled a.btn {
         }
 
 .btn-danger {
-    color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
+    color: #dc3545;
+    background-color: #ffe3e6;
+    border-color: none;
     box-shadow: none
 }
 
     .btn-danger:hover {
         color: #fff;
-        background-color: #c82333;
-        border-color: #bd2130
+        background-color: #db4f5c;
     }
 
     .btn-danger.focus, .btn-danger:focus {
-        box-shadow: none,0 0 0 0 rgba(225,83,97,.5)
+        box-shadow: none,0 0 0 0 rgba(225,83,97,.5);
+        color: #fff;
+        background-color: #db4f5c;
     }
 
     .btn-danger.disabled, .btn-danger:disabled {
         color: #fff;
-        background-color: #dc3545;
-        border-color: #dc3545
+        background-color: #db4f5c;
     }
 
     .btn-danger:not(:disabled):not(.disabled).active, .btn-danger:not(:disabled):not(.disabled):active, .show > .btn-danger.dropdown-toggle {
         color: #fff;
-        background-color: #bd2130;
-        border-color: #b21f2d
+        background-color: #db4f5c;
     }
 
         .btn-danger:not(:disabled):not(.disabled).active:focus, .btn-danger:not(:disabled):not(.disabled):active:focus, .show > .btn-danger.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0 rgba(225,83,97,.5)
+            color: #fff;
+            background-color: #db4f5c;
         }
 
 .btn-light {
@@ -4921,14 +4922,15 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 
 .badge {
     display: inline-block;
-    padding: .25em .4em;
+    padding: 0.5em .6em;
     font-size: 75%;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1;
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: .25rem;
+    border: none;
+    border-radius: .3rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 
@@ -4989,7 +4991,7 @@ a.badge-secondary.focus, a.badge-secondary:focus {
 
 .badge-success {
     color: #fff;
-    background-color: #46ab61
+    background-color: #40B279
 }
 
 a.badge-success:focus, a.badge-success:hover {

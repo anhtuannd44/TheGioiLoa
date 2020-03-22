@@ -2,521 +2,111 @@
     ViewBag.Title = "Trang Chủ";
     ViewBag.IsMenuExpand = true;
 }
-<main id="main">
-    <div class="container" style="height: 486px;">
-        <div class="row">
-            <div div class="col-md-9 offset-md-3 px-0" style="flex: 0 0 81%; max-width: 80%; margin-left: 18.8%;">
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active h-100 w-100">
-                            <div style="background-image: url('../../Content/Upload/Slider/slider-1.jpg'); height:486px;">
-                            </div>
+    <main id="main">
+        <div class="container" style="height: 442px;">
+            <div class="row">
+                <div div class="col-md-9 offset-md-3 px-0" style="flex: 0 0 81%; max-width: 80%; margin-left: 18.8%;">
+                    @Html.Action("LoadSlider", "Home")
+                </div>
+            </div>
+        </div>
+
+        <div class="container pt-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center shadow rounded-0 py-2 border border-primary bg-white">
+                        <i class="fa fa-truck text-primary" style="font-size: 25px;"></i>
+                        <h6 class="mt-3 mb-1"><a href="">GIAO HÀNG MIỄN PHÍ</a></h6>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center shadow rounded-0 py-2 border border-primary bg-white">
+                        <i class="fa fa-credit-card text-primary" style="font-size: 25px;"></i>
+                        <h6 class="mt-3 mb-1"><a href="">THANH TOÁN LINH HOẠT</a></h6>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center shadow rounded-0 py-2 border border-primary bg-white">
+                        <i class="fas fa-shield-alt text-primary" style="font-size: 25px;"></i>
+                        <h6 class="mt-3 mb-1"><a href="">BẢO HÀNH UY TÍN</a></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @for (int i = 1; i <= 10; i++)
+        {
+            @Html.Action("LoadProductHomePage", "Home", new { Id = i })
+        }
+
+        @*<section id="clients" class="bg-white">
+            <div class="container">
+                <div class="row no-gutters clients-wrap clearfix">
+
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-1.png" class="img-fluid" alt="">
                         </div>
-                        <div class="carousel-item h-100 w-100">
-                            <div style="background-image: url('../../Content/Upload/Slider/slider-2.jpg'); height:486px;">
-                            </div>
+                    </div>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-2.png" class="img-fluid" alt="">
                         </div>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container pt-4">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="text-center shadow rounded-0 py-2 border border-primary bg-white">
-                    <i class="fa fa-truck text-primary" style="font-size: 25px;"></i>
-                    <h6 class="mt-3 mb-1"><a href="">GIAO HÀNG MIỄN PHÍ</a></h6>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="text-center shadow rounded-0 py-2 border border-primary bg-white">
-                    <i class="fa fa-credit-card text-primary" style="font-size: 25px;"></i>
-                    <h6 class="mt-3 mb-1"><a href="">THANH TOÁN LINH HOẠT</a></h6>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="text-center shadow rounded-0 py-2 border border-primary bg-white">
-                    <i class="fas fa-shield-alt text-primary" style="font-size: 25px;"></i>
-                    <h6 class="mt-3 mb-1"><a href="">BẢO HÀNH UY TÍN</a></h6>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="container pt-4">
-        <div class="bg-white">
-            <div class="product-header">
-                <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                <div class="product-header-link float-right mt-1">
-                    <a href="#" class="product-header-link-a">Combo xem phim</a>
-                    <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                    <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                    <a href="#" class="product-header-link-a">Xem tất cả</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="row homeproduct">
-                @for (int i = 1; i <= 10; i++)
-                {
-                    <div class="col-md-3 w-20 producthome-item">
-                        <a href="#">
-                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                            @*<div class="homeproduct-content">
-                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="text-success">Bảo hành 12 tháng</p>
-                                    <div class="position-absolute text-center w-100" style="bottom: 0">
-                                        <div class="text-center">
-                                            <strong class="price">58.000.000 ₫</strong>
-                                            <del class="price-sale">60.000.000 ₫</del>
-                                        </div>
-                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                    </div>
-
-                                </div>*@
-
-                            <h3>Combo xem phim CM 01</h3>
-                            <div class="text-center">
-                                <strong class="price">58.000.000 ₫</strong>
-                                <del class="price-sale">60.000.000 ₫</del>
-                            </div>
-                        </a>
-                    </div>
-                }
-
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="bg-white">
-                    <div class="product-header">
-                        <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                        <div class="product-header-link float-right mt-1">
-                            <a href="#" class="product-header-link-a">Combo xem phim</a>
-                            <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                            <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                            <a href="#" class="product-header-link-a">Xem tất cả</a>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-3.png" class="img-fluid" alt="">
                         </div>
-                        <div class="clearfix"></div>
                     </div>
-                    <div class="row homeproduct">
-                        @for (int i = 1; i <= 8; i++)
-                        {
-                            <div class="col-md-3 producthome-item">
-                                <a href="#">
-                                    <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                                    @*<div class="homeproduct-content">
-                                            <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                            <p class="mb-0" style="margin-top: -10px;">...</p>
-                                            <p class="text-success">Bảo hành 12 tháng</p>
-                                            <div class="position-absolute text-center w-100" style="bottom: 0">
-                                                <div class="text-center">
-                                                    <strong class="price">58.000.000 ₫</strong>
-                                                    <del class="price-sale">60.000.000 ₫</del>
-                                                </div>
-                                                <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                            </div>
-
-                                        </div>*@
-
-                                    <h3>Combo xem phim CM 01</h3>
-                                    <div class="text-center">
-                                        <strong class="price">58.000.000 ₫</strong>
-                                        <del class="price-sale">60.000.000 ₫</del>
-                                    </div>
-                                </a>
-                            </div>
-                        }
-
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-4.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="blog bg-white">
-                    <div class="blog-header bg-primary text-white py-2 px-2">
-                        <h6 class="font-weight-bold m-0 mt-1 float-left">Tin Tức - Công Nghệ</h6>
-                        <a href="#" class="text-white float-right view-all px-2 py-1 rounded">Xem Thêm <i class="fa fa-angle-double-right"></i></a>
-                        <div style="clear: both"></div>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-5.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                    <div class="blog-content border">
-                        @Html.Action("GetBlogHome","Home")
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-6.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="bg-white">
-            <div class="product-header">
-                <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                <div class="product-header-link float-right mt-1">
-                    <a href="#" class="product-header-link-a">Combo xem phim</a>
-                    <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                    <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                    <a href="#" class="product-header-link-a">Xem tất cả</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="row homeproduct">
-                @for (int i = 1; i <= 10; i++)
-                {
-                    <div class="col-md-3 w-20 producthome-item">
-                        <a href="#">
-                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                            @*<div class="homeproduct-content">
-                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="text-success">Bảo hành 12 tháng</p>
-                                    <div class="position-absolute text-center w-100" style="bottom: 0">
-                                        <div class="text-center">
-                                            <strong class="price">58.000.000 ₫</strong>
-                                            <del class="price-sale">60.000.000 ₫</del>
-                                        </div>
-                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                    </div>
-
-                                </div>*@
-
-                            <h3>Combo xem phim CM 01</h3>
-                            <div class="text-center">
-                                <strong class="price">58.000.000 ₫</strong>
-                                <del class="price-sale">60.000.000 ₫</del>
-                            </div>
-                        </a>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-7.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                }
-
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="bg-white">
-            <div class="product-header">
-                <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                <div class="product-header-link float-right mt-1">
-                    <a href="#" class="product-header-link-a">Combo xem phim</a>
-                    <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                    <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                    <a href="#" class="product-header-link-a">Xem tất cả</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="row homeproduct">
-                @for (int i = 1; i <= 10; i++)
-                {
-                    <div class="col-md-3 w-20 producthome-item">
-                        <a href="#">
-                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                            @*<div class="homeproduct-content">
-                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="text-success">Bảo hành 12 tháng</p>
-                                    <div class="position-absolute text-center w-100" style="bottom: 0">
-                                        <div class="text-center">
-                                            <strong class="price">58.000.000 ₫</strong>
-                                            <del class="price-sale">60.000.000 ₫</del>
-                                        </div>
-                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                    </div>
-
-                                </div>*@
-
-                            <h3>Combo xem phim CM 01</h3>
-                            <div class="text-center">
-                                <strong class="price">58.000.000 ₫</strong>
-                                <del class="price-sale">60.000.000 ₫</del>
-                            </div>
-                        </a>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                }
-
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="bg-white">
-            <div class="product-header">
-                <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                <div class="product-header-link float-right mt-1">
-                    <a href="#" class="product-header-link-a">Combo xem phim</a>
-                    <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                    <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                    <a href="#" class="product-header-link-a">Xem tất cả</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="row homeproduct">
-                @for (int i = 1; i <= 10; i++)
-                {
-                    <div class="col-md-3 w-20 producthome-item">
-                        <a href="#">
-                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                            @*<div class="homeproduct-content">
-                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="text-success">Bảo hành 12 tháng</p>
-                                    <div class="position-absolute text-center w-100" style="bottom: 0">
-                                        <div class="text-center">
-                                            <strong class="price">58.000.000 ₫</strong>
-                                            <del class="price-sale">60.000.000 ₫</del>
-                                        </div>
-                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                    </div>
-
-                                </div>*@
-
-                            <h3>Combo xem phim CM 01</h3>
-                            <div class="text-center">
-                                <strong class="price">58.000.000 ₫</strong>
-                                <del class="price-sale">60.000.000 ₫</del>
-                            </div>
-                        </a>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                }
-
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="bg-white">
-            <div class="product-header">
-                <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                <div class="product-header-link float-right mt-1">
-                    <a href="#" class="product-header-link-a">Combo xem phim</a>
-                    <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                    <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                    <a href="#" class="product-header-link-a">Xem tất cả</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="row homeproduct">
-                @for (int i = 1; i <= 10; i++)
-                {
-                    <div class="col-md-3 w-20 producthome-item">
-                        <a href="#">
-                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                            @*<div class="homeproduct-content">
-                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="text-success">Bảo hành 12 tháng</p>
-                                    <div class="position-absolute text-center w-100" style="bottom: 0">
-                                        <div class="text-center">
-                                            <strong class="price">58.000.000 ₫</strong>
-                                            <del class="price-sale">60.000.000 ₫</del>
-                                        </div>
-                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                    </div>
-
-                                </div>*@
-
-                            <h3>Combo xem phim CM 01</h3>
-                            <div class="text-center">
-                                <strong class="price">58.000.000 ₫</strong>
-                                <del class="price-sale">60.000.000 ₫</del>
-                            </div>
-                        </a>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                }
-
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="bg-white">
-            <div class="product-header">
-                <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                <div class="product-header-link float-right mt-1">
-                    <a href="#" class="product-header-link-a">Combo xem phim</a>
-                    <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                    <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                    <a href="#" class="product-header-link-a">Xem tất cả</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="row homeproduct">
-                <div class="col-md-6">
-                    <div class="karaoke-video">
-                        <iframe width="100%" height="300" src="https://www.youtube.com/embed/ylgQEQE5YSI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
+                        </div>
                     </div>
-                </div>
-                @for (int i = 1; i <= 6; i++)
-                {
-                    <div class="col-md-3 producthome-item">
-                        <a href="#">
-                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                            @*<div class="homeproduct-content">
-                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="text-success">Bảo hành 12 tháng</p>
-                                    <div class="position-absolute text-center w-100" style="bottom: 0">
-                                        <div class="text-center">
-                                            <strong class="price">58.000.000 ₫</strong>
-                                            <del class="price-sale">60.000.000 ₫</del>
-                                        </div>
-                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                    </div>
-
-                                </div>*@
-
-                            <h3>Combo xem phim CM 01</h3>
-                            <div class="text-center">
-                                <strong class="price">58.000.000 ₫</strong>
-                                <del class="price-sale">60.000.000 ₫</del>
-                            </div>
-                        </a>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="bg-white">
-            <div class="product-header">
-                <h5 class="float-left product-header-title pl-2">Mua theo Combo</h5>
-                <div class="product-header-link float-right mt-1">
-                    <a href="#" class="product-header-link-a">Combo xem phim</a>
-                    <a href="#" class="product-header-link-a">Combo nghe nhạc</a>
-                    <a href="#" class="product-header-link-a">Combo âm thanh karaoke</a>
-                    <a href="#" class="product-header-link-a">Xem tất cả</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="row homeproduct">
-                @for (int i = 1; i <= 10; i++)
-                {
-                    <div class="col-md-3 w-20 producthome-item">
-                        <a href="#">
-                            <img src="~/Content/samsung-galaxy-a71-silver-600x600-400x400.jpg" style="width: 100%" />
-
-                            @*<div class="homeproduct-content">
-                                    <p class="">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                    <p class="text-success">Bảo hành 12 tháng</p>
-                                    <div class="position-absolute text-center w-100" style="bottom: 0">
-                                        <div class="text-center">
-                                            <strong class="price">58.000.000 ₫</strong>
-                                            <del class="price-sale">60.000.000 ₫</del>
-                                        </div>
-                                        <p class="btn homeproduct-viewnow">Xem Ngay</p>
-                                    </div>
-
-                                </div>*@
-
-                            <h3>Combo xem phim CM 01</h3>
-                            <div class="text-center">
-                                <strong class="price">58.000.000 ₫</strong>
-                                <del class="price-sale">60.000.000 ₫</del>
-                            </div>
-                        </a>
-                    </div>
-                }
-
-            </div>
-        </div>
-    </div>
-    <section id="clients" class="bg-white">
-        <div class="container">
-            @*<div class="section-header">
-                    <h3>Our CLients</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque dere santome nida.</p>
-                </div>*@
-            <div class="row no-gutters clients-wrap clearfix">
-
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-1.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-2.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-3.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-4.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-5.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-6.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-7.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-4 col-4">
-                    <div class="client-logo">
-                        <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
+                    <div class="col-md-2 col-xs-4 col-4">
+                        <div class="client-logo">
+                            <img src="~/Content/Home/img/clients/client-8.png" class="img-fluid" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>*@
+    </main>
 
 @section heads {
     <style type="text/css">

@@ -1,0 +1,79 @@
+﻿@model IList<TheGioiLoa.Models.ProductHomePage>
+
+@using (Ajax.BeginForm("UpdateProductHomePage", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "loadingGifProductHomePage",
+    OnSuccess = "updateProductHomePageSuccess"
+}))
+{
+    <div class="card-header clearfix">
+        <h3 class="card-title float-left">Hiển thị sản phẩm Trang Chủ</h3>
+        <div class="float-right">
+            <button type="submit" class="btn btn-success btn-sm">Cập Nhật</button>
+        </div>
+    </div>
+    <div class="card-body">
+
+        @if (Model != null)
+        {
+            for (var i = 0; i < Model.Count; i++)
+            {
+                @Html.HiddenFor(model => Model[i].Id)
+
+                <div class="form-group row align-items-center">
+                    <div class="col-md-4">
+                        @if (i == 0)
+                        {
+                            <label for="[@i].CategoryId">Chính (Đầu tiên)</label>
+                        }
+                        else if (i == 1)
+                        {
+                            <label for="[@i].CategoryId">Thứ 2 (Bên trái Tin Tức)</label>
+                        }
+                        else if (i > 1 && i < 6)
+                        {
+                            <label for="[@i].CategoryId">Giữa (Show 8 sản phẩm)</label>
+                        }
+                        else if (i == 6)
+                        {
+                            <label for="[@i].CategoryId">Mục chứa video</label>
+                        }
+                        else
+                        {
+                            <label for="[@i].CategoryId">Cuối (Show 8 sản phẩm)</label>
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control form-control-sm" id="[@i].CategoryId" name="[@i].CategoryId">
+                            <option value="">Không hiện mục này</option>
+                            @foreach (var item in ViewBag.Category)
+                            {
+                                <option value="@item.CategoryId" @(Model[i].CategoryId == item.CategoryId ? "selected" : "")>@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                if (i == 6)
+                {
+                    <div class="row align-items-center">
+                        <div class="col-md-8 offset-md-4">
+                            <div class="row form-group align-items-center">
+                                <div class="col-md-3">
+                                    <label for="[@i].YoutubeLink">Link Youtube</label>
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => Model[i].YoutubeLink, new { @class = "form-control form-control-sm" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+    </div>
+}
+
+
+

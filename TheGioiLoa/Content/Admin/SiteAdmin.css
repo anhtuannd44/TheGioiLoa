@@ -1,5 +1,26 @@
 ﻿body {
-    color: #525557
+    color: #686b6e
+}
+.table thead th {
+    border-bottom-width: 1px;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px rgba(0,0,0,.3);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #79bfe8;
+    border-radius: 20px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #1490d9;
 }
 @keyframes ldio-dmto02pujx {
   0% { opacity: 1 }
@@ -200,8 +221,8 @@ label:not(.form-check-label):not(.custom-file-label) {
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 10px;
-    right: 10px;
+    bottom: 0px;
+    right: 0px;
     margin: auto;
     padding: 2px;
     background-position: center;
@@ -256,7 +277,9 @@ label:not(.form-check-label):not(.custom-file-label) {
 .image-box.ratio-16-10:before {
     padding-top: 66.6666%
 }
-
+.image-box.ratio-20-9:before {
+    padding-top: 45%
+}
 .image-box.ratio-16-6:before {
     padding-top: 37.5%
 }

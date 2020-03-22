@@ -193,9 +193,15 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("categories","Admin")" class="nav-link">
+                                    <a href="@Url.Action("Categories","Admin")" class="nav-link">
                                         <i class="fas fa-ellipsis-v nav-icon"></i>
                                         <p>Menu Chuyên Mục</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("ProductHomePage","Admin")" class="nav-link">
+                                        <i class="fas fa-ellipsis-v nav-icon"></i>
+                                        <p>Sản phẩm Trang Chủ</p>
                                     </a>
                                 </li>
                             </ul>
@@ -226,22 +232,24 @@
         </footer>
     </div>
 
-    <div class="modal fade" id="ModalTemplate" aria-hidden="true">
-        <div class="modal-dialog modal-xl" style="min-height: 100px">
-            <div class="modal-content rounded-0" id="modalContent">
+
+    <div class="modal fade" id="ModalTemplateNormal" aria-hidden="true">
+        <div class="modal-dialog position-relative" style="min-height: 100px">
+            <div class="modal-content" id="modalContentNormal">
 
             </div>
-            <div id="modal-loading" class="spinner-loading" style="display: none;">
+            <div id="modalNormal-loading" class="spinner-loading" style="display: none;">
                 <img src="~/Content/Spinner.png" alt="Loading..." />
             </div>
         </div>
     </div>
-    <div class="modal fade" id="ModalTemplateNormal" aria-hidden="true">
-        <div class="modal-dialog position-relative" style="min-height: 100px">
-            <div class="modal-content rounded-0" id="modalContentNormal">
+
+    <div class="modal fade" id="ModalTemplate" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="min-height: 100px">
+            <div class="modal-content" id="modalContent">
 
             </div>
-            <div id="modalNormal-loading" class="spinner-loading" style="display: none;">
+            <div id="modal-loading" class="spinner-loading" style="display: none;">
                 <img src="~/Content/Spinner.png" alt="Loading..." />
             </div>
         </div>

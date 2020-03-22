@@ -1,0 +1,95 @@
+﻿@model TheGioiLoa.Models.ViewModel.BlogViewModel
+
+@{
+    ViewBag.Title = "Chỉnh Sửa Bài Viết";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm("EditBlog", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.BlogId)
+    <div class="row" id="adminPage">
+        <div class="col-md-9">
+            <div class="form-group mb-2 mt-0">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control rounded-0", @placeholder = "Tiêu đề bài viết" })
+                <div class="mt-1">
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*Mô tả ngắn*@
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Nội dung bài viết</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @Html.TextAreaFor(model => model.BlogContent, new { @class = "textarea" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            @*Submit Form Card*@
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Đăng</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.BlogCategoryId, "Chọn chuyên mục", htmlAttributes: new { @class = "control-label" })
+                        <select name="BlogCategoryId" id="BlogCategoryId" class="form-control form-control-sm rounded-0">
+                            <option value="">Trống</option>
+                            @foreach (var item in Model.CategoryList)
+                            {
+                                <option value="@item.BlogCategoryId" @(item.BlogCategoryId == Model.BlogCategoryId ? "selected" : string.Empty)>@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <select name="Status" id="Status" class="form-control form-control-sm rounded-0 col-md-8">
+                            @foreach (var item in Model.StatusList)
+                            {
+                                <option value="@item.StatusId" @(item.StatusId == Model.Status ? "selected" : string.Empty)>@item.Name</option>
+                            }
+                        </select>
+                        <div class="col-md-4">
+                            <button type="submit" id="submitFormButton" class="btn btn-primary btn-flat btn-sm btn-block">Đăng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Ảnh Bài Viết*@
+            <div class="card position-relative">
+                <div class="card-header">
+                    <h3 class="card-title">Ảnh Cover</h3>
+                </div>
+                <div class="card-body">
+
+                    <div class="preview-image w-100">
+                        <img id="previewCover" src="~/Content/Upload/Images/@Model.Cover" style="width: 100%; height: auto;" />
+                        <div class="position-absolute d-none" id="removeCover" style="top: 5px; right:10px">
+                            <a class="text-primary" data-toggle="tooltip" title="Xóa hình cover" style="font-size: 19px"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
+
+                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate" />
+                    <label for="Cover" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
+                    <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho bài viết</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+
+    <script src="~/Scripts/Admin/summnernote.js"></script>
+    <script src="~/Scripts/Admin/ImageUpload/upload-img.js"></script>
+    <script src="~/Scripts/Admin/blog.js"></script>
+}
