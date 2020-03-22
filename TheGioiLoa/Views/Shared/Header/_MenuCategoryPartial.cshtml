@@ -9,15 +9,15 @@
 <div class="row">
     <div class="col-md-3 h-100" style="flex: 0 0 20%; max-width:20%;">
         <div class="main-nav w-100 d-lg-block @menuClass">
-            <div class="drop-down main-menu">
-                <a href="" class="h5 text-white px-0 font-weight-bold"><i class="fa fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
+            <div class="drop-down main-menu text-left">
+                <a href="" class="h5 text-white px-0 font-weight-bold"><i class="fas fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
                 <ul class="main-menu-ul" style="height: 442px; background:#3d3d3d">
                     @foreach (var item in Model)
                     {
                         if (item.IsShowMenu)
                         {
                             <li class="main-menu-li">
-                                <a href="#"><i class="fa fa-check-circle"></i>@item.Name</a>
+                                <a href="#"><i class="fas fa-check-circle"></i>@item.Name</a>
                                 <ul class="child-menu-ul">
                                     @foreach (var child in Model)
                                     {

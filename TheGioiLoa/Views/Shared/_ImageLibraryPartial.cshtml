@@ -12,7 +12,7 @@
                    onclick="@(item.IsSelected?"removeImageFromList(this)":"addImageToList(this)")"
                    data-selected="@(item.IsSelected?"True":"False")">
                     <span id="check-@item.ImageId" class="position-absolute @(item.IsSelected?"":"d-none")" style="top: 5px; right: 5px">
-                        <i class="fa fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
+                        <i class="fas fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
                     </span>
                 </a>
             </div>
@@ -31,7 +31,7 @@ else
                    onclick="@(item.IsSelected?"removeSelectedImage(this)":"selectImage(this)")"
                    data-selected="@(item.IsSelected?"True":"False")">
                     <span id="check-@item.ImageId" class="position-absolute @(item.IsSelected?"":"d-none")" style="top: 5px; right: 5px">
-                        <i class="fa fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
+                        <i class="fas fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
                     </span>
                 </a>
             </div>

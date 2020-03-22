@@ -25,7 +25,7 @@
             var dom = {
                 uploaderBox: $(this),
                 //submitButton: $('<button class="js-uploader__submit-button uploader__submit-button uploader__hide">' +
-                //    options.submitButtonCopy + '<i class="js-uploader__icon fa fa-upload uploader__icon"></i></button>'),
+                //    options.submitButtonCopy + '<i class="js-uploader__icon fas fa-upload uploader__icon"></i></button>'),
                 instructions: $('<p class="js-uploader__instructions uploader__instructions">' +
                     options.instructionsCopy + '</p>'),
                 selectButton: $('<input style="height: 0; width: 0;" id="fileinput' + index + '" type="file" multiple class="js-uploader__file-input uploader__file-input">' +
@@ -110,8 +110,8 @@
 
                 var listItem = $('<li class="uploader__file-list__item" data-index="' + id + '"></li>');
                 var thumbnailContainer = $('<span class="uploader__file-list__thumbnail"></span>');
-                var thumbnail = $('<img class="thumbnail"><i class="fa fa-spinner fa-spin uploader__icon--spinner"></i>');
-                var removeLink = $('<span class="uploader__file-list__button"><button class="uploader__icon-button js-upload-remove-button fa fa-times" data-index="' + id + '"></button></span>');
+                var thumbnail = $('<img class="thumbnail"><i class="fas fa-spinner fa-spin uploader__icon--spinner"></i>');
+                var removeLink = $('<span class="uploader__file-list__button"><button class="uploader__icon-button js-upload-remove-button fas fa-times" data-index="' + id + '"></button></span>');
 
                 // validate the file
                 if (options.fileTypeWhiteList.indexOf(getExtension(file.name).toLowerCase()) !== -1) {
@@ -135,7 +135,7 @@
                     };
                     reader.readAsDataURL(file);
                 } else if (file.type.indexOf('image') === -1) {
-                    thumbnail = $('<i class="fa fa-file-o uploader__icon">');
+                    thumbnail = $('<i class="fas fa-file-o uploader__icon">');
                 }
 
                 thumbnailContainer.append(thumbnail);

@@ -1,4 +1,7 @@
-﻿.font-weight-500 {
+﻿body,html {
+    text-align: unset;
+}
+.font-weight-500 {
     font-weight: 500;
 }
 

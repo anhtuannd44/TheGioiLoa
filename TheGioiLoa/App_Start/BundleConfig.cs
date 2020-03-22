@@ -59,7 +59,6 @@ namespace TheGioiLoa
 
             //Css Home
             bundles.Add(new StyleBundle("~/Content/HomeCss").Include(
-                       "~/Content/Home/lib/font-awesome/css/font-awesome.min.css",
                        "~/Content/Home/lib/animate/animate.min.css",
                        "~/Content/Home/lib/ionicons/css/ionicons.min.css",
                        "~/Content/Home/lib/owlcarousel/assets/owl.carousel.min.css",
@@ -75,7 +74,6 @@ namespace TheGioiLoa
             bundles.Add(new StyleBundle("~/Content/AdminCss").Include(
                       "~/Content/Admin/css/adminlte.css",
                       "~/Content/Admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
-                      "~/Content/Admin/plugins/fontawesome-free/css/all.min.css",
                       "~/Content/Admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
                       "~/Content/Admin/plugins/toastr/toastr.min.css",
                       "~/Content/Admin/plugins/summernote/summernote-bs4.css",

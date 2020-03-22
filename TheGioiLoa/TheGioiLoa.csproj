@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44305</IISExpressSSLPort>
+    <IISExpressSSLPort>44373</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -2054,9 +2054,6 @@
     <Content Include="Content\Home\img\testimonial-5.jpg" />
     <Content Include="Content\Home\lib\animate\animate.css" />
     <Content Include="Content\Home\lib\animate\animate.min.css" />
-    <Content Include="Content\Home\lib\font-awesome\css\font-awesome.css" />
-    <Content Include="Content\Home\lib\font-awesome\css\font-awesome.min.css" />
-    <Content Include="Content\Home\lib\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Home\lib\ionicons\css\ionicons.css" />
     <Content Include="Content\Home\lib\ionicons\css\ionicons.min.css" />
     <Content Include="Content\Home\lib\ionicons\fonts\ionicons.svg" />
@@ -2102,7 +2099,42 @@
     <Content Include="Content\rating\bootstrap-rating.css" />
     <Content Include="Content\rating\bootstrap-rating.min.js" />
     <Content Include="Content\samsung-galaxy-a71-silver-600x600-400x400.jpg" />
+    <Content Include="Content\Upload\Images\CEAHJMDKOJGOQET.jpg" />
+    <Content Include="Content\Upload\Images\CHNWEPQWNOBDIHT.jpg" />
+    <Content Include="Content\Upload\Images\DTGOWFPMFTSYZQX.jpg" />
+    <Content Include="Content\Upload\Images\ECFJNJNTTQJGMCC.jpg" />
+    <Content Include="Content\Upload\Images\EDPKBZAEXTLRLWC.jpg" />
+    <Content Include="Content\Upload\Images\EFEYENYDVHFHCLJ.jpg" />
+    <Content Include="Content\Upload\Images\EHGFZVFTMMBXMTT.jpg" />
+    <Content Include="Content\Upload\Images\GFVYYLLYFFRCOGF.jpg" />
+    <Content Include="Content\Upload\Images\HWHMIUQIKNPBZNK.jpg" />
+    <Content Include="Content\Upload\Images\IYJWVFYHRDKXMEJ.jpg" />
+    <Content Include="Content\Upload\Images\JGCZSWYUQFEJWHB.gif" />
+    <Content Include="Content\Upload\Images\KPKMCBEYJDWXCTT.jpg" />
+    <Content Include="Content\Upload\Images\LYUOEQBBBZDOEUE.jpg" />
+    <Content Include="Content\Upload\Images\NBLQQQYYLJIRRRO.jpg" />
+    <Content Include="Content\Upload\Images\NGHESEEDVIUHKRF.jpg" />
     <Content Include="Content\Upload\Images\No_Picture.jpg" />
+    <Content Include="Content\Upload\Images\OFDNJLQCIVLWGUT.png" />
+    <Content Include="Content\Upload\Images\OYMMHIRVILIYXVS.jpg" />
+    <Content Include="Content\Upload\Images\PRMMYCGGEEUSEXB.jpg" />
+    <Content Include="Content\Upload\Images\PXZFMWVKCKITNOJ.jpg" />
+    <Content Include="Content\Upload\Images\QLKGEOLTHBCWULI.jpg" />
+    <Content Include="Content\Upload\Images\QOGQNBFWEPTUBDF.jpg" />
+    <Content Include="Content\Upload\Images\QPKZZBWAYVWEKDZ.jpg" />
+    <Content Include="Content\Upload\Images\RGRRSUKOCIIKKYH.jpg" />
+    <Content Include="Content\Upload\Images\TBPOLSKQNOXHLWV.jpg" />
+    <Content Include="Content\Upload\Images\TIRMUNXSGLARFIM.jpg" />
+    <Content Include="Content\Upload\Images\TXCQXOUGAXMOSTT.jpg" />
+    <Content Include="Content\Upload\Images\TYXZGXMAVQZKIDA.jpg" />
+    <Content Include="Content\Upload\Images\UEBDYBRYLHSZUOF.jpg" />
+    <Content Include="Content\Upload\Images\UTUQNHAYLLBJKOB.jpg" />
+    <Content Include="Content\Upload\Images\UVCVUQVMKFQFTKH.jpg" />
+    <Content Include="Content\Upload\Images\VMBCHTXIAIBBTGG.jpg" />
+    <Content Include="Content\Upload\Images\VPAUEFGVYALYHDI.jpg" />
+    <Content Include="Content\Upload\Images\WWSGGOPTJBJXZZL.jpg" />
+    <Content Include="Content\Upload\Images\YIFODMINAUUVYIC.jpg" />
+    <Content Include="Content\Upload\Images\YLOCPTZKHVPNXMA.jpg" />
     <Content Include="Content\Upload\pmh-10.jpg" />
     <Content Include="Content\Upload\Slider\slider-2.jpg" />
     <Content Include="Content\Upload\Slider\slider-1.jpg" />
@@ -2148,11 +2180,6 @@
     <Content Include="Content\bootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap\bootstrap-grid.css.map" />
     <Content Include="Content\Home\img\header-bg.psd" />
-    <Content Include="Content\Home\lib\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\Home\lib\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\Home\lib\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\Home\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\Home\lib\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="Content\Home\lib\ionicons\fonts\ionicons.eot" />
     <Content Include="Content\Home\lib\ionicons\fonts\ionicons.ttf" />
     <Content Include="Content\Home\lib\ionicons\fonts\ionicons.woff" />
@@ -2235,6 +2262,9 @@
     <Content Include="Content\Admin\plugins\toastr\toastr.js.map" />
     <Content Include="Scripts\Admin\adminlte.js.map" />
     <Content Include="Scripts\Admin\adminlte.min.js.map" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\thegioiloa.net - Web Deploy.pubxml" />
     <None Include="Scripts\bootstrap-jquery\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-jquery\jquery-3.4.1.js" />
     <Content Include="Scripts\bootstrap-jquery\jquery-3.4.1.min.js" />
