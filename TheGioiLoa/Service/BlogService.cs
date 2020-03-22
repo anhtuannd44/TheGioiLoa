@@ -18,22 +18,14 @@ namespace TheGioiLoa.Service
         private HelperFunction _helper = new HelperFunction();
 
         //Type: 1-Blog 2-Page
-        public void CreateBlog(BlogViewModel blog, int type)
+        public void CreateBlog(Blog blog, int type)
         {
             blog.Title = _helper.DeleteSpace(blog.Title);
-            var addBlog = new Blog()
-            {
-                Title = blog.Title,
-                Url = _helper.CreateUrl(blog.Title),
-                BlogContent = blog.BlogContent,
-                DateCreated = DateTime.Now,
-                DateModified = DateTime.Now,
-                BlogCategoryId = blog.BlogCategoryId,
-                Status = blog.Status,
-                Type = type,
-                Cover = blog.Cover
-            };
-            db.Blog.Add(addBlog);
+            blog.Url = _helper.CreateUrl(blog.Title);
+            blog.Type = type;
+            blog.DateCreated = DateTime.Now;
+            blog.DateModified = DateTime.Now;
+            db.Blog.Add(blog);
             db.SaveChanges();
         }
 
@@ -48,13 +40,16 @@ namespace TheGioiLoa.Service
                 BlogCategoryId = blog.BlogCategoryId,
                 Type = blog.Type,
                 Cover = blog.Cover,
-                StatusLabel = GetStatus(blog.Status)
+                StatusLabel = GetStatus(blog.Status),
+                Description = blog.Description
             };
             var categories = db.BlogCategory.ToList();
             model.CategoryList = categories;
             model.StatusList = GetStatus();
             return model;
         }
+
+        //type: 1-Blog 2-Page
         public List<BlogViewModel> GetBlogList(string status, int type)
         {
             var blogList = db.Blog.Where(a => a.Type == type).ToList();
@@ -86,25 +81,22 @@ namespace TheGioiLoa.Service
                     Status = item.Status,
                     DateCreated = item.DateCreated,
                     StatusLabel = GetStatus(item.Status),
-                    Cover = item.Cover
+                    Cover = item.Cover,
+                    BlogContent =item.BlogContent,
+                    Description = item.Description,
+                    BlogCategory= item.BlogCategory
                 };
-                addBlog.BlogCategoryName = (item.BlogCategoryId == null) ? "Chưa phân loại" : blogCategory.Find(item.BlogCategoryId).Name;
                 result.Add(addBlog);
             }
             return result;
         }
 
-        public void EditBlog(BlogViewModel blog)
+        public void EditBlog(Blog blog)
         {
-            var editItem = db.Blog.Find(blog.BlogId);
-            editItem.Title = _helper.DeleteSpace(blog.Title);
-            editItem.Url = _helper.CreateUrl(blog.Title);
-            editItem.BlogContent = blog.BlogContent;
-            editItem.DateModified = DateTime.Now;
-            editItem.BlogCategoryId = blog.BlogCategoryId;
-            editItem.Status = blog.Status;
-            editItem.Cover = blog.Cover;
-            db.Entry(editItem).State = EntityState.Modified;
+            blog.Title = _helper.DeleteSpace(blog.Title);
+            blog.Url = _helper.CreateUrl(blog.Title);
+            blog.DateModified = DateTime.Now;
+            db.Entry(blog).State = EntityState.Modified;
             db.SaveChanges();
         }
         public List<StatusEnum> GetStatus()

@@ -1,4 +1,4 @@
-﻿@model TheGioiLoa.Models.ViewModel.BlogViewModel
+﻿@model TheGioiLoa.Models.Blog
 
 @{
     ViewBag.Title = "Thêm Trang";
@@ -11,7 +11,7 @@
     <div class="row" id="adminPage">
         <div class="col-md-9">
             <div class="form-group mb-2 mt-0">
-                @Html.TextBoxFor(model => model.Title, new { @class = "form-control rounded-0", @placeholder = "Tiêu đề trang" })
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @placeholder = "Tiêu đề trang" })
                 <div class="mt-1">
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
@@ -41,8 +41,8 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <select name="Status" id="Status" class="form-control form-control-sm rounded-0 col-md-8">
-                            @foreach (var item in Model.StatusList)
+                        <select name="Status" id="Status" class="form-control form-control-sm col-md-8">
+                            @foreach (var item in ViewBag.Status)
                             {
                                 <option value="@item.StatusId">@item.Name</option>
                             }

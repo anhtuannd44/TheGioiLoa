@@ -1,4 +1,4 @@
-﻿@model TheGioiLoa.Models.ViewModel.BlogViewModel
+﻿@model TheGioiLoa.Models.Blog
 
 @{
     ViewBag.Title = "Chỉnh Sửa Trang";
@@ -9,6 +9,8 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.BlogId)
+    @Html.HiddenFor(model => model.DateCreated)
+    @Html.HiddenFor(model => model.Type)
     <div class="row" id="adminPage">
         <div class="col-md-9">
             <div class="form-group mb-2 mt-0">
@@ -42,7 +44,7 @@
                 <div class="card-body">
                     <div class="form-group row">
                         <select name="Status" id="Status" class="form-control form-control-sm rounded-0 col-md-8">
-                            @foreach (var item in Model.StatusList)
+                            @foreach (var item in ViewBag.Status)
                             {
                                 <option value="@item.StatusId" @(item.StatusId == Model.Status ? "selected" : string.Empty)>@item.Name</option>
                             }
@@ -67,7 +69,7 @@
                         </div>
                     </div>
 
-                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate" />
+                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate"  value="@Model.Cover"/>
                     <label for="Cover" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
                     <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho bài viết</p>
                 </div>
@@ -79,7 +81,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script src="~/Scripts/Admin/summnernote.js"></script>
+    <script src="~/Scripts/Admin/summnernote.js"></script>
     <script src="~/Scripts/Admin/blog.js"></script>
     <script src="~/Scripts/Admin/ImageUpload/upload-img.js"></script>
 }

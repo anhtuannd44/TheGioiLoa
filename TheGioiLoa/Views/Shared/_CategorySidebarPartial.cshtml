@@ -1,0 +1,20 @@
+﻿@model IEnumerable<TheGioiLoa.Models.BlogCategory>
+
+@if (Model != null)
+{
+    <div class="blog-category-list" id="blogCategoryList">
+        <h3 class="sidebar-title">Chuyên Mục</h3>
+        <hr class="mt-1" />
+        <ul class="my-3">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="#" class="text-info">
+                        <i class="fas fa-caret-right mr-2"></i>
+                        @item.Name (@item.Blog.Count)
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}

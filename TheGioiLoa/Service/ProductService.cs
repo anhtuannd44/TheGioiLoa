@@ -61,6 +61,7 @@ namespace TheGioiLoa.Service
             db.SaveChanges();
         }
 
+        //SortBy: "Newest" - "PriceDes" - "Price"
         public List<ProductViewModel> GetProductList()
         {
             var model = new List<ProductViewModel>();
@@ -429,6 +430,50 @@ namespace TheGioiLoa.Service
             new StatusEnum(){StatusId = 4, Name = "Đưa vào thùng rác"}
             };
             return statusList;
+        }
+
+        public List<Product> GetProductLists(int? categoryId, string sortBy, int? priceSortFrom, int? priceSortTo, int? take)
+        {
+            var productLists = new List<Product>();
+            if (categoryId == null)
+            {
+                productLists = db.Product.Where(a => a.Status == 1 || a.Status == 3).ToList();
+            }
+            else
+            {
+                var productIdList = db.CategoryProduct.Where(a => a.CategoryId == categoryId).ToList();
+                foreach (var item in productIdList)
+                {
+                    var addProduct = db.Product.Find(item.ProductId);
+                    if ((addProduct.Status == 1 || addProduct.Status == 3))
+                        productLists.Add(addProduct);
+                }
+            }
+            if (priceSortFrom == 0)
+                productLists = productLists.Where(a => a.Price <= priceSortTo || a.Price == null).ToList();
+            else if (priceSortFrom !=null)
+                productLists = productLists.Where(a => a.PriceSale >= priceSortFrom && a.PriceSale <= priceSortTo).ToList();
+
+            switch (sortBy)
+            {
+                case "newest":
+                    productLists = productLists.OrderByDescending(a => a.DateCreated).ToList();
+                    break;
+                case "priceLowToHigh":
+                    productLists = productLists.OrderBy(a => a.Price).ToList();
+                    break;
+                case "priceHighToLow":
+                    productLists = productLists.OrderByDescending(a => a.Price).ToList();
+                    break;
+                case "nameAsc":
+                    productLists = productLists.OrderBy(a => a.Price).ToList();
+                    break;
+            }
+            if (take != null)
+            {
+                productLists = productLists.Take(take.Value).ToList();
+            }
+            return productLists;
         }
     }
 }

@@ -321,3 +321,8 @@ label:not(.form-check-label):not(.custom-file-label) {
 #submitFormButton {
     height: 100%;
 }
+.form-control {
+    border-top: 1px solid rgba(0,0,0,.02);
+    border-right: 1px solid rgba(0,0,0,.02);
+    border-left: 1px solid rgba(0,0,0,.02);
+} 

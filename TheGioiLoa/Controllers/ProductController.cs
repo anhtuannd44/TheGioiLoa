@@ -8,13 +8,15 @@ using System.Web.Mvc;
 using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
+using TheGioiLoa.Service;
 
 namespace TheGioiLoa.Controllers
 {
     public class ProductController : Controller
     {
-        private TheGioiLoaModel db = new TheGioiLoaModel();
-        private HelperFunction _hepler = new HelperFunction();
+        private readonly TheGioiLoaModel db = new TheGioiLoaModel();
+        private readonly HelperFunction _hepler = new HelperFunction();
+        private readonly ProductService _productService = new ProductService();
         // GET: Product
         public ActionResult Details(int? productId, string url)
         {
@@ -97,7 +99,6 @@ namespace TheGioiLoa.Controllers
             return View(model);
 
         }
-
         public ActionResult AllCategory()
         {
             var model = db.Category.ToList();
@@ -155,46 +156,8 @@ namespace TheGioiLoa.Controllers
 
         public ActionResult LoadProductCategory(int? categoryId, string sortBy, int priceSortFrom, int priceSortTo)
         {
-            var productLists = new List<Product>();
-            if (categoryId == null)
-            {
-                productLists = db.Product.Where(a => a.Status == 1 || a.Status == 3)/*.Where(a => a.Price >= priceSortFrom && a.Price <= priceSortTo)*/.ToList();
-            }
-            else
-            {
-                var productIdList = db.CategoryProduct.Where(a => a.CategoryId == categoryId).ToList();
-                foreach (var item in productIdList)
-                {
-                    var addProduct = db.Product.Find(item.ProductId);
-                    if ((addProduct.Status == 1 || addProduct.Status == 3)/* && addProduct.Price >= priceSortFrom && addProduct.Price <= priceSortTo*/)
-                        productLists.Add(addProduct);
-                }
-            }
-            var productList = new List<Product>();
-
-            if (priceSortFrom == 0)
-                productList = productLists.Where(a => a.Price <= priceSortTo || a.Price == null).ToList();
-            else
-                productList = productLists.Where(a => a.PriceSale >= priceSortFrom && a.PriceSale <= priceSortTo).ToList();
-
-            switch (sortBy)
-            {
-                case "newest":
-                    productList = productList.OrderBy(a => a.DateCreated).ToList();
-                    break;
-                case "priceLowToHigh":
-                    productList = productList.OrderBy(a => a.Price).ToList();
-                    break;
-                case "priceHighToLow":
-                    productList = productList.OrderByDescending(a => a.Price).ToList();
-                    break;
-                case "nameAsc":
-                    productList = productList.OrderBy(a => a.Price).ToList();
-                    break;
-            }
-
-            return PartialView("_ProductInCategory", productList);
-
+            var model = _productService.GetProductLists(categoryId, sortBy, priceSortFrom, priceSortTo, null);
+            return PartialView("_ProductInCategory", model);
         }
 
         public ActionResult ProductByCategory(int? categoryId, string Url)
@@ -253,8 +216,10 @@ namespace TheGioiLoa.Controllers
         [HttpPost]
         public ActionResult LoadReview(int productId)
         {
-            var model = new ReviewViewModel();
-            model.AvgStar = 0;
+            var model = new ReviewViewModel
+            {
+                AvgStar = 0
+            };
             var review = db.Review.Where(a => a.ProductId == productId);
             model.CommentCount = review.Count();
             var sumStar = 0;
@@ -273,6 +238,12 @@ namespace TheGioiLoa.Controllers
             model.AvgStar = Math.Round((double)sumStar / (double)review.Count());
             model.EachReviewViewModel = listReview;
             return PartialView("_ReviewPartial", model);
+        }
+
+        public ActionResult NewestProductSidebar()
+        {
+            var model = _productService.GetProductLists(null, "newest", null, null, 4);
+            return PartialView("_NewestProductSidebarPartial",model);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace TheGioiLoa.Models
+﻿namespace TheGioiLoa.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,13 +17,16 @@ namespace TheGioiLoa.Models
         [StringLength(300)]
         public string Url { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Tiêu đề không được để trống")]
         [StringLength(300)]
         public string Title { get; set; }
 
         [AllowHtml]
         [Column(TypeName = "ntext")]
         public string BlogContent { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string Description { get; set; }
 
         [StringLength(128)]
         public string Author { get; set; }

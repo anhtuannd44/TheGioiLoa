@@ -15,7 +15,7 @@
                 </a>
             </td>
             <td>
-                @item.BlogCategoryName
+                @(item.BlogCategory!=null?item.BlogCategory.Name:"Chưa phân loại")
             </td>
             <td>
                 <span class="badge badge-@(item.Status==1?"success":"dark")">@item.StatusLabel</span>

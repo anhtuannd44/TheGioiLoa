@@ -451,24 +451,20 @@ namespace TheGioiLoa.Controllers
         }
         public ActionResult LoadBlogList()
         {
-            var model = _blogService.GetBlogList("All", 1).ToList();
+            var model = _blogService.GetBlogList("All", 1);
             return PartialView("BlogAndPage/_BlogListPartial", model);
         }
         public ActionResult CreateBlog()
         {
-            var categories = db.BlogCategory.ToList();
-            var model = new BlogViewModel
-            {
-                CategoryList = categories,
-                StatusList = _blogService.GetStatus()
-            };
-            return View("BlogAndPage/CreateBlog", model);
+            ViewBag.CategoryList = db.BlogCategory.ToList();
+            ViewBag.Status = _blogService.GetStatus();
+            return View("BlogAndPage/CreateBlog");
         }
 
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateBlog(BlogViewModel blog)
+        public ActionResult CreateBlog(Blog blog)
         {
             try
             {
@@ -477,10 +473,9 @@ namespace TheGioiLoa.Controllers
             }
             catch
             {
-                var categories = db.BlogCategory.ToList();
-                blog.CategoryList = categories;
-                blog.StatusList = _blogService.GetStatus();
-                return View("BlogAndPage/CreateBlog", blog);
+                ViewBag.CategoryList = db.BlogCategory.ToList();
+                ViewBag.Status = _blogService.GetStatus();
+                return View("BlogAndPage/CreateBlog");
             }
         }
         public ActionResult EditBlog(int blogId)
@@ -488,14 +483,14 @@ namespace TheGioiLoa.Controllers
             var blog = db.Blog.Find(blogId);
             if (blog == null)
                 return HttpNotFound();
-            var model = _blogService.GetBlog(blog);
-            return View("BlogAndPage/EditBlog", model);
+            ViewBag.CategoryList = db.BlogCategory.ToList();
+            ViewBag.Status = _blogService.GetStatus();
+            return View("BlogAndPage/EditBlog", blog);
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditBlog(BlogViewModel blog)
+        public ActionResult EditBlog(Blog blog)
         {
             try
             {
@@ -504,9 +499,8 @@ namespace TheGioiLoa.Controllers
             }
             catch
             {
-                var categories = db.BlogCategory.ToList();
-                blog.CategoryList = categories;
-                blog.StatusList = _blogService.GetStatus();
+                ViewBag.CategoryList = db.BlogCategory.ToList();
+                ViewBag.Status = _blogService.GetStatus();
                 return View("BlogAndPage/EditBlog", blog);
             }
         }
@@ -648,17 +642,14 @@ namespace TheGioiLoa.Controllers
         }
         public ActionResult CreatePage()
         {
-            var model = new BlogViewModel
-            {
-                StatusList = _blogService.GetStatus()
-            };
-            return View("BlogAndPage/CreatePage", model);
+            ViewBag.Status = _blogService.GetStatus();
+            return View("BlogAndPage/CreatePage");
         }
 
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult CreatePage(BlogViewModel page)
+        public ActionResult CreatePage(Blog page)
         {
             try
             {
@@ -667,8 +658,8 @@ namespace TheGioiLoa.Controllers
             }
             catch
             {
-                page.StatusList = _blogService.GetStatus();
-                return View("BlogAndPage/CreatePage", page);
+                ViewBag.Status = _blogService.GetStatus();
+                return View("BlogAndPage/CreatePage");
             }
         }
         public ActionResult EditPage(int pageId)
@@ -676,14 +667,14 @@ namespace TheGioiLoa.Controllers
             var page = db.Blog.Find(pageId);
             if (page == null)
                 return HttpNotFound();
-            var model = _blogService.GetBlog(page);
-            return View("BlogAndPage/EditPage", model);
+            ViewBag.Status = _blogService.GetStatus();
+            return View("BlogAndPage/EditPage", page);
         }
 
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPage(BlogViewModel page)
+        public ActionResult EditPage(Blog page)
         {
             try
             {
@@ -692,7 +683,7 @@ namespace TheGioiLoa.Controllers
             }
             catch
             {
-                page.StatusList = _blogService.GetStatus();
+                ViewBag.Status = _blogService.GetStatus();
                 return View("BlogAndPage/EditPage", page);
             }
         }

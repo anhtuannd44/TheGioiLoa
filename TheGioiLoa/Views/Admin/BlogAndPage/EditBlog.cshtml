@@ -1,4 +1,4 @@
-﻿@model TheGioiLoa.Models.ViewModel.BlogViewModel
+﻿@model TheGioiLoa.Models.Blog
 
 @{
     ViewBag.Title = "Chỉnh Sửa Bài Viết";
@@ -6,8 +6,9 @@
 }
 @using (Html.BeginForm("EditBlog", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.BlogId)
+    @Html.HiddenFor(model=>model.DateCreated)
+    @Html.HiddenFor(model => model.Type)
     <div class="row" id="adminPage">
         <div class="col-md-9">
             <div class="form-group mb-2 mt-0">
@@ -20,6 +21,23 @@
             @*Mô tả ngắn*@
             <div class="card">
                 <div class="card-header">
+                    <h3 class="card-title">Tóm Tắt</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "4", @style = "width: 100%;" })
+                    </div>
+                </div>
+            </div>
+
+            @*Nội Dung*@
+            <div class="card">
+                <div class="card-header">
                     <h3 class="card-title">Nội dung bài viết</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -28,7 +46,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.TextAreaFor(model => model.BlogContent, new { @class = "textarea" })
+                    @Html.TextAreaFor(model => model.BlogContent, new { @class = "textarea text-area-0" })
                 </div>
             </div>
         </div>
@@ -43,7 +61,7 @@
                         @Html.LabelFor(model => model.BlogCategoryId, "Chọn chuyên mục", htmlAttributes: new { @class = "control-label" })
                         <select name="BlogCategoryId" id="BlogCategoryId" class="form-control form-control-sm rounded-0">
                             <option value="">Trống</option>
-                            @foreach (var item in Model.CategoryList)
+                            @foreach (var item in ViewBag.CategoryList)
                             {
                                 <option value="@item.BlogCategoryId" @(item.BlogCategoryId == Model.BlogCategoryId ? "selected" : string.Empty)>@item.Name</option>
                             }
@@ -51,7 +69,7 @@
                     </div>
                     <div class="form-group row">
                         <select name="Status" id="Status" class="form-control form-control-sm rounded-0 col-md-8">
-                            @foreach (var item in Model.StatusList)
+                            @foreach (var item in ViewBag.Status)
                             {
                                 <option value="@item.StatusId" @(item.StatusId == Model.Status ? "selected" : string.Empty)>@item.Name</option>
                             }
@@ -77,7 +95,7 @@
                         </div>
                     </div>
 
-                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate" />
+                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate" value="@Model.Cover"/>
                     <label for="Cover" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
                     <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho bài viết</p>
                 </div>

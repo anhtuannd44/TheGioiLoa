@@ -188,7 +188,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\BlogsController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -348,6 +348,10 @@
     <Compile Include="Migrations\TheGioiLoaModel\202003221034341_csdfhrfa.cs" />
     <Compile Include="Migrations\TheGioiLoaModel\202003221034341_csdfhrfa.Designer.cs">
       <DependentUpon>202003221034341_csdfhrfa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003221807075_blogdescription.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003221807075_blogdescription.Designer.cs">
+      <DependentUpon>202003221807075_blogdescription.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2442,11 +2446,6 @@
     <Content Include="Views\Admin\Blog.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\_BlogCategoryPartial.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\CreateBlog.cshtml" />
-    <Content Include="Views\Blogs\Create.cshtml" />
-    <Content Include="Views\Blogs\Delete.cshtml" />
-    <Content Include="Views\Blogs\Details.cshtml" />
-    <Content Include="Views\Blogs\Edit.cshtml" />
-    <Content Include="Views\Blogs\Index.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\EditBlog.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\_BlogListPartial.cshtml" />
     <Content Include="Views\Admin\Page.cshtml" />
@@ -2483,6 +2482,10 @@
     <Content Include="Views\Admin\Information\_EditFooterContactPartial.cshtml" />
     <Content Include="Views\Shared\Footer\_FooterCopyrightPartial.cshtml" />
     <Content Include="Views\Shared\Footer\_FooterContactPartial.cshtml" />
+    <Content Include="Views\Blog\AllBlog.cshtml" />
+    <Content Include="Views\Shared\_CategorySidebarPartial.cshtml" />
+    <Content Include="Views\Shared\_NewestProductSidebarPartial.cshtml" />
+    <Content Include="Views\Blog\BlogListInCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2615,6 +2618,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003221034341_csdfhrfa.resx">
       <DependentUpon>202003221034341_csdfhrfa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003221807075_blogdescription.resx">
+      <DependentUpon>202003221807075_blogdescription.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<TheGioiLoa.Models.Product>
+
+@if (Model != null)
+{
+    <div class="mt-4 p-2" id="sidebarProductList">
+        <h3 class="sidebar-title">Sản Phẩm Mới Nhất</h3>
+        <hr class="mt-1" />
+        <div class="my-3">
+            @foreach (var item in Model)
+            {
+                <div class="row sidebar-product-list align-items-center">
+                    <div class="col-md-4 px-0">
+                        <div class="image-box ratio-3-4 h-100 my-auto">
+                            <a href="/Home/Houses?location=H%C3%A0%20N%E1%BB%99i"
+                               class="image"
+                               style="background-image: url('../../Content/Upload/Images/@item.Cover');">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <a href="#">
+                            <h3 class="sidebar-product-title">@item.Name</h3>
+                        </a>
+                        @if (item.PriceSale != null)
+                        {
+                            <h6 class="mb-0 text-primary">@string.Format("{0:0,0 ₫}", item.PriceSale)</h6>
+                            <del class="mb-0">@string.Format("{0:0,0 ₫}", item.Price)</del>
+                        }
+                        else
+                        {
+                            <h6 class="text-primary mb-0">@string.Format("{0:0,0 ₫}", item.Price)</h6>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+

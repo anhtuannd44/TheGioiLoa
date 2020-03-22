@@ -19,6 +19,8 @@ namespace TheGioiLoa.Models.ViewModel
         [AllowHtml]
         [Column(TypeName = "ntext")]
         public string BlogContent { get; set; }
+        [Column(TypeName = "ntext")]
+        public string Description { get; set; }
         public DateTime DateCreated { get; set; }
         public string Url { get; set; }
         public int Status { get; set; }
@@ -29,7 +31,7 @@ namespace TheGioiLoa.Models.ViewModel
 
         public int Type { get; set; }
 
-        public string BlogCategoryName { get; set; }
+        public BlogCategory BlogCategory { get; set; }
 
         public List<BlogCategory> CategoryList { get; set; }
 

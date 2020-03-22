@@ -1,4 +1,4 @@
-﻿@model TheGioiLoa.Models.ViewModel.BlogViewModel
+﻿@model TheGioiLoa.Models.Blog
 
 @{
     ViewBag.Title = "Thêm Bài Viết";
@@ -18,6 +18,21 @@
             </div>
 
             @*Mô tả ngắn*@
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Tóm tắt bài viết</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "4", @style = "width: 100%;" })
+                </div>
+            </div>
+
+            @*Nội Dung*@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Nội dung bài viết</h3>
@@ -43,7 +58,7 @@
                         @Html.LabelFor(model => model.BlogCategoryId, "Chọn chuyên mục", htmlAttributes: new { @class = "control-label" })
                         <select name="BlogCategoryId" id="BlogCategoryId" class="form-control form-control-sm rounded-0">
                             <option value="" checked>Trống</option>
-                            @foreach (var item in Model.CategoryList)
+                            @foreach (var item in ViewBag.CategoryList)
                             {
                                 <option value="@item.BlogCategoryId" checked>@item.Name</option>
                             }
@@ -52,7 +67,7 @@
                     <div class="form-group row">
                         <div class="col-md-8">
                             <select name="Status" id="Status" class="form-control form-control-sm">
-                                @foreach (var item in Model.StatusList)
+                                @foreach (var item in ViewBag.Status)
                                 {
                                     <option value="@item.StatusId">@item.Name</option>
                                 }
@@ -78,7 +93,7 @@
                         </div>
                     </div>
 
-                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate" value="No_Picture.JPG"/>
+                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate" value="No_Picture.JPG" />
                     <label for="Cover" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
                     <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho bài viết</p>
                 </div>
