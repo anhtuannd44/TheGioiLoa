@@ -1,4 +1,13 @@
 ﻿@model TheGioiLoa.Models.ViewModel.ContactViewModel
 
-<a class="text-dark" href="tel:@Model.Hotline"><i class="fas fa-phone"></i> Hotline 24/7</a>
-<a href="tel:0888836006" class="h4 font-weight-bold">@Model.Hotline</a>
+    <a class="text-white" href="tel:@Model.Hotline">
+        <div class="row align-items-center ">
+            <div class="col-md-2 text-center p-0">
+                <i class="fas fa-phone d-inline-block"></i>
+            </div>
+            <div class="col-md-10 small p-0">
+                <h6 class="mb-0 font-weight-bold">Hotline 24/7: @Model.Hotline</h6>
+                <p class="mb-0">Mua hàng - Góp ý - Bảo hành</p>
+            </div>
+        </div>
+    </a>

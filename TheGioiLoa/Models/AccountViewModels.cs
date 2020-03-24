@@ -53,9 +53,9 @@ namespace TheGioiLoa.Models
         [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập Mật Khẩu")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật Khẩu")]
         public string Password { get; set; }
 
         [Display(Name = "Nhớ đăng nhập?")]
@@ -64,17 +64,18 @@ namespace TheGioiLoa.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập Email")]
         [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập Mật Khẩu")]
         [StringLength(100, ErrorMessage = "{0} phải từ {2} ký tự trở lên.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật Khẩu")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "Bạn chưa nhập xác nhận mật khẩu")]
         [DataType(DataType.Password)]
         [Display(Name = "Xác Nhận Mật Khẩu")]
         [Compare("Password", ErrorMessage = "Mật khẩu và xác nhận chưa trùng khớp.")]

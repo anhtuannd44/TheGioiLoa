@@ -14,6 +14,7 @@ using Unity;
 
 namespace TheGioiLoa.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
 

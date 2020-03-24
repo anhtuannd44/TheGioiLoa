@@ -12,8 +12,9 @@ namespace TheGioiLoa.Models
         {
             get
             {
+                var cart = HttpContext.Current.Session["Cart"] as ShoppingCart;
                 // Nếu chưa có giỏ hàng trong session -> tạo mới và lưu vào session
-                if (!(HttpContext.Current.Session["Cart"] is ShoppingCart cart))
+                if (cart == null)
                 {
                     cart = new ShoppingCart();
                     HttpContext.Current.Session["Cart"] = cart;

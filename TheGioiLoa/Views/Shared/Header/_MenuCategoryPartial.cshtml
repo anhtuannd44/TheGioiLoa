@@ -1,71 +1,45 @@
 ﻿@model IEnumerable<TheGioiLoa.Models.Category>
-@{var menuClass = "menu-not-expand";
-    if (ViewBag.IsMenuExpand == true)
-    {
-        menuClass = "menu-expand";
-    }
+@{
     var i = 1;
 }
-<div class="row">
-    <div class="col-md-3 h-100" style="flex: 0 0 20%; max-width:20%;">
-        <div class="main-nav w-100 d-lg-block @menuClass">
-            <div class="drop-down main-menu text-left">
-                <a href="" class="h5 text-white px-0 font-weight-bold"><i class="fas fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
-                <ul class="main-menu-ul" style="height: 442px; background:#3d3d3d">
-                    @foreach (var item in Model)
-                    {
-                        if (item.IsShowMenu)
-                        {
-                            <li class="main-menu-li">
-                                <a href="#"><i class="fas fa-check-circle"></i>@item.Name</a>
-                                <ul class="child-menu-ul">
-                                    @foreach (var child in Model)
-                                    {
-                                        if (child.CategoryParentId == item.CategoryId)
-                                        {
-                                            <li class="child-menu-li">
-                                                <a href="#">@child.Name</a>
-                                                <ul class="sub-menu-ul">
-                                                    @foreach (var sub in Model)
-                                                    {
-                                                        if (sub.CategoryParentId == child.CategoryId)
-                                                        {
-                                                            <li class="sub-menu-li">
-                                                                <a href="#">@sub.Name</a>
-                                                            </li>
-                                                        }
-                                                    }
-                                                </ul>
-                                            </li>
 
+<ul class="main-menu-ul" style="max-height: 405px; background:#fff">
+    @foreach (var item in Model)
+    {
+        if (item.IsShowMenu)
+        {
+            <li class="main-menu-li">
+                <a href="~/cua-hang/danh-muc/@item.CategoryId/@item.Url"><i class="fas fa-check-circle"></i>@item.Name</a>
+                <ul class="child-menu-ul">
+                    @foreach (var child in Model)
+                    {
+                        if (child.CategoryParentId == item.CategoryId)
+                        {
+                            <li class="child-menu-li">
+                                <a href="~/cua-hang/danh-muc/@item.CategoryId/@item.Name">@child.Name</a>
+                                <ul class="sub-menu-ul">
+                                    @foreach (var sub in Model)
+                                    {
+                                        if (sub.CategoryParentId == child.CategoryId)
+                                        {
+                                            <li class="sub-menu-li">
+                                                <a href="#">@sub.Name</a>
+                                            </li>
                                         }
                                     }
                                 </ul>
                             </li>
-                            i++;
-                        }
 
-                        if(i>9)
-                        {
-                            break;
                         }
                     }
                 </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9 h-100 my-auto px-0" style="flex: 0 0 80%; max-width:80%;">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
+            </li>
+            i++;
+        }
 
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row text-center">
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        if (i > 9)
+        {
+            break;
+        }
+    }
+</ul>

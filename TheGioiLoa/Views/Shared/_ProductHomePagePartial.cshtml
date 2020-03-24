@@ -34,7 +34,7 @@
                         }
                         @foreach (var item in Model.Product)
                         {
-                            <div class="col-md-3 @(Model.Count == 10 ? "w-20" : "") producthome-item">
+                            <div class="col-md-3 @(Model.Count == 10 ? "w-20" : "") producthome-item col-6">
                                 <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
                                     <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
                                     <h3>@item.Name</h3>

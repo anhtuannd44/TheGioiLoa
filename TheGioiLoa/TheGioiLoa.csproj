@@ -204,6 +204,10 @@
     <Compile Include="Migrations\ApplicationDbContext\202002121623260_AddNewUserDetails.Designer.cs">
       <DependentUpon>202002121623260_AddNewUserDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ApplicationDbContext\202003232103382_fixrow.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\202003232103382_fixrow.Designer.cs">
+      <DependentUpon>202003232103382_fixrow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ApplicationDbContext\Configuration.cs" />
     <Compile Include="Migrations\TheGioiLoaModel\202003052248165_InitialCreate.cs" />
     <Compile Include="Migrations\TheGioiLoaModel\202003052248165_InitialCreate.Designer.cs">
@@ -2013,11 +2017,11 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\Home\css\onepage.css" />
+    <Content Include="Content\Home\animate.min.css" />
     <Content Include="Content\moredetails.png" />
     <Content Include="Content\default_icon_cat.png" />
     <Content Include="Content\icon.png" />
-    <Content Include="Content\Home\css\scss-files.txt" />
-    <Content Include="Content\Home\css\style.css" />
     <Content Include="Content\Home\img\about-extra-1.svg" />
     <Content Include="Content\Home\img\about-extra-2.svg" />
     <Content Include="Content\Home\img\about-img.svg" />
@@ -2056,30 +2060,6 @@
     <Content Include="Content\Home\img\testimonial-3.jpg" />
     <Content Include="Content\Home\img\testimonial-4.jpg" />
     <Content Include="Content\Home\img\testimonial-5.jpg" />
-    <Content Include="Content\Home\lib\animate\animate.css" />
-    <Content Include="Content\Home\lib\animate\animate.min.css" />
-    <Content Include="Content\Home\lib\ionicons\css\ionicons.css" />
-    <Content Include="Content\Home\lib\ionicons\css\ionicons.min.css" />
-    <Content Include="Content\Home\lib\ionicons\fonts\ionicons.svg" />
-    <Content Include="Content\Home\lib\lightbox\css\lightbox.css" />
-    <Content Include="Content\Home\lib\lightbox\css\lightbox.min.css" />
-    <Content Include="Content\Home\lib\lightbox\images\close.png" />
-    <Content Include="Content\Home\lib\lightbox\images\loading.gif" />
-    <Content Include="Content\Home\lib\lightbox\images\next.png" />
-    <Content Include="Content\Home\lib\lightbox\images\prev.png" />
-    <Content Include="Content\Home\lib\lightbox\js\lightbox.js" />
-    <Content Include="Content\Home\lib\lightbox\js\lightbox.min.js" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\ajax-loader.gif" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\owl.carousel.css" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\owl.carousel.min.css" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\owl.theme.default.css" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\owl.theme.default.min.css" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\owl.theme.green.css" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\owl.theme.green.min.css" />
-    <Content Include="Content\Home\lib\owlcarousel\assets\owl.video.play.png" />
-    <Content Include="Content\Home\lib\owlcarousel\owl.carousel.js" />
-    <Content Include="Content\Home\lib\owlcarousel\owl.carousel.min.js" />
-    <Content Include="Content\Home\loading.gif" />
     <Content Include="Content\Home\slider-product\app\styles\blocks\gallery\images\close_black.png" />
     <Content Include="Content\Home\slider-product\app\styles\blocks\gallery\images\close_black_2x.png" />
     <Content Include="Content\Home\slider-product\app\styles\blocks\gallery\images\close_white.png" />
@@ -2103,6 +2083,7 @@
     <Content Include="Content\rating\bootstrap-rating.css" />
     <Content Include="Content\rating\bootstrap-rating.min.js" />
     <Content Include="Content\samsung-galaxy-a71-silver-600x600-400x400.jpg" />
+    <Content Include="Content\Upload\Images\CDGUEGOIVGUMYFP.jpg" />
     <Content Include="Content\Upload\Images\CEAHJMDKOJGOQET.jpg" />
     <Content Include="Content\Upload\Images\CHNWEPQWNOBDIHT.jpg" />
     <Content Include="Content\Upload\Images\DTGOWFPMFTSYZQX.jpg" />
@@ -2184,10 +2165,6 @@
     <Content Include="Content\bootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap\bootstrap-grid.css.map" />
     <Content Include="Content\Home\img\header-bg.psd" />
-    <Content Include="Content\Home\lib\ionicons\fonts\ionicons.eot" />
-    <Content Include="Content\Home\lib\ionicons\fonts\ionicons.ttf" />
-    <Content Include="Content\Home\lib\ionicons\fonts\ionicons.woff" />
-    <Content Include="Content\Home\lib\owlcarousel\LICENSE" />
     <Content Include="Content\Admin\css\adminlte.css.map" />
     <Content Include="Content\Admin\css\adminlte.min.css.map" />
     <Content Include="Content\Admin\css\alt\adminlte.components.css.map" />
@@ -2281,19 +2258,10 @@
     <Content Include="Scripts\bootstrap-jquery\jquery.validate.min.js" />
     <Content Include="Scripts\bootstrap-jquery\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\bootstrap-jquery\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\Home\js\contactform\contactform.js" />
-    <Content Include="Scripts\Home\js\contactform\Readme.txt" />
-    <Content Include="Scripts\Home\js\counterup\counterup.min.js" />
     <Content Include="Scripts\Home\js\easing\easing.js" />
     <Content Include="Scripts\Home\js\easing\easing.min.js" />
-    <Content Include="Scripts\Home\js\isotope\isotope.pkgd.js" />
-    <Content Include="Scripts\Home\js\isotope\isotope.pkgd.min.js" />
     <Content Include="Scripts\Home\js\jquery-migrate.min.js" />
     <Content Include="Scripts\Home\js\main.js" />
-    <Content Include="Scripts\Home\js\mobile-nav\mobile-nav.js" />
-    <Content Include="Scripts\Home\js\waypoints\waypoints.min.js" />
-    <Content Include="Scripts\Home\js\wow\wow.js" />
-    <Content Include="Scripts\Home\js\wow\wow.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -2476,7 +2444,6 @@
     <Content Include="Views\Shared\Social\_ZaloPartial.cshtml" />
     <Content Include="Views\Shared\Slider\_SliderPartial.cshtml" />
     <Content Include="Views\Shared\Header\_HeaderContact.cshtml" />
-    <Content Include="Views\Shared\Header\_MiniCartPartial.cshtml" />
     <Content Include="Views\Admin\Information\_ProductHomePagePartial.cshtml" />
     <Content Include="Views\Shared\_ProductHomePagePartial.cshtml" />
     <Content Include="Views\Admin\Information\_EditFooterContactPartial.cshtml" />
@@ -2486,6 +2453,9 @@
     <Content Include="Views\Shared\_CategorySidebarPartial.cshtml" />
     <Content Include="Views\Shared\_NewestProductSidebarPartial.cshtml" />
     <Content Include="Views\Blog\BlogListInCategory.cshtml" />
+    <Content Include="Views\Shared\_OnePageLayout.cshtml" />
+    <Content Include="Views\Shared\Login\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\Header\_MenuCategoryMobilePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2510,6 +2480,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ApplicationDbContext\202002121623260_AddNewUserDetails.resx">
       <DependentUpon>202002121623260_AddNewUserDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ApplicationDbContext\202003232103382_fixrow.resx">
+      <DependentUpon>202003232103382_fixrow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003052248165_InitialCreate.resx">
       <DependentUpon>202003052248165_InitialCreate.cs</DependentUpon>

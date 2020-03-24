@@ -1,0 +1,14 @@
+﻿@model IEnumerable<TheGioiLoa.Models.Category>
+@{
+    var i = 1;
+}
+
+<ul class="main-menu-ul position-relative p-3">
+    @foreach (var item in Model)
+    {
+        <li class="main-menu-li mb-2">
+            <a href="~/cua-hang/danh-muc/@item.CategoryId/@item.Url"><i class="fas fa-check-circle"></i>@item.Name</a>
+        </li>
+        i++;
+    }
+</ul>

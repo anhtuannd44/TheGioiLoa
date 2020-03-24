@@ -27,6 +27,11 @@ namespace TheGioiLoa.Controllers
             ViewBag.IsMenuExpand = isMenuExpand;
             return PartialView("Header/_MenuCategoryPartial", model);
         }
+        public ActionResult MenuCategoryMobile()
+        {
+            var model = db.Category.ToList();
+            return PartialView("Header/_MenuCategoryMobilePartial", model);
+        }
         public ActionResult MenuTop()
         {
             var model = _informationService.GetMenuList(0);

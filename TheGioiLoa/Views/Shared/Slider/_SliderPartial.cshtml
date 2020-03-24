@@ -12,10 +12,12 @@
     <div class="carousel-inner">
         @foreach (var item in Model)
         {
-            <a href="@(string.IsNullOrEmpty(item.Url) ? "#": item.Url)" class="carousel-item h-100 w-100 @(active?"active":"")">
-                <div class="slider-img" style="background-image: url('../../Content/Upload/Images/@item.ImageId');">
+            <div class="carousel-item @(active?"active":"")">
+                <div class="image-box ratio-20-9">
+                    <a href="@(string.IsNullOrEmpty(item.Url) ? "#": item.Url)" class="image" style="background-image: url('../../Content/Upload/Images/@item.ImageId')">
+                    </a>
                 </div>
-            </a>
+            </div>
             active = false;
         }
     </div>

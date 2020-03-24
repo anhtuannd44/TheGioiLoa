@@ -1,8 +1,10 @@
-﻿@{
-    var isMenuExpand = true;
-    if (ViewBag.IsMenuExpand == null)
+﻿@*@using TheGioiLoa.Models
+    @model LoginViewModel*@
+@{
+    var menuClass = "menu-not-expand";
+    if (ViewBag.IsMenuExpand == true)
     {
-        isMenuExpand = false;
+        menuClass = "menu-expand";
     }
 }
 <!DOCTYPE html>
@@ -23,88 +25,115 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
     @Styles.Render("~/Content/BootstrapCss")
     @Styles.Render("~/Content/HomeCss")
+    <link href="~/Content/Home/animate.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("heads", required: false)
 
 </head>
 <body>
+    <div id="preloader" class="spinner-loading bg-white position-fixed">
+        <img src="/Content/Spinner.png" alt="Loading...">
+    </div>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v6.0&appId=2347493918804034&autoLogAppEvents=1"></script>
-    <nav class="navbar navbar-expand flex-column flex-md-row bd-navbar py-0 header-top">
-        <div class="container text-white">
-            <div class="navbar-nav-scroll mr-auto">
-                @Html.Action("MenuTop", "Home")
+    @*<nav class="navbar navbar-expand navbar-inverse flex-column flex-md-row bd-navbar py-0 header-top d-none d-lg-block">
+            <div class="container text-white">
+                <div class="navbar-nav-scroll mr-auto">
+                    @Html.Action("MenuTop", "Home")
+                </div>
+                <div class="navbar-nav-scroll ml-auto" id="Login">
+                    <ul class="navbar-nav bd-navbar-nav flex-row small">
+                        <li class="nav-item py-2">
+                            <a class="nav-link text-white py-0 border-right" href="#dang-ky" data-target="#registerModal" data-toggle="modal">Đăng ký</a>
+                        </li>
+                        <li class="nav-item py-2">
+                            <a class="nav-link text-white py-0" href="#dang-nhap" data-target="#loginModal" data-toggle="modal">Đăng Nhập</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-nav-scroll ml-auto" id="Login">
-                <ul class="navbar-nav bd-navbar-nav flex-row small">
-                    <li class="nav-item py-2">
-                        <a class="nav-link text-white py-0 border-right" href="/Home/Houses">Đăng ký</a>
-                    </li>
-                    <li class="nav-item py-2">
-                        <a class="nav-link text-white py-0" href="#myModal" data-toggle="modal">Đăng Nhập</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <nav class="px-0" id="">
-        <div class="header-main">
-            <div class="container">
-                <div class="row h-100">
-                    <div class="col-md-3 h-100 px-0">
-                        <a href="~/" class="scrollto">
-                            <img src="~/Content/Home/img/logo.png" alt="" class="img-fluid">
-                        </a>
-                    </div>
-                    @*<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                            Menu
-                            <i class="fas fa-bars"></i>
-                        </button>*@
-                    <div class="col-md-9 h-100 my-auto">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <div class="input-group mt-1">
-                                    <input type="text" class="form-control border-primary search-bar-input" placeholder="Nhập từ khóa tìm kiếm ...">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row text-center">
-                                    <div class="col-md-6">
-                                        @Html.Action("HeaderContact", "Home")
-                                    </div>
-                                    <div class="col-md-3">
-                                        <i class="fas fa-map-marker-alt" style="font-size: 29px;"></i><br />
-                                        <a class="text-dark" href="#about">Showroom</a>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <div class="icon-cart position-relative">
-                                            <i class="fas fa-shopping-cart" style="font-size: 29px;">
-                                            </i>
-                                            <div class="position-absolute bg-danger text-white" style="top: 0; right: 10px; width: 20px; height: 20px; border-radius: 99px;">
-                                                <span id="miniCartCount">@TheGioiLoa.Models.ShoppingCart.Cart.Count</span>
-                                            </div>
-                                        </div>
-                                        <a class="text-dark" href="#about">Giỏ Hàng</a>
-                                    </div>
-                                </div>
-                            </div>
+        </nav>*@
+    <nav class="navbar navbar-expand-sm navbar-light bg-primary py-md-4" id="navbarMain">
+        <div class="container">
+            <div class="row align-items-center w-md-100">
+                <div class="col-2 order-1 d-md-none">
+                    <button class="navbar-toggler p-1" type="button" data-toggle="collapse" data-target="#menuCategory" aria-controls="menuCategory" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+                <div class="col-md-3 col-5 order-2 px-1 hidetop">
+                    <a href="~/" class="navbar-brand text-white h1 mb-0">
+                        @*<img src="~/Content/Home/img/logo.png" alt="" class="img-fluid">*@
+                        THEGIOILOA.NET
+                    </a>
+                </div>
+                <div class="col-md-4 order-4 order-md-3 col-12 pt-2 pt-md-0" id="searchBar">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-warning search-bar-input" placeholder="Nhập từ khóa tìm kiếm ...">
+                        <div class="input-group-append">
+                            <button class="btn btn-warning" type="button">
+                                <i class="fas fa-search text-white"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-5 col-5 order-3 order-md-4">
+                    <div class="row align-items-center m-0">
+                        <div class="col-8 col-md-3 p-0 text-left">
+                            <a class="text-white" href="#about">
+                                <i class="far fa-user"></i>
+                                <span class="small">Tài Khoản</span>
+                            </a>
+                        </div>
+
+                        <div class="col-4 col-md-3 p-0 text-left">
+                            <a href="~/Cart" class="text-white">
+                                <i class="fas fa-shopping-cart position-relative">
+                                    <span id="miniCartCount" class="position-absolute bg-warning text-white small text-center" style="padding-top: .2rem; top: -.7rem; right: -.5rem; width: 1.1rem; height: 1.1rem; border-radius: 99px;">
+                                        @TheGioiLoa.Models.ShoppingCart.Cart.Count
+                                    </span>
+                                </i>
+                                <span class="d-none d-md-inline-block small">Giỏ Hàng</span>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 d-none d-md-block p-0">
+                            @Html.Action("HeaderContact", "Home")
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-        <div class="header-bottom bg-primary">
-            <div class="container">
-                @Html.Action("MenuCategory", "Home", new { isMenuExpand = isMenuExpand })
-            </div>
-        </div>
+
     </nav>
+    <div class="navbar-collapse collapse" id="menuCategory">
+        @Html.Action("MenuCategoryMobile", "Home")
+    </div>
+    <div class="header-bottom g-white border-bottom text-dark" id="headerBottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 d-none d-md-block" id="menuCategoryShow">
+                    <div class="main-nav @menuClass" id="main-nav" data-homepage="@(menuClass!="menu-not-expand"?"True":"False")">
+                        <div class="drop-down main-menu text-left">
+                            <a href="" class="h5 px-3 font-weight-bold bg-dark"><i class="fas fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
+                            @Html.Action("MenuCategory", "Home", new { isMenuExpand = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center hidetop d-none d-md-block small py-2">
+                    <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Tổng hợp khuyến mãi</span></a>
+                </div>
+                <div class="col-md-3 text-center hidetop col-6 small py-2" >
+                    <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Miễn phí dùng thử</span></a>
+                </div>
+                <div class="col-md-3 text-center hidetop col-6 small py-2">
+                    <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Tặng 1 năm bảo hành</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @RenderBody()
     <!--==========================
       Footer
@@ -118,55 +147,59 @@
                             <h3 class="text-primary m-0">FACEBOOK</h3>
                             <hr class="mt-1 mb-3" />
                         </div>
-                        @Html.Action("LoadSocial", "Home", new { social = "Facebook" })
-                    </div>
+                        <div class="social-facebook">
+                            @Html.Action("LoadSocial", "Home", new { social = "Facebook" })
+                        </div>
+                        </div>
 
-                    <div class="col-md-3">
-                        <div class="footer-title">
-                            <h3 class="text-primary m-0">YOUTUBE</h3>
-                            <hr class="mt-1 mb-3" />
+                        <div class="col-md-3">
+                            <div class="footer-title">
+                                <h3 class="text-primary m-0">YOUTUBE</h3>
+                                <hr class="mt-1 mb-3" />
+                            </div>
+                            <div class="social-youtube">
+                                @Html.Action("LoadSocial", "Home", new { social = "Youtube" })
+                            </div>
                         </div>
-                        @Html.Action("LoadSocial", "Home", new { social = "Youtube" })
-                    </div>
-                    <div class="col-md-6">
-                        <div class="footer-title">
-                            <h3 class="text-primary m-0">HỖ TRỢ KHÁCH HÀNG</h3>
-                            <hr class="mt-1 mb-3" />
-                        </div>
-                        <div class="footer-support p-2 border pb-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="support">
-                                        <p class="support-place">Showroom Hà Nội</p>
-                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                        <div class="col-md-6">
+                            <div class="footer-title">
+                                <h3 class="text-primary m-0">HỖ TRỢ KHÁCH HÀNG</h3>
+                                <hr class="mt-1 mb-3" />
+                            </div>
+                            <div class="footer-support p-2 border pb-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="support">
+                                            <p class="support-place">Showroom Hà Nội</p>
+                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                        </div>
+                                        <div class="support">
+                                            <p class="support-place">Showroom Hà Nội</p>
+                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                        </div>
+                                        <div class="support">
+                                            <p class="support-place">Showroom Hà Nội</p>
+                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                        </div>
                                     </div>
-                                    <div class="support">
-                                        <p class="support-place">Showroom Hà Nội</p>
-                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                    </div>
-                                    <div class="support">
-                                        <p class="support-place">Showroom Hà Nội</p>
-                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="support">
-                                        <p class="support-place">Showroom Hà Nội</p>
-                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                    </div>
-                                    <div class="support">
-                                        <p class="support-place">Showroom Hà Nội</p>
-                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                    </div>
-                                    <div class="support">
-                                        <p class="support-place">Showroom Hà Nội</p>
-                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    <div class="col-md-6">
+                                        <div class="support">
+                                            <p class="support-place">Showroom Hà Nội</p>
+                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                        </div>
+                                        <div class="support">
+                                            <p class="support-place">Showroom Hà Nội</p>
+                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                        </div>
+                                        <div class="support">
+                                            <p class="support-place">Showroom Hà Nội</p>
+                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
         <div class="footer-middle">
@@ -191,7 +224,7 @@
                 </div>
             </div>
         </div>
-        @Html.Action("FooterCopyright","Home")
+        @Html.Action("FooterCopyright", "Home")
     </footer><!-- #footer -->
     @*@if (!Request.IsAuthenticated)
         {
@@ -231,24 +264,33 @@
                 </div>
             </div>
         }*@
-
-    <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jshome")
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Content/Home/slider-product/dist/scripts/vit-gallery.js"></script>
-    <script src="~/Content/Home/slider-product/main.js"></script>
-    @RenderSection("scripts", required: false)
     <div class="position-fixed" style="bottom: 40px; right: 0;">
         @Html.Action("LoadSocial", "Home", new { social = "Zalo" })
     </div>
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    @*@if (!User.Identity.IsAuthenticated)
+        {
+            <div class="modal fade" id="loginModal" aria-hidden="true">
+                <div class="modal-dialog" style="min-height: 100px">
+                    <div class="modal-content" id="loginModalContent">
+                        @Html.Partial("Login/_LoginPartial")
+                    </div>
+                    <div id="modal-loading" class="spinner-loading" style="display: none;">
+                        <img src="~/Content/Spinner.png" alt="Loading..." />
+                    </div>
+                </div>
+            </div>
+        }*@
 
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jshome")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+
 </body>
 </html>
