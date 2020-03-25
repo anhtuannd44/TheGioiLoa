@@ -15,6 +15,8 @@ namespace TheGioiLoa.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly ApplicationDbContext dbApp = new ApplicationDbContext();
+
 
         public ManageController()
         {
@@ -64,8 +66,9 @@ namespace TheGioiLoa.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            var model = new UserDetailsViewModel
             {
+                User = dbApp.Users.Find(userId),
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),

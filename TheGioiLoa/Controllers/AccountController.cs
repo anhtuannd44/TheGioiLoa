@@ -8,7 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
+using TheGioiLoa.Models.ViewModel;
 
 namespace TheGioiLoa.Controllers
 {
@@ -17,12 +19,14 @@ namespace TheGioiLoa.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly HelperFunction _helper = new HelperFunction();
+        private readonly ApplicationDbContext dbApp = new ApplicationDbContext();
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +38,9 @@ namespace TheGioiLoa.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -61,35 +65,6 @@ namespace TheGioiLoa.Controllers
             return View();
         }
 
-
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> LoginAjax(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return PartialView("_LoginPartial",model);
-            }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return PartialView("_LoginPartial");
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                //case SignInStatus.RequiresVerification:
-                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return PartialView("_LoginPartial", model);
-            }
-        }
         //
         // POST: /Account/Login
         [HttpPost]
@@ -115,7 +90,7 @@ namespace TheGioiLoa.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu chưa chính xác!");
                     return View(model);
             }
         }
@@ -149,7 +124,7 @@ namespace TheGioiLoa.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -180,18 +155,18 @@ namespace TheGioiLoa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {
+                var user = new ApplicationUser
+                {
                     UserName = model.Email,
                     Email = model.Email,
-                    Birthday = DateTime.Now,
                     DateCreated = DateTime.Now,
-                    DateModified = DateTime.Now,
-                    FullName = "TheGioiLoa Admin",
+                    FullName = _helper.DeleteSpace(model.FullName),
+                    PhoneNumber = model.PhoneNumber
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -207,6 +182,12 @@ namespace TheGioiLoa.Controllers
             return View(model);
         }
 
+        public string GetUserName()
+        {
+            var userId = User.Identity.GetUserId();
+            var userName = dbApp.Users.Find(userId).FullName;
+            return userName.Substring(userName.LastIndexOf(" ")+1);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

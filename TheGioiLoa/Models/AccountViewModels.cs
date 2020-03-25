@@ -64,6 +64,15 @@ namespace TheGioiLoa.Models
 
     public class RegisterViewModel
     {
+        [Display(Name = "Họ và tên")]
+        [Required(ErrorMessage = "Bạn chưa nhập Họ và Tên")]
+        public string FullName { get; set; }
+
+        [Display(Name = "Số điện thoại")]
+        [Required(ErrorMessage = "Bạn chưa nhập Số điện thoại")]
+        [Phone(ErrorMessage = "Chưa đúng định dạng Số điện thoại")]
+        public string PhoneNumber { get; set; }
+
         [Required(ErrorMessage = "Bạn chưa nhập Email")]
         [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
         [Display(Name = "Email")]

@@ -2019,6 +2019,8 @@
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\Home\css\onepage.css" />
     <Content Include="Content\Home\animate.min.css" />
+    <Content Include="Content\Home\img\avt-gentleman.png" />
+    <Content Include="Content\Home\img\avt-lady.jpg" />
     <Content Include="Content\moredetails.png" />
     <Content Include="Content\default_icon_cat.png" />
     <Content Include="Content\icon.png" />
@@ -2456,6 +2458,8 @@
     <Content Include="Views\Shared\_OnePageLayout.cshtml" />
     <Content Include="Views\Shared\Login\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Header\_MenuCategoryMobilePartial.cshtml" />
+    <Content Include="Views\Shared\Login\_AccountHeadPartial.cshtml" />
+    <Content Include="Views\Shared\Login\_RegisterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

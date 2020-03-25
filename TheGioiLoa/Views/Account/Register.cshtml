@@ -1,51 +1,76 @@
 ﻿@model TheGioiLoa.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
-    Layout = "~/Views/Shared/_OnePageLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-md-6 col-sm-9 col-12 mx-auto">
-            <div class="card card-signin my-5">
-                <div class="card-body">
-                    <h5 class="card-title text-center text-primary">Đăng Ký Tài Khoản</h5>
+        <div class="col-md-8 col-sm-9 col-12 mx-auto">
+            <div class="card card-signin my-sm-5 shadow">
+                <div class="card-body py-5">
+                    <h5 class="text-center text-info mb-3">Đăng Ký Tài Khoản</h5>
                     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger text-center" })
+                        <div class="form-group mb-4">
+                            <p class="text-center">
+                                Bạn đã có tài khoản?
+                                <a href="@Url.Action("Login","Account")" class="">Đăng Nhập Ngay</a>
+                            </p>
+                        </div>
                         <div class="form-group row align-items-center">
-                            @Html.LabelFor(m => m.Email, new { @class = "col-md-4" })
-                            <div class="col-md-8">
+                            @Html.LabelFor(m => m.FullName, new { @class = "col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-9 offset-3 mt-1">
+                                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-9 offset-3 mt-1">
+                                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-3" })
+                            <div class="col-md-9">
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                             </div>
-                            <div class="col-md-8 offset-4 mt-1">
+                            <div class="col-md-9 offset-3 mt-1">
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
                             </div>
                         </div>
                         <div class="form-group row align-items-center">
-                            @Html.LabelFor(m => m.Password, new { @class = "col-md-4" })
-                            <div class="col-md-8">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-3" })
+                            <div class="col-md-9">
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                             </div>
-                            <div class="col-md-8 offset-4 mt-1">
+                            <div class="col-md-9 offset-3 mt-1">
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small" })
                             </div>
                         </div>
                         <div class="form-group row align-items-center">
-                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4" })
-                            <div class="col-md-8">
+                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3" })
+                            <div class="col-md-9">
                                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                             </div>
-                            <div class="col-md-8 offset-4 mt-1">
+                            <div class="col-md-9 offset-3 mt-1">
                                 @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger small" })
                             </div>
                         </div>
+                        <div class="form-group row align-items-center">
+                            <div class="col-md-9 offset-md-3">
+                                <button class="btn btn-success btn-block text-uppercase" type="submit">Đăng Ký</button>
+                            </div>
+                        </div>
 
-                        <button class="btn btn-primary btn-block text-uppercase" type="submit">Đăng Ký</button>
-
-                        <hr class="my-4">
-                        <p class="text-center mb-0 small">Thế Giới Loa</p>
                     }
                 </div>
             </div>

@@ -95,5 +95,15 @@ namespace TheGioiLoa.Controllers
             var cart = ShoppingCart.Cart;
             return PartialView("Header/_MiniCartPartial", cart.Items);
         }
+
+        public ActionResult LoadLoginPartial()
+        {
+            var model = new LoginViewModel();
+            return PartialView("Login/_LoginPartial",model);
+        }
+        public ActionResult LoadRegisterPartial()
+        {
+            return PartialView("Login/_RegisterPartial");
+        }
     }
 }

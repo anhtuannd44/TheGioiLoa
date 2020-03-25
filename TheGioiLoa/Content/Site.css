@@ -2,6 +2,18 @@
     text-align: unset;
     color: #686b6e;
     font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+h6 {
+    font-size: 1.2rem;
+}
+.row {
+    margin-left: -.5rem;
+    margin-right: -.5rem;
+}
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+    padding-left: .5rem;
+    padding-right: .5rem;
 }
 .font-weight-500 {
     font-weight: 500;
@@ -33,9 +45,11 @@
 }
 a {
     text-decoration: none;
+    color: #1e96eb;
 }
 a:hover {
     text-decoration: none;
+    color: #0070bf;
 }
 
 .header-top {
@@ -64,7 +78,7 @@ a:hover {
   display: block;
   position: relative;
   color: #fff;
-  padding: 10px 15px;
+  padding: 12px 15px;
   font-size: 14px;
   font-weight: 500;
 }
@@ -231,10 +245,6 @@ a:hover {
 
 .btn-primary:focus, .btn-primary.focus {
     border-color: #eb1c0e;
-}
-
-a:hover {
-    color: #5e0d08;
 }
 
 .search-bar-input::placeholder {
@@ -511,6 +521,8 @@ a:hover {
     color: #fff;
 }
 .product-info-header {
+    top: 57px;
+    z-index: 100;
     background: #eee;
     padding: .5rem 1.2rem;
 }
@@ -537,7 +549,7 @@ a:hover {
     border-radius: .3rem;
 }
 .second-services-right {
-    top: 78px;
+    top: 93px;
 }
 
 /*LOGIN MODAL*/
@@ -742,6 +754,12 @@ a:hover {
 .custom-control-label::after {
     top: .05rem;
 }
+.product-header {
+    padding: 0 1rem; 
+}
+.product-header button{
+    margin-top: .5rem;
+}
 .product-header .product-header-title {
     font-weight: 600;
     text-transform: uppercase;
@@ -749,9 +767,9 @@ a:hover {
     padding: .8rem 0rem;
     margin: 0;
 }
+
 .product-header .product-header-link .product-header-link-a {
-    padding: .8rem .6rem;
-    display: inline-block;
+
     vertical-align: middle;
 }
 .homeproduct {
@@ -1061,6 +1079,7 @@ input[type=number] {
 .card {
     border-radius: 6px;
     border: none;
+    margin-bottom: 1.5rem;
 }
 .card-shadow {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
@@ -1108,6 +1127,7 @@ input[type=number] {
 }
 ul, li {
     list-style-type: none;
+    padding-left: 0;
 }
 #pageBlog ul {
     padding-left: 0
@@ -1137,17 +1157,13 @@ ul, li {
     cursor: pointer;
     position: fixed;
     bottom: 20px;
-    right: 17px;
+    right: 13px;
     border-radius: 100px;
     display: none;
 }
 .navbar-toggler {
     background: none;
     border-color: #fff;
-}
-.product-info-header {
-    top: 37px;
-    z-index: 100;
 }
 .image-box::before {
     content: "";
@@ -1224,11 +1240,62 @@ ul, li {
     padding-top: 37.5%
 }
 #headerBottom .main-menu-ul {
-    background:#fff;
+    background: #fff;
     height: 405px;
 }
 .social-facebook > iframe, .social-youtube iframe{
     width: 100% !important;
     height: auto;
     text-align: center;
+}
+.modal-content {
+    border:none;
+}
+#loginModal label {
+    font-size: .9rem;
+}
+.account-action {
+    background: #fff;
+    position: absolute;
+    width: 160px;
+    top: 33px;
+    left: -20px;
+    z-index: 9;
+    border-radius: 5px;
+    padding: .3rem 0;
+}
+.account-action a {
+    padding: .3rem .3rem .3rem .8rem;
+    display: block;
+}
+.icon-up {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid #fff;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    margin: 1px 0 0 0;
+}
+#account-details {
+    display: none;
+}
+#accountLink:hover #account-details {
+    display: block;
+}
+#mainNav-right i {
+    font-size: 1.4rem;
+}
+#miniCartCount {
+    position: absolute;
+    text-align: center;
+    top: -.9rem;
+    right: -.5rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 99px;
+    font-size: 1rem;
+}
+.avt-img {
+    border-radius: 99px;
 }

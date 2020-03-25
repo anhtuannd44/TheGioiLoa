@@ -1,0 +1,29 @@
+﻿@if (!User.Identity.IsAuthenticated)
+{
+    <a class="text-white" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal" data-keyboard="true">
+        <i class="far fa-user"></i>
+        <span>Tài Khoản</span>
+    </a>
+}
+else
+{
+    <a class="text-white py-3" href="@Url.Action("Index","Manage")">
+        <i class="far fa-user"></i>
+        <span>Chào @Html.Action("GetUserName", "Account")</span>
+    </a>
+    <div id="account-details">
+        <div class="icon-up"></div>
+        <div class="account-action shadow">
+            <a href="@Url.Action("Manage","Admin")">Quản lý đơn hàng</a>
+            <a href="@Url.Action("Manage","Admin")">Quản lý tài khoản</a>
+            <a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
+        </div>
+    </div>
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+}
+
+

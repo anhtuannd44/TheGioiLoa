@@ -54,7 +54,7 @@
             </div>
         </nav>*@
     <nav class="navbar navbar-expand-sm navbar-light bg-primary py-md-4" id="navbarMain">
-        <div class="container">
+        <div class="container py-md-1 py-0">
             <div class="row align-items-center w-md-100">
                 <div class="col-2 order-1 d-md-none">
                     <button class="navbar-toggler p-1" type="button" data-toggle="collapse" data-target="#menuCategory" aria-controls="menuCategory" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,27 +77,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 col-5 order-3 order-md-4">
+                <div class="col-md-5 col-5 order-3 order-md-4" id="mainNav-right">
                     <div class="row align-items-center m-0">
-                        <div class="col-8 col-md-3 p-0 text-left">
-                            <a class="text-white" href="#about">
-                                <i class="far fa-user"></i>
-                                <span class="small">Tài Khoản</span>
-                            </a>
-                        </div>
-
-                        <div class="col-4 col-md-3 p-0 text-left">
+                        <div class="col-4 col-md-3 p-0 text-left order-2 oorder-md-1">
                             <a href="~/Cart" class="text-white">
                                 <i class="fas fa-shopping-cart position-relative">
-                                    <span id="miniCartCount" class="position-absolute bg-warning text-white small text-center" style="padding-top: .2rem; top: -.7rem; right: -.5rem; width: 1.1rem; height: 1.1rem; border-radius: 99px;">
+                                    <span id="miniCartCount" class="bg-warning text-dark">
                                         @TheGioiLoa.Models.ShoppingCart.Cart.Count
                                     </span>
                                 </i>
-                                <span class="d-none d-md-inline-block small">Giỏ Hàng</span>
+                                <span class="d-none d-md-inline-block">Giỏ Hàng</span>
                             </a>
                         </div>
-
-                        <div class="col-md-6 d-none d-md-block p-0">
+                        <div class="col-8 col-md-3 p-0 text-left order-1 order-md-2" id="accountLink">
+                            @Html.Partial("Login/_AccountHeadPartial")
+                        </div>
+                        <div class="col-md-6 d-none d-md-block p-0 order-3 order-md-3">
                             @Html.Action("HeaderContact", "Home")
                         </div>
                     </div>
@@ -112,22 +107,22 @@
     </div>
     <div class="header-bottom g-white border-bottom text-dark" id="headerBottom">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-center" id="headerBottom-row">
                 <div class="col-md-3 d-none d-md-block" id="menuCategoryShow">
                     <div class="main-nav @menuClass" id="main-nav" data-homepage="@(menuClass!="menu-not-expand"?"True":"False")">
                         <div class="drop-down main-menu text-left">
-                            <a href="" class="h5 px-3 font-weight-bold bg-dark"><i class="fas fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
+                            <a href="" class="h5 px-3 font-weight-bold bg-dark" id="categoryProduct-a"><i class="fas fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
                             @Html.Action("MenuCategory", "Home", new { isMenuExpand = true })
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 text-center hidetop d-none d-md-block small py-2">
+                <div class="col-md-3 text-center hidetop-none-mobile d-none d-md-block py-2">
                     <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Tổng hợp khuyến mãi</span></a>
                 </div>
-                <div class="col-md-3 text-center hidetop col-6 small py-2" >
+                <div class="col-md-3 text-center hidetop-none col-6 py-2">
                     <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Miễn phí dùng thử</span></a>
                 </div>
-                <div class="col-md-3 text-center hidetop col-6 small py-2">
+                <div class="col-md-3 text-center hidetop-none col-6 py-2">
                     <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Tặng 1 năm bảo hành</span></a>
                 </div>
             </div>
@@ -138,7 +133,7 @@
     <!--==========================
       Footer
     ============================-->
-    <footer id="footer">
+    <footer id="footer" class="mt-4">
         <div class="footer-top">
             <div class="container">
                 <div class="row">
@@ -150,56 +145,56 @@
                         <div class="social-facebook">
                             @Html.Action("LoadSocial", "Home", new { social = "Facebook" })
                         </div>
-                        </div>
+                    </div>
 
-                        <div class="col-md-3">
-                            <div class="footer-title">
-                                <h3 class="text-primary m-0">YOUTUBE</h3>
-                                <hr class="mt-1 mb-3" />
-                            </div>
-                            <div class="social-youtube">
-                                @Html.Action("LoadSocial", "Home", new { social = "Youtube" })
-                            </div>
+                    <div class="col-md-3">
+                        <div class="footer-title">
+                            <h3 class="text-primary m-0">YOUTUBE</h3>
+                            <hr class="mt-1 mb-3" />
                         </div>
-                        <div class="col-md-6">
-                            <div class="footer-title">
-                                <h3 class="text-primary m-0">HỖ TRỢ KHÁCH HÀNG</h3>
-                                <hr class="mt-1 mb-3" />
-                            </div>
-                            <div class="footer-support p-2 border pb-3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="support">
-                                            <p class="support-place">Showroom Hà Nội</p>
-                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                        </div>
-                                        <div class="support">
-                                            <p class="support-place">Showroom Hà Nội</p>
-                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                        </div>
-                                        <div class="support">
-                                            <p class="support-place">Showroom Hà Nội</p>
-                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                        </div>
+                        <div class="social-youtube">
+                            @Html.Action("LoadSocial", "Home", new { social = "Youtube" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="footer-title">
+                            <h3 class="text-primary m-0">HỖ TRỢ KHÁCH HÀNG</h3>
+                            <hr class="mt-1 mb-3" />
+                        </div>
+                        <div class="footer-support p-2 border pb-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="support">
-                                            <p class="support-place">Showroom Hà Nội</p>
-                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                        </div>
-                                        <div class="support">
-                                            <p class="support-place">Showroom Hà Nội</p>
-                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                        </div>
-                                        <div class="support">
-                                            <p class="support-place">Showroom Hà Nội</p>
-                                            <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
-                                        </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
+                                    </div>
+                                    <div class="support">
+                                        <p class="support-place">Showroom Hà Nội</p>
+                                        <a href="tel:0888836006" class="support-contact"><span>KD Hà Nội:</span> 088.883.6006</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         <div class="footer-middle">
@@ -267,22 +262,40 @@
     <div class="position-fixed" style="bottom: 40px; right: 0;">
         @Html.Action("LoadSocial", "Home", new { social = "Zalo" })
     </div>
-    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
+    <a id="back-to-top" href="#" class="btn btn-lg btn-primary back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
         <i class="fas fa-chevron-up"></i>
     </a>
-    @*@if (!User.Identity.IsAuthenticated)
-        {
-            <div class="modal fade" id="loginModal" aria-hidden="true">
-                <div class="modal-dialog" style="min-height: 100px">
-                    <div class="modal-content" id="loginModalContent">
-                        @Html.Partial("Login/_LoginPartial")
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="modal fade" id="loginModal" aria-hidden="true" tabindex="-1">
+            <div class="modal-dialog" style="min-height: 100px; min-width: 600px">
+                <div class="modal-content" id="loginModalContent">
+                    <div class="container pt-4 pb-2">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#login">Đăng Nhập</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" data-toggle="tab" href="#register">Đăng Ký</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content px-4 pt-5 pb-3">
+                            <div id="login" class="tab-pane active">
+                                @Html.Action("LoadLoginPartial", "Home")
+                            </div>
+                            <div id="register" class="tab-pane">
+                                @Html.Action("LoadRegisterPartial", "Home")
+                            </div>
+                        </div>
                     </div>
-                    <div id="modal-loading" class="spinner-loading" style="display: none;">
+                    <div id="modal-account-loading" class="spinner-loading" style="display: none;">
                         <img src="~/Content/Spinner.png" alt="Loading..." />
                     </div>
+                    <button class="btn btn-outline-danger btn-sm position-absolute border-0" data-dismiss="modal" style="top: 15px; right: 10px;"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-        }*@
+        </div>
+    }
 
 
     @Scripts.Render("~/bundles/jquery")
