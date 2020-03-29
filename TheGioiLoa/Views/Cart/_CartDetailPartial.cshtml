@@ -1,43 +1,87 @@
-﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.CartViewModel>
+﻿@using TheGioiLoa.Models
+@model IEnumerable<TheGioiLoa.Models.ViewModel.CartViewModel>
 @{
-    var totalPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalPrice;
-    var totalPriceSale = TheGioiLoa.Models.ShoppingCart.Cart.TotalPriceSale;
+    var totalPrice = ShoppingCart.Cart.TotalPrice;
+    var totalPriceSale = ShoppingCart.Cart.TotalPriceSale;
 }
-@foreach (var item in Model)
+@if (ShoppingCart.Cart.Count != 0)
 {
-    <div id="productId_@item.ProductId">
-        <input hidden id="ProductId" value="@item.ProductId" />
-        <div class="row cart-item align-items-center m-0 py-1 rounded">
-            <div class="col-md-6">
-                <a href="#" class="d-inline-block">
-                    <img src="~/Content/iphone-11-red-400x400.jpg" class="cart-item-img" width="80" />
-                </a>
-                <div class="cart-item-desc d-inline-block">
-                    <p class="cart-item-title h6">@item.Name</p>
-                    <div class="cart-item-service">
-                        <p class="cart-item-service-content"><i class="fas fa-truck mr-2 mb-0"></i>Miễn phí vận chuyển</p>
+    foreach (var item in Model)
+    {
+        <div id="productId_@item.ProductId">
+            <input hidden id="ProductId" value="@item.ProductId" />
+            <div class="row cart-item align-items-center m-0 py-1 rounded">
+                <div class="col-md-2 col-3 text-center">
+                    <a href="#" class="d-inline-block">
+                        <img src="~/Content/Upload/Images/@item.Cover" class="cart-item-img"/>
+                    </a>
+                    <div class="position-absolute" style="top: 50%;left: 0;transform: translate(-50%, -50%);">
+                        <button class="btn btn-delete delete-item" data-toggle="tooltip" title="Gỡ sản phẩm" data-id="@item.ProductId"><i class="fas fa-times mt-1"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-9">
+                    <div class="cart-item-desc">
+                        <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url" class="cart-item-title h5">@item.Name</a>
+                        <div class="show-mobile row mt-2">
+                            <div class="price-service col-8 col-md-12">
+                                <div class="cart-item-price d-md-none">
+                                    @if (item.PriceSale != null)
+                                    {
+                                        <h5 class="m-0 text-primary item-price small" id="itemPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.PriceSale * item.Count)</h5>
+                                        <del class="small" id="itemListedPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.Price * item.Count)</del>
+                                    }
+                                    else
+                                    {
+                                        <h5 class="m-0 text-primary item-price small" id="itemPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.Price * item.Count)</h5>
+                                    }
+                                </div>
+                                <div class="cart-item-service small">
+                                    <p class="cart-item-service-content mb-0"><i class="fas fa-truck mr-2 mb-0"></i>Miễn phí vận chuyển</p>
+                                </div>
+                            </div>
+                            <div class="col-4 d-md-none">
+                                <div class="cart-item-count my-auto mx-auto">
+                                    <div class="dec cart-count-button" data-count="False" data-id="@item.ProductId">-</div>
+                                    <input name="" readonly="readonly" id="Count_@item.ProductId" value="@item.Count" type="number" class="cart-item-count-input">
+                                    <div class="inc cart-count-button" data-count="True" data-id="@item.ProductId">+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-3 d-md-block d-none">
+                    <div class="cart-item-count my-auto mx-auto">
+                        <div class="dec cart-count-button" data-count="False" data-id="@item.ProductId">-</div>
+                        <input name="" readonly="readonly" id="Count_@item.ProductId" value="@item.Count" type="number" class="cart-item-count-input">
+                        <div class="inc cart-count-button" data-count="True" data-id="@item.ProductId">+</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-7 d-none d-md-block">
+                    <div class="cart-item-price text-right">
+                        @if (item.PriceSale != null)
+                        {
+                            <h5 class="m-0 text-primary item-price" id="itemPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.PriceSale * item.Count)</h5>
+                            <del id="itemListedPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.Price * item.Count)</del>
+                        }
+                        else
+                        {
+                            <h5 class="m-0 text-primary item-price" id="itemPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.Price * item.Count)</h5>
+                        }
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="cart-item-count my-auto">
-                    <div class="dec cart-count-button" data-count="False" data-id="@item.ProductId" onclick="changeCount(this)">-</div>
-                    <input name="" readonly="readonly" id="Count_@item.ProductId" value="@item.Count" type="number" class="cart-item-count-input">
-                    <div class="inc cart-count-button" data-count="True" data-id="@item.ProductId" onclick="changeCount(this)">+</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="cart-item-price text-right">
-                    @if (item.PriceSale != null)
-                    {
-                    <h5 class="m-0 text-primary item-price" id="itemPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.PriceSale * item.Count)</h5>
-                    <del id="itemListedPrice_@item.ProductId">@string.Format("{0:0,0 ₫}", item.Price * item.Count)</del>
-                    }
-                </div>
-                <div class="cart-action-btn mt-1">
-                    <button class="btn btn-delete small pull-right delete-item" data-id="@item.ProductId" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>
         </div>
-    </div>
+        <hr />
+    }
+}
+else
+{
+    <p class="text-center">Giỏ hàng trống</p>
+}
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
 }

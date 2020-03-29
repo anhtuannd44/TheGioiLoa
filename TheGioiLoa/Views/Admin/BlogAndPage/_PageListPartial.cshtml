@@ -41,29 +41,6 @@
         </tr>
         i++;
     }
-
-
-    <script>
-        $('[data-toggle="tooltip"]').tooltip();
-        $(".delete-page").click(function () {
-            var pageId = $(this).attr("data-id");
-            var r = confirm("Bạn có muốn xóa trang '" + $(this).attr("data-name") + "' này không?");
-            console.log("a");
-            if (r == true) {
-                $.ajax({
-                    method: "POST",
-                    url: "/Admin/DeletePage",
-                    data: { pageId: pageId },
-                    success: function (data) {
-                        if (data.status == "success") {
-                            toastr.success(data.message);
-                            loadPageList();
-                        }
-                    }
-                })
-            }
-        });
-    </script>
 }
 else
 {

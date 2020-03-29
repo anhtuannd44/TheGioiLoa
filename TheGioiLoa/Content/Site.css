@@ -722,6 +722,9 @@ a:hover {
 #footer .footer-top {
     padding: 15px 0;
 }
+#footer .footer-top .footer-title {
+    margin-top: 1.5rem;
+}
 #footer .footer-top .footer-title h3 {
     font-weight: 600;
     font-size: 1.1rem;
@@ -733,15 +736,22 @@ a:hover {
   background: #323232;
   padding: 20px 0;
 }
-#footer .footer-middle .footer-title h3 {
-    font-weight: 600;
-    font-size: 1rem;
+#footer .footer-middle .footer-title h4 {
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: #fff;
+}
+#footer .footer-middle a {
+    color: #acacac;
+}
+#footer .footer-middle a:hover {
+    color: #fff;;
 }
 #footer .payment a {
     font-size: 35px;
 }
 #footer .footer-bottom {
-    background: #2b0d0d;
+    background: #420400;
     padding: 20px 0;
 }
  .card-title {
@@ -757,9 +767,7 @@ a:hover {
 .product-header {
     padding: 0 1rem; 
 }
-.product-header button{
-    margin-top: .5rem;
-}
+
 .product-header .product-header-title {
     font-weight: 600;
     text-transform: uppercase;
@@ -882,7 +890,7 @@ a:hover {
     top: 0;
     right: 0;
     bottom: 0;
-    font: normal normal normal 22px/1 FontAwesome;
+    font-family: 'Font Awesome 5 Free';
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
@@ -923,29 +931,26 @@ a:hover {
     background-color: #fff;
     height: 50px;
     line-height: 50px;
-    width: 100%;
     list-style: none;
-    padding: 0;
-
-}
-.top-checkout li {
-    float: left;
-    width: 33.33%;
+    margin: 0;
     text-align: center;
-    position: relative;
-    cursor: pointer;
-    background: #fff;
+    width: 97%;
 }
-.top-checkout li a {
+.top-checkout .top-checkout-list {
+    padding: 0;
+    width: 33%;
+}
+.top-checkout p {
     color: #191919;
+    margin-bottom: 0;
 }
-ul.top-checkout li.active {
+.top-checkout .active {
     background-color: #e1e7e9;
 }
-ul.top-checkout li.active a::after {
+.top-checkout .active p::after {
     background: #E1E7E9;
 }
-ul.top-checkout li.active i.number {
+.top-checkout .active i.number {
     background-color: #7ed321;
     border: 1px solid #7ed321;
     color: #fff !important;
@@ -958,7 +963,7 @@ ul.top-checkout li.active i.number {
     margin: 0 8px 0 0;
     color: #898989;
 }
-ul.top-checkout li i.number {
+.top-checkout i.number {
     height: 24px;
     width: 24px;
     border: 1px solid #9B9B9B;
@@ -970,7 +975,7 @@ ul.top-checkout li i.number {
     color: #898989;
     font-size: 14px;
 }
-ul.top-checkout li a::after {
+.top-checkout p::after {
     position: absolute;
     top: 8px;
     -ms-transform: rotate(45deg);
@@ -995,24 +1000,27 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+.cart-item-img {
+    width: 100%;
+}
 .cart-item-count {
     border: 1px solid #ddd;
     border-radius: 3px;
     background-color: #fff;
     height: 36px;
-    width: 108px;
+    width: 84px;
 }
 .cart-count-button.dec, .cart-count-button.inc {
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    width: 32px;
+    width: 20px;
     height: 35px;
     line-height: 35px;
     font-weight: bold;
 }
 .cart-item-count-input {
-    width: 35px;
+    width: 30px;
     height: 34px;
     border: none;
     border-left: 1px solid #ddd;
@@ -1020,9 +1028,7 @@ input[type=number] {
     border-right: 1px solid #ddd;
     color: red;
 }
-.cart-item:hover {
-    background: #f7f7f7;
-}
+
 .box-payment table tr td:last-child {
     text-align: right;
 }
@@ -1031,15 +1037,7 @@ input[type=number] {
     color: #222;
     border-radius: 99px;
     background: none;
-    width: 30px;
-    height: 30px;
-    position: relative;
 }
-    .btn-delete i {
-        position: absolute;
-        top: 6px;
-        left: 7px;
-    }
 .btn-delete:hover {
     background: #e9bba525;
     color: #eb1c0e;
@@ -1065,7 +1063,7 @@ input[type=number] {
 }
 .spinner-loading img {
     position: absolute;
-    width: 80px;
+    width: 50px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -1081,7 +1079,7 @@ input[type=number] {
     border: none;
     margin-bottom: 1.5rem;
 }
-.card-shadow {
+.card-shadow, .shadow {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
 }
 .card-content {
@@ -1233,7 +1231,7 @@ ul, li {
 }
 
 .image-box.ratio-20-9:before {
-    padding-top: 45%
+    padding-top: 45.5%
 }
 
 .image-box.ratio-16-6:before {
@@ -1298,4 +1296,52 @@ ul, li {
 }
 .avt-img {
     border-radius: 99px;
+}
+.manage-menu-left a {
+    padding: .5rem .2rem;
+    display: block;
+}
+.manage-menu-left i {
+    margin-right: .4rem;
+}
+.manage-menu-left .menu-left-sub-ul {
+    padding-left: 30px;
+}
+.menu-left-sub-ul li a {
+    color: #87888a;
+    display: block;
+}
+.menu-left-sub-ul li a:hover {
+    color: #1e96eb;
+}
+.menu-left-main-li {
+    padding-bottom: .5rem;
+    position: relative;
+}
+.menu-left-main-li > a{
+    padding-left: .8rem;
+}
+.menu-left-main-li:first-child {
+    margin: 0;
+}
+.menu-left-main-li:after {
+    position: absolute;
+    top: 6px;
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 24px;
+    height: 24px;
+    border-width: 1px 1px 0 0;
+    background: #f5f7fa;
+    content: "";
+    right: -12px;
+    z-index: 9;
+}
+
+    .menu-left-main-li > a {
+        background: #f5f7fa;
+    }
+.manage-menu-left .menu-left-sub-ul a.active {
+    color: #eb1c0e;
+    text-decoration: underline;
 }

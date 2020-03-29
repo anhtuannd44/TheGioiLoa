@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -15,6 +16,31 @@ namespace TheGioiLoa.Models
         public bool BrowserRemembered { get; set; }
     }
 
+    public class AccountPartial
+    {
+        public AccountPartial(string url, string partialView)
+        {
+            Url = url;
+            PartialView = partialView;
+        }
+        public string Url { get; set; }
+        public string PartialView { get; set; }
+    }
+    public class UserInformationViewModel
+    {
+        public string UserId { get;set; }
+        [Display(Name = "Họ và tên")]
+        public string FullName { get; set; }
+        [Display(Name = "Số điện thoại")]
+        [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
+        public string PhoneNumber { get; set; }
+        [Display(Name = "Địa chỉ")]
+        public string Address { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? BirthDay { get; set; }
+        public string BirthDayInput { get; set; }
+    }
+
     public class UserDetailsViewModel
     {
         public ApplicationUser User { get; set; }
@@ -23,6 +49,7 @@ namespace TheGioiLoa.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public string PartialView { get; set; }
     }
 
     public class ManageLoginsViewModel
@@ -52,20 +79,20 @@ namespace TheGioiLoa.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu cũ")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Mật khẩu cũ")]
         public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu mới")]
+        [StringLength(100, ErrorMessage = "{0} phải từ {2} ký tự trở lên", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [DataType(DataType.Password, ErrorMessage = "Thông tin không hợp lệ")]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [Compare("NewPassword", ErrorMessage = "Mật khẩu và xác nhận chưa trùng khớp")]
         public string ConfirmPassword { get; set; }
     }
 

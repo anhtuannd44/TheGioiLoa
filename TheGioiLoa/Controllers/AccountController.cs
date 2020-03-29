@@ -74,6 +74,15 @@ namespace TheGioiLoa.Controllers
         {
             if (!ModelState.IsValid)
             {
+                if (Request.IsAjaxRequest())
+                {
+                    var json = new JsonStatusViewModel()
+                    {
+                        status = "error",
+                        message = "Đăng nhập thất bại! Vui lòng thử lại"
+                    };
+                    return Json(json, JsonRequestBehavior.DenyGet);
+                }
                 return View(model);
             }
 
@@ -83,6 +92,15 @@ namespace TheGioiLoa.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (Request.IsAjaxRequest())
+                    {
+                        var json = new JsonStatusViewModel()
+                        {
+                            status = "success",
+                            message = "Đăng nhập thành công"
+                        };
+                        return Json(json, JsonRequestBehavior.DenyGet);
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -90,6 +108,15 @@ namespace TheGioiLoa.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
+                    if (Request.IsAjaxRequest())
+                    {
+                        var json = new JsonStatusViewModel()
+                        {
+                            status = "fail",
+                            message = "Tên đăng nhập hoặc mật khẩu chưa chính xác"
+                        };
+                        return Json(json, JsonRequestBehavior.DenyGet);
+                    }
                     ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu chưa chính xác!");
                     return View(model);
             }
@@ -141,8 +168,9 @@ namespace TheGioiLoa.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -151,7 +179,7 @@ namespace TheGioiLoa.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -172,12 +200,28 @@ namespace TheGioiLoa.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    if (Request.IsAjaxRequest())
+                    {
+                        var json = new JsonStatusViewModel()
+                        {
+                            status = "success",
+                            message = "Tạo tài khoản thành công"
+                        };
+                        return Json(json, JsonRequestBehavior.DenyGet);
+                    }
+                    return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
             }
-
+            if (Request.IsAjaxRequest())
+            {
+                var json = new JsonStatusViewModel()
+                {
+                    status = "error",
+                    message = "Thất bại! Vui lòng thử lại"
+                };
+                return Json(json, JsonRequestBehavior.DenyGet);
+            }
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -186,7 +230,7 @@ namespace TheGioiLoa.Controllers
         {
             var userId = User.Identity.GetUserId();
             var userName = dbApp.Users.Find(userId).FullName;
-            return userName.Substring(userName.LastIndexOf(" ")+1);
+            return userName.Substring(userName.LastIndexOf(" ") + 1);
         }
         //
         // GET: /Account/ConfirmEmail

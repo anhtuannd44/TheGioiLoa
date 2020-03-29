@@ -18,9 +18,11 @@ namespace TheGioiLoa.Models
             Product_Tag = new HashSet<Product_Tag>();
             Product_Image = new HashSet<Product_Image>();
             Review = new HashSet<Review>();
+            OrderDetails = new HashSet<OrderDetails>();
         }
 
         [Key]
+        [ForeignKey("OrderDetails")]
         public int ProductId { get; set; }
 
         [Required]
@@ -78,5 +80,6 @@ namespace TheGioiLoa.Models
         public virtual ICollection<Product_Image> Product_Image { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Review { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

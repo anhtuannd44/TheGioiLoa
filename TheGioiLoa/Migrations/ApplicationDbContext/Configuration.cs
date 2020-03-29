@@ -9,7 +9,7 @@ namespace TheGioiLoa.Migrations.ApplicationDbContext
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             MigrationsDirectory = @"Migrations\ApplicationDbContext";
             ContextKey = "TheGioiLoa.Models.ApplicationDbContext";
         }

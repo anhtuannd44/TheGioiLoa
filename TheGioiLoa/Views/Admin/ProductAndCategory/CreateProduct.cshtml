@@ -7,12 +7,11 @@
 @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <p class="text-danger">@ViewBag.NotiPrice</p>
-    <div class="row" id="adminPage">
+    <div class="row">
         <div class="col-md-9">
             <div class="form-group">
-                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Tên sản phẩm", @required = "required" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Tên sản phẩm" })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger mt-2" })
             </div>
             @*Mô tả ngắn*@
@@ -305,14 +304,10 @@
 
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         var tagInputResult = [];
         var tagId = [];
         var id = 0;
-
     </script>
-
-    <script src="~/Scripts/Admin/summnernote.js"></script>
-    <script src="~/Scripts/Admin/ImageUpload/upload-img.js"></script>
-    <script src="~/Scripts/Admin/product.js"></script>
 }

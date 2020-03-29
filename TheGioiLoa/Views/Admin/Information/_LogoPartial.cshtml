@@ -1,8 +1,9 @@
 ﻿@using (Ajax.BeginForm("UpdateLogo", new AjaxOptions
 {
     HttpMethod = "POST",
-    OnBegin = "loadingGifLogo",
-    OnSuccess = "updateLogoSuccess"
+    OnBegin = "loadingSpinner('#updateLogo-Loading')",
+    OnSuccess = "updateLogoSuccess",
+    OnComplete = "exitSpinner('#updateLogo-Loading')"
 }))
 {
     @Html.AntiForgeryToken()

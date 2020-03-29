@@ -22,7 +22,7 @@ namespace TheGioiLoa.Models
                 return cart;
             }
         }
-        
+
         // Chứa các mặt hàng đã chọn
 
         public List<CartViewModel> Items = new List<CartViewModel>();
@@ -91,14 +91,14 @@ namespace TheGioiLoa.Models
         {
             get
             {
-                return Items.Sum(p => (double)p.Price * p.Count);
+                return Items.Sum(p => p.Price == null ? 0 : (double)p.Price * p.Count);
             }
         }
         public double TotalPriceSale
         {
             get
             {
-                return Items.Sum(p => (double)p.PriceSale * p.Count);
+                return Items.Sum(p => (p.PriceSale == null ? (p.Price == null ? 0 : (double)p.Price) : (double)p.PriceSale) * p.Count);
             }
         }
     }

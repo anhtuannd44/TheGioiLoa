@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,8 +12,9 @@ namespace TheGioiLoa.Controllers
 {
     public class CartController : Controller
     {
-        private HelperFunction _hepler = new HelperFunction();
-        private TheGioiLoaModel db = new TheGioiLoaModel();
+        private readonly HelperFunction _hepler = new HelperFunction();
+        private readonly TheGioiLoaModel db = new TheGioiLoaModel();
+        private readonly ApplicationDbContext dbApp = new ApplicationDbContext();
         // GET: Cart
         public ActionResult Index()
         {
@@ -20,82 +22,106 @@ namespace TheGioiLoa.Controllers
             return View(cart.Items);
         }
 
-        [HttpPost]
+
         public ActionResult LoadCartDetails()
         {
             var cart = ShoppingCart.Cart;
             return PartialView("_CartDetailPartial", cart.Items);
         }
 
-        [HttpPost]
+
         public ActionResult LoadCartTotal()
         {
             var cart = ShoppingCart.Cart;
             return PartialView("_CartTotalPartial", cart.Items);
         }
+
+        [HttpPost]
+        public ActionResult LoadCartBtnAction()
+        {
+            return PartialView("_CartBtnActionPartial");
+        }
+
+        [Authorize]
         public ActionResult CheckOut()
         {
             var cart = ShoppingCart.Cart;
             if (cart.Count == 0)
-                return RedirectToAction("NoItemInCart");
-            return View();
+                return RedirectToAction("Index");
+            var userId = User.Identity.GetUserId();
+            var user = dbApp.Users.Find(userId);
+            var model = new Order()
+            {
+                UserAddress = user.Address,
+                UserId = user.Id,
+                UserName = user.FullName,
+                UserEmail = user.Email,
+                UserPhone = user.PhoneNumber
+            };
+            return View(model);
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult CheckOut(OrderInformationViewModel info)
+        public ActionResult CheckOut(Order info)
         {
             var cart = ShoppingCart.Cart;
             if (cart.Count == 0)
                 return RedirectToAction("NoItemInCart");
-            if (ModelState.IsValid)
+            try
             {
-                var newOrderId = _hepler.RandomString();
-                var addOrder = new Order()
+                var userId = User.Identity.GetUserId();
+                if (userId == info.UserId)
                 {
-                    OrderId = newOrderId,
-                    DateCreated = DateTime.Now,
-                    UserName = info.UserName,
-                    UserPhone = info.UserPhone,
-                    UserEmail = info.UserEmail,
-                    Note = info.Note,
-                    UserAddress = info.UserAddress,
-                    DateModified = DateTime.Now,
-                    PaymentMethod = 1,
-                    Status = 1
-                };
-                db.Order.Add(addOrder);
+                    info.OrderId = _hepler.RandomString();
+                    info.DateCreated = DateTime.Now;
+                    info.Status = 1;
+                    db.Order.Add(info);
 
-
-                IList<OrderDetails> listDetails = new List<OrderDetails>();
-                foreach (var item in cart.Items)
-                {
-                    var addDetail = new OrderDetails()
+                    IList<OrderDetails> listDetails = new List<OrderDetails>();
+                    foreach (var item in cart.Items)
                     {
-                        ProductId = item.ProductId,
-                        Count = item.Count,
-                        Price = item.Price,
-                        SalePrice = item.PriceSale,
-                        OrderId = newOrderId
-                    };
-                    db.OrderDetails.Add(addDetail);
+                        var addDetail = new OrderDetails()
+                        {
+                            ProductId = item.ProductId,
+                            Count = item.Count,
+                            Price = item.Price,
+                            SalePrice = item.PriceSale,
+                            OrderId = info.OrderId
+                        };
+                        db.OrderDetails.Add(addDetail);
+                    }
+                    db.SaveChanges();
+                    ShoppingCart.Cart.Clear();
+
+                    return RedirectToAction("OrderSuccess", new { orderid = info.OrderId });
                 }
-                db.SaveChanges();
-                cart = null;
-                return RedirectToAction("OrderSuccess", new { orderid = newOrderId });
             }
-            return View(info);
+            catch
+            {
+            }
+            return RedirectToAction("OrderFailed");
         }
 
+        [Authorize]
+        public ActionResult OrderFailed()
+        {
+            return View();
+        }
+
+        [Authorize]
         public ActionResult OrderSuccess(string orderid)
         {
-            if (string.IsNullOrEmpty(orderid))
-                return RedirectToAction("Index", "Home");
+            var userId = User.Identity.GetUserId();
             var order = db.Order.Find(orderid);
             if (order == null)
             {
                 return RedirectToAction("Index", "Home");
             }
+            if (string.IsNullOrEmpty(orderid) || order.UserId != userId)
+                return RedirectToAction("Index", "Home");
+
             var model = new OrderViewModel
             {
                 Order = order
@@ -109,8 +135,8 @@ namespace TheGioiLoa.Controllers
                 var orderDetail = new OrderDeltailViewModel()
                 {
                     Product = db.Product.Find(item.ProductId),
-                    Price = item.Price,
-                    PriceSale = item.SalePrice,
+                    Price = item.Price == null ? 0 : item.Price,
+                    PriceSale = item.SalePrice == null ? item.Price == null ? 0 : item.Price : item.SalePrice,
                     Count = item.Count,
                     Guarantee = item.Guarantee
 

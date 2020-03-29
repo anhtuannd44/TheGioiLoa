@@ -2,8 +2,9 @@
 @using (Ajax.BeginForm("UpdateSocial", new AjaxOptions
 {
     HttpMethod = "POST",
-    OnBegin = "loadingGifSocial",
-    OnSuccess = "updateSocialSuccess"
+    OnBegin = "loadingSpinner('#updateSocial-Loading')",
+    OnSuccess = "updateSocialSuccess",
+    OnComplete ="exitSpinner('#updateSocial-Loading')"
 }))
 {
     @Html.AntiForgeryToken()

@@ -1,6 +1,10 @@
 ﻿@model TheGioiLoa.Models.LoginViewModel
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Login", "Account", FormMethod.Post, new AjaxOptions
+{
+    OnBegin = "loginBegin",
+    OnSuccess = "loginSuccess"
+}))
 {
     @Html.AntiForgeryToken()
     <div class="form-group row align-items-center">
@@ -47,3 +51,6 @@
     @*<button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
         <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>*@
 }
+
+
+

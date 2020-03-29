@@ -2,23 +2,27 @@
 @{
     ViewBag.Title = "Giỏ Hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var totalPrice = TheGioiLoa.Models.ShoppingCart.Cart.TotalPrice;
-    var totalPriceSale = TheGioiLoa.Models.ShoppingCart.Cart.TotalPriceSale;
 }
-<div class="container">
-    <ul class="top-checkout">
-        <li class="active"><a id="shoppingCart" href="javascript:void(0)"><i class="number">1</i>Giỏ hàng của bạn</a></li>
-        <li><a id="" href="javascript:void(0)"><i class="number">2</i>Thông tin & Thanh toán</a></li>
-        <li><a id="nk-hoan-tat-don-hang" href="javascript:void(0)"><i class="number">3</i>Hoàn tất đơn hàng</a></li>
-    </ul>
+<div class="container mb-4">
+    <div class="top-checkout row">
+        <div class="top-checkout-list col-md-4 col-12 active">
+            <p><i class="number">1</i>Giỏ hàng của bạn</p>
+        </div>
+        <div class="top-checkout-list col-md-4 d-none d-md-inline">
+            <p><i class="number">2</i>Thông tin & Thanh toán</p>
+        </div>
+        <div class="top-checkout-list col-md-4 d-none d-md-inline">
+            <p id="nk-hoan-tat-don-hang"><i class="number">3</i>Hoàn tất đơn hàng</p>
+        </div>
+    </div>
 </div>
 
 <div class="container mb-4">
     <div class="row">
         <div class="col-md-8 col-md-8 col-lg-8 col-lg-8 col-xs-12">
             <div class="card card-shadow card-information">
-                <div class="h-100 position-absolute w-100 loading-gift" id="loadingGif_Details" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
-                    <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
+                <div id="loadingGif-Detail" class="spinner-loading loading-gif" style="display: none">
+                    <img src="/Content/Spinner.png" alt="Loading...">
                 </div>
                 <div class="card-body cart-content" id="cartContent" data-value="step1">
                     <h5 class="card-title">Giỏ hàng của bạn</h5>
@@ -31,33 +35,16 @@
         </div>
         <div class="col-md-4 col-md-4 col-lg-4 col-md-4 col-xs-12">
             <div class="card card-shadow mb-4">
-                <div class="h-100 position-absolute w-100 loading-gift" id="loadingGif_Total" style="z-index: 9999; background: rgba(255,255,255,.7); display: none">
-                    <img src="~/Content/Home/loading.gif" width="30" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" />
+                <div id="loadingGif-Total" class="spinner-loading loading-gif" style="display: none">
+                    <img src="/Content/Spinner.png" alt="Loading...">
                 </div>
                 <div class="card-body box-payment" id="cartTotal">
                     @Html.Partial("_CartTotalPartial", Model)
                 </div>
             </div>
-            <div class="cart-continue mb-4 text-right">
-                <a href="@Url.Action("CheckOut","Cart")" class="btn btn-success btn-block h4 py-3" style="font-size: 1.2rem">TIẾP THEO<i class="fas fa-arrow-circle-right ml-3"></i></a>
+            <div id="cartBtnAction">
+                @Html.Partial("_CartBtnActionPartial")
             </div>
-            <div class="card card-shadow">
-                <div class="card-header bg-white p-0" id="headingOne">
-                    <h5 class="mb-0">
-                        <a href="#promotion" class="btn btn-link btn-block text-left py-3 text-dark px-4" data-toggle="collapse">
-                            Bạn có mã giảm giá? Click vào đây!
-                        </a>
-                    </h5>
-                </div>
-
-                <div id="promotion" class="collapse">
-                    <div class="card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
-                </div>
-
-            </div>
-
         </div>
     </div>
 </div>
@@ -72,12 +59,11 @@
 }
 @section scripts{
     <script>
-
         // Xóa khỏi giỏ
-        function deleteItem(e) {
-            $(".loading-gift").show();
-            removeItem($(e).attr("data-id"));
-        };
+        $(document).on("click",".delete-item",function () {
+            $(".loading-gif").show();
+            removeItem($(this).data("id"));
+        })
 
         function removeItem(productId) {
             $.ajax({
@@ -86,17 +72,21 @@
                 data: { productId: productId },
                 success: function () {
                     updateCart();
+                    updateCartTotal();
+                    UpdateCartBtnAction();
                 }
             });
         }
         function changeCountItem(productId, isCount) {
-            $(".loading-gift").show();
+            $(".loading-gif").show();
             $.ajax({
                 method: "POST",
                 url: "/Cart/Update",
                 data: { productId: productId, isCount: isCount },
                 success: function () {
                     updateCart();
+                    updateCartTotal();
+                    UpdateCartBtnAction();
                 }
             });
         }
@@ -107,30 +97,38 @@
                 url: "/Cart/LoadCartDetails",
                 success: function (data) {
                     $("#cartDetails").html(data);
-                    $("#loadingGif_Details").hide();
-                    $.ajax({
-                        method: "POST",
-                        url: "/Cart/LoadCartTotal",
-                        success: function (data) {
-                            $("#cartTotal").html(data);
-                            $("#loadingGif_Total").hide();
-                        }
-                    });
+                    $("#loadingGif-Detail").hide();
                 }
             });
-
-
         }
 
+        function updateCartTotal() {
+            $.ajax({
+                method: "POST",
+                url: "/Cart/LoadCartTotal",
+                success: function (data) {
+                    $("#cartTotal").html(data);
+                    $("#loadingGif-Total").hide();
+                }
+            });
+        }
+        function UpdateCartBtnAction() {
+            $.ajax({
+                method: "POST",
+                url: "/Cart/LoadCartBtnAction",
+                success: function (data) {
+                    $("#cartBtnAction").html(data);
+                }
+            });
+        }
 
         // Cập nhật số lượng
-        function changeCount(e) {
+        $(document).on("click", ".cart-count-button", function () {
             $(".loading-gift").show();
-            var isCount = (/true/i).test($(e).attr("data-count"));
-            var productId = $(e).attr("data-id");
+            var isCount = (/true/i).test($(this).data("count"));
+            var productId = $(this).data("id");
             changeCountItem(productId, isCount);
-        };
-
+        })
     </script>
 }
 

@@ -4,13 +4,13 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
 using TheGioiLoa.Service;
-using Unity;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TheGioiLoa.Controllers
 {
@@ -27,28 +27,23 @@ namespace TheGioiLoa.Controllers
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly HelperFunction _helper = new HelperFunction();
 
-        // GET: Admin
-        public ActionResult Categories()
+        public ActionResult Index()
         {
-            var parentList = db.Category.ToList();
-            return View(parentList);
+            return View();
         }
 
-        public ActionResult LoadCategoryList()
+        public ActionResult Categories()
         {
-            var category = db.Category;
-            var model = new CategoryViewModel()
-            {
-                CategoryList = category.ToList()
-            };
-            if (category != null)
-                model.Notification = "nodata";
+            return View();
+        }
 
-            ViewBag.CategoryParentList = db.Category.Where(a => a.CategoryParentId == null).ToList();
+        //
+        public ActionResult GetCategoryList()
+        {
+            var model = db.Category.ToList();
             return PartialView("ProductAndCategory/_CategoryListPartial", model);
         }
 
-        [HttpPost]
         public PartialViewResult LoadCategorySelect()
         {
             var model = db.Category.ToList();
@@ -84,17 +79,17 @@ namespace TheGioiLoa.Controllers
                 {
                     _productService.EditCategory(category);
                     result.status = "success";
-                    result.message = "Thành công! Chuyên mục đã được chỉnh sửa.";
+                    result.message = "Thành công! Chuyên mục đã được chỉnh sửa";
                 }
                 catch
                 {
                     result.status = "error";
-                    result.message = "Thất bại! Có lỗi xảy ra, vui long thử lại.";
+                    result.message = "Thất bại! Có lỗi xảy ra, vui long thử lại";
                 }
                 return Json(result, JsonRequestBehavior.DenyGet);
             }
             result.status = "empty";
-            result.message = "Thất bại! Tên chuyên mục không được để trống.";
+            result.message = "Thất bại! Tên chuyên mục không được để trống";
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
@@ -119,7 +114,7 @@ namespace TheGioiLoa.Controllers
             {
                 _productService.RemoveCategory(CategoryId);
                 result.status = "success";
-                result.message = "Thành công! Chuyên mục đã được xóa.";
+                result.message = "Thành công! Chuyên mục đã được xóa";
             }
             catch
             {
@@ -153,7 +148,7 @@ namespace TheGioiLoa.Controllers
             var error = "";
             if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
             {
-                error = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán!";
+                error = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán";
             }
             else
             {
@@ -194,27 +189,30 @@ namespace TheGioiLoa.Controllers
         [ValidateInput(false)]
         public ActionResult CreateProduct(CreateProductViewModel product)
         {
-            product.Name = _helper.DeleteSpace(product.Name);
-            if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
+            if (!string.IsNullOrEmpty(product.Name))
             {
-                ViewBag.NotiPrice = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán!";
-            }
-            else
-            {
-                try
+                product.Name = _helper.DeleteSpace(product.Name);
+                if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
                 {
-                    _productService.AddProductToDb(product);
-                    var productId = _productService.GetLastestProductId(product.Name);
-                    //Add Category
-                    _productService.AddCategoryToProduct(productId, Request["CategoryId"]);
-                    //Add Image
-                    _productService.AddImageToProduct(productId, product.Image);
-                    //Add Tags
-                    _productService.AddTagToProduct(productId, product.Tag);
-                    return RedirectToAction("ProductList");
+                    ViewBag.NotiPrice = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán";
                 }
-                catch
+                else
                 {
+                    try
+                    {
+                        _productService.AddProductToDb(product);
+                        var productId = _productService.GetLastestProductId(product.Name);
+                        //Add Category
+                        _productService.AddCategoryToProduct(productId, Request["CategoryId"]);
+                        //Add Image
+                        _productService.AddImageToProduct(productId, product.Image);
+                        //Add Tags
+                        _productService.AddTagToProduct(productId, product.Tag);
+                        return RedirectToAction("ProductList");
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             ViewBag.BrandId = db.Brand.ToList();
@@ -261,6 +259,28 @@ namespace TheGioiLoa.Controllers
                 result.message = ex.Message;
             }
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult DeleteImage(string imageId)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                var deleteImageInDbStatus = _imageService.RemoveImageInDb(imageId);
+                if (deleteImageInDbStatus == 1)
+                {
+                    string fullPath = Request.MapPath("/Content/Upload/Images/" + imageId);
+                    _imageService.RemoveImageInServer(fullPath);
+                }
+                result.status = "success";
+                result.message = "Xóa hình ảnh thành công";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
@@ -336,7 +356,7 @@ namespace TheGioiLoa.Controllers
             brand.Name = _helper.DeleteSpace(brand.Name);
             if (string.IsNullOrEmpty(brand.Name))
             {
-                result.message = "Thất bại! Dữ liệu không được trống!";
+                result.message = "Thất bại! Dữ liệu không được trống";
                 result.status = "empty";
             }
             else
@@ -349,7 +369,7 @@ namespace TheGioiLoa.Controllers
                         Name = brand.Name
                     });
                     db.SaveChanges();
-                    result.message = "Thành công! Thương hiệu đã được chỉnh sửa!";
+                    result.message = "Thành công! Thương hiệu đã được chỉnh sửa";
                     result.status = "success";
                 }
                 catch
@@ -397,12 +417,12 @@ namespace TheGioiLoa.Controllers
                 db.Entry(editItem).State = EntityState.Modified;
                 db.SaveChanges();
 
-                result.message = "Thành công! Thương hiệu đã được chỉnh sửa!";
+                result.message = "Thành công! Thương hiệu đã được chỉnh sửa";
                 result.status = "success";
             }
             catch
             {
-                result.message = "Có lỗi xảy ra, vui lòng thử lại!";
+                result.message = "Có lỗi xảy ra, vui lòng thử lại";
                 result.status = "error";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -418,12 +438,12 @@ namespace TheGioiLoa.Controllers
                 var removeBrand = db.Brand.Find(brandId);
                 db.Brand.Remove(removeBrand);
                 db.SaveChanges();
-                result.message = "Thành công! Xóa thành công thương hiệu!";
+                result.message = "Thành công! Xóa thành công thương hiệu";
                 result.status = "success";
             }
             catch
             {
-                result.message = "Có lỗi xảy ra, vui lòng thử lại!";
+                result.message = "Có lỗi xảy ra, vui lòng thử lại";
                 result.status = "error";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -515,22 +535,27 @@ namespace TheGioiLoa.Controllers
                 db.Blog.Remove(db.Blog.Find(blogId));
                 db.SaveChanges();
                 result.status = "success";
-                result.message = "Thành công! Bài viết đã được xóa.";
+                result.message = "Thành công! Bài viết đã được xóa";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
-        [HttpPost]
+
         public ActionResult LoadBlogCategory()
         {
             return PartialView("BlogAndPage/_BlogCategoryPartial", db.BlogCategory.ToList());
         }
 
+        public ActionResult LoadEditBlogCategory(int blogCategoryId)
+        {
+            var model = db.BlogCategory.Find(blogCategoryId);
+            return PartialView("BlogAndPage/_EditBlogCategoryPartial", model);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateBlogCategory(string blogCategoryName)
@@ -540,12 +565,12 @@ namespace TheGioiLoa.Controllers
             {
                 _blogService.CreateBlogCategory(blogCategoryName);
                 result.status = "success";
-                result.message = "Thành công " + blogCategoryName + " đã được tạo!";
+                result.message = "Thành công " + blogCategoryName + " đã được tạo";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại!";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -557,7 +582,7 @@ namespace TheGioiLoa.Controllers
             if (string.IsNullOrEmpty(Name))
             {
                 result.status = "empty";
-                result.message = "Thất bại! Tên chuyên mục vui lòng không để trống!";
+                result.message = "Thất bại! Tên chuyên mục vui lòng không để trống";
             }
             else
             {
@@ -565,7 +590,7 @@ namespace TheGioiLoa.Controllers
                 {
                     _blogService.EditBlogCateogry(blogCategoryId, Name);
                     result.status = "success";
-                    result.message = "Thành công! Danh mục đã được chỉnh sửa!";
+                    result.message = "Thành công! Danh mục đã được chỉnh sửa";
                 }
                 catch
                 {
@@ -584,53 +609,15 @@ namespace TheGioiLoa.Controllers
             {
                 _blogService.DeleteBlogCategory(blogCategoryId);
                 result.status = "success";
-                result.message = "Thành công! Danh mục đã được xóa!";
+                result.message = "Thành công! Danh mục đã được xóa";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại!";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public JsonResult UploadImageSummerNote(HttpPostedFileBase aUploadedFile)
-        {
-            var vReturnImagePath = string.Empty;
-            if (aUploadedFile.ContentLength > 0)
-            {
-                string imageName = _helper.RandomString() + Path.GetExtension(aUploadedFile.FileName);
-                _imageService.SaveImageInDb(imageName);
-                aUploadedFile.SaveAs(Server.MapPath("/Content/Upload/Images/") + imageName);
-                vReturnImagePath = "/Content/Upload/Images/" + imageName;
-            }
-            return Json(Convert.ToString(vReturnImagePath), JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public ActionResult DeleteImageSummerNote(string imageName)
-        {
-            var result = new JsonStatusViewModel();
-            try
-            {
-                var deleteImageInDbStatus = _imageService.RemoveImageInDb(imageName);
-                if (deleteImageInDbStatus == 1)
-                {
-                    string fullPath = Request.MapPath("/Content/Upload/Images/" + imageName);
-                    _imageService.RemoveImageInServer(fullPath);
-                }
-                result.status = "success";
-                result.message = "Xóa hình ảnh thành công";
-            }
-            catch
-            {
-                result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại!";
-            }
-            return Json(result, JsonRequestBehavior.DenyGet);
-        }
-
         public ActionResult Page()
         {
             var model = _blogService.GetBlogList("All", 2);
@@ -698,12 +685,12 @@ namespace TheGioiLoa.Controllers
                 db.Blog.Remove(db.Blog.Find(pageId));
                 db.SaveChanges();
                 result.status = "success";
-                result.message = "Thành công! Trang đã được xóa.";
+                result.message = "Thành công! Trang đã được xóa";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -719,12 +706,12 @@ namespace TheGioiLoa.Controllers
                 db.Entry(editItem).State = EntityState.Modified;
                 db.SaveChanges();
                 result.status = "success";
-                result.message = "Thành công! Dữ liệu đã được cập nhật.";
+                result.message = "Thành công! Dữ liệu đã được cập nhật";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -747,12 +734,12 @@ namespace TheGioiLoa.Controllers
             {
                 _informationService.AddMenu(menu);
                 result.status = "success";
-                result.message = "Thành công! Menu đã được tạo.";
+                result.message = "Thành công! Menu đã được tạo";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -766,12 +753,12 @@ namespace TheGioiLoa.Controllers
             {
                 _informationService.EditMenu(menu);
                 result.status = "success";
-                result.message = "Thành công! Menu đã được chỉnh sửa.";
+                result.message = "Thành công! Menu đã được chỉnh sửa";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -796,12 +783,12 @@ namespace TheGioiLoa.Controllers
             {
                 _informationService.DeleteMenu(menuId);
                 result.status = "success";
-                result.message = "Thành công! Đã xóa thành công.";
+                result.message = "Thành công! Đã xóa thành công";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -828,12 +815,12 @@ namespace TheGioiLoa.Controllers
                 logo = string.IsNullOrEmpty(logo) ? "No_Picture.JPG" : logo;
                 _informationService.UpdateLogo(logo);
                 result.status = "success";
-                result.message = "Thành công! Đã cập nhật Logo.";
+                result.message = "Thành công! Đã cập nhật Logo";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -850,12 +837,12 @@ namespace TheGioiLoa.Controllers
             {
                 _informationService.UpdateContact(contact);
                 result.status = "success";
-                result.message = "Thành công! Đã cập nhật Thông Tin Liên Lạc.";
+                result.message = "Thành công! Đã cập nhật Thông Tin Liên Lạc";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -871,12 +858,12 @@ namespace TheGioiLoa.Controllers
             {
                 _informationService.UpdateSocial(social);
                 result.status = "success";
-                result.message = "Thành công! Đã cập nhật Social Network.";
+                result.message = "Thành công! Đã cập nhật Social Network";
             }
             catch
             {
                 result.status = "error";
-                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại.";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng kiểm tra và thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -993,6 +980,17 @@ namespace TheGioiLoa.Controllers
                 result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
             }
             return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult Order(int? page)
+        {
+            var model = db.Order.Where(a => a.Status != 3).OrderByDescending(a => a.DateCreated).ToPagedList(page ?? 1, 20);
+            return View(model);
+        }
+        public ActionResult OrderDetails(string OrderId)
+        {
+            var model = db.OrderDetails.Where(a=>a.OrderId == OrderId).ToList();
+            return View("Order/OrderDetails", model);
         }
     }
 }

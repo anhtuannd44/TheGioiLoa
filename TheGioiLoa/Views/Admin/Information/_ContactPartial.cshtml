@@ -3,8 +3,9 @@
 @using (Ajax.BeginForm("UpdateContact", new AjaxOptions
 {
     HttpMethod = "POST",
-    OnBegin = "loadingGifContact",
-    OnSuccess = "updateContactSuccess"
+    OnBegin = "loadingSpinner('#updateContact-Loading')",
+    OnSuccess = "updateContactSuccess",
+    OnComplete= "exitSpinner('#updateContact-Loading')"
 }))
 {
     <div class="card-header">

@@ -9,9 +9,8 @@ namespace TheGioiLoa.Migrations.TheGioiLoaModel
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             MigrationsDirectory = @"Migrations\TheGioiLoaModel";
-            ContextKey = "TheGioiLoa.Models.TheGioiLoaModel";
         }
 
         protected override void Seed(TheGioiLoa.Models.TheGioiLoaModel context)

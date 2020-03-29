@@ -10,6 +10,7 @@
             <div class="card card-signin my-5 shadow">
                 <div class="card-body">
                     <h5 class="text-center text-info mb-3">Đăng Nhập</h5>
+                    <p class="text-center">Bạn chưa có tài khoản? <a href="@Url.Action("Register","Account", new { returnUrl = ViewBag.ReturnUrl })">Đăng ký ngay!</a></p>
                     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()

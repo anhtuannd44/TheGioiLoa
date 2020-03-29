@@ -1,6 +1,10 @@
 ﻿@model TheGioiLoa.Models.RegisterViewModel
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Register", "Account", FormMethod.Post, new AjaxOptions
+{
+    OnBegin = "loginBegin",
+    OnSuccess = "loginSuccess"
+}))
 {
     @Html.AntiForgeryToken()
     <div class="form-group row align-items-center">

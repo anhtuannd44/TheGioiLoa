@@ -1,4 +1,4 @@
-namespace TheGioiLoa.Models
+﻿namespace TheGioiLoa.Models
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace TheGioiLoa.Models
         [StringLength(300)]
         public string Url { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Bạn chưa nhập tên chuyên mục")]
         [StringLength(300)]
         public string Name { get; set; }
 

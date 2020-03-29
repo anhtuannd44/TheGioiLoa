@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody id="pageList">
-                        
+                        @Html.Action("LoadPageList")
                     </tbody>
                 </table>
 
@@ -47,18 +47,6 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            loadPageList();
-        });
-        function loadPageList() {
-            $.ajax({
-                method: "POST",
-                url: "/Admin/LoadPageList",
-                success: function (data) {
-                    $("#pageList").html(data);
-                }
-            })
-        };
-    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/admin/blog")
 }

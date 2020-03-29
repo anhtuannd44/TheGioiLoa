@@ -9,8 +9,8 @@
     @using (Ajax.BeginForm("EditMenu", new AjaxOptions
     {
         HttpMethod = "POST",
-        OnBegin = "loadingGifModal",
-        OnSuccess = "editMenuSuccess"
+        OnBegin = "loadingSpinner('#modalNormal-loading')",
+        OnSuccess = "editMenuSuccess",
     }))
     {
         @Html.AntiForgeryToken()

@@ -3,8 +3,9 @@
 @using (Ajax.BeginForm("UpdateProductHomePage", new AjaxOptions
 {
     HttpMethod = "POST",
-    OnBegin = "loadingGifProductHomePage",
-    OnSuccess = "updateProductHomePageSuccess"
+    OnBegin = "loadingSpinner('#updateProductHomePage-Loading')",
+    OnSuccess = "updateProductHomePageSuccess",
+    OnComplete = "exitSpinner('#updateProductHomePage-Loading')"
 }))
 {
     <div class="card-header clearfix">

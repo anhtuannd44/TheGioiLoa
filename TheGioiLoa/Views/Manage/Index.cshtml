@@ -2,8 +2,6 @@
 @{
     ViewBag.Title = "Tài Khoản";
 }
-
-
 <div class="container mt-3">
     <div class="row">
         <div class="col-md-3">
@@ -22,23 +20,102 @@
             </div>
             <div class="card card-shadow">
                 <div class="card-body">
-                    <div class="d-flex">
-                        <div class="avatar">
-                            <img class="avt-img" src="~/Content/Home/img/avt-gentleman.png" width="60" height="60" />
-                        </div>
-                        <div class="user-full-name ml-3 mt-2">
-                            <p class="mb-1">Xin chào,</p>
-                            <p class="font-weight-500">@Model.User.FullName</p>
-                        </div>
+                    <div class="manage-menu-left">
+                        <ul class="menu-left-main-ul">
+                            <li class="menu-left-main-li">
+                                <a href="/tai-khoan/quan-ly-don-hang" data-partial="_OrderManagePartial" class="partial-view">
+                                    <i class="fas fa-list"></i>
+                                    Quản lý đơn hàng
+                                </a>
+                            </li>
+                            <li class="menu-left-main-li">
+                                <a href="/tai-khoan/quan-ly-thong-tin" data-partial="_AccountManagePartial" class="partial-view">
+                                    <i class="fas fa-user"></i>
+                                    Quản lý thông tin
+                                </a>
+                                <ul class="menu-left-sub-ul">
+                                    <li class="menu-left-sub-li"><a href="/tai-khoan/quan-ly-thong-tin" data-partial="_AccountManagePartial" class="partial-view">Thông tin tài khoản</a></li>
+                                    <li class="menu-left-sub-li"><a href="/tai-khoan/doi-mat-khau" data-partial="_ChangePasswordPartial" class="partial-view">Đổi mật khẩu</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-left-main-li">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-user"></i>
+                                    Hoạt động của bạn
+                                </a>
+                                <ul class="menu-left-sub-ul">
+                                    <li class="menu-left-sub-li"><a href="/tai-khoan/nhan-xet-cua-toi" data-partial="_MyCommentPartial" class="partial-view">Nhận xét của tôi</a></li>
+                                    <li class="menu-left-sub-li"><a href="/tai-khoan/thong-tin-bao-hanh" data-partial="_MyCommentPartial" class="partial-view">Bảo hành sửa chữa</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            a
+        <div class="col-md-9 position-relative">
+            <div class="card card-shadow">
+                <div class="card-body" id="renderData">
+                    @Html.Action("Area", "Manage", new { partial = Model.PartialView })
+                </div>
+            </div>
+            <div id="LoadingGifRightCard" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
         </div>
     </div>
 </div>
+<div id="text"></div>
+
+
+@section Scripts {
+    <script>
+        function LoadingGifRightCard() {
+            $("#LoadingGifRightCard").show();
+        }
+        function UpdateInformationNoti(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+            }
+            else {
+                toastr.error(data.message);
+            }
+            $("#LoadingGifRightCard").hide();
+        }
+        function reloadRightCard(partial) {
+            $.ajax({
+                method: "GET",
+                url: "/Manage/Area/",
+                data: { partial: partial },
+                success: function (data) {
+                    $("#renderData").html(data);
+                    $("#LoadingGifRightCard").hide();
+                }
+            })
+        }
+
+        var active = "@Model.PartialView";
+
+        $(document).ready(function () {
+            $(".menu-left-sub-ul .partial-view").each(function () {
+                if ($(this).data("partial") == active) {
+                    $(this).addClass("active");
+                    return false;
+                }
+            })
+        })
+
+        $(function () {
+            $('#BirthDayInput').datetimepicker({
+                format: "L",
+                locale: moment.locale("vi")
+            })
+        });
+
+    </script>
+}
+
+
 
 <div>
     <h4>Change your account settings</h4>
@@ -64,33 +141,33 @@
         </dd>
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
+
              See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
                 for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
+
              Uncomment the following block after you have set up two-factor authentication
         *@
-          
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
 
-                @if (Model.PhoneNumber != null)
+        <dt>Phone Number:</dt>
+        <dd>
+            @(Model.PhoneNumber ?? "None")
+
+            @if (Model.PhoneNumber != null)
+            {
+                <br />
+                <p>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</p>
+                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
-                    <br />
-                    <p>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</p>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <p>[<input type="submit" value="Remove" class="btn-link" />]</p>
-                    }
+                    @Html.AntiForgeryToken()
+                    <p>[<input type="submit" value="Remove" class="btn-link" />]</p>
                 }
-                else
-                {
-                    <p>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")]</p>
-                }
-            </dd>
-        
+            }
+            else
+            {
+                <p>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")]</p>
+            }
+        </dd>
+
         <dt>Two-Factor Authentication:</dt>
         <dd>
             <p>

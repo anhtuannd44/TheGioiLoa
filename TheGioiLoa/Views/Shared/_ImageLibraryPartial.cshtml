@@ -4,18 +4,20 @@
 {
     foreach (var item in Model.ImageList)
     {
-        <div class="col-md-2">
-            <div class="image-box ratio-1-1">
-                <a class="image image-item"
-                   data-name="@item.ImageId"
-                   style="background-image: url('../Content/Upload/Images/@item.ImageId');"
-                   onclick="@(item.IsSelected?"removeImageFromList(this)":"addImageToList(this)")"
-                   data-selected="@(item.IsSelected?"True":"False")">
-                    <span id="check-@item.ImageId" class="position-absolute @(item.IsSelected?"":"d-none")" style="top: 5px; right: 5px">
-                        <i class="fas fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
-                    </span>
-                </a>
-            </div>
+        <div class="col-md-2 border library-image">
+            <a class="h-100 d-block image-item"
+               data-name="@item.ImageId"
+               onclick="@(item.IsSelected?"removeImageFromList(this)":"addImageToList(this)")"
+               data-selected="@(item.IsSelected?"True":"False")">
+                <img src="../Content/Upload/Images/@item.ImageId"/>
+                <span id="check-@item.ImageId" class="position-absolute @(item.IsSelected?"":"d-none")">
+                    <i class="fas fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
+                </span>
+            </a>
+            <button class="btn btn-danger btn-sm delete-img" data-id="@item.ImageId">
+                <i class="fas fa-trash"></i>
+                Xóa
+            </button>
         </div>
     }
 }
@@ -23,18 +25,20 @@ else
 {
     foreach (var item in Model.ImageList)
     {
-        <div class="col-md-2">
-            <div class="image-box ratio-1-1">
-                <a class="image image-item"
-                   data-name="@item.ImageId"
-                   style="background-image: url('../Content/Upload/Images/@item.ImageId');"
-                   onclick="@(item.IsSelected?"removeSelectedImage(this)":"selectImage(this)")"
-                   data-selected="@(item.IsSelected?"True":"False")">
-                    <span id="check-@item.ImageId" class="position-absolute @(item.IsSelected?"":"d-none")" style="top: 5px; right: 5px">
-                        <i class="fas fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
-                    </span>
-                </a>
-            </div>
+        <div class="col-md-2 border library-image">
+            <a class="h-100 d-block image-item"
+               data-name="@item.ImageId"
+               onclick="@(item.IsSelected?"removeSelectedImage(this)":"selectImage(this)")"
+               data-selected="@(item.IsSelected?"True":"False")">
+                <img src="../Content/Upload/Images/@item.ImageId"/>
+                <span id="check-@item.ImageId" class="position-absolute @(item.IsSelected?"":"d-none")">
+                    <i class="fas fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
+                </span>
+            </a>
+            <button class="btn btn-danger btn-sm delete-img" data-id="@item.ImageId">
+                <i class="fas fa-trash"></i>
+                Xóa
+            </button>
         </div>
     }
 }

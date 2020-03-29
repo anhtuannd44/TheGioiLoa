@@ -1,8 +1,31 @@
 ﻿$(document).ready(function () {
-    loadCategoryList();
-});
+    $('[data-toggle="tooltip"]').tooltip();
+})
+
+$(document).on("click",".is-show-menu", function () {
+    var elm = $(this);
+    var categoryId = elm.attr("data-id");
+    if (!$("#isShowMenu_" + categoryId).is(':checked'))
+        $("#isShowMenu_" + categoryId).val("True");
+    else
+        $("#isShowMenu_" + categoryId).val("False");
+    $.ajax({
+        method: "POST",
+        url: "/Admin/UpdateMenuCategory",
+        data: {
+            categoryId: categoryId,
+            IsShowMenu: $("#isShowMenu_" + categoryId).val()
+        },
+        success: function (data) {
+            if (data.status == "success")
+                toastr.success(data.message);
+            else
+                toastr.error(data.message);
+        }
+    })
+})
 function loadCategoryList() {
-    loadingGif();
+    loadingSpinner('#loadingGif-CategoryList');
     $.ajax({
         type: "POST",
         url: "/Admin/LoadCategoryList",
@@ -13,8 +36,9 @@ function loadCategoryList() {
             toastr.error("Không thể tải dữ liệu Danh mục sản phẩm!");
         },
     });
-    exitLoadingGif();
+    exitSpinner('#loadingGif-CategoryList');
 };
+
 function loadSelectCategory() {
     $.ajax({
         type: "POST",
@@ -27,70 +51,47 @@ function loadSelectCategory() {
         }
     });
 };
-function loadingGif() {
-    $("#loadingGift").css("z-index", "9999");
-    $("#loadingGift").css("opacity", "1");
-};
-function exitLoadingGif() {
-    $("#loadingGif").css("z-index", "-1");
-    $("#loadingGif").css("opacity", "0");
+function createOrEditCategorySuccess(data) {
+    if (data.status == "success") {
+        toastr.success(data.message);
+        loadCategoryList();
+        loadSelectCategory();
+    }
+    else {
+        toastr.error(data.message);
+    }
+    $("#ModalTemplateNormal").modal("hide");
 }
-function loadingNoti(data) {
-    switch (data.status) {
-        case "success":
-            toastr.success(data.message);
-            loadCategoryList();
-            loadSelectCategory();
-            break;
-        case "error":
-            toastr.error(data.message);
-            break;
-        case "empty":
-            toastr.error(data.message);
-            break;
-        default:
-            toastr.warning('Có lỗi xảy ra, vui lòng thử lại!');
-    };
-};
-function showModalEditCategory(a) {
-    $("#editCategoryModal").modal('show');
-    var elm = $(a);
+
+$(document).on("click",".edit-category",function () {
+    var elm = $(this);
     $.ajax({
         type: "POST",
         url: "/Admin/LoadEditCategoryPartial",
-        data: { categoryId: elm.attr("data-id") },
+        data: { categoryId: elm.data("id") },
         success: function (data) {
-            $("#editCategoryContent").html(data);
+            $("#modalContentNormal").html(data);
         },
-        error: function (data) {
+        error: function () {
             toastr.error("Không thể tải!");
         },
     });
-
-
-    //if (elm.attr("data-parent-id") == "") {
-    //    $("#categoryParentEdit").addClass("d-none");
-    //}
-    //else {
-    //    $("#categoryParentEdit").removeClass("d-none");
-    //}
-    //$('#categoryParentEdit > select').val(elm.attr("data-parent-id")).change();
-    //$("#loadingEditModal").removeClass().addClass("d-none");
-
-};
-function showModalRemoveCategory(a) {
-    $("#removeCategoryModal").modal('show');
-    var elm = $(a);
-    var delValue = (elm.attr("data-id"));
-    $("#removeCategoryContent #CategoryId").val(delValue);
-    $("#CategoryTitle").html(elm.attr("data-name"));
-    $("#loadingRemoveModal").removeClass().addClass("d-none");
-};
-function showBgOverlay() {
-    $("#loadingModal").addClass("overlay d-flex justify-content-center align-items-center");
-};
-function closeModal() {
-    $("#editCategoryModal").modal('hide');
-    $(".modal-backdrop").remove();
-    $("body").removeClass("modal-open").css("padding-right", '0')
-};
+})
+$(document).on("click",".delete-category", function () {
+    var elm = $(this);
+    var r = confirm("Bạn có muốn xóa danh mục " + elm.data("name") + "' không?");
+    if (r == true) {
+        $.ajax({
+            method: "POST",
+            url: "/Admin/RemoveCategory",
+            data: { CategoryId: elm.data("id") },
+            success: function (data) {
+                if (data.status == "success") {
+                    toastr.success(data.message);
+                    loadCategoryList();
+                    loadSelectCategory();
+                }
+            }
+        })
+    }
+})

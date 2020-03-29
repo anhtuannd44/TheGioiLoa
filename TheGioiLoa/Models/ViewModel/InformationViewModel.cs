@@ -32,7 +32,7 @@ namespace TheGioiLoa.Models.ViewModel
         [Url(ErrorMessage = "Chưa đúng định dạng URL")]
         public string Youtube { get; set; }
 
-        [Display(Name = "Facebook (Id Zalo App)")]
+        [Display(Name = "Zalo (Id Zalo App)")]
         public string Zalo { get; set; }
     }
 

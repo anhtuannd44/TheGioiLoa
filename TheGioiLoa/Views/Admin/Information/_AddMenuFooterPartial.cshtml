@@ -9,7 +9,7 @@
     @using (Ajax.BeginForm("AddMenu", new AjaxOptions
     {
         HttpMethod = "POST",
-        OnBegin = "loadingGifModal",
+        OnBegin = "loadingSpinner('#modalNormal-loading')",
         OnSuccess = "FooterSuccess"
     }))
     {

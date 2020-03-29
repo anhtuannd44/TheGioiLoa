@@ -13,5 +13,6 @@ namespace TheGioiLoa.Models.ViewModel
         public string status { get; set; }
         public string message { get; set; }
         public string partial { get; set; }
+        public bool reloadContent { get; set; }
     }
 }

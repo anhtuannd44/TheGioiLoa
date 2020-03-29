@@ -3,7 +3,7 @@
 @using (Ajax.BeginForm("AddImageToSlider", "Admin", null, new AjaxOptions
 {
     HttpMethod = "POST",
-    OnBegin = "loadingGifSliderModal",
+    OnBegin = "loadingSpinner('#modalNormal-loading')",
     OnSuccess = "addImageToSliderSuccess",
 }))
 {

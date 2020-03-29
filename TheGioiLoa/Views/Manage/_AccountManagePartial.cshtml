@@ -1,0 +1,70 @@
+﻿@model TheGioiLoa.Models.UserInformationViewModel
+
+<div id="rightCard" data-partial="_AccountManagerPartial"></div>
+<h4 class="mb-4">Thông tin cá nhân</h4>
+
+@using (Ajax.BeginForm("UpdateUserInformation", new AjaxOptions
+{
+    OnBegin = "LoadingGifRightCard",
+    OnSuccess = "UpdateInformationNoti"
+
+}))
+{
+
+    <div class="row">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.UserId)
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FullName)
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="mt-1">
+                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="BirthDayInput">Ngày Sinh</label>
+                    <input type="text" class="form-control" id="BirthDayInput" name="BirthDayInput" value="@Model.BirthDay.ToString()">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber)
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="mt-1">
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="EmailFixed">Email</label>
+                <input id="EmailFixed" disabled value="@User.Identity.Name" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address)
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="mt-1">
+                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <button class="btn btn-success" type="submit">Cập Nhật</button>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        
+    </script>
+}

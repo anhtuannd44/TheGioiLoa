@@ -30,13 +30,23 @@ namespace TheGioiLoa
            );
 
 
+            routes.MapRoute(
+               name: "ManageIndex",
+               url: "tai-khoan",
+               defaults: new { controller = "Manage", action = "Index", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+                name: "Manage",
+                url: "tai-khoan/{url}",
+                defaults: new { controller = "Manage", action = "Index", id = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
+            
 
         }
 

@@ -1,23 +1,27 @@
 ﻿@model TheGioiLoa.Models.ViewModel.OrderViewModel
-
 @{
     ViewBag.Title = "Đặt Hàng Thành Công";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <ul class="top-checkout">
-        <li class="active"><a id="shoppingCart" href="javascript:void(0)"><i class="number">1</i>Giỏ hàng của bạn</a></li>
-        <li class="active"><a id="" href="javascript:void(0)"><i class="number">2</i>Thông tin & Thanh toán</a></li>
-        <li class="active"><a id="nk-hoan-tat-don-hang" href="javascript:void(0)"><i class="number">3</i>Hoàn tất đơn hàng</a></li>
-    </ul>
+<div class="container mb-4">
+    <div class="top-checkout row">
+        <div class="top-checkout-list col-md-4 d-none d-md-inline">
+            <p><i class="number">1</i>Giỏ hàng của bạn</p>
+        </div>
+        <div class="top-checkout-list col-md-4 d-none d-md-inline">
+            <p><i class="number">2</i>Thông tin & Thanh toán</p>
+        </div>
+        <div class="top-checkout-list col-md-4 col-12 active">
+            <p id="nk-hoan-tat-don-hang"><i class="number">3</i>Hoàn tất đơn hàng</p>
+        </div>
+    </div>
 </div>
 
 <div class="container mb-4">
     <div class="row">
         <div class="col-md-8 col-lg-8 col-lg-8 col-xs-12">
             <div class="card card-shadow cart-information">
-
                 <div class="card-body cart-content" id="cartInformation" data-value="step2">
                     <h5 class="card-title">Thông tin đặt hàng!</h5>
                     <h6 class="mt-2">Mã đơn hàng của bạn là: <strong class="text-primary"> @Model.Order.OrderId</strong></h6>
@@ -30,7 +34,8 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <p class="mb-1">Tên khách hàng: <span class="text-primary">@Model.Order.UserName</span></p>
                             <p class="mb-1">Số điện thoại: <span class="text-success">@Model.Order.UserPhone</span></p>
-                            <p>Địa chỉ: <span class="text-success">@Model.Order.UserAddress</span></p>
+                            <p class="mb-1">Địa chỉ: <span class="text-success">@Model.Order.UserAddress</span></p>
+                            <p>Thời gian đặt hàng: <span class="text-success">@Model.Order.DateCreated</span></p>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <p>Ghi chú: <span class="text-success">@Model.Order.Note</span></p>
@@ -48,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @{var i = 1; double totalPrice = 0; double totalSalePrice = 0;}
+                            @{var i = 1; @*double totalPrice = 0; double totalSalePrice = 0;*@ }
                             @foreach (var item in Model.OrderDetails)
                             {
                                 <tr>
@@ -62,14 +67,18 @@
                                     </td>
                                     <td>@item.Count</td>
                                     <td>
-                                        @string.Format("{0:0,0 ₫}", item.PriceSale)<br />
-                                        <del class="small font-italic"> @(item.PriceSale != item.Price ? string.Format("{0:0,0 ₫}", item.Price) : "")</del>
+                                        @if (item.PriceSale != null)
+                                        {
+                                            <span>@string.Format("{0:0,0 ₫}", item.PriceSale)</span><br />
+                                            <del class="small font-italic"> @(item.PriceSale != item.Price ? string.Format("{0:0,0 ₫}", item.Price) : "")</del>
+                                        }
+                                        else
+                                        {
+                                            <span>@string.Format("{0:0,0 ₫}", item.Price)</span>
+                                        }
                                     </td>
                                     <td>@string.Format("{0:0,0 ₫}", item.PriceSale * item.Count)</td>
                                 </tr>
-                                i++;
-                                totalPrice += (double)item.Price;
-                                totalSalePrice += (double)item.PriceSale;
                             }
                         </tbody>
                     </table>
@@ -84,12 +93,12 @@
                     <hr />
                     <div class="clearfix">
                         <p class="float-left mb-0">Giá trị hàng:</p>
-                        <p class="float-right mb-0">@string.Format("{0:0,0 ₫}", totalPrice)</p>
+                        <p class="float-right mb-0">@string.Format("{0:0,0 ₫}", Model.TotalPrice)</p>
                     </div>
                     <hr class="my-1" />
                     <div class="clearfix">
                         <p class="float-left mb-0">Giảm giá:</p>
-                        <p class="float-right mb-0">@string.Format("{0:0,0 ₫}", totalPrice - totalSalePrice)</p>
+                        <p class="float-right mb-0">@string.Format("{0:0,0 ₫}", Model.TotalPrice - Model.TotalSalePrice)</p>
                     </div>
                     <hr class="my-1" />
                     <div class="clearfix">
@@ -99,7 +108,7 @@
                     <hr class="my-1" />
                     <div class="clearfix">
                         <p class="float-left mb-0 font-weight-bold">TỔNG:</p>
-                        <p class="float-right mb-0 font-weight-500">@string.Format("{0:0,0 ₫}", totalSalePrice)</p>
+                        <p class="float-right mb-0 font-weight-500">@string.Format("{0:0,0 ₫}", Model.TotalSalePrice)</p>
                     </div>
                     <hr class="my-2" />
                     <div class="clearfix">

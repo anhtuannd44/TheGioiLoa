@@ -15,6 +15,7 @@ namespace TheGioiLoa
         {
             ConfigureAuth(app);
             CreateRolesandUsers();
+            CreateInformation();
         }
         private void CreateRolesandUsers()
         {
@@ -48,6 +49,24 @@ namespace TheGioiLoa
                     UserManager.AddToRoleAsync(user.Id, "Admin");
                 }
             }
+        }
+        public void CreateInformation()
+        {
+            using (var db = new TheGioiLoaModel())
+            {
+                var main = db.Information.Find("Main");
+                if (main == null)
+                {
+                    var item = new Information()
+                    {
+                        Id = "Main",
+                        Logo = "No_Picture.JPG"
+                    };
+                    db.Information.Add(item);
+                    db.SaveChanges();
+                }
+            }
+
         }
     }
 }

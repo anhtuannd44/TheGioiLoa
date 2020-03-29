@@ -5,28 +5,16 @@
     <ul class="pl-4">
         @foreach (var item in Model)
         {
-            <li>
-                <a href="#" class="text-info blog-category-action"
-                   data-id="@item.BlogCategoryId",
-                   data-name="@item.Name"
+            <li class="py-1">
+                <a href="#" class="text-info blog-category-action py-1 edit-blog-category"
+                   data-id="@item.BlogCategoryId"
                    data-toggle="modal"
-                   data-target="#blogCategoryModal"
-                   data-placement="top"
-                   title="Click để Chỉnh Sửa hoặc Xóa">
-                @item.Name
+                   data-target="#ModalTemplateNormal">
+                   @item.Name
                 </a>
             </li>
         }
-    </ul>
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-        $(".blog-category-action").click(function () {
-            $("#BlogCategoryId").val($(this).attr("data-id"));
-            $("#Name").val($(this).attr("data-name"));
-        })
-    </script>
+    </ul>    
 }
 else
 {

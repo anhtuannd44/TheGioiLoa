@@ -1,119 +1,67 @@
-﻿@model TheGioiLoa.Models.ViewModel.CategoryViewModel
+﻿@model IEnumerable<TheGioiLoa.Models.Category>
 
-@foreach (var item in Model.CategoryList)
+@foreach (var item in Model)
 {
     if (item.CategoryParentId == null)
     {
         <div class="category-parent">
-            <a href="#" class="card-title font-weight-bold h3 float-left"
-               onclick="showModalEditCategory(this)"
-               data-toggle="tooltip"
-               title="Chỉnh sửa @item.Name"
-               data-id="@item.CategoryId"
-               data-name="@item.Name">
-                @item.Name
-            </a>
-            <div class="float-right">
-                <a class="" href="~/Chuyen-Muc/@item.Url-@item.CategoryId" data-toggle="tooltip" title="Xem @item.Name">
-                    <i class="fas fa-eye text-info">
-                    </i>
-                </a>
-                <a href="#" class="ml-2" onclick="showModalEditCategory(this)"
-                   data-toggle="tooltip"
-                   title="Chỉnh sửa @item.Name"
-                   data-id="@item.CategoryId"
-                   data-name="@item.Name">
-                    <i class="fas fa-pencil-alt text-warning"></i>
-                </a>
-                <a href="#" class="ml-2" data-id="@item.CategoryId" onclick="showModalRemoveCategory(this)" data-toggle="tooltip" title="Xóa @item.Name" data-name="@item.Name">
-                    <i class="fas fa-trash text-danger">
-                    </i>
-                </a>
+            <div class="clearfix">
+                <a href="javascript:void(0)" class="card-title font-weight-bold h3 float-left">@item.Name</a>
+                <div class="float-right">
+                    <a href="~/cua-hang/danh-muc/@item.CategoryId/@item.Url" data-toggle="tooltip" title="Xem @item.Name">
+                        <i class="fas fa-eye text-info"></i>
+                    </a>
+                    <a href="#edit" class="ml-2 edit-category" data-toggle="modal" data-target="#ModalTemplateNormal" data-id="@item.CategoryId">
+                        <i class="fas fa-pencil-alt text-warning"></i>
+                    </a>
+                    <a href="#delete" class="ml-2 delete-category" data-id="@item.CategoryId" data-toggle="tooltip" title="Xóa @item.Name" data-name="@item.Name">
+                        <i class="fas fa-trash text-danger"></i>
+                    </a>
+                </div>
+                <div class="custom-control custom-checkbox float-right" data-toggle="tooltip" title="Hiển thị trên Menu?">
+                    <input class="custom-control-input" data-level="parent" type="checkbox" @(item.IsShowMenu ? "checked" : "") id="isShowMenu_@item.CategoryId" data-id="@item.CategoryId" value="@item.IsShowMenu.ToString()">
+                    <label for="isShowMenu_@item.CategoryId" class="custom-control-label is-show-menu" data-id="@item.CategoryId"></label>
+                </div>
             </div>
-            <div class="custom-control custom-checkbox float-right" data-toggle="tooltip" title="Hiển thị trên Menu?">
-                <input class="custom-control-input" data-level="parent" type="checkbox" @(item.IsShowMenu?"checked":"") id="isShowMenu_@item.CategoryId" data-id="@item.CategoryId" value="@item.IsShowMenu.ToString()">
-                <label for="isShowMenu_@item.CategoryId" class="custom-control-label is-show-menu" data-id="@item.CategoryId"></label>
-            </div>
-            <div class="clearfix"></div>
 
             <div class="category-child">
-                @foreach (var child in Model.CategoryList)
+                @foreach (var child in Model)
                 {
                     if (child.CategoryParentId == item.CategoryId)
                     {
-                        <a href="#" class="nav-link float-left py-0 text-dark float-left" onclick="showModalEditCategory(this)"
-                           data-toggle="tooltip"
-                           title="Chỉnh sửa @child.Name"
-                           data-id="@child.CategoryId"
-                           data-name="@child.Name"
-                           data-parent-id="@item.CategoryId"
-                           data-parent-name="@item.Name">
-
-                            @child.Name
-
-                        </a>
-                        <div class="float-right">
-                            <a class="" href="~/Chuyen-Muc/@child.Url-@child.CategoryId" data-toggle="tooltip" title="Xem @child.Name">
-                                <i class="fas fa-eye text-info">
-                                </i>
-                            </a>
-                            <a href="#" class="ml-2" onclick="showModalEditCategory(this)"
-                               data-toggle="modal"
-                               title="Chỉnh sửa @child.Name"
-                               data-id="@child.CategoryId"
-                               data-name="@child.Name"
-                               data-parent-id="@item.CategoryId"
-                               data-parent-name="@item.Name">
-                                <i class="fas fa-pencil-alt text-warning"></i>
-                            </a>
-                            <a href="#" class="ml-2"
-                               onclick="showModalRemoveCategory(this)"
-                               data-toggle="tooltip"
-                               title="Xóa @child.Name"
-                               data-name="@child.Name"
-                               data-id="@child.CategoryId">
-                                <i class="fas fa-trash text-danger">
-                                </i>
-                            </a>
+                        <div class="clearfix">
+                            <a href="javascript:void(0)" class="nav-link float-left py-0 text-dark float-left">@child.Name</a>
+                            <div class="float-right">
+                                <a href="~/cua-hang/danh-muc/@child.CategoryId/@child.Url" data-toggle="tooltip" title="Xem @child.Name">
+                                    <i class="fas fa-eye text-info"></i>
+                                </a>
+                                <a href="#edit" class="ml-2 edit-category" data-toggle="modal" data-target="#ModalTemplateNormal" data-id="@child.CategoryId">
+                                    <i class="fas fa-pencil-alt text-warning"></i>
+                                </a>
+                                <a href="#delete" class="ml-2 delete-category" data-toggle="tooltip" title="Xóa @child.Name" data-name="@child.Name" data-id="@child.CategoryId">
+                                    <i class="fas fa-trash text-danger"></i>
+                                </a>
+                            </div>
                         </div>
-                        <div class="clearfix"></div>
                         <div class="category-sub-child">
-                            @foreach (var subChild in Model.CategoryList)
+                            @foreach (var subChild in Model)
                             {
                                 if (subChild.CategoryParentId == child.CategoryId)
                                 {
-                                    <a href="#" class="nav-link float-left text-dark py-0" onclick="showModalEditCategory(this)"
-                                       data-toggle="tooltip"
-                                       title="Chỉnh sửa @subChild.Name"
-                                       data-id="@subChild.CategoryId"
-                                       data-name="@subChild.Name"
-                                       data-parent-id="@child.CategoryId"
-                                       data-parent-name="@child.Name">
-
-                                        - @subChild.Name
-                                    </a>
-                                    <div class="float-right">
-                                        <a class="" href="~/Chuyen-Muc/@subChild.Url-@subChild.CategoryId" data-toggle="tooltip" title="Xem @subChild.Name">
-                                            <i class="fas fa-eye text-info">
-                                            </i>
-                                        </a>
-                                        <a href="#" class="ml-2" onclick="showModalEditCategory(this)"
-                                           data-toggle="tooltip"
-                                           title="Chỉnh sửa @subChild.Name"
-                                           data-id="@subChild.CategoryId"
-                                           data-name="@subChild.Name"
-                                           data-parent-id="@item.CategoryId"
-                                           data-parent-name="@item.Name">
-                                            <i class="fas fa-pencil-alt text-warning">
-                                            </i>
-                                        </a>
-                                        <a href="#" class="ml-2" onclick="showModalRemoveCategory(this)" data-id="@subChild.CategoryId" data-toggle="tooltip" title="Xóa @subChild.Name" data-name="@subChild.Name">
-                                            <i class="fas fa-trash text-danger">
-                                            </i>
-                                        </a>
+                                    <div class="clearfix">
+                                        <a href="javascript:void(0)" class="nav-link float-left text-dark py-0">- @subChild.Name</a>
+                                        <div class="float-right">
+                                            <a class="" href="~/cua-hang/danh-muc/@subChild.CategoryId/@subChild.Url" data-toggle="tooltip" title="Xem @subChild.Name">
+                                                <i class="fas fa-eye text-info"></i>
+                                            </a>
+                                            <a href="#edit" class="ml-2 edit-category" data-toggle="modal" data-target="#ModalTemplateNormal" data-id="@subChild.CategoryId">
+                                                <i class="fas fa-pencil-alt text-warning"></i>
+                                            </a>
+                                            <a href="#delete" class="ml-2 delete-category" data-id="@subChild.CategoryId" data-toggle="tooltip" title="Xóa @subChild.Name" data-name="@subChild.Name">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </a>
+                                        </div>
                                     </div>
-
-                                    <div class="clearfix"></div>
                                 }
                             }
                         </div>
@@ -126,74 +74,3 @@
 }
 
 
-<div class="modal fade" id="editCategoryModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" id="editCategoryContent">
-
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="removeCategoryModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" id="removeCategoryContent">
-            @using (Ajax.BeginForm("RemoveCategory", "Admin", null, new AjaxOptions
-            {
-                HttpMethod = "POST",
-                OnBegin = "showBgOverlay",
-                OnSuccess = "loadingNoti",
-                OnComplete = "closeModal",
-                OnFailure = "removeCategoryFailure",
-            }, new { @id = "RemoveCategoryForm" }))
-            {
-                <div class="overlay d-flex justify-content-center align-items-center" id="loadingRemoveModal">
-                    <i class="fas fa-2x fa-sync fa-spin"></i>
-                </div>
-                <div class="modal-header">
-                    <h4 class="modal-title" id="titleModal">Xóa danh mục</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input hidden type="text" id="CategoryId" name="CategoryId" />
-                    <h5>Bạn chắc chắn muốn xóa danh mục "<span id="CategoryTitle" class="text-danger font-weight-bold"></span>" không?</h5>
-                    <p class="text-danger">Lưu ý: <span class="text-dark">Sau khi xóa, những sản phẩm thuộc danh mục này sẽ không thuộc danh mục nào cả!</span></p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Xóa Ngay</button>
-                </div>
-            }
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-
-    $(".is-show-menu").click(function () {
-        var elm = $(this);
-        var categoryId = elm.attr("data-id");
-        if (!$("#isShowMenu_" + categoryId).is(':checked'))
-            $("#isShowMenu_" + categoryId).val("True");
-        else
-            $("#isShowMenu_" + categoryId).val("False");
-        $.ajax({
-            method: "POST",
-            url: "/Admin/UpdateMenuCategory",
-            data: {
-                categoryId: categoryId,
-                IsShowMenu: $("#isShowMenu_" + categoryId).val()
-            },
-            success: function (data) {
-                if (data.status == "success")
-                    toastr.success(data.message);
-                else
-                    toastr.error(data.message);
-            }
-        })
-    })
-</script>

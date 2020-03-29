@@ -3,7 +3,14 @@
 <div class="card-header">
     <h3 class="card-title float-left">Footer @ViewBag.Type</h3>
     <div class="float-right">
-        <button type="button" class="btn btn-success btn-sm btn-flat text-right" id="addMenu" data-footer="@ViewBag.Type" data-toggle="modal" data-target="#ModalTemplateNormal">Thêm Menu</button>
+        <button type="button"
+                class="btn btn-success btn-sm btn-flat text-right"
+                id="addMenu" data-footer="@ViewBag.Type"
+                data-toggle="modal"
+                data-url="/Admin/LoadAddMenuFooterPartial"
+                data-target="#ModalTemplateNormal">
+                    Thêm Menu
+                </button>
     </div>
 </div>
 

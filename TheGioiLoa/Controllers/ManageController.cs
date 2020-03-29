@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -6,16 +8,21 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
+using TheGioiLoa.Models.ViewModel;
+using TheGioiLoa.Service;
 
 namespace TheGioiLoa.Controllers
 {
-    [Authorize]
+
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private readonly ApplicationDbContext dbApp = new ApplicationDbContext();
+        private readonly AccountService _accountService = new AccountService();
+        private readonly HelperFunction _helper = new HelperFunction();
 
 
         public ManageController()
@@ -34,9 +41,9 @@ namespace TheGioiLoa.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -54,17 +61,21 @@ namespace TheGioiLoa.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(string url)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
-
+            string partial;
+            if (string.IsNullOrEmpty(url))
+            {
+                partial = "_OrderManagePartial";
+            }
+            else
+            {
+                partial = _accountService.GetPartialView(_helper.DeleteSpace(url));
+                if (partial == "")
+                {
+                    return HttpNotFound();
+                }
+            }
             var userId = User.Identity.GetUserId();
             var model = new UserDetailsViewModel
             {
@@ -75,8 +86,60 @@ namespace TheGioiLoa.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            model.PartialView = partial;
             return View(model);
         }
+        public ActionResult Area(string partial)
+        {
+            var userId = User.Identity.GetUserId();
+            var model = _accountService.GetModelPartial(partial, userId);
+            return PartialView(partial, model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateUserInformation(UserInformationViewModel user)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                if (!string.IsNullOrEmpty(user.BirthDayInput))
+                {
+                    user.BirthDay = DateTime.ParseExact(user.BirthDayInput, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+                var userId = User.Identity.GetUserId();
+                if (user.UserId == userId)
+                {
+                    var editItem = dbApp.Users.Find(userId);
+                    editItem.FullName = user.FullName;
+                    editItem.Birthday = user.BirthDay;
+                    editItem.Address = user.Address;
+                    editItem.PhoneNumber = user.PhoneNumber;
+                    editItem.DateModified = DateTime.Now;
+                    dbApp.Entry(editItem).State = EntityState.Modified;
+                    dbApp.SaveChanges();
+                    result.status = "success";
+                    result.message = "Cập nhật thành công!";
+                }
+                else
+                {
+                    result.status = "error";
+                    result.message = "Thất bại! Vui lòng tải lại trang";
+                }
+                
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Vui lòng thử lại";
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return Json(result, JsonRequestBehavior.DenyGet);
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
 
         //
         // POST: /Manage/RemoveLogin
@@ -231,6 +294,15 @@ namespace TheGioiLoa.Controllers
         {
             if (!ModelState.IsValid)
             {
+                if (Request.IsAjaxRequest())
+                {
+                    var json = new JsonStatusViewModel()
+                    {
+                        status = "error",
+                        message = "Thất bại! Mật khẩu không hợp lệ"
+                    };
+                    return Json(json, JsonRequestBehavior.DenyGet);
+                }
                 return View(model);
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
@@ -241,7 +313,26 @@ namespace TheGioiLoa.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
+                if (Request.IsAjaxRequest())
+                {
+                    var json = new JsonStatusViewModel()
+                    {
+                        status = "success",
+                        message = "Thành công! Mật khẩu đã được cập nhật"
+                    };
+                    return Json(json, JsonRequestBehavior.DenyGet);
+                }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+            }
+            
+            if (Request.IsAjaxRequest())
+            {
+                var json = new JsonStatusViewModel()
+                {
+                    status = "error",
+                    message = "Mật khẩu không hợp lệ",
+                };
+                return Json(json, JsonRequestBehavior.DenyGet);
             }
             AddErrors(result);
             return View(model);
@@ -336,7 +427,7 @@ namespace TheGioiLoa.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -387,6 +478,6 @@ namespace TheGioiLoa.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

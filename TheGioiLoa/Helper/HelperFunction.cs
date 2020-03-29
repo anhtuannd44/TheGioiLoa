@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -75,5 +76,6 @@ namespace TheGioiLoa.Helper
                 link = link.Remove(index2);
             return link;
         }
+
     }
 }

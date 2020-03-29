@@ -6,11 +6,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@ViewBag.Title - Thế Giới Loa</title>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
-    @RenderSection("heads", required: false)
+
     @Styles.Render("~/Content/BootstrapCss")
     @Styles.Render("~/Content/AdminCss")
-
+    @RenderSection("heads", required: false)
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
@@ -162,7 +161,7 @@
                             <a href="@Url.Action("Blog","Admin")" class="nav-link">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>
-                                    Tin Tức
+                                    Tin tức
                                     <span class="right badge badge-danger"></span>
                                 </p>
                             </a>
@@ -177,7 +176,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
                                 <p>
-                                    Thông Tin Trang
+                                    Thông tin trang
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -185,28 +184,33 @@
                                 <li class="nav-item">
                                     <a href="@Url.Action("Information","Admin")" class="nav-link">
                                         <i class="fas fa-home nav-icon"></i>
-                                        <p>Thông Tin Chung</p>
+                                        <p>Thông tin chung</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("MenuTop","Admin")" class="nav-link">
                                         <i class="fas fa-ellipsis-h nav-icon"></i>
-                                        <p>Menu Top</p>
+                                        <p>Menu top</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Categories","Admin")" class="nav-link">
                                         <i class="fas fa-ellipsis-v nav-icon"></i>
-                                        <p>Menu Chuyên Mục</p>
+                                        <p>Menu chuyên mục</p>
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Order","Admin")" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>Đơn hàng</p>
+                            </a>
                         </li>
                     </ul>
                 </nav>
             </div>
         </aside>
-
         <div class="content-wrapper">
             <div class="content-header">
                 <div class="container-fluid">
@@ -250,8 +254,7 @@
             </div>
         </div>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap-jquery")
     @Scripts.Render("~/bundles/AdminJs")
     @RenderSection("scripts", required: false)
     <script type="text/javascript">

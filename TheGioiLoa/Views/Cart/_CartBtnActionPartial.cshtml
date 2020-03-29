@@ -1,0 +1,27 @@
+﻿@if (TheGioiLoa.Models.ShoppingCart.Cart.Count != 0)
+{
+    <div class="cart-continue mb-4 text-right">
+        <a href="@Url.Action("CheckOut", "Cart")" class="btn btn-success btn-block h4 py-3" style="font-size: 1.2rem">TIẾP THEO<i class="fas fa-arrow-circle-right ml-3"></i></a>
+    </div>
+    <div class="card card-shadow">
+        <div class="card-header bg-white p-0" id="headingOne">
+            <h5 class="mb-0">
+                <a href="#promotion" class="btn btn-link btn-block text-left py-3 text-dark px-4" data-toggle="collapse">
+                    Bạn có mã giảm giá? Click vào đây!
+                </a>
+            </h5>
+        </div>
+
+        <div id="promotion" class="collapse">
+            <div class="card-body">
+                <p>Hiện chưa có chương trình giảm giá</p>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="cart-continue mb-4 text-right">
+        <a href="~/" class="btn btn-warning btn-block h4 py-3" style="font-size: 1.2rem"><i class="fas fa-arrow-circle-left mr-3"></i>QUAY VỀ TRANG CHỦ</a>
+    </div>
+}

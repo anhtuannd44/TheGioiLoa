@@ -1,11 +1,9 @@
-﻿@model IEnumerable<TheGioiLoa.Models.Category>
+﻿@model TheGioiLoa.Models.Category
 @{
 
     ViewBag.Title = "Chuyên Mục Sản Phẩm";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
-
 }
-
 <div class="row" id="adminPage">
     <div class="col-md-7">
         <div class="card">
@@ -15,40 +13,23 @@
             @using (Ajax.BeginForm("CreateCategory", new AjaxOptions
             {
                 HttpMethod = "POST",
-                OnBegin = "loadingGif",
-                OnSuccess = "loadingNoti",
-                OnComplete = "exitLoadingGif"
+                OnBegin = "loadingSpinner('#loadingGif-CreateCategory')",
+                OnSuccess = "createOrEditCategorySuccess",
+                OnComplete = "exitSpinner('#loadingGif-CreateCategory')"
             }))
             {
                 <div class="card-body">
                     <div class="form-group row align-items-center">
                         <label for="Name" class="col-md-3">Tên Danh Mục</label>
                         <div class="col-md-9">
-                            <input class="form-control form-control-sm rounded-0" id="Name" name="Name" required="" type="text" value="">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control form-control-sm", @placeholder = "Nhập tên danh mục" })
                         </div>
                     </div>
                     <div class="form-group row align-items-center" id="categoryParentCreate">
                         <label for="CategoryParentId" class="col-md-3">Thuộc danh mục gốc?</label>
                         <div class="col-md-9">
-                            <select name="CategoryParentId" id="CategoryParentId" class="form-control form-control-sm rounded-0">
-                                <option value="" class="font-weight-bold">Không thuộc danh mục gốc nào</option>
-
-                                @foreach (var item in Model)
-                                {
-                                    if (item.CategoryParentId == null)
-                                    {
-                                        <option value="@item.CategoryId" class="font-weight-bold">@item.Name</option>
-
-                                        foreach (var child in Model)
-                                        {
-                                            if (child.CategoryParentId == item.CategoryId)
-                                            {
-                                                <option value="@child.CategoryId">&nbsp;&nbsp;&nbsp;@child.Name</option>
-                                            }
-                                        }
-
-                                    }
-                                }
+                            <select name="CategoryParentId" id="CategoryParentId" class="form-control form-control-sm">
+                                @Html.Action("LoadCategorySelect")
                             </select>
                         </div>
                     </div>
@@ -58,8 +39,10 @@
                         </div>
                     </div>
                 </div>
-
             }
+            <div id="loadingGif-CreateCategory" class="spinner-loading" style="display: none;">
+                <img src="/Content/Spinner.png" alt="Loading...">
+            </div>
         </div>
     </div>
     <div class="col-md-5">
@@ -68,22 +51,16 @@
                 <h3 class="card-title">Danh Mục Sản Phẩm</h3>
             </div>
             <div class="card-body" id="categoryList">
-
+                @Html.Action("LoadCategoryList")
             </div>
-            <div id="loadingGif" class="spinner-loading" style="display: none;">
+            <div id="loadingGif-CategoryList" class="spinner-loading" style="display: none;">
                 <img src="/Content/Spinner.png" alt="Loading...">
             </div>
         </div>
     </div>
 </div>
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/Admin/category.js"></script>
-    <script>
-        $(document).ready(function () {
-            loadCategoryList();
-        });
-    </script>
+    @Scripts.Render("~/bundles/admin/category")
 }

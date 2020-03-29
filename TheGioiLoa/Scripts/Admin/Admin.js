@@ -12,14 +12,7 @@
     });
     exitLoadingGif();
 };
-function loadingGif() {
-    $("#loadingGif").css("z-index", "9999");
-    $("#loadingGif").css("opacity", "1");
-};
-function exitLoadingGif() {
-    $("#loadingGif").css("z-index", "-1");
-    $("#loadingGif").css("opacity", "0");
-}
+
 function loadingNoti(data) {
     switch (data) {
         case "successed":
@@ -55,16 +48,6 @@ function showModalEditCategory(a) {
             toastr.error("Không thể tải!");
         },
     });
-
-
-    //if (elm.attr("data-parent-id") == "") {
-    //    $("#categoryParentEdit").addClass("d-none");
-    //}
-    //else {
-    //    $("#categoryParentEdit").removeClass("d-none");
-    //}
-    //$('#categoryParentEdit > select').val(elm.attr("data-parent-id")).change();
-    //$("#loadingEditModal").removeClass().addClass("d-none");
 
 };
 function showModalRemoveCategory(a) {

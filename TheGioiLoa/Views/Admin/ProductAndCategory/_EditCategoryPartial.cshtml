@@ -3,10 +3,9 @@
 @using (Ajax.BeginForm("EditCategory", "Admin", null, new AjaxOptions
 {
     HttpMethod = "POST",
-    OnBegin = "closeModal",
-    OnSuccess = "loadingNoti",
-    OnFailure = "editCategoryFailure",
-}, new { @id = "EditCategoryForm" }))
+    OnBegin = "loadingSpinner('#ModalTemplateNormal')",
+    OnSuccess = "createOrEditCategorySuccess",
+}))
 {
     <div class="modal-header">
         <h4 class="modal-title" id="titleModal">Chỉnh sửa danh mục</h4>
@@ -21,8 +20,8 @@
             <input type="text" name="Name" id="Name" class="form-control input-form-name" required value="@Model.Name" />
         </div>
     </div>
-    <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
-        <button type="submit" class="btn btn-primary">Lưu Lại</button>
+    <div class="modal-footer text-right">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
+        <button type="submit" class="btn btn-success">Lưu Lại</button>
     </div>
 }

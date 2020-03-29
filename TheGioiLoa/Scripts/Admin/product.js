@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
+
     renderSelectedImage($("#Image").val());
-})
+});
 
 $(".category-click").click(function (e) {
     if ($(this).is(":checked")) {

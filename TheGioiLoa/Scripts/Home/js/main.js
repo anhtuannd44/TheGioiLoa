@@ -13,6 +13,10 @@
 
     //Scroll backtop and menufixtop
     $(window).scroll(function () {
+        $(function () {
+            $('.lazy').lazy();
+        });
+
         var height = 100;
         if ($("#menuCategoryShow #main-nav").data("homepage") == "True") {
             height = 534;
