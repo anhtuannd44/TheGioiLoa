@@ -9,12 +9,18 @@
             @foreach (var item in Model)
             {
                 <li>
-                    <a href="#" class="text-info">
+                    <a href="~/tin-tuc/danh-muc/@item.BlogCategoryId/@item.Url" class="text-info">
                         <i class="fas fa-caret-right mr-2"></i>
                         @item.Name (@item.Blog.Count)
                     </a>
                 </li>
             }
+            <li>
+                <a href="~/tin-tuc/danh-muc/0/tat-ca-danh-muc" class="text-info">
+                    <i class="fas fa-caret-right mr-2"></i>
+                    Tất cả chuyên mục
+                </a>
+            </li>
         </ul>
     </div>
 }

@@ -372,7 +372,7 @@ namespace TheGioiLoa.Service
                 var count = 10;
                 if (id == 2)
                     count = 8;
-                else if (id == 7)
+                else if (id == 6)
                     count = 6;
                 var categoryProductList = db.CategoryProduct.Where(a => a.CategoryId == productHomePageItem.CategoryId).Take(count).ToList();
                 if (categoryProductList.Count != 0)

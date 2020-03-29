@@ -2,34 +2,37 @@
 
 @if (Model != null)
 {
-    <div class="mt-4 p-2" id="sidebarProductList">
+    <div class="mt-4 p-0" id="sidebarProductList">
         <h3 class="sidebar-title">Sản Phẩm Mới Nhất</h3>
         <hr class="mt-1" />
         <div class="my-3">
             @foreach (var item in Model)
             {
-                <div class="row sidebar-product-list align-items-center">
-                    <div class="col-md-4 px-0">
+                <div class="row sidebar-product-list align-items-center p-2">
+                    <div class="col-md-4">
                         <div class="image-box ratio-3-4 h-100 my-auto">
                             <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url"
                                class="image"
-                               style="background-image: url('../../Content/Upload/Images/@item.Cover');">
+                               style="background-image: url('../../../Content/Upload/Images/@item.Cover');">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-8">
                         <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
                             <h3 class="sidebar-product-title">@item.Name</h3>
+
+                            <div class="price">
+                                @if (item.PriceSale != null)
+                                {
+                                    <h6 class="mb-0 text-primary">@string.Format("{0:0,0 ₫}", item.PriceSale)</h6>
+                                    <del class="mb-0">@string.Format("{0:0,0 ₫}", item.Price)</del>
+                                }
+                                else
+                                {
+                                    <h6 class="text-primary mb-0">@string.Format("{0:0,0 ₫}", item.Price)</h6>
+                                }
+                            </div>
                         </a>
-                        @if (item.PriceSale != null)
-                        {
-                            <h6 class="mb-0 text-primary">@string.Format("{0:0,0 ₫}", item.PriceSale)</h6>
-                            <del class="mb-0">@string.Format("{0:0,0 ₫}", item.Price)</del>
-                        }
-                        else
-                        {
-                            <h6 class="text-primary mb-0">@string.Format("{0:0,0 ₫}", item.Price)</h6>
-                        }
                     </div>
                 </div>
             }

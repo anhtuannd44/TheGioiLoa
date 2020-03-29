@@ -132,7 +132,8 @@ a.btn.disabled, fieldset:disabled a.btn {
     }
 
     .btn-success.focus, .btn-success:focus {
-        box-shadow: none,0 0 0 0 rgba(72,180,97,.5) color: #fff;
+        box-shadow: none,0 0 0 0 rgba(72,180,97,.5);
+        color: #fff;
         background-color: #40B279;
     }
 
@@ -147,7 +148,8 @@ a.btn.disabled, fieldset:disabled a.btn {
     }
 
         .btn-success:not(:disabled):not(.disabled).active:focus, .btn-success:not(:disabled):not(.disabled):active:focus, .show > .btn-success.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0 rgba(72,180,97,.5) color: #fff;
+            box-shadow: 0 0 0 0 rgba(72,180,97,.5);
+            color: #fff;
             background-color: #40B279;
         }
 

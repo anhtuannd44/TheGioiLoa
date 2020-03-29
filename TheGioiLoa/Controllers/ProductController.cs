@@ -15,7 +15,7 @@ namespace TheGioiLoa.Controllers
     public class ProductController : Controller
     {
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
-        private readonly HelperFunction _hepler = new HelperFunction();
+        private readonly HelperFunction _helper = new HelperFunction();
         private readonly ProductService _productService = new ProductService();
         // GET: Product
         public ActionResult Details(int? productId, string url)
@@ -32,7 +32,7 @@ namespace TheGioiLoa.Controllers
                 return HttpNotFound();
             }
 
-            if (product.Url.ToLower() != _hepler.DeleteSpace(url.ToLower()) || product.Status == 4 || product.Status == 2)
+            if (product.Url.ToLower() != _helper.DeleteSpace(url.ToLower()) || product.Status == 4 || product.Status == 2)
             {
                 return HttpNotFound();
             }

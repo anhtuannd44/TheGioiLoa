@@ -35,10 +35,9 @@ namespace TheGioiLoa
                 var user = new ApplicationUser
                 {
                     UserName = "admin@thegioiloa.net",
-                    Email = "admin@thegioiloa.net",
+                    Email = "Admin@thegioiloa.net",
                     Birthday = DateTime.Now,
                     DateCreated = DateTime.Now,
-                    DateModified = DateTime.Now,
                     FullName = "TheGioiLoa Admin",
                 };
                 string password = "admin@123";

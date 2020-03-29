@@ -212,6 +212,7 @@
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Global.asax.cs">
@@ -3520,7 +3521,6 @@
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\Home\css\onepage.css" />
-    <Content Include="Content\Home\animate.min.css" />
     <Content Include="Content\Home\img\avt-gentleman.png" />
     <Content Include="Content\Home\img\avt-lady.jpg" />
     <Content Include="Content\moredetails.png" />
@@ -3610,8 +3610,6 @@
     <Content Include="Content\Upload\Images\PXZFMWVKCKITNOJ.jpg" />
     <Content Include="Content\Upload\Images\QLKGEOLTHBCWULI.jpg" />
     <Content Include="Content\Upload\Images\QOGQNBFWEPTUBDF.jpg" />
-    <Content Include="Content\Upload\Images\QPKZZBWAYVWEKDZ.jpg" />
-    <Content Include="Content\Upload\Images\RGRRSUKOCIIKKYH.jpg" />
     <Content Include="Content\Upload\Images\TBPOLSKQNOXHLWV.jpg" />
     <Content Include="Content\Upload\Images\TIRMUNXSGLARFIM.jpg" />
     <Content Include="Content\Upload\Images\TXCQXOUGAXMOSTT.jpg" />
@@ -3623,7 +3621,6 @@
     <Content Include="Content\Upload\Images\VPAUEFGVYALYHDI.jpg" />
     <Content Include="Content\Upload\Images\WWSGGOPTJBJXZZL.jpg" />
     <Content Include="Content\Upload\Images\YIFODMINAUUVYIC.jpg" />
-    <Content Include="Content\Upload\Images\YLOCPTZKHVPNXMA.jpg" />
     <Content Include="Content\Upload\pmh-10.jpg" />
     <Content Include="Content\Upload\Slider\slider-2.jpg" />
     <Content Include="Content\Upload\Slider\slider-1.jpg" />
@@ -3920,6 +3917,7 @@
     <Content Include="Views\Cart\OrderFailed.cshtml" />
     <Content Include="Views\Admin\Order.cshtml" />
     <Content Include="Views\Admin\Order\OrderDetails.cshtml" />
+    <Content Include="Views\Blog\BlogDetails.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -4016,10 +4014,9 @@
     <Content Include="Views\Admin\Information\_EditFooterContactPartial.cshtml" />
     <Content Include="Views\Shared\Footer\_FooterCopyrightPartial.cshtml" />
     <Content Include="Views\Shared\Footer\_FooterContactPartial.cshtml" />
-    <Content Include="Views\Blog\AllBlog.cshtml" />
+    <Content Include="Views\Blog\BlogList.cshtml" />
     <Content Include="Views\Shared\_CategorySidebarPartial.cshtml" />
     <Content Include="Views\Shared\_NewestProductSidebarPartial.cshtml" />
-    <Content Include="Views\Blog\BlogListInCategory.cshtml" />
     <Content Include="Views\Shared\_OnePageLayout.cshtml" />
     <Content Include="Views\Shared\Login\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Header\_MenuCategoryMobilePartial.cshtml" />
@@ -4029,6 +4026,7 @@
     <Content Include="Views\Manage\_AccountManagePartial.cshtml" />
     <Content Include="Views\Manage\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Shared\Footer\_GoogleMapPartial.cshtml" />
+    <Content Include="Views\Page\PageDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4078,6 +4076,8 @@
           <DevelopmentServerPort>50810</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:50810/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:50810/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

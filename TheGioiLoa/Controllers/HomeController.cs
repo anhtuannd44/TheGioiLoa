@@ -29,7 +29,7 @@ namespace TheGioiLoa.Controllers
         }
         public ActionResult MenuCategoryMobile()
         {
-            var model = db.Category.ToList();
+            var model = db.Category.Where(a => a.CategoryParentId == null).ToList();
             return PartialView("Header/_MenuCategoryMobilePartial", model);
         }
         public ActionResult MenuTop()
@@ -59,11 +59,11 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadSlider()
         {
             var model = _informationService.GetSliderImageList();
-            return PartialView("Slider/_SliderPartial",model);
+            return PartialView("Slider/_SliderPartial", model);
         }
         public ActionResult GetBlogHome()
         {
-            var model = _blogService.GetBlogList("Public", 1).OrderByDescending(a=>a.DateCreated).Take(7);
+            var model = _blogService.GetBlogList("Public", 1).OrderByDescending(a => a.DateCreated).Take(7);
             return PartialView("_BlogHomePartial", model);
         }
         public ActionResult HeaderContact()
@@ -97,12 +97,12 @@ namespace TheGioiLoa.Controllers
         }
         public ActionResult LoadHeadAccount()
         {
-            return PartialView("Login/_AccountHeadPartial");    
+            return PartialView("Login/_AccountHeadPartial");
         }
         public ActionResult LoadLoginPartial()
         {
             var model = new LoginViewModel();
-            return PartialView("Login/_LoginPartial",model);
+            return PartialView("Login/_LoginPartial", model);
         }
         public ActionResult LoadRegisterPartial()
         {

@@ -51,7 +51,7 @@
         <div class="container py-md-1 py-0">
             <div class="row align-items-center w-md-100">
                 <div class="col-2 order-1 d-md-none">
-                    <button class="navbar-toggler p-1" type="button" data-toggle="collapse" data-target="#menuCategory" aria-controls="menuCategory" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler p-1 text-white border-white" type="button" data-toggle="collapse" data-target="#menuCategory" aria-controls="menuCategory" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-list"></i>
                     </button>
                 </div>
@@ -286,38 +286,5 @@
             }
         </script>
     }
-    <script>
-        $(document).ready(function () {
-            var win = $(window);
-            var scroll = true;
-            // Each time the user scrolls
-            win.scroll(function () {
-                if (($("#renderFacebook").offset().top < (win.scrollTop() + win.height() + 500)) && (scroll)) {
-                    $.ajax({
-                        url: '/Home/LoadSocial',
-                        data: { social: "Facebook" },
-                        success: function (data) {
-                            $('#renderFacebook').html(data);
-                        }
-                    });
-                    $.ajax({
-                        url: '/Home/LoadSocial',
-                        data: { social: "Youtube" },
-                        success: function (data) {
-                            $('#renderYoutube').html(data);
-                        }
-                    });
-                    $.ajax({
-                        url: '/Home/LoadGoogleMap',
-                        success: function (data) {
-                            $('#renderGoolgeMap').html(data);
-                        }
-                    });
-                    scroll = false;
-                }
-            });
-        });
-
-    </script>
 </body>
 </html>

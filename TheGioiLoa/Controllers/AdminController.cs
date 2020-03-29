@@ -38,7 +38,7 @@ namespace TheGioiLoa.Controllers
         }
 
         //
-        public ActionResult GetCategoryList()
+        public ActionResult LoadCategoryList()
         {
             var model = db.Category.ToList();
             return PartialView("ProductAndCategory/_CategoryListPartial", model);

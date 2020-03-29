@@ -71,6 +71,7 @@ namespace TheGioiLoa
                        "~/Content/Admin/plugins/ion-rangeslider/css/ion.rangeSlider.min.css",
                        "~/Content/toastr/toastr.css",
                        "~/Content/rating/bootstrap-rating.css",
+                       "~/Content/PagedList.css",
                        "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/AdminCss").Include(

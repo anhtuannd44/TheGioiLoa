@@ -37,8 +37,10 @@
 
         public DateTime DateModified { get; set; }
 
+        //Status: 1-Public : 2-Private
         public int Status { get; set; }
 
+        //Type: 1-Blog : 2-Page
         public int Type { get; set; }
         
         public int? BlogCategoryId { get; set; }

@@ -115,7 +115,6 @@ namespace TheGioiLoa.Controllers
                     editItem.Birthday = user.BirthDay;
                     editItem.Address = user.Address;
                     editItem.PhoneNumber = user.PhoneNumber;
-                    editItem.DateModified = DateTime.Now;
                     dbApp.Entry(editItem).State = EntityState.Modified;
                     dbApp.SaveChanges();
                     result.status = "success";

@@ -64,7 +64,14 @@
                         {
                             <div class="col-md-3 @(Model.Count == 10 ? "w-20" : "") producthome-item col-6">
                                 <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
-                                    <img class="lazy" data-src="../Content/Upload/Images/@item.Cover" style="width: 100%" />
+                                    @if (Model.Id == 1)
+                                    {
+                                        <img src="../Content/Upload/Images/@item.Cover" style="width: 100%" />
+                                    }
+                                    else
+                                    {
+                                        <img class="lazy" data-src="../Content/Upload/Images/@item.Cover" style="width: 100%" />
+                                    }
                                     <h3>@item.Name</h3>
                                     <div class="text-center">
                                         @if (item.PriceSale != null)
@@ -89,7 +96,7 @@
                     <div class="blog bg-white">
                         <div class="blog-header bg-primary text-white py-2 px-2">
                             <h6 class="font-weight-bold m-0 mt-1 float-left">Tin Tức - Công Nghệ</h6>
-                            <a href="#" class="text-white float-right view-all px-2 py-1 rounded">Xem Thêm <i class="fas fa-angle-double-right"></i></a>
+                            <a href="/tin-tuc/danh-muc/0/tat-ca-danh-muc" class="text-white float-right view-all px-2 py-1 rounded">Xem Thêm <i class="fas fa-angle-double-right"></i></a>
                             <div style="clear: both"></div>
                         </div>
                         <div class="blog-content border">
