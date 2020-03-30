@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using PagedList;
 using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
@@ -20,6 +21,7 @@ namespace TheGioiLoa.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly ApplicationDbContext dbApp = new ApplicationDbContext();
         private readonly AccountService _accountService = new AccountService();
         private readonly HelperFunction _helper = new HelperFunction();
@@ -96,6 +98,12 @@ namespace TheGioiLoa.Controllers
             return PartialView(partial, model);
         }
 
+        [HttpPost]
+        public ActionResult LoadOrderDetails(string orderId)
+        {
+            var model = db.OrderDetails.Where(a => a.OrderId == orderId).ToList();
+            return PartialView("_OrderDetailsManagePartial", model);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateUserInformation(UserInformationViewModel user)

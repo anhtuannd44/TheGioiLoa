@@ -1374,3 +1374,10 @@ ul, li {
         height: 40px;
     }
 }
+.badge {
+    padding: .3rem 1rem;
+    border-radius: 2rem;
+}
+.badge-warning {
+    color: #fff;
+}

@@ -44,7 +44,7 @@
 
         public DateTime? DateModified { get; set; }
 
-        //1-Processing 2-Completed 3-Removed
+        //1-Processing 2-Delivering 3-Completed 4-Removed
         public int Status { get; set; }
 
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }

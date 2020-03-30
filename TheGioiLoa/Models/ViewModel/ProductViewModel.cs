@@ -142,6 +142,7 @@ namespace TheGioiLoa.Models.ViewModel
         public double AvgStar { get; set; }
         public int CommentCount { get; set; }
     }
+   
     public class EachReviewViewModel
     {
         public int Star { get; set; }

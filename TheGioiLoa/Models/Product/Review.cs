@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,12 +21,18 @@ namespace TheGioiLoa.Models
 
         public string Comment { get; set; }
 
+        [Required(ErrorMessage = "Bạn chọn Sao")]
         public int StarCount { get; set; }
 
+        public string UserId { get; set; }
+
+        [Required(ErrorMessage ="Bạn chưa nhập tên")]
         public string UserName { get; set; }
 
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
+        [Required(ErrorMessage = "Bạn chưa nhập Email")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Bạn chưa nhập Số điện thoại")]
         public string Phone { get; set; }
 
         [Required]

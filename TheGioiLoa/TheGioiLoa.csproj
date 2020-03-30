@@ -232,6 +232,18 @@
     <Compile Include="Migrations\TheGioiLoaModel\202003290004469_FirstMigForPMToola.Designer.cs">
       <DependentUpon>202003290004469_FirstMigForPMToola.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003301709562_adduserId.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003301709562_adduserId.Designer.cs">
+      <DependentUpon>202003301709562_adduserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003301720201_adduserId1.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003301720201_adduserId1.Designer.cs">
+      <DependentUpon>202003301720201_adduserId1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202003301729386_adduserIdstả.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202003301729386_adduserIdstả.Designer.cs">
+      <DependentUpon>202003301729386_adduserIdstả.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
@@ -3820,6 +3832,7 @@
     <Content Include="Scripts\Home\js\easing\easing.min.js" />
     <Content Include="Scripts\Home\js\jquery-migrate.min.js" />
     <Content Include="Scripts\Home\js\main.js" />
+    <Content Include="Scripts\Home\js\manage.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -3930,11 +3943,7 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -4026,6 +4035,8 @@
     <Content Include="Views\Manage\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Shared\Footer\_GoogleMapPartial.cshtml" />
     <Content Include="Views\Page\PageDetails.cshtml" />
+    <Content Include="Views\Manage\_OrderDetailsManagePartial.cshtml" />
+    <Content Include="Views\Product\_ReviewFormPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4053,6 +4064,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003290004469_FirstMigForPMToola.resx">
       <DependentUpon>202003290004469_FirstMigForPMToola.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003301709562_adduserId.resx">
+      <DependentUpon>202003301709562_adduserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003301720201_adduserId1.resx">
+      <DependentUpon>202003301720201_adduserId1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003301729386_adduserIdstả.resx">
+      <DependentUpon>202003301729386_adduserIdstả.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

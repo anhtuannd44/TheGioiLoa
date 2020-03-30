@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace TheGioiLoa.Controllers
         private readonly TheGioiLoaModel db = new TheGioiLoaModel();
         private readonly HelperFunction _helper = new HelperFunction();
         private readonly ProductService _productService = new ProductService();
+        private readonly ApplicationDbContext dbApp = new ApplicationDbContext();
         // GET: Product
         public ActionResult Details(int? productId, string url)
         {
@@ -165,42 +167,38 @@ namespace TheGioiLoa.Controllers
             return View();
         }
 
+        public ActionResult AddReview(int productId)
+        {
+            var model = new Review()
+            { 
+                ProductId = productId
+            };
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = dbApp.Users.Find(userId);
+                model.UserName = user.FullName;
+                model.Phone = user.PhoneNumber;
+                model.Email = user.Email;
+            }
+            return PartialView("_ReviewFormPartial", model);
+        }
+
         [HttpPost]
-        public ActionResult AddReview(int productId, string reviewComment, int starCount, string userName, string phone, string email)
+        [ValidateAntiForgeryToken]
+        public ActionResult AddReview(Review review)
         {
             try
             {
-                var product = db.Product.Find(productId);
-                if (product != null)
+                db.Review.Add(review);
+                db.SaveChanges();
+                var json = new
                 {
-                    var addReview = new Review()
-                    {
-                        ProductId = productId,
-                        Comment = reviewComment,
-                        StarCount = starCount,
-                        UserName = userName,
-                        Phone = phone,
-                        Email = email
-                    };
-                    db.Review.Add(addReview);
-                    db.SaveChanges();
-                    var json = new
-                    {
-                        status = "success",
-                        message = "Cảm ơn! Đánh giá của bạn đã được chúng tôi ghi nhận!"
-                    };
-                    return Json(json, JsonRequestBehavior.DenyGet);
-                }
-                else
-                {
-                    var json = new
-                    {
-                        status = "error",
-                        message = "Có lỗi xảy ra, vui lòng thử lại"
-                    };
-                    return Json(json, JsonRequestBehavior.DenyGet);
-                }
-                
+                    status = "success",
+                    message = "Cảm ơn! Đánh giá của bạn đã được chúng tôi ghi nhận"
+                };
+                return Json(json, JsonRequestBehavior.DenyGet);
+
             }
             catch
             {
@@ -213,7 +211,7 @@ namespace TheGioiLoa.Controllers
             }
         }
 
-        [HttpPost]
+
         public ActionResult LoadReview(int productId)
         {
             var model = new ReviewViewModel
@@ -224,15 +222,15 @@ namespace TheGioiLoa.Controllers
             model.CommentCount = review.Count();
             var sumStar = 0;
             var listReview = new List<EachReviewViewModel>();
-            for (int i=1;i<=5;i++)
+            for (int i = 1; i <= 5; i++)
             {
                 var addReview = new EachReviewViewModel()
                 {
                     Star = i,
                     Count = review.Where(a => a.StarCount == i).Count(),
-                    Percent = Math.Round((double)review.Where(a => a.StarCount == i).Count() / (double)model.CommentCount*100)
+                    Percent = Math.Round((double)review.Where(a => a.StarCount == i).Count() / (double)model.CommentCount * 100)
                 };
-                sumStar += review.Where(a => a.StarCount == i).Count()*i;
+                sumStar += review.Where(a => a.StarCount == i).Count() * i;
                 listReview.Add(addReview);
             }
             model.AvgStar = Math.Round((double)sumStar / (double)review.Count());
@@ -243,7 +241,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult NewestProductSidebar()
         {
             var model = _productService.GetProductLists(null, "newest", null, null, 4);
-            return PartialView("_NewestProductSidebarPartial",model);
+            return PartialView("_NewestProductSidebarPartial", model);
         }
     }
 }

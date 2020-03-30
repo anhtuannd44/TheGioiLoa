@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using PagedList;
+using System.Collections.Generic;
+using System.Linq;
 using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 
@@ -39,8 +41,8 @@ namespace TheGioiLoa.Service
                 case "_ChangePasswordPartial":
                     model = new ChangePasswordViewModel();
                     break;
-                case "_OrderManageParital":
-                    model = new OrderDetails();
+                case "_OrderManagePartial":
+                    model = db.Order.Where(a => a.UserId == userId).OrderByDescending(a => a.DateCreated).ToPagedList(1, 10);
                     break;
                 default:
                     model = "";
@@ -48,7 +50,8 @@ namespace TheGioiLoa.Service
             }
             return model;
         }
-        List<AccountPartial> PartialList = new List<AccountPartial>()
+
+        readonly List<AccountPartial> PartialList = new List<AccountPartial>()
             {
                 new AccountPartial("quan-ly-don-hang","_OrderManagePartial"),
                 new AccountPartial("quan-ly-thong-tin","_AccountManagePartial"),

@@ -150,11 +150,12 @@
                     <label for="UpdateOrderStatus" class="col-form-label">Trạng thái đơn hàng</label>
                     <select id="UpdateOrderStatus" name="UpdateOrderStatus" class="form-control">
                         <option value="1" @(Order.Status == 1 ? "selected" : string.Empty)>Đang xử lý</option>
-                        <option value="2" @(Order.Status == 2 ? "selected" : string.Empty)>Hoàn tất</option>
-                        <option value="3" @(Order.Status == 3 ? "selected" : string.Empty)>Bỏ vào thùng rác</option>
+                        <option value="2" @(Order.Status == 2 ? "selected" : string.Empty)>Đang giao hàng</option>
+                        <option value="3" @(Order.Status == 3 ? "selected" : string.Empty)>Hoàn tất</option>
+                        <option value="4" @(Order.Status == 4 ? "selected" : string.Empty)>Bỏ vào thùng rác</option>
                     </select>
                 </div>
-                <button class="btn btn-success float-right">Cập Nhật</button>
+                <button type="submit" class="btn btn-success float-right">Cập Nhật</button>
             </div>
         </div>
     </div>

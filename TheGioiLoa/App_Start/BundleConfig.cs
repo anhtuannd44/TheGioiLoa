@@ -28,8 +28,13 @@ namespace TheGioiLoa
                         "~/Content/Home/slider-product/dist/scripts/vit-gallery.js",
                         "~/Content/Home/slider-product/main.js",
                         "~/Scripts/Home/js/easing/easing.min.js",
-                        "~/Scripts/Home/js/main.js"
+                        "~/Scripts/Home/js/main.js",
+                        "~/Scripts/loading-spinner.js"
                         ));
+            bundles.Add(new ScriptBundle("~/bundles/manage").Include(
+                        "~/Scripts/Home/js/manage.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/AdminJs").Include(
                       "~/Scripts/jquery.unobtrusive-ajax.min.js",
                       "~/Content/toastr/toastr.min.js",
@@ -54,10 +59,10 @@ namespace TheGioiLoa
                         "~/Scripts/Admin/menu-top.js"));
             bundles.Add(new ScriptBundle("~/bundles/admin/category").Include(
                         "~/Scripts/Admin/category.js"));
+            
 
-
-             //CSS
-             bundles.Add(new StyleBundle("~/Content/BootstrapCss").Include(
+            //CSS
+            bundles.Add(new StyleBundle("~/Content/BootstrapCss").Include(
                      "~/Content/datetimepicker/css/bootstrap-datetimepicker.min.css",
                      "~/Content/bootstrap/bootstrap.min.css"));
 

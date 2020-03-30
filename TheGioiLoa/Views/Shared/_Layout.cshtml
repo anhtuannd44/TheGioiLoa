@@ -27,8 +27,8 @@
 </head>
 <body>
     @*<div id="preloader" class="spinner-loading bg-white position-fixed">
-        <img src="/Content/Spinner.png" alt="Loading...">
-    </div>*@
+            <img src="/Content/Spinner.png" alt="Loading...">
+        </div>*@
 
     @*<nav class="navbar navbar-expand navbar-inverse flex-column flex-md-row bd-navbar py-0 header-top d-none d-lg-block">
             <div class="container text-white">
@@ -219,7 +219,16 @@
         </div>
         @Html.Action("FooterCopyright", "Home")
     </footer><!-- #footer -->
-
+    <div class="modal fade" id="ModalTemplate" aria-hidden="true">
+        <div class="modal-dialog modal-xl bg-white" style="min-height: 100px">
+            <div class="modal-content" id="modalContent">
+                
+            </div>
+            <div id="modal-loading" class="spinner-loading" style="display: none;">
+                <img src="~/Content/Spinner.png" alt="Loading..." />
+            </div>
+        </div>
+    </div>
     <div class="position-fixed" style="bottom: 40px; right: 0;">
         @Html.Action("LoadSocial", "Home", new { social = "Zalo" })
     </div>
@@ -229,7 +238,6 @@
 
     @Scripts.Render("~/bundles/bootstrap-jquery")
     @Scripts.Render("~/bundles/jshome")
-    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 
     @if (!User.Identity.IsAuthenticated)

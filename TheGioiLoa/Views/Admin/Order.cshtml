@@ -55,7 +55,18 @@
                             @item.DateCreated
                         </td>
                         <td class="text-center">
-                            <span class="badge badge-@(item.Status==1?"warning":"success")">@(item.Status == 1 ? "Đang xử lý" : "Hoàn tất")</span>
+                            @if (item.Status == 1)
+                            {
+                                <span class="badge badge-warning">Đang xử lý</span>
+                            }
+                            else if (item.Status == 2)
+                            {
+                                <span class="badge badge-primary">Đang giao hàng</span>
+                            }
+                            else if (item.Status == 3)
+                            {
+                                <span class="badge badge-success">Hoàn tất</span>
+                            }
                         </td>
                         <td class="text-right">
                             @string.Format("{0:0,0 ₫}", item.TotalSalePrice)

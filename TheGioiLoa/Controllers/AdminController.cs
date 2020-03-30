@@ -984,7 +984,7 @@ namespace TheGioiLoa.Controllers
 
         public ActionResult Order(int? page)
         {
-            var model = db.Order.Where(a => a.Status != 3).OrderByDescending(a => a.DateCreated).ToPagedList(page ?? 1, 20);
+            var model = db.Order.Where(a => a.Status != 4).OrderByDescending(a => a.DateCreated).ToPagedList(page ?? 1, 20);
             return View(model);
         }
         public ActionResult OrderDetails(string OrderId)

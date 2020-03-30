@@ -366,32 +366,15 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="mt-2">
-                        <div class="reviewPartial" id="reviewPartial">
-
+                    <div class="mt-2" id="reviewContent">
+                        <div class="reviewPartial" id="reviewPartial" data-id="@Model.ProductId">
+                            @Html.Action("LoadReview", "Product", new { productId = Model.ProductId })
                         </div>
-                        <hr class="mt-1 mb-3" />
-                        <div class="startReview shadow p-3 rounded">
-                            <h6 class="mb-1">Để lại đánh giá của bạn</h6>
-                            <input type="hidden" name="productId" value="@Model.ProductId" id="productId" />
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="userName" placeholder="Tên của bạn" />
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" class="form-control" id="phone" placeholder="Số điện thoại" />
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="email" placeholder="Email" />
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" id="reviewComment" rows="3"></textarea>
-                            </div>
-                            <div class="clearfix">
-                                <div class="startReviewChoose float-left">
-                                    <input type="hidden" class="rating" value="5">
-                                </div>
-                                <button class="btn btn-primary btn-sm px-4 float-right" id="submitRating">Gửi</button>
-                            </div>
+                        <div id="reviewForm">
+                            @Html.Action("AddReview", "Product", new { productId = Model.ProductId })
+                        </div>
+                        <div id="loadingGif-reviewContent" class="spinner-loading" style="display: none;">
+                            <img src="~/Content/Spinner.png" alt="Loading..." />
                         </div>
                     </div>
                 </div>
@@ -401,6 +384,7 @@
 </div>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function () {
             var $gallery = $('.gallery');
@@ -413,17 +397,6 @@
                 animateSpeed: 600
             })
             $(".rating").rating();
-
-            var ProductID = $("#productId").val();
-
-            $.ajax({
-                method: "POST",
-                url: "/Product/LoadReview",
-                data: { productId: ProductID },
-                success: function (data) {
-                    $("#reviewPartial").html(data);
-                }
-            })
         })
 
         var image;
@@ -454,35 +427,23 @@
                 });
             });
         });
-
-        $("#submitRating").click(function () {
-            var productId = $("#productId").val();
-            var reviewComment = $("#reviewComment").val();
-            var starCount = $(".rating").val();
-            var userName = $("#userName").val();
-            var phone = $("#phone").val();
-            var email = $("#email").val();
-            $.ajax({
-                method: "POST",
-                url: "/Product/AddReview",
-                data: {
-                    productId: productId,
-                    reviewComment: reviewComment,
-                    starCount: starCount,
-                    userName: userName,
-                    phone: phone,
-                    email: email
-                },
-                success: function (data) {
-                    console.log(data.status);
-                    if (data.status == "success") {
-                        toastr.success(data.message);
+        function sendReviewSuccess(data) {
+            if (data.status == "success") {
+                toastr.success(data.message);
+                $.ajax({
+                    method: "GET",
+                    url: "/Product/LoadReview",
+                    data: { productId: $("#reviewPartial").data("id") },
+                    success: function (data) {
+                        $("#reviewPartial").html(data);
+                        exitSpinner('#loadingGif-reviewContent');
                     }
-                    else {
-                        toastr.error(data.message);
-                    }
-                }
-            })
-        })
+                })
+            }
+            else {
+                toastr.error(data.error);
+                exitSpinner('#loadingGif-reviewContent');
+            }
+        }
     </script>
 }
