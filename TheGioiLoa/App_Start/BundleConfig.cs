@@ -34,7 +34,7 @@ namespace TheGioiLoa
                       "~/Scripts/jquery.unobtrusive-ajax.min.js",
                       "~/Content/toastr/toastr.min.js",
                       "~/Scripts/Admin/adminlte.min.js",
-                      "~/Content/Admin/plugins/summernote/summernote-bs4.min.js",
+                      "~/Content/Admin/plugins/summernote/summernote-bs4.js",
                       "~/Content/Admin/plugins/upload/dist/js/jquery.dm-uploader.min.js",
                       "~/Scripts/Admin/ImageUpload/upload-img.js",
                       "~/Scripts/Admin/summnernote.js",
