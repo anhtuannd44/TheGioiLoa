@@ -44,7 +44,7 @@ $(document).on("click", ".order-details", function () {
     $("#modal-loading").show();
     $.ajax({
         method: "POST",
-        url: "Manage/LoadOrderDetails",
+        url: "/Manage/LoadOrderDetails",
         data: { orderId : elm.data("id") },
         success: function (data) {
             $("#modalContent").html(data);

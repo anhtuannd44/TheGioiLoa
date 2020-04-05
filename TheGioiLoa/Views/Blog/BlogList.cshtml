@@ -1,6 +1,6 @@
 ﻿@using PagedList
 @using PagedList.Mvc
-@model IPagedList<TheGioiLoa.Models.ViewModel.BlogViewModel>
+@model IPagedList<TheGioiLoa.Models.Blog>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -19,7 +19,7 @@
                                     <div class="image-box ratio-16-9 h-100 my-auto">
                                         <a href="/tin-tuc/chi-tiet/@item.BlogId/@item.Url"
                                            class="image image-big blog-list-image"
-                                           style="background-image: url('../../../Content/Upload/Images/@item.Cover');">
+                                           style="background-image: url('../../../Content/Upload/Images/@(item.ImageId==null?"No_Picture.jpg":item.ImageId)');">
                                         </a>
                                     </div>
                                 </div>

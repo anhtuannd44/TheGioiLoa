@@ -77,10 +77,10 @@ $(document).on("click", ".delete-img", function () {
 })
 $(document).on("click", "#submitModalImage", function () {
     switch ($(this).attr("data-image-target")) {
-        case "imageList":
+        case "imageAlbum":
             addImage();
             break;
-        case "imageCover":
+        case "ImageId":
             addCover();
             break;
         case "imageTextarea":

@@ -26,54 +26,30 @@
 
 </head>
 <body>
-    @*<div id="preloader" class="spinner-loading bg-white position-fixed">
-            <img src="/Content/Spinner.png" alt="Loading...">
-        </div>*@
-
-    @*<nav class="navbar navbar-expand navbar-inverse flex-column flex-md-row bd-navbar py-0 header-top d-none d-lg-block">
-            <div class="container text-white">
-                <div class="navbar-nav-scroll mr-auto">
-                    @Html.Action("MenuTop", "Home")
-                </div>
-                <div class="navbar-nav-scroll ml-auto" id="Login">
-                    <ul class="navbar-nav bd-navbar-nav flex-row small">
-                        <li class="nav-item py-2">
-                            <a class="nav-link text-white py-0 border-right" href="#dang-ky" data-target="#registerModal" data-toggle="modal">Đăng ký</a>
-                        </li>
-                        <li class="nav-item py-2">
-                            <a class="nav-link text-white py-0" href="#dang-nhap" data-target="#loginModal" data-toggle="modal">Đăng Nhập</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>*@
-    <nav class="navbar navbar-expand-sm navbar-light bg-primary py-md-4" id="navbarMain">
-        <div class="container py-md-1 py-0">
-            <div class="row align-items-center w-md-100">
-                <div class="col-2 order-1 d-md-none">
-                    <button class="navbar-toggler p-1 text-white border-white" type="button" data-toggle="collapse" data-target="#menuCategory" aria-controls="menuCategory" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
-                <div class="col-md-3 col-5 order-2 px-1 hidetop">
+    <nav class="bg-primary p-0" id="navbarMain">
+        <div class="container px-md-3 px-0" id="navbarMain-container">
+            <div class="row align-items-center w-100 m-0">
+                <div class="col-md-3 col-5 order-1 px-1 hidetop">
                     <a href="~/" class="navbar-brand text-white h1 mb-0">
-                        @*<img src="~/Content/Home/img/logo.png" alt="" class="img-fluid">*@
-                        THEGIOILOA.NET
+                        <img src="~/Content/Upload/Images/@Html.Action("LoadLogo", "Home")" alt="" class="logo-img">
                     </a>
                 </div>
-                <div class="col-md-4 order-4 order-md-3 col-12 pt-2 pt-md-0" id="searchBar">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-warning search-bar-input" placeholder="Nhập từ khóa tìm kiếm ...">
-                        <div class="input-group-append">
-                            <button class="btn btn-warning" type="button">
-                                <i class="fas fa-search text-white"></i>
-                            </button>
+                <div class="col-md-4 order-4 order-md-3 col-12 py-1" id="searchBar">
+                    @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+                    {
+                        <div class="input-group">
+                            <input type="text" name="search" id="search" class="form-control border-warning search-bar-input" placeholder="Nhập từ khóa tìm kiếm ...">
+                            <div class="input-group-append">
+                                <button class="btn btn-warning" type="submit">
+                                    <i class="fas fa-search text-white"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
-                <div class="col-md-5 col-5 order-3 order-md-4" id="mainNav-right">
+                <div class="col-md-5 col-5 order-2 order-md-4" id="mainNav-right">
                     <div class="row align-items-center m-0">
-                        <div class="col-4 col-md-3 p-0 text-left order-2 oorder-md-1">
+                        <div class="col-md-3 col-4 p-0 text-center order-2 oorder-md-1">
                             <a href="~/Cart" class="text-white">
                                 <i class="fas fa-shopping-cart position-relative">
                                     <span id="miniCartCount" class="bg-warning text-dark">
@@ -83,14 +59,18 @@
                                 <span class="d-none d-md-inline-block">Giỏ Hàng</span>
                             </a>
                         </div>
-                        <div class="col-8 col-md-3 p-0 text-left order-1 order-md-2" id="accountLink">
+                        <div class="col-md-3 col-8 p-0 text-center order-1 order-md-2" id="accountLink">
                             @Html.Partial("Login/_AccountHeadPartial")
                         </div>
                         <div class="col-md-6 d-none d-md-block p-0 order-3 order-md-3">
                             @Html.Action("HeaderContact", "Home")
                         </div>
                     </div>
-
+                </div>
+                <div class="col-2 order-3 d-md-none text-right">
+                    <button class="navbar-toggler p-1 text-white border-white" type="button" data-toggle="collapse" data-target="#menuCategory" aria-controls="menuCategory" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-list"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -105,19 +85,19 @@
                 <div class="col-md-3 d-none d-md-block" id="menuCategoryShow">
                     <div class="main-nav @menuClass" id="main-nav" data-homepage="@(menuClass!="menu-not-expand"?"True":"False")">
                         <div class="drop-down main-menu text-left">
-                            <a href="" class="h5 px-3 font-weight-bold bg-dark" id="categoryProduct-a"><i class="fas fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
+                            <a href="~/cua-hang/" class="h5 px-3 font-weight-bold bg-dark" id="categoryProduct-a"><i class="fas fa-list mr-2"></i>DANH MỤC SẢN PHẨM</a>
                             @Html.Action("MenuCategory", "Home", new { isMenuExpand = true })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 text-center hidetop-none-mobile d-none d-md-block py-2">
-                    <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Tổng hợp khuyến mãi</span></a>
+                    <a href="https://www.nguyenkim.com/khuyen-mai.html" class="text-dark"><i class="fas fa-gift mr-1"></i><span>Tổng hợp khuyến mãi</span></a>
                 </div>
                 <div class="col-md-3 text-center hidetop-none col-6 py-2">
-                    <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Miễn phí dùng thử</span></a>
+                    <a href="https://www.nguyenkim.com/khuyen-mai.html" class="text-dark"><i class="fas fa-gift mr-1"></i><span>Miễn phí dùng thử</span></a>
                 </div>
                 <div class="col-md-3 text-center hidetop-none col-6 py-2">
-                    <a href="https://www.nguyenkim.com/khuyen-mai.html"><i class="fas fa-gift mr-1"></i><span>Tặng 1 năm bảo hành</span></a>
+                    <a href="~/kiem-tra-don-hang/" class="text-dark"><i class="fas fa-check-circle mr-1"></i><span>Kiểm tra đơn hàng</span></a>
                 </div>
             </div>
         </div>
@@ -222,7 +202,7 @@
     <div class="modal fade" id="ModalTemplate" aria-hidden="true">
         <div class="modal-dialog modal-xl bg-white" style="min-height: 100px">
             <div class="modal-content" id="modalContent">
-                
+
             </div>
             <div id="modal-loading" class="spinner-loading" style="display: none;">
                 <img src="~/Content/Spinner.png" alt="Loading..." />

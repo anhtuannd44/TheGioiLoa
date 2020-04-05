@@ -4,12 +4,11 @@
     ViewBag.Title = "Chỉnh Sửa Bài Viết";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
 }
-@using (Html.BeginForm("EditBlog", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditBlog", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id = "BlogForm" }))
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.BlogId)
-    @Html.HiddenFor(model => model.DateCreated)
-    @Html.HiddenFor(model => model.Type)
-    <div class="row" id="adminPage">
+    <div class="row">
         <div class="col-md-9">
             <div class="form-group mb-2 mt-0">
                 @Html.TextBoxFor(model => model.Title, new { @class = "form-control rounded-0", @placeholder = "Tiêu đề bài viết" })
@@ -89,14 +88,14 @@
                 <div class="card-body">
 
                     <div class="preview-image w-100">
-                        <img id="previewCover" src="~/Content/Upload/Images/@Model.Cover" style="width: 100%; height: auto;" />
+                        <img id="previewCover" src="~/Content/Upload/Images/@(Model.ImageId==null?"No_Picture.jpg":Model.ImageId)" style="width: 100%; height: auto;" />
                         <div class="position-absolute d-none" id="removeCover" style="top: 5px; right:10px">
                             <a class="text-primary" data-toggle="tooltip" title="Xóa hình cover" style="font-size: 19px"><i class="fas fa-trash"></i></a>
                         </div>
                     </div>
 
-                    <input type="text" hidden id="Cover" name="Cover" data-toggle="modal" data-target="#ModalTemplate" value="@Model.Cover" />
-                    <label for="Cover" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
+                    <input type="text" hidden id="ImageId" name="ImageId" data-toggle="modal" data-target="#ModalTemplate" value="@Model.ImageId" />
+                    <label for="ImageId" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
                     <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho bài viết</p>
                 </div>
             </div>

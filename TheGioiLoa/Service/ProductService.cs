@@ -72,7 +72,7 @@ namespace TheGioiLoa.Service
                 {
                     ProductId = item.ProductId,
                     Description = item.Description,
-                    CoverName = item.Cover,
+                    CoverName = item.ImageId,
                     PriceSale = item.PriceSale,
                     Price = item.Price,
                     Status = item.Status,
@@ -94,7 +94,7 @@ namespace TheGioiLoa.Service
                     }
                     addProduct.Categories = addListCategory;
                 }
-                var Images = db.Product_Image.Where(a => a.ProductId == item.ProductId).ToList();
+                var Images = db.Product_Images.Where(a => a.ProductId == item.ProductId).ToList();
                 if (Images != null)
                 {
                     var addListImage = new List<Image>();
@@ -111,113 +111,14 @@ namespace TheGioiLoa.Service
             }
             return model;
         }
-        public ProductViewModel GetAllInformationOfProductItem(Product product)
-        {
-            try
-            {
-                var model = new ProductViewModel()
-                {
-                    ProductId = product.ProductId,
-                    Name = product.Name,
-                    Url = _helper.CreateUrl(product.Name),
-                    Description = product.Description,
-                    DateModified = DateTime.Now,
-                    Price = product.Price,
-                    PriceSale = product.PriceSale,
-                    Status = product.Status,
-                    Characteristics = product.Characteristics,
-                    Promotion = product.Promotion,
-                    Videos = product.Videos,
-                    Details = product.Details,
-                    CoverName = product.Cover,
-                    Guarantee = product.Guarantee
-                };
-                var category = db.Category.ToList();
-                var addCategoryList = new List<CategoryProductEditViewModel>();
-                foreach (var item in category)
-                {
-                    addCategoryList.Add(new CategoryProductEditViewModel()
-                    {
-                        CategoryId = item.CategoryId,
-                        Name = item.Name,
-                        CategoryParentId = item.CategoryParentId,
-                        IsChecked = (db.CategoryProduct.Find(item.CategoryId, product.ProductId) != null) ? true : false
-                    });
-                }
-                model.Categories = addCategoryList.ToList();
 
-                var image = db.Product_Image.Include(a => a.Image).Where(a => a.ProductId == product.ProductId).ToList();
-                var imageList = "";
-                foreach (var item in image)
-                {
-                    imageList += item.ImageId + ",";
-                }
-                model.Image = imageList;
-
-                var brand = db.Brand.ToList();
-                var addBrandList = new List<BrandSelectedViewModel>();
-                foreach (var item in brand)
-                {
-                    addBrandList.Add(new BrandSelectedViewModel()
-                    {
-                        BrandId = item.BrandId,
-                        Name = item.Name,
-                        IsChecked = (db.Product.Find(product.ProductId).BrandId == item.BrandId) ? true : false
-                    });
-                }
-                model.Brand = addBrandList.ToList();
-                var tag = db.Product_Tag.Include(a => a.Tag).Where(a => a.ProductId == product.ProductId);
-                var addTagList = new List<Tag>();
-                foreach (var item in tag)
-                {
-                    addTagList.Add(new Tag()
-                    {
-                        TagId = item.TagId,
-                        Name = item.Tag.Name
-                    });
-                }
-                model.Tags = addTagList.ToList();
-                model.StatusList = GetStatus();
-                model.IsGetDataSuccess = true;
-                return model;
-            }
-            catch
-            {
-                var model = new ProductViewModel()
-                { IsGetDataSuccess = false };
-                return model;
-            }
-
-        }
 
         public int GetLastestProductId(string productName)
         {
             return db.Product.Where(a => a.Name == productName).OrderByDescending(x => x.ProductId).Take(1).Single().ProductId;
         }
 
-        public void AddProductToDb(CreateProductViewModel product)
-        {
-            var addProduct = new Product()
-            {
-                Name = product.Name,
-                Url = _helper.CreateUrl(product.Name),
-                BrandId = product.BrandId,
-                Description = product.Description,
-                DateCreated = DateTime.Now,
-                DateModified = DateTime.Now,
-                Price = product.Price,
-                PriceSale = product.PriceSale,
-                Status = product.Status,
-                Characteristics = product.Characteristics,
-                Promotion = product.Promotion,
-                Videos = product.Videos,
-                Details = product.Details,
-                Cover = product.CoverName,
-                Guarantee = product.Guarantee
-            };
-            db.Product.Add(addProduct);
-            db.SaveChanges();
-        }
+
 
         public void AddCategoryToProduct(int productId, string categoryIdList)
         {
@@ -246,7 +147,7 @@ namespace TheGioiLoa.Service
                 {
                     if (!string.IsNullOrEmpty(item))
                     {
-                        db.Product_Image.Add(new Product_Image()
+                        db.Product_Images.Add(new Product_Images()
                         {
                             ImageId = item,
                             ProductId = productId
@@ -257,22 +158,24 @@ namespace TheGioiLoa.Service
             }
         }
 
-        public void AddTagToProduct(int productId, string tagArray)
+        public void EditProduct(Product product)
         {
-            if (!string.IsNullOrEmpty(tagArray))
-            {
-                var tagList = tagArray.Split('|');
-                foreach (var item in tagList)
-                {
-                    int myInt;
-                    db.Product_Tag.Add(new Product_Tag()
-                    {
-                        ProductId = productId,
-                        TagId = (int.TryParse(item, out myInt)) ? myInt : 0
-                    });
-                }
-                db.SaveChanges();
-            }
+            var editItem = db.Product.Find(product.ProductId);
+            editItem.Name = product.Name;
+            editItem.Url = product.Url;
+            editItem.Price = product.Price;
+            editItem.PriceSale = product.PriceSale;
+            editItem.ImageId = product.ImageId;
+            editItem.Guarantee = product.Guarantee;
+            editItem.Promotion = product.Promotion;
+            editItem.Services = product.Services;
+            editItem.Contents = product.Contents;
+            editItem.Description = product.Description;
+            editItem.Status = product.Status;
+            editItem.Specifications = product.Specifications;
+
+            db.Entry(editItem).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void RemoveCategoryProduct(int productId)
@@ -284,38 +187,12 @@ namespace TheGioiLoa.Service
 
         public void RemoveProductImage(int productId)
         {
-            var removeList = db.Product_Image.Where(a => a.ProductId == productId);
-            if (removeList != null)
-                db.Product_Image.RemoveRange(removeList);
+            var removeList = db.Product_Images.Where(a => a.ProductId == productId);
+            if (removeList.ToList().Count != 0)
+                db.Product_Images.RemoveRange(removeList);
         }
-        public void RemoveProductTag(int productId)
-        {
-            var removeList = db.Product_Tag.Where(a => a.ProductId == productId);
-            if (removeList != null)
-                db.Product_Tag.RemoveRange(removeList);
-        }
-        public void EditProductDb(ProductViewModel product)
-        {
-            var addProduct = db.Product.Find(product.ProductId);
 
-            addProduct.Name = product.Name;
-            addProduct.Url = _helper.CreateUrl(product.Name);
-            addProduct.BrandId = product.BrandId;
-            addProduct.Description = product.Description;
-            addProduct.DateModified = DateTime.Now;
-            addProduct.Price = product.Price;
-            addProduct.PriceSale = product.PriceSale;
-            addProduct.Status = product.Status;
-            addProduct.Characteristics = product.Characteristics;
-            addProduct.Promotion = product.Promotion;
-            addProduct.Videos = product.Videos;
-            addProduct.Details = product.Details;
-            addProduct.Cover = !string.IsNullOrEmpty(product.CoverName) ? product.CoverName : "No_Picture.JPG";
-            addProduct.Guarantee = product.Guarantee;
 
-            db.Entry(addProduct).State = EntityState.Modified;
-            db.SaveChanges();
-        }
         public List<ProductHomePage> GetProductHomePage()
         {
             var productHomePage = db.ProductHomePage.Count();
@@ -421,6 +298,25 @@ namespace TheGioiLoa.Service
             }
             db.SaveChanges();
         }
+
+        public List<CategoryOfProductViewModel> GetCategoryOfProduct(int productId)
+        {
+            var result = new List<CategoryOfProductViewModel>();
+            var allCateogry = db.Category.ToList();
+            var category = db.CategoryProduct.Where(a => a.ProductId == productId).ToList();
+            foreach (var item in allCateogry)
+            {
+                result.Add(new CategoryOfProductViewModel()
+                {
+                    CategoryId = item.CategoryId,
+                    CategoryParentId = item.CategoryParentId,
+                    Name = item.Name,
+                    IsChecked = (category.Find(a => a.CategoryId == item.CategoryId) != null) ? true : false
+                });
+            }
+            return result;
+        }
+
         public List<StatusEnum> GetStatus()
         {
             var statusList = new List<StatusEnum>(){
@@ -451,7 +347,7 @@ namespace TheGioiLoa.Service
             }
             if (priceSortFrom == 0)
                 productLists = productLists.Where(a => a.Price <= priceSortTo || a.Price == null).ToList();
-            else if (priceSortFrom !=null)
+            else if (priceSortFrom != null)
                 productLists = productLists.Where(a => a.PriceSale >= priceSortFrom && a.PriceSale <= priceSortTo).ToList();
 
             switch (sortBy)

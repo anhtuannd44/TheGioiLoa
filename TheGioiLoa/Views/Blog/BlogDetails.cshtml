@@ -10,9 +10,12 @@
                 <div class="card-body">
                     <h3 class="page-title mb-0">@Model.Title</h3>
                     <p class="text-center">@Model.DateCreated.ToString("dd/MM/yyyy")</p>
-                    <div class="page-cover text-center">
-                        <img src="~/Content/Upload/Images/@Model.Cover" />
-                    </div>
+                    @if (Model.ImageId != null)
+                    {
+                        <div class="page-cover text-center">
+                            <img src="~/Content/Upload/Images/@Model.ImageId" />
+                        </div>
+                    }
                     <div class="page-content mt-5">
                         @Html.Raw(Model.BlogContent)
                     </div>

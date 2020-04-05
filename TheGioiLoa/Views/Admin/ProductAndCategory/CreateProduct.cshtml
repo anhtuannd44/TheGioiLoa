@@ -1,12 +1,10 @@
-﻿@model TheGioiLoa.Models.ViewModel.CreateProductViewModel
-
+﻿@model TheGioiLoa.Models.Product
 @{
     ViewBag.Title = "Thêm sản phẩm mới";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
 }
-@using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id="ProductForm"  }))
 {
-    @Html.AntiForgeryToken()
     <p class="text-danger">@ViewBag.NotiPrice</p>
     <div class="row">
         <div class="col-md-9">
@@ -17,7 +15,7 @@
             @*Mô tả ngắn*@
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Mô tả ngắn</h3>
+                    <h3 class="card-title">Đặc điểm nổi bật</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -62,7 +60,6 @@
                                 <div class="col-md-8">
                                     @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
                                 </div>
-                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -71,25 +68,9 @@
                                 <div class="col-md-8">
                                     @Html.EditorFor(model => model.PriceSale, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
                                 </div>
-                                @Html.ValidationMessageFor(model => model.PriceSale, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            @*Đặc điểm nổi bật*@
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Đặc điểm nổi bật</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @Html.TextAreaFor(model => model.Characteristics, new { @class = "textarea text-area-1", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
                 </div>
             </div>
 
@@ -104,7 +85,37 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.TextAreaFor(model => model.Details, new { @class = "textarea text-area-2", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                    @Html.TextAreaFor(model => model.Specifications, new { @class = "textarea text-area-2", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                </div>
+            </div>
+
+            @* Khuyến Mãi *@
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Mô tả</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @Html.TextAreaFor(model => model.Contents, new { @class = "textarea text-area-3", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
+                </div>
+            </div>
+
+            @* Dịch vụ *@
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Dịch vụ</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @Html.TextAreaFor(model => model.Services, new { @class = "textarea text-area-3", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
                 </div>
             </div>
 
@@ -120,26 +131,6 @@
                 </div>
                 <div class="card-body">
                     @Html.TextAreaFor(model => model.Promotion, new { @class = "textarea text-area-3", @rows = "3", @placeholder = "Nhập mô tả ngắn ở đây ..." })
-                </div>
-            </div>
-
-            @* Videos *@
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Video</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Videos, new { @class = "col-md-2 col-form-label-sm" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Videos, new { @placeholder = "Dán link Youtube vào đây ...", @class = "form-control form-control-sm" })
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -160,7 +151,7 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <button type="submit" id="submitFormButton" class="btn btn-primary btn-flat btn-sm btn-block">Tạo Sản Phẩm</button>
+                            <button type="submit" id="submitFormButton" class="btn btn-success btn-flat btn-sm btn-block">Tạo Sản Phẩm</button>
                         </div>
                     </div>
                 </div>
@@ -236,27 +227,6 @@
                 </div>
             </div>
 
-            @*Tag Sản Phẩm*@
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Từ khóa sản phẩm (Tag)</h3>
-                </div>
-                <div class="card-body">
-                    <div class="input-group input-group-sm">
-                        @Html.HiddenFor(model => model.Tag)
-                        <input type="text" id="AddTag" name="AddTag" class="form-control">
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-info" id="addTag">Thêm Tag</button>
-                        </span>
-                    </div>
-                    <p class="my-2 font-italic small">Phân cách các thẻ bằng dấu phẩy</p>
-                    <div class="tag-area row px-2" id="renderTag">
-
-                    </div>
-                </div>
-            </div>
-
-
             @*Ảnh Sản Phẩm*@
             <div class="card position-relative">
                 <div class="card-header">
@@ -271,8 +241,8 @@
                         </div>
                     </div>
 
-                    <input type="text" hidden id="CoverName" name="CoverName" data-toggle="modal" data-target="#ModalTemplate" value="No_Picture.JPG" />
-                    <label for="CoverName" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
+                    <input type="text" hidden id="ImageId" name="ImageId" data-toggle="modal" data-target="#ModalTemplate" />
+                    <label for="ImageId" class="btn btn-primary btn-flat mt-3 btn-block">Chọn Hình Cover</label>
                     <p class="my-2 font-italic small text-center">Hình này sẽ làm hình ảnh đại diện cho sản phẩm</p>
                 </div>
             </div>
@@ -284,7 +254,7 @@
                     <h3 class="card-title">Album hình ảnh sản phẩm</h3>
                 </div>
                 <div class="card-body">
-                    @Html.HiddenFor(model => model.Image)
+                    <input type="text" hidden name="imageAlbum" id="imageAlbum" />
                     <div class="row mt-2 mx-0" id="renderImage">
 
                     </div>
@@ -305,9 +275,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        var tagInputResult = [];
-        var tagId = [];
-        var id = 0;
-    </script>
+    @Scripts.Render("~/bundles/admin/product")
 }

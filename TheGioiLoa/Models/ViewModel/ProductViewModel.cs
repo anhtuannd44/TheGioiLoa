@@ -136,6 +136,16 @@ namespace TheGioiLoa.Models.ViewModel
         public string LinkYoutube { get; set; }
     }
 
+    public class CategoryOfProductViewModel
+    {
+        public int CategoryId { get; set; }
+
+        public string Name { get; set; }
+
+        public int? CategoryParentId { get; set; }
+        public bool IsChecked { get; set; }
+    }
+
     public class ReviewViewModel
     {
         public List<EachReviewViewModel> EachReviewViewModel { get; set; }

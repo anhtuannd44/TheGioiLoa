@@ -247,18 +247,9 @@ function reloadProductHomePage() {
 function updateFooterContactSuccess(data) {
     if (data.status == "success") {
         toastr.success(data.message);
-        reloadFooterContact();
+        location.reload();
     }
     else {
         toastr.error(data.message);
     }
-}
-function reloadFooterContact() {
-    $.ajax({
-        method: "POST",
-        url: "/Admin/LoadFooterContact",
-        success: function (data) {
-            $("#renderFooterContact").html(data);
-        }
-    })
 }

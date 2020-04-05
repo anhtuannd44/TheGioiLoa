@@ -124,58 +124,60 @@ namespace TheGioiLoa.Controllers
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
-        public ActionResult ProductList()
+        public ActionResult ProductList(int? page)
         {
-            var model = _productService.GetProductList();
-            return View(model.ToList());
+            var model = db.Product.OrderByDescending(a => a.DateCreated).ToPagedList(page ?? 1, 10);
+            return View(model);
         }
 
-        public ActionResult EditProduct(int productId, string error)
+        public ActionResult EditProduct(int productId)
         {
-            ViewBag.NotiPrice = error;
             var product = db.Product.Find(productId);
             if (product == null)
                 return HttpNotFound();
-            var model = _productService.GetAllInformationOfProductItem(product);
-            if (!model.IsGetDataSuccess)
-                return RedirectToAction("ProductList");
-            return View("ProductAndCategory/EditProduct", model);
+            ViewBag.Brand = db.Brand.ToList();
+            ViewBag.Categories = _productService.GetCategoryOfProduct(productId);
+            ViewBag.StatusList = _productService.GetStatus();
+            return View("ProductAndCategory/EditProduct", product);
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult EditProduct(ProductViewModel product)
+        public ActionResult EditProduct(Product product, string imageAlbum)
         {
-            var error = "";
-            if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
+            if (!string.IsNullOrEmpty(product.Name))
             {
-                error = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán";
-            }
-            else
-            {
-                try
+                product.Name = _helper.DeleteSpace(product.Name);
+                product.Url = _helper.CreateUrl(product.Name);
+                product.DateModified = DateTime.Now;
+
+                if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
                 {
-                    //Edit ProductDb 
-                    product.Name = _helper.DeleteSpace(product.Name);
-
-                    _productService.EditProductDb(product);
-
-
-                    //Remove and Add Category
-                    _productService.RemoveCategoryProduct(product.ProductId);
-                    _productService.AddCategoryToProduct(product.ProductId, Request["CategoryId"]);
-
-                    //Remove andd Add Image
-                    _productService.RemoveProductImage(product.ProductId);
-                    _productService.AddImageToProduct(product.ProductId, product.Image);
-
-                    //Remove add Add Tags
-                    _productService.RemoveProductTag(product.ProductId);
-                    _productService.AddTagToProduct(product.ProductId, product.Tag);
-                    return RedirectToAction("ProductList");
+                    ViewBag.NotiPrice = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán";
                 }
-                catch { }
+                else
+                {
+                    try
+                    {
+                        _productService.EditProduct(product);
+                        //Remove and Add Category
+                        _productService.RemoveCategoryProduct(product.ProductId);
+                        _productService.AddCategoryToProduct(product.ProductId, Request["CategoryId"]);
+
+                        //Remove andd Add Image
+                        _productService.RemoveProductImage(product.ProductId);
+                        _productService.AddImageToProduct(product.ProductId, imageAlbum);
+
+                        return RedirectToAction("ProductList");
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
             }
-            return RedirectToAction("EditProduct", new { productId = product.ProductId, error });
+            ViewBag.Brand = db.Brand.ToList();
+            ViewBag.Categories = _productService.GetCategoryOfProduct(product.ProductId);
+            ViewBag.StatusList = _productService.GetStatus();
+            return View("ProductAndCategory/EditProduct", product);
 
         }
         public ActionResult CreateProduct()
@@ -186,12 +188,14 @@ namespace TheGioiLoa.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult CreateProduct(CreateProductViewModel product)
+        public ActionResult CreateProduct(Product product, string imageAlbum)
         {
             if (!string.IsNullOrEmpty(product.Name))
             {
                 product.Name = _helper.DeleteSpace(product.Name);
+                product.Url = _helper.CreateUrl(product.Name);
+                product.DateCreated = DateTime.Now;
+
                 if (product.Price == null && product.PriceSale != null || product.Price < product.PriceSale)
                 {
                     ViewBag.NotiPrice = "Lỗi: Giá khuyến mãi phải nhỏ hơn giá bán";
@@ -200,19 +204,20 @@ namespace TheGioiLoa.Controllers
                 {
                     try
                     {
-                        _productService.AddProductToDb(product);
+                        db.Product.Add(product);
+                        db.SaveChanges();
                         var productId = _productService.GetLastestProductId(product.Name);
                         //Add Category
                         _productService.AddCategoryToProduct(productId, Request["CategoryId"]);
-                        //Add Image
-                        _productService.AddImageToProduct(productId, product.Image);
-                        //Add Tags
-                        _productService.AddTagToProduct(productId, product.Tag);
+                        //Add ImageList
+                        _productService.AddImageToProduct(productId, imageAlbum);
                         return RedirectToAction("ProductList");
                     }
-                    catch
+                    catch (Exception ex)
                     {
+
                     }
+
                 }
             }
             ViewBag.BrandId = db.Brand.ToList();
@@ -226,12 +231,15 @@ namespace TheGioiLoa.Controllers
             var result = new JsonStatusViewModel();
             try
             {
+                var product_image = db.Product_Images.Where(a => a.ProductId == productId);
+                if (product_image.ToList().Count != 0)
+                    db.Product_Images.RemoveRange(product_image);
                 db.Product.Remove(db.Product.Find(productId));
                 db.SaveChanges();
                 result.status = "success";
-                result.message = "Thành công! Sản phẩm đã được xóa";
+                result.message = "Thành công! Đã xóa sản phẩm";
             }
-            catch
+            catch (Exception ex)
             {
                 result.status = "error";
                 result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
@@ -286,7 +294,7 @@ namespace TheGioiLoa.Controllers
         [HttpPost]
         public ActionResult LoadLibraryImage(string target, bool IsMultiple, string selectedImage, string notLoadAll)
         {
-            var image = db.Image.ToList();
+            var image = db.Image.OrderByDescending(a => a.DateCreated).ToList();
             var model = new ListImageViewModel();
             var addImageList = new List<ImageViewModel>();
             foreach (var item in image)
@@ -317,6 +325,7 @@ namespace TheGioiLoa.Controllers
                 model.IsMultiple = false;
             model.Target = target;
 
+
             if (notLoadAll == "notLoadAll")
                 return PartialView("_ImageLibraryPartial", model);
 
@@ -324,10 +333,9 @@ namespace TheGioiLoa.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult LoadSelectImage(string imageList)
+        public ActionResult LoadSelectImage(string imageAlbum)
         {
-            var imageListArray = imageList.Split(',');
+            var imageListArray = imageAlbum.Split(',');
             List<Image> model = new List<Image>();
             foreach (var item in imageListArray)
             {
@@ -466,14 +474,10 @@ namespace TheGioiLoa.Controllers
             return Json(json, JsonRequestBehavior.DenyGet);
         }
 
-        public ActionResult Blog()
+        public ActionResult Blog(int? page)
         {
-            return View();
-        }
-        public ActionResult LoadBlogList()
-        {
-            var model = _blogService.GetBlogList("All", 1);
-            return PartialView("BlogAndPage/_BlogListPartial", model);
+            var model = _blogService.GetBlogList("All", 1).OrderByDescending(a => a.DateCreated).ToPagedList(page ?? 1, 10);
+            return View(model);
         }
         public ActionResult CreateBlog()
         {
@@ -618,15 +622,10 @@ namespace TheGioiLoa.Controllers
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
-        public ActionResult Page()
+        public ActionResult Page(int? page)
         {
-            var model = _blogService.GetBlogList("All", 2);
+            var model = _blogService.GetBlogList("All", 2).OrderByDescending(a => a.DateCreated).ToPagedList(page ?? 1, 10);
             return View(model);
-        }
-        public ActionResult LoadPageList()
-        {
-            var model = _blogService.GetBlogList("All", 2);
-            return PartialView("BlogAndPage/_PageListPartial", model);
         }
         public ActionResult CreatePage()
         {
@@ -666,6 +665,7 @@ namespace TheGioiLoa.Controllers
         {
             try
             {
+                page.BlogCategoryId = null;
                 _blogService.EditBlog(page);
                 return RedirectToAction("Page");
             }
@@ -989,7 +989,7 @@ namespace TheGioiLoa.Controllers
         }
         public ActionResult OrderDetails(string OrderId)
         {
-            var model = db.OrderDetails.Where(a=>a.OrderId == OrderId).ToList();
+            var model = db.OrderDetails.Where(a => a.OrderId == OrderId).ToList();
             return View("Order/OrderDetails", model);
         }
     }

@@ -13,7 +13,7 @@
                         <div class="image-box ratio-3-4 h-100 my-auto">
                             <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url"
                                class="image"
-                               style="background-image: url('../../../Content/Upload/Images/@item.Cover');">
+                               style="background-image: url('../../../Content/Upload/Images/@(item.ImageId==null?"No_Picture.jpg":item.ImageId)');">
                             </a>
                         </div>
                     </div>

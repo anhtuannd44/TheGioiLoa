@@ -1,12 +1,12 @@
 ﻿@model TheGioiLoa.Models.ViewModel.FooterContactViewModel
 
-@using (Ajax.BeginForm("UpdateFooterContact", new AjaxOptions
+@using (Ajax.BeginForm("UpdateFooterContact",null, new AjaxOptions
 {
     HttpMethod = "POST",
     OnBegin = "loadingSpinner('#updateFooterContact-Loading')",
     OnSuccess = "updateFooterContactSuccess",
     OnComplete= "exitSpinner('#updateFooterContact-Loading')"
-}))
+}, new { @class = "form-summnernote" }))
 {
     <div class="card-header">
         <h3 class="card-title float-left">Chỉnh Sửa Footer Contact</h3>
@@ -31,4 +31,5 @@
         </div>
     </div>
 }
-<script src="~/Scripts/Admin/summnernote.js"></script>
+
+

@@ -35,7 +35,6 @@
 
         public string Note { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         public int PaymentMethod { get; set; }

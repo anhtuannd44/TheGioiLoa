@@ -5,12 +5,11 @@
 {
     foreach (var item in Model)
     {
-        <div class="w-20 p-0">
+        <div class="w-20 p-0 col-6">
             <div class="producthome-item">
                 <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
-                    <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
+                    <img src="~/Content/Upload/Images/@(item.ImageId==null?"No_Picture.jpg":item.ImageId)" style="width: 100%" />
                     <h3>@item.Name</h3>
-                    <div class="text-center">
                         @if (item.Status == 1)
                         {
                             if (item.PriceSale != null)
@@ -25,9 +24,8 @@
                         }
                         else
                         {
-                            <p class="text-danger small">Tạm hết hàng</p>
+                            <strong class="small">Tạm hết hàng</strong>
                         }
-                    </div>
                 </a>
             </div>
         </div>

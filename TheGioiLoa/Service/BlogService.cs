@@ -24,7 +24,7 @@ namespace TheGioiLoa.Service
             blog.Url = _helper.CreateUrl(blog.Title);
             blog.Type = type;
             blog.DateCreated = DateTime.Now;
-            blog.DateModified = DateTime.Now;
+            blog.ImageId = blog.ImageId;
             db.Blog.Add(blog);
             db.SaveChanges();
         }
@@ -39,7 +39,7 @@ namespace TheGioiLoa.Service
                 Status = blog.Status,
                 BlogCategoryId = blog.BlogCategoryId,
                 Type = blog.Type,
-                Cover = blog.Cover,
+                Cover = blog.ImageId,
                 StatusLabel = GetStatus(blog.Status),
                 Description = blog.Description
             };
@@ -50,10 +50,9 @@ namespace TheGioiLoa.Service
         }
 
         //type: 1-Blog 2-Page
-        public List<BlogViewModel> GetBlogList(string status, int type)
+        public List<Blog> GetBlogList(string status, int type)
         {
             var blogList = db.Blog.Where(a => a.Type == type).ToList();
-
             switch (status)
             {
                 case "All":
@@ -68,35 +67,21 @@ namespace TheGioiLoa.Service
                     blogList = null;
                     break;
             }
-            var result = new List<BlogViewModel>();
-            var blogCategory = db.BlogCategory;
-            foreach (var item in blogList)
-            {
-                var addBlog = new BlogViewModel()
-                {
-                    BlogId = item.BlogId,
-                    Title = item.Title,
-                    Url = item.Url,
-                    BlogCategoryId = item.BlogCategoryId,
-                    Status = item.Status,
-                    DateCreated = item.DateCreated,
-                    StatusLabel = GetStatus(item.Status),
-                    Cover = item.Cover,
-                    BlogContent =item.BlogContent,
-                    Description = item.Description,
-                    BlogCategory= item.BlogCategory
-                };
-                result.Add(addBlog);
-            }
-            return result;
+            return blogList;
         }
 
         public void EditBlog(Blog blog)
         {
-            blog.Title = _helper.DeleteSpace(blog.Title);
-            blog.Url = _helper.CreateUrl(blog.Title);
-            blog.DateModified = DateTime.Now;
-            db.Entry(blog).State = EntityState.Modified;
+            var editItem = db.Blog.Find(blog.BlogId);
+            editItem.Title = _helper.DeleteSpace(blog.Title);
+            editItem.Url = _helper.CreateUrl(blog.Title);
+            editItem.Status = blog.Status;
+            editItem.ImageId = blog.ImageId;
+            editItem.BlogCategoryId = blog.BlogCategoryId;
+            editItem.BlogContent = blog.BlogContent;
+            editItem.Description = blog.Description;
+            editItem.DateModified = DateTime.Now;
+            db.Entry(editItem).State = EntityState.Modified;
             db.SaveChanges();
         }
         public List<StatusEnum> GetStatus()

@@ -40,5 +40,10 @@ namespace TheGioiLoa.Models.ViewModel
         public int Count { get; set; }
     }
 
+    public class InputOrderId
+    {
+        [Required(ErrorMessage ="Bạn chưa nhập thông tin")]
+        public string OrderId { get; set; }
+    }
    
 }

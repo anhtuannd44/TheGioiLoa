@@ -3,9 +3,6 @@
 @foreach (var item in Model)
 {
     <div class="col-md-3 px-0">
-        <div class="image-box ratio-1-1">
-            <div href="#" class="image" style="background-image: url('../Content/Upload/Images/@item.ImageId');">
-            </div>
-        </div>
+        <img src="~/Content/Upload/Images/@item.ImageId" style="width: 100%;" />
     </div>
 }

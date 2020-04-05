@@ -70,7 +70,6 @@ namespace TheGioiLoa
                        "~/Content/Home/css/onepage.css"));
             //Css Home
             bundles.Add(new StyleBundle("~/Content/HomeCss").Include(
-                       "~/Content/Home/css/RobotoFont.css",
                        "~/Content/FontAwesome/css/all.css",
                        "~/Content/Home/slider-product/dist/styles/vit-gallery.css",
                        "~/Content/Admin/plugins/ion-rangeslider/css/ion.rangeSlider.min.css",

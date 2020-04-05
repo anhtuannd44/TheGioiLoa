@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.BlogViewModel>
+﻿@model IEnumerable<TheGioiLoa.Models.Blog>
 
 @if (Model.Count() != 0)
 {
@@ -7,7 +7,7 @@
         <div class="row blog-content-list m-0 p-1">
             <div class="col-md-4 p-0 col-4">
                 <div class="image-box ratio-16-9 h-100 my-auto">
-                    <a href="/tin-tuc/chi-tiet/@item.BlogId/@item.Url" class="image image-big" id="image-main" style="background-image: url('../../Content/Upload/Images/@item.Cover');"></a>
+                    <a href="/tin-tuc/chi-tiet/@item.BlogId/@item.Url" class="image image-big" id="image-main" style="background-image: url('../../Content/Upload/Images/@(item.ImageId==null?"No_Picture.jpg":item.ImageId)');"></a>
                 </div>
             </div>
             <div class="col-md-8 p-0 col-8">

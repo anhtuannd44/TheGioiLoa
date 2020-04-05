@@ -1,8 +1,10 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TheGioiLoa.Helper;
 using TheGioiLoa.Models;
 using TheGioiLoa.Models.ViewModel;
 using TheGioiLoa.Service;
@@ -15,6 +17,7 @@ namespace TheGioiLoa.Controllers
         private readonly InformationService _informationService = new InformationService();
         private readonly BlogService _blogService = new BlogService();
         private readonly ProductService _productService = new ProductService();
+        private readonly HelperFunction _helper = new HelperFunction();
 
         public ActionResult Index()
         {
@@ -46,6 +49,11 @@ namespace TheGioiLoa.Controllers
                 Footer3 = _informationService.GetMenuList(3)
             };
             return PartialView("Footer/_FooterMiddle", model);
+        }
+        public string LoadLogo()
+        {
+            var logo = db.Information.Find("Main").Logo;
+            return logo;
         }
         public ActionResult LoadSocial(string social)
         {
@@ -111,6 +119,23 @@ namespace TheGioiLoa.Controllers
         public ActionResult LoadGoogleMap()
         {
             return PartialView("Footer/_GoogleMapPartial");
+        }
+
+        [HttpGet]
+        public ActionResult Search(string search, int? page)
+        {
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = _helper.DeleteSpace(search);
+                if (!string.IsNullOrEmpty(search))
+                {
+                    var model = db.Product.Where(a => a.Name.Contains(search)).OrderBy(a => a.Name).ToPagedList(page ?? 1, 10);
+                    ViewBag.Search = search;
+                    return View(model);
+                }
+            }
+            
+            return View();
         }
     }
 }

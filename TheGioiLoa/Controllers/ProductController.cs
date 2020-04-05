@@ -38,68 +38,7 @@ namespace TheGioiLoa.Controllers
             {
                 return HttpNotFound();
             }
-
-            var model = new ProductViewModel
-            {
-                Name = product.Name,
-                Brands = db.Brand.Find(product.BrandId),
-                ProductId = product.ProductId,
-                Description = product.Description,
-                Details = product.Details,
-                CoverName = product.Cover,
-                Characteristics = product.Characteristics,
-                Promotion = product.Promotion,
-                Videos = product.Videos,
-                Price = product.Price,
-                PriceSale = product.PriceSale,
-                Status = product.Status
-            };
-            var image = db.Product_Image.Include(a => a.Image).Where(a => a.ProductId == productId);
-            var addImage = new List<Image>();
-            foreach (var item in image)
-            {
-                addImage.Add(new Image()
-                {
-                    ImageId = item.ImageId
-                });
-            }
-            model.Images = addImage;
-
-            var tag = db.Product_Tag.Include(a => a.Tag).Where(a => a.ProductId == productId);
-            var addTag = new List<Tag>();
-            foreach (var item in tag)
-            {
-                addTag.Add(new Tag()
-                {
-                    TagId = item.TagId,
-                    Name = item.Tag.Name
-                });
-            }
-            model.Tags = addTag;
-
-            var category = db.CategoryProduct.Where(a => a.ProductId == productId);
-            if (category.Count() != 0)
-            {
-                foreach (var item in category)
-                {
-                    var parentCategoryId = db.Category.Find(item.ProductId);
-                    if (parentCategoryId != null)
-                        if (parentCategoryId.CategoryParentId == null)
-                        {
-                            var categoryProductRelateds = db.CategoryProduct.Where(a => a.ProductId == productId && a.CategoryId == item.CategoryId).Take(4);
-                            var productRelateds = new List<Product>();
-                            foreach (var addItem in categoryProductRelateds)
-                            {
-                                productRelateds.Add(db.Product.Find(addItem.ProductId));
-                            }
-                            model.ProductRelateds = productRelateds;
-                            break;
-                        }
-                }
-            }
-
-            return View(model);
-
+            return View(product);
         }
         public ActionResult AllCategory()
         {
@@ -119,6 +58,7 @@ namespace TheGioiLoa.Controllers
                 ViewBag.BrandId = db.Brand.ToList();
                 model = db.Category.ToList();
                 ViewBag.Title = "Cửa Hàng";
+                ViewBag.CategoryName = "Tất cả sản phẩm";
             }
             else
             {
@@ -242,6 +182,12 @@ namespace TheGioiLoa.Controllers
         {
             var model = _productService.GetProductLists(null, "newest", null, null, 4);
             return PartialView("_NewestProductSidebarPartial", model);
+        }
+
+        public ActionResult GetHotline()
+        {
+            ViewBag.Hotline = db.Information.Find("Main").Hotline;
+            return PartialView("_HotlinePartial");
         }
     }
 }

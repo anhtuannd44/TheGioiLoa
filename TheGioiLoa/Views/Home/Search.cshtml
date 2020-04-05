@@ -1,0 +1,66 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<TheGioiLoa.Models.Product>
+@{
+    ViewBag.Title = "Tìm kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0 ml-auto px-0 py-1">
+            <li class="breadcrumb-item"><a href="~/">Trang Chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tìm Kiếm</li>
+        </ol>
+    </nav>
+</div>
+<div class="container h-100 my-3">
+    <div class="product-area shadow position-relative">
+        <div class="product-header">
+            <h5 class="product-header-title">Kết quả tìm kiếm cho "@ViewBag.Search"</h5>
+        </div>
+
+        @if (Model != null)
+        {
+            <div class="row homeproduct m-0" id="productByCategory">
+                @foreach (var item in Model)
+                {
+                    <div class="w-20 p-0 col-6">
+                        <div class="producthome-item">
+                            <a href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
+                                <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
+                                <h3>@item.Name</h3>
+                                <div class="text-center">
+                                    @if (item.Status == 1)
+                                    {
+                                        if (item.PriceSale != null)
+                                        {
+                                            <strong class="price-sale">@string.Format("{0:0,0 ₫}", item.PriceSale)</strong>
+                                            <del class="price">@string.Format("{0:0,0 ₫}", item.Price)</del>
+                                        }
+                                        else
+                                        {
+                                            <strong class="price-sale">@(item.Price != null ? string.Format("{0:0,0 ₫}", item.PriceSale) : "Đang cập nhật")</strong>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger small">Tạm hết hàng</p>
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-right px-4">
+                @Html.PagedListPager(Model, indexPage => Url.Action("AllBlog", new { page = indexPage }))
+            </div>
+        }
+        else
+        {
+            <p class="text-dark font-italic">Không tìm thấy sản phẩm</p>
+        }
+    </div>
+</div>
+

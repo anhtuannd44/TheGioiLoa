@@ -34,7 +34,7 @@
                 {
                     <tr>
                         <td class="text-center align-middle">
-                            <img class="" src="../Content/Upload/Images/@item.Product.Cover" height="40" width="40">
+                            <img class="" src="../Content/Upload/Images/@(item.Product.ImageId==null?"no_picture.jpg":item.Product.ImageId)" height="40" width="40">
                         </td>
                         <td class="align-middle">
                             <a href="~/cua-hang/san-pham/@item.ProductId/@item.Product.Url">@item.Product.Name</a>

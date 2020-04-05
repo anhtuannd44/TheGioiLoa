@@ -24,12 +24,13 @@
             height = 534;
         }
         if ($(this).scrollTop() > height) {
-            var left = "calc(50% - 600px)";
+            var left = "calc(50% - 592px)";
             $('#back-to-top').fadeIn();
             if (!window.matchMedia("(max-width: 767px)").matches) {
-                $("#navbarMain").addClass("fixed-top").removeClass("py-md-4").addClass("py-md-2");
-                $(".hidetop").css("opacity", "0");
-                $("#menuCategoryShow #categoryProduct-a").css("padding", "20px 15px");
+                $("#navbarMain").addClass("fixed-top").addClass("py-md-2");
+                $(".hidetop").hide();
+                $("#menuCategoryShow #categoryProduct-a").css("padding", "23px 15px 24px 15px");
+                $("#searchBar").addClass("offset-3");
                 $("#menuCategoryShow").addClass("fixed-top").css("margin-left", left).css("width", "300px");
                 if ($("#menuCategoryShow #main-nav").data("homepage") == "True")
                     $("#menuCategoryShow #main-nav").addClass("menu-not-expand");
@@ -42,8 +43,9 @@
         } else {
             $('#back-to-top').fadeOut();
             if (!window.matchMedia("(max-width: 767px)").matches) {
-                $("#navbarMain").removeClass("fixed-top").addClass("py-md-4").removeClass("py-md-2");
-                $(".hidetop").css("opacity", "1");
+                $("#navbarMain").removeClass("fixed-top").removeClass("py-md-2");
+                $(".hidetop").show();
+                $("#searchBar").removeClass("offset-3");
                 $("#menuCategoryShow").removeClass("fixed-top").css("margin-left", "unset").css("width", "unset");
                 $("#menuCategoryShow #categoryProduct-a").css("padding", "12px 15px");
                 if ($("#menuCategoryShow #main-nav").data("homepage") == "True")

@@ -31,11 +31,11 @@
         [StringLength(128)]
         public string Author { get; set; }
 
-        public string  Cover { get; set; }
+        public string  ImageId { get; set; }
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         //Status: 1-Public : 2-Private
         public int Status { get; set; }
@@ -46,5 +46,6 @@
         public int? BlogCategoryId { get; set; }
 
         public virtual BlogCategory BlogCategory { get; set; }
+        public virtual Image Image { get; set; }
     }
 }

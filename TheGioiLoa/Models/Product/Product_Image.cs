@@ -6,7 +6,7 @@ namespace TheGioiLoa.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Product_Image
+    public partial class Product_Images
     {
         [Key, Column(Order = 1)]
         public string ImageId { get; set; }

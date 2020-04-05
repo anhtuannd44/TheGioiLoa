@@ -43,7 +43,7 @@ namespace TheGioiLoa.Models
                     Name = item.Name,
                     Url = item.Url,
                     ProductId = item.ProductId,
-                    Cover = item.Cover,
+                    Cover = item.ImageId,
                     Price = item.Price,
                     PriceSale = item.PriceSale,
                     Count = 1

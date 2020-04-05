@@ -1,4 +1,7 @@
-﻿@{
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<TheGioiLoa.Models.Blog>
+@{
     ViewBag.Title = "Trang";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
 }
@@ -22,26 +25,67 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>
-                                Tên trang
-                            </th>
-                            <th>
-                                Trạng thái
-                            </th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pageList">
-                        @Html.Action("LoadPageList")
-                    </tbody>
-                </table>
+                @if (Model.Count != 0)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Tên trang
+                                </th>
+                                <th>
+                                    Trạng thái
+                                </th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pageList">
 
+                            @foreach (var item in Model)
+                            {
+                                <tr id="page_@item.BlogId">
+                                    <td>
+                                        <a href="@Url.Action("EditPage", "Admin", new { pageId = item.BlogId })" class="text-dark">
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if (item.Status == 1)
+                                        {
+                                            <span class="badge badge-success">Đã đăng</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">Chưa đăng</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a class="" href="/trang/@item.BlogId/@item.Url" data-toggle="tooltip" title="Xem">
+                                            <i class="fas fa-eye text-info">
+                                            </i>
+                                        </a>
+                                        <a class="ml-2" href="@Url.Action("EditPage", "Admin", new { pageId = item.BlogId })" data-toggle="tooltip" title="Sửa">
+                                            <i class="fas fa-pencil-alt text-warning">
+                                            </i>
+                                        </a>
+                                        <button type="button" class="ml-1 bg-transparent border-0 delete-page" data-id="@item.BlogId" data-name="@item.Title" data-toggle="tooltip" title="Xóa">
+                                            <i class="fas fa-trash text-danger">
+                                            </i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="text-right px-4">
+                        @Html.PagedListPager(Model, indexPage => Url.Action("ProductList", new { page = indexPage }))
+                    </div>
+                }
+                else
+                {
+                    <p class="text-danger small text-center">Chưa có chuyên mục</p>
+                }
             </div>
-
         </div>
     </div>
 </div>

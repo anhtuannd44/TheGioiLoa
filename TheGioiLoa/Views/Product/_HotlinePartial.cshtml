@@ -1,0 +1,9 @@
+﻿@if (!string.IsNullOrEmpty(ViewBag.Hotline))
+{
+    <div class="card card-shadow">
+        <div class="card-body">
+            <h6 class="font-weight-500 text-center text-success mb-3">LIÊN HỆ ĐẶT HÀNG NGAY</h6>
+            <a href="tel:@ViewBag.Hotline" class="btn btn-success btn-block"><i class="fas fa-phone mr-3"></i>@ViewBag.Hotline</a>
+        </div>
+    </div>
+}

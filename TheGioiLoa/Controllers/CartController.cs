@@ -42,27 +42,27 @@ namespace TheGioiLoa.Controllers
             return PartialView("_CartBtnActionPartial");
         }
 
-        [Authorize]
         public ActionResult CheckOut()
         {
             var cart = ShoppingCart.Cart;
             if (cart.Count == 0)
                 return RedirectToAction("Index");
-            var userId = User.Identity.GetUserId();
-            var user = dbApp.Users.Find(userId);
-            var model = new Order()
+            var model = new Order();
+            if (User.Identity.IsAuthenticated)
             {
-                UserAddress = user.Address,
-                UserId = user.Id,
-                UserName = user.FullName,
-                UserEmail = user.Email,
-                UserPhone = user.PhoneNumber
-            };
+                var userId = User.Identity.GetUserId();
+                var user = dbApp.Users.Find(userId);
+
+                model.UserAddress = user.Address;
+                model.UserId = user.Id;
+                model.UserName = user.FullName;
+                model.UserEmail = user.Email;
+                model.UserPhone = user.PhoneNumber;
+            }
             return View(model);
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult CheckOut(Order info)
         {
@@ -71,55 +71,49 @@ namespace TheGioiLoa.Controllers
                 return RedirectToAction("NoItemInCart");
             try
             {
-                var userId = User.Identity.GetUserId();
-                if (userId == info.UserId)
+                info.OrderId = _hepler.RandomString();
+                info.DateCreated = DateTime.Now;
+                info.Status = 1;
+                db.Order.Add(info);
+
+                IList<OrderDetails> listDetails = new List<OrderDetails>();
+                foreach (var item in cart.Items)
                 {
-                    info.OrderId = _hepler.RandomString();
-                    info.DateCreated = DateTime.Now;
-                    info.Status = 1;
-                    db.Order.Add(info);
-
-                    IList<OrderDetails> listDetails = new List<OrderDetails>();
-                    foreach (var item in cart.Items)
+                    var addDetail = new OrderDetails()
                     {
-                        var addDetail = new OrderDetails()
-                        {
-                            ProductId = item.ProductId,
-                            Count = item.Count,
-                            Price = item.Price,
-                            SalePrice = item.PriceSale,
-                            OrderId = info.OrderId
-                        };
-                        db.OrderDetails.Add(addDetail);
-                    }
-                    db.SaveChanges();
-                    ShoppingCart.Cart.Clear();
-
-                    return RedirectToAction("OrderSuccess", new { orderid = info.OrderId });
+                        ProductId = item.ProductId,
+                        Count = item.Count,
+                        Price = item.Price,
+                        SalePrice = item.PriceSale,
+                        OrderId = info.OrderId
+                    };
+                    db.OrderDetails.Add(addDetail);
                 }
+                db.SaveChanges();
+                ShoppingCart.Cart.Clear();
+                return RedirectToAction("OrderSuccess", new { orderid = info.OrderId });
             }
-            catch
+            catch (Exception ex)
             {
             }
             return RedirectToAction("OrderFailed");
         }
 
-        [Authorize]
         public ActionResult OrderFailed()
         {
             return View();
         }
 
-        [Authorize]
+
         public ActionResult OrderSuccess(string orderid)
         {
-            var userId = User.Identity.GetUserId();
+
             var order = db.Order.Find(orderid);
             if (order == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            if (string.IsNullOrEmpty(orderid) || order.UserId != userId)
+            if (string.IsNullOrEmpty(orderid))
                 return RedirectToAction("Index", "Home");
 
             var model = new OrderViewModel

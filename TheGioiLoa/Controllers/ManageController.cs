@@ -16,7 +16,7 @@ using TheGioiLoa.Service;
 
 namespace TheGioiLoa.Controllers
 {
-
+    [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

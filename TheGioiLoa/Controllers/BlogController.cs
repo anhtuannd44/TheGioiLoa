@@ -31,7 +31,7 @@ namespace TheGioiLoa.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var blogList = new List<BlogViewModel>();
+            var blogList = new List<Blog>();
             if (blogCategoryId == 0 && url == "tat-ca-danh-muc")
             {
                 blogList = _blogService.GetBlogList("Public", 1);

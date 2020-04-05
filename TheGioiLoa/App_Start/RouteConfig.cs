@@ -54,7 +54,11 @@ namespace TheGioiLoa
                 url: "tai-khoan/{url}",
                 defaults: new { controller = "Manage", action = "Index", id = UrlParameter.Optional }
             );
-
+            routes.MapRoute(
+               name: "CheckOrder",
+               url: "kiem-tra-don-hang",
+               defaults: new { controller = "CheckOrder", action = "Index", id = UrlParameter.Optional }
+            );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

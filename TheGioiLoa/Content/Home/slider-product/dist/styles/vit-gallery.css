@@ -38,7 +38,7 @@
   bottom: 15px;
   width: 30px;
   height: 30px;
-  background-image: url('../../app/styles/blocks/gallery/images/fullscreen_black.png');
+  background-image: url('/Content/Home/slider-product/app/styles/blocks/gallery/images/fullscreen_black.png');
   background-repeat: no-repeat;
   background-size: 100%;
   z-index: 99;
@@ -50,7 +50,7 @@
   right: 20px;
   width: 40px;
   height: 40px;
-  background-image: url('../../app/styles/blocks/gallery/images/close_black_2x.png');
+  background-image: url('/Content/Home/slider-product/app/styles/blocks/gallery/images/close_black_2x.png');
   background-repeat: no-repeat;
   background-size: 100%;
   cursor: pointer;
@@ -84,14 +84,14 @@
 }
 .gallery__fullscreen__controls .prev {
   left: 0;
-  background-image: url('../../app/styles/blocks/gallery/images/left_black_2x.png');
+  background-image: url('/Content/Home/slider-product/app/styles/blocks/gallery/images/left_black_2x.png');
   background-size: 100%;
   border-radius: 0 20px 20px 0;
   background-position: right;
 }
 .gallery__fullscreen__controls .next {
   right: 0;
-  background-image: url('../../app/styles/blocks/gallery/images/right_black_2x.png');
+  background-image: url('/Content/Home/slider-product/app/styles/blocks/gallery/images/right_black_2x.png');
   background-size: 100%;
   border-radius: 20px 0 0 20px;
   background-position: left;
@@ -251,16 +251,16 @@
   background-repeat: no-repeat;
   border-radius: 0 20px 20px 0;
 }
-.gallery__controls-buttons .prev {
-  left: -25px;
-  background-image: url('../../app/styles/blocks/gallery/images/left_black.png');
-  background-size: 30px;
-  border-radius: 0 20px 20px 0;
-  background-position: right;
-}
+    .gallery__controls-buttons .prev {
+        left: -25px;
+        background-image: url('/Content/Home/slider-product/app/styles/blocks/gallery/images/left_black.png');
+        background-size: 30px;
+        border-radius: 0 20px 20px 0;
+        background-position: right;
+    }
 .gallery__controls-buttons .next {
   right: -25px;
-  background-image: url('../../app/styles/blocks/gallery/images/right_black.png');
+  background-image: url('/Content/Home/slider-product/app/styles/blocks/gallery/images/right_black.png');
   background-size: 30px;
   border-radius: 20px 0 0 20px;
   background-position: left;

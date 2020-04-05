@@ -4,27 +4,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container mt-4 mb-4" id="pageBlog">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="card card-shadow">
-                <div class="card-body">
-                    <h3 class="page-title mb-0">@Model.Title</h3>
-                    <p class="text-center">@Model.DateCreated.ToString("dd/MM/yyyy")</p>
-                    <div class="page-cover text-center">
-                        <img src="~/Content/Upload/Images/@Model.Cover" />
-                    </div>
-                    <div class="page-content mt-5">
-                        @Html.Raw(Model.BlogContent)
-                    </div>
+
+    <div class="card card-shadow">
+        <div class="card-body">
+            <h3 class="page-title mb-0">@Model.Title</h3>
+            <p class="text-center">@Model.DateCreated.ToString("dd/MM/yyyy")</p>
+            @if (Model.ImageId != null)
+            {
+                <div class="page-cover text-center">
+                    <img src="~/Content/Upload/Images/@Model.ImageId" />
                 </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card card-shadow">
-                <div class="card-body">
-                    @Html.Action("CategorySidebar", "Blog")
-                    @Html.Action("NewestProductSidebar", "Product")
-                </div>
+            }
+            <div class="page-content mt-5">
+                @Html.Raw(Model.BlogContent)
             </div>
         </div>
     </div>

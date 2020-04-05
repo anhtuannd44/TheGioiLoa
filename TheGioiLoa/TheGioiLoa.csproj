@@ -210,6 +210,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\CheckOrderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -243,6 +244,26 @@
     <Compile Include="Migrations\TheGioiLoaModel\202003301729386_adduserIdstả.cs" />
     <Compile Include="Migrations\TheGioiLoaModel\202003301729386_adduserIdstả.Designer.cs">
       <DependentUpon>202003301729386_adduserIdstả.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004031317230_ResetImage.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004031317230_ResetImage.Designer.cs">
+      <DependentUpon>202004031317230_ResetImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004031451474_Datetimenullnot.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004031451474_Datetimenullnot.Designer.cs">
+      <DependentUpon>202004031451474_Datetimenullnot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004041459049_FirstMigForPMTool1.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004041459049_FirstMigForPMTool1.Designer.cs">
+      <DependentUpon>202004041459049_FirstMigForPMTool1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004041557569_BlogDateModifine.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004041557569_BlogDateModifine.Designer.cs">
+      <DependentUpon>202004041557569_BlogDateModifine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004042024080_NotNulluserIdOrder.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004042024080_NotNulluserIdOrder.Designer.cs">
+      <DependentUpon>202004042024080_NotNulluserIdOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -286,6 +307,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Home\img\login-bg.jpg" />
     <Content Include="Content\Admin\css\adminlte.css" />
     <Content Include="Content\Admin\css\adminlte.min.css" />
     <Content Include="Content\Admin\css\alt\adminlte.components.css" />
@@ -3414,6 +3436,7 @@
     <Content Include="Content\lazy-loading\plugins\jquery.lazy.youtube.js" />
     <Content Include="Content\lazy-loading\plugins\jquery.lazy.youtube.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Upload\Images\RLBXNFSUAQNBUPG.png" />
     <Content Include="Font\FontAwesome\fa-brands-400.svg" />
     <Content Include="Font\FontAwesome\fa-regular-400.svg" />
     <Content Include="Font\FontAwesome\fa-solid-900.svg" />
@@ -3591,7 +3614,6 @@
     <Content Include="Content\Home\slider-product\dist\scripts\vit-gallery.js" />
     <Content Include="Content\Home\slider-product\dist\scripts\vit-gallery.min.js" />
     <Content Include="Content\Home\slider-product\dist\styles\vit-gallery.css" />
-    <Content Include="Content\Home\slider-product\dist\styles\vit-gallery.min.css" />
     <Content Include="Content\Home\slider-product\gulpfile.js" />
     <Content Include="Content\Home\slider-product\index.html" />
     <Content Include="Content\Home\slider-product\main.js" />
@@ -3607,30 +3629,18 @@
     <Content Include="Content\Upload\Images\EDPKBZAEXTLRLWC.jpg" />
     <Content Include="Content\Upload\Images\EFEYENYDVHFHCLJ.jpg" />
     <Content Include="Content\Upload\Images\EHGFZVFTMMBXMTT.jpg" />
-    <Content Include="Content\Upload\Images\GFVYYLLYFFRCOGF.jpg" />
-    <Content Include="Content\Upload\Images\HWHMIUQIKNPBZNK.jpg" />
     <Content Include="Content\Upload\Images\IYJWVFYHRDKXMEJ.jpg" />
-    <Content Include="Content\Upload\Images\JGCZSWYUQFEJWHB.gif" />
     <Content Include="Content\Upload\Images\KPKMCBEYJDWXCTT.jpg" />
-    <Content Include="Content\Upload\Images\LYUOEQBBBZDOEUE.jpg" />
     <Content Include="Content\Upload\Images\NBLQQQYYLJIRRRO.jpg" />
     <Content Include="Content\Upload\Images\No_Picture.jpg" />
-    <Content Include="Content\Upload\Images\OFDNJLQCIVLWGUT.png" />
     <Content Include="Content\Upload\Images\OYMMHIRVILIYXVS.jpg" />
-    <Content Include="Content\Upload\Images\PRMMYCGGEEUSEXB.jpg" />
-    <Content Include="Content\Upload\Images\PXZFMWVKCKITNOJ.jpg" />
-    <Content Include="Content\Upload\Images\QLKGEOLTHBCWULI.jpg" />
     <Content Include="Content\Upload\Images\QOGQNBFWEPTUBDF.jpg" />
     <Content Include="Content\Upload\Images\TBPOLSKQNOXHLWV.jpg" />
     <Content Include="Content\Upload\Images\TIRMUNXSGLARFIM.jpg" />
-    <Content Include="Content\Upload\Images\TXCQXOUGAXMOSTT.jpg" />
     <Content Include="Content\Upload\Images\TYXZGXMAVQZKIDA.jpg" />
     <Content Include="Content\Upload\Images\UEBDYBRYLHSZUOF.jpg" />
     <Content Include="Content\Upload\Images\UTUQNHAYLLBJKOB.jpg" />
     <Content Include="Content\Upload\Images\UVCVUQVMKFQFTKH.jpg" />
-    <Content Include="Content\Upload\Images\VMBCHTXIAIBBTGG.jpg" />
-    <Content Include="Content\Upload\Images\VPAUEFGVYALYHDI.jpg" />
-    <Content Include="Content\Upload\Images\WWSGGOPTJBJXZZL.jpg" />
     <Content Include="Content\Upload\Images\YIFODMINAUUVYIC.jpg" />
     <Content Include="Content\Upload\pmh-10.jpg" />
     <Content Include="Content\Upload\Slider\slider-2.jpg" />
@@ -3930,6 +3940,8 @@
     <Content Include="Views\Admin\Order.cshtml" />
     <Content Include="Views\Admin\Order\OrderDetails.cshtml" />
     <Content Include="Views\Blog\BlogDetails.cshtml" />
+    <Content Include="Views\CheckOrder\Index.cshtml" />
+    <Content Include="Views\CheckOrder\CheckOrderDetails.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -3976,7 +3988,6 @@
     <Content Include="Views\Admin\ProductAndCategory\_SelectListCategory.cshtml" />
     <Content Include="Views\Product\_ProductInCategory.cshtml" />
     <Content Include="Views\Product\Category.cshtml" />
-    <Content Include="Views\Product\AllCategory.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\_CartDetailPartial.cshtml" />
     <Content Include="Views\Cart\_CheckOutPartial.cshtml" />
@@ -3990,11 +4001,9 @@
     <Content Include="Views\Admin\BlogAndPage\_BlogCategoryPartial.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\CreateBlog.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\EditBlog.cshtml" />
-    <Content Include="Views\Admin\BlogAndPage\_BlogListPartial.cshtml" />
     <Content Include="Views\Admin\Page.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\CreatePage.cshtml" />
     <Content Include="Views\Admin\BlogAndPage\EditPage.cshtml" />
-    <Content Include="Views\Admin\BlogAndPage\_PageListPartial.cshtml" />
     <Content Include="Views\Shared\Header\_MenuCategoryPartial.cshtml" />
     <Content Include="Views\Admin\MenuTop.cshtml" />
     <Content Include="Views\Admin\MenuTop\_MenuTopListPartial.cshtml" />
@@ -4037,6 +4046,8 @@
     <Content Include="Views\Page\PageDetails.cshtml" />
     <Content Include="Views\Manage\_OrderDetailsManagePartial.cshtml" />
     <Content Include="Views\Product\_ReviewFormPartial.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Product\_HotlinePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4074,6 +4085,21 @@
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202003301729386_adduserIdstả.resx">
       <DependentUpon>202003301729386_adduserIdstả.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004031317230_ResetImage.resx">
+      <DependentUpon>202004031317230_ResetImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004031451474_Datetimenullnot.resx">
+      <DependentUpon>202004031451474_Datetimenullnot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004041459049_FirstMigForPMTool1.resx">
+      <DependentUpon>202004041459049_FirstMigForPMTool1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004041557569_BlogDateModifine.resx">
+      <DependentUpon>202004041557569_BlogDateModifine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004042024080_NotNulluserIdOrder.resx">
+      <DependentUpon>202004042024080_NotNulluserIdOrder.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -4094,9 +4120,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50810</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50810/</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:50810/</IISAppRootUrl>
+          <IISUrl>http://localhost:12345/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

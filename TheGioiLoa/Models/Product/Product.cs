@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,10 +13,9 @@ namespace TheGioiLoa.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            Product_Image = new HashSet<Product_Image>();
+            Product_Images = new HashSet<Product_Images>();
             CategoryProduct = new HashSet<CategoryProducts>();
             Product_Tag = new HashSet<Product_Tag>();
-            Product_Image = new HashSet<Product_Image>();
             Review = new HashSet<Review>();
             OrderDetails = new HashSet<OrderDetails>();
         }
@@ -29,7 +28,7 @@ namespace TheGioiLoa.Models
         [StringLength(300)]
         public string Url { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Bạn chưa nhập tên sản phẩm")]
         [StringLength(500)]
         public string Name { get; set; }
 
@@ -37,39 +36,46 @@ namespace TheGioiLoa.Models
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
+        [AllowHtml]
+        [Column(TypeName = "ntext")]
+        public string Services { get; set; }
+
+        [Display(Name = "Giá sản phẩm")]
         public double? Price { get; set; }
-        public string Cover { get; set; }
 
-        public int? BrandId { get; set; }
-
+        [Display(Name = "Giá khuyến mãi")]
         public double? PriceSale { get; set; }
+
+        //Cover of Product
+        public string ImageId { get; set; }
+
+        [Display(Name="Thương Hiệu")]
+        public int? BrandId { get; set; }
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
 
         public int Status { get; set; }
 
+
         [AllowHtml]
-        [StringLength(100)]
+        [Column(TypeName = "ntext")]
         public string Promotion { get; set; }
 
         [AllowHtml]
         [Column(TypeName = "ntext")]
-        public string Characteristics { get; set; }
+        public string Contents { get; set; }
 
         [AllowHtml]
         [Column(TypeName = "ntext")]
-        public string Details { get; set; }
+        public string Specifications { get; set; }
 
-        [AllowHtml]
-        [StringLength(300)]
-        public string Videos { get; set; }
 
         public int Guarantee { get; set; }
 
         public virtual Brand Brand { get; set; }
-
+        public virtual Image Image { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoryProducts> CategoryProduct { get; set; }
@@ -77,7 +83,7 @@ namespace TheGioiLoa.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Tag> Product_Tag { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product_Image> Product_Image { get; set; }
+        public virtual ICollection<Product_Images> Product_Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Review { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }

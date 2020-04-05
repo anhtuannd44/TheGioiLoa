@@ -1,8 +1,11 @@
-﻿@model IEnumerable<TheGioiLoa.Models.ViewModel.ProductViewModel>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<TheGioiLoa.Models.Product>
 
 @{
     ViewBag.Title = "Danh Sách Sản Phẩm";
     Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+    var stt = 1;
 }
 
 <div class="row" id="adminPage">
@@ -28,9 +31,6 @@
                 <table class="table table-hover">
                     <thead>
                         <tr class="text-center">
-                            <th style="width: 3%">
-                                STT
-                            </th>
                             <th style="width: 5%">
                                 <i class="fas fa-image"></i>
                             </th>
@@ -57,78 +57,79 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td class="text-center">
-                                @item.ProductId
-                            </td>
-                            <td class="text-center">
-                                <img alt="@item.Name" class="" src="../Content/Upload/Images/@item.CoverName" height="40" width="40">
-                            </td>
-                            <td>
-                                <a href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" data-placement="top" title="Xem và chỉnh sửa @item.Name">@item.Name</a>
-                            </td>
-                            <td class="text-center">
-                                @string.Format("{0:0,0 ₫}", item.Price)
-                            </td>
-                            <td class="text-center">
-                                @string.Format("{0:0,0 ₫}", item.PriceSale)
-                            </td>
-                            <td>
-                                @{var i = 1;}
-                                @if (item.Categories != null)
-                                {
-                                    foreach (var category in item.Categories)
+                            <tr>
+                                <td class="text-center">
+                                    <img alt="@item.Name" class="" src="../Content/Upload/Images/@(item.ImageId==null?"No_Picture.jpg":item.ImageId)" height="40" width="40">
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" data-placement="top" title="Xem và chỉnh sửa @item.Name">@item.Name</a>
+                                </td>
+                                <td class="text-center">
+                                    @string.Format("{0:0,0 ₫}", item.Price)
+                                </td>
+                                <td class="text-center">
+                                    @string.Format("{0:0,0 ₫}", item.PriceSale)
+                                </td>
+                                <td>
+                                    @{var i = 1;}
+                                    @if (item.CategoryProduct.Count != 0)
                                     {
-                                        if (i == 1)
+                                        foreach (var category in item.CategoryProduct)
                                         {
-                                            <span>@category.Name</span>
-                                            i++;
-                                        }
-                                        else
-                                        {
-                                            <span>, @category.Name</span>
+                                            if (i == 1)
+                                            {
+                                                <span>@category.Category.Name</span>
+                                                i++;
+                                            }
+                                            else
+                                            {
+                                                <span>, @category.Category.Name</span>
+                                            }
                                         }
                                     }
-                                }
-                            </td>
-                            <td class="text-center">
-                                @if (item.Status == 1)
-                                {
-                                    <span class="badge badge-success">Đã đăng</span>
-                                }
-                                else if (item.Status == 2)
-                                {
-                                    <span class="badge badge-dark">Chưa đăng</span>
-                                }
-                                else
-                                {
-                                    <span class="badge badge-danger">Hết hàng</span>
-                                }
-                            </td>
-                            <td class="text-center">
-                                <a class="" href="~/cua-hang/san-pham/@item.ProductId/@item.Url" data-toggle="tooltip" title="Xem" target="_blank">
-                                    <i class="fas fa-eye text-info">
-                                    </i>
-                                </a>
-                                <a class="ml-1" href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" title="Sửa">
-                                    <i class="fas fa-pencil-alt text-warning">
-                                    </i>
-                                </a>
-                                <a class="ml-1 delete-product" href="#" data-id="@item.ProductId" data-name="@item.Name" data-toggle="tooltip" title="Xóa">
-                                    <i class="fas fa-trash text-danger">
-                                    </i>
-                                </a>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="text-center">
+                                    @if (item.Status == 1)
+                                    {
+                                        <span class="badge badge-success">Đã đăng</span>
+                                    }
+                                    else if (item.Status == 2)
+                                    {
+                                        <span class="badge badge-dark">Chưa đăng</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Hết hàng</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <a class="" href="~/cua-hang/san-pham/@item.ProductId/@item.Url" data-toggle="tooltip" title="Xem" target="_blank">
+                                        <i class="fas fa-eye text-info">
+                                        </i>
+                                    </a>
+                                    <a class="ml-1" href="@Url.Action("EditProduct", "Admin", new {productId = item.ProductId })" data-toggle="tooltip" title="Sửa">
+                                        <i class="fas fa-pencil-alt text-warning">
+                                        </i>
+                                    </a>
+                                    <a class="ml-1 delete-product" href="#" data-id="@item.ProductId" data-name="@item.Name" data-toggle="tooltip" title="Xóa">
+                                        <i class="fas fa-trash text-danger">
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                            stt++;
                         }
                     </tbody>
                 </table>
+                <div class="text-right px-4">
+                    @Html.PagedListPager(Model, indexPage => Url.Action("ProductList", new { page = indexPage }))
+                </div>
             </div>
         </div>
     </div>
 </div>
 
- 
+
 @section Scripts {
     <script type="text/javascript" language="JavaScript">
         $(".delete-product").click(function () {
@@ -142,7 +143,7 @@
                     success: function (data) {
                         if (data.status == "success") {
                             toastr.success(data.message);
-                            loadBlogList();
+                            location.reload();
                         }
                         else {
                             toastr.error(data.message);
@@ -152,4 +153,4 @@
             }
         })
     </script>
-    }
+}

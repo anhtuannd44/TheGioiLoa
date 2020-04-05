@@ -1,4 +1,4 @@
-﻿@model TheGioiLoa.Models.ViewModel.ProductViewModel
+﻿@model TheGioiLoa.Models.Product
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,365 +16,208 @@
             break;
     }
 }
-<div id="orderLoading" class="spinner-loading position-fixed" style="display: none ;">
+@section heads {
+    <style>
+        body {
+            background: #f3f5f7;
+        }
+    </style>
+}
+<div id="orderLoading" class="spinner-loading position-fixed" style="display: none">
     <img src="/Content/Spinner.png" alt="Loading...">
 </div>
-<div class="container clearfix">
-    <nav aria-label="breadcrumb" class="float-left d-none d-md-block">
-        <ol class="breadcrumb m-0 ml-auto px-0 bg-white">
-            <li class="breadcrumb-item"><a href="~/"> Trang Chủ</a></li>
-            <li class="breadcrumb-item"><a href="~/cua-hang/"> Cửa Hàng</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
-        </ol>
-    </nav>
-    <div class="social-button float-right mt-3">
-        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fthegioiamthanh.vn&width=151&layout=button_count&action=like&size=small&share=true&height=46&appId=2347493918804034" width="151" height="25" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+<div class="container">
+    <div class="bg-white rounded p-3">
+        <nav aria-label="breadcrumb" class="d-none d-md-block">
+            <ol class="breadcrumb m-0 ml-auto px-0 bg-white">
+                <li class="breadcrumb-item"><a href="~/"> Trang Chủ</a></li>
+                <li class="breadcrumb-item"><a href="~/cua-hang/"> Cửa Hàng</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+            </ol>
+        </nav>
+        <div class="clearfix pt-2">
+            <div class="product-title float-left">
+                <h5 class="mb-0 d-inline-block">@Model.Name</h5>
+                <div class="product-review d-inline-block">
+                    <span class="product-star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="feedback-write text-dark">(Viết đánh giá)</span>
+                    </span>
+                </div>
+            </div>
+            <div class="social-button float-right">
+                <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fthegioiamthanh.vn&width=151&layout=button_count&action=like&size=small&share=true&height=46&appId=2347493918804034" width="151" height="25" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-5">
+                <div class="gallery">
+                    <div class="gallery__img-block">
+                        <img src="~/Content/Upload/Images/@(Model.ImageId==null?"No_Picture.jpg":Model.ImageId)" thumb-url="~/Content/Upload/Images/@(Model.ImageId==null?"No_Picture.jpg":Model.ImageId)">
+                    </div>
+                    @if (Model.Product_Images.Count != 0)
+                    {
+                        foreach (var item in Model.Product_Images)
+                        {
+                            <div class="gallery__img-block">
+                                <img src="~/Content/Upload/Images/@item.ImageId" thumb-url="~/Content/Upload/Images/@item.ImageId">
+                            </div>
+
+                        }
+                    }
+                    <div class="gallery__controls">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-price">
+                    @if (Model.PriceSale != null)
+                    {
+                        <h3 class="text-primary font-weight-bold mb-1">
+                            @string.Format("{0:0,0 ₫}", Model.PriceSale)
+                            <del class="price-sale">@string.Format("{0:0,0 ₫}", Model.Price)</del>
+                        </h3>
+                    }
+                    else
+                    {
+                        <h3 class="text-primary font-weight-bold mb-1">@((Model.Price != null) ? string.Format("{0:0,0 ₫}", Model.Price) : "Đang cập nhật")</h3>
+                    }
+                </div>
+                <p class="text-dark">Tình trạng: <span class="text-success">@status</span></p>
+
+                <div class="product-services mb-4">
+                    @Html.Raw(Model.Description)
+                </div>
+                <div class="product-promotion border-dark-50 py-4 px-2 rounded border position-relative">
+                    <div class="position-absolute product-promotion-label">
+                        <p><i class="fas fa-gift mr-2"></i>Khuyến Mãi</p>
+                    </div>
+                    <div class="product-promotion-picture">
+                        @Html.Raw(Model.Promotion)
+                    </div>
+
+                </div>
+                @if (Model.Price != null)
+                {
+                    <div class="buy-button my-3 row">
+                        <div class="col-md-6 col-6">
+                            <a href="#" class="btn btn-primary add-to-cart" data-id="@Model.ProductId">MUA NGAY<br /><span class="small font-weight-normal mt-0">Giao hàng tận nơi</span></a>
+                        </div>
+                        <div class="col-md-6 col-6">
+                            <a href="#" class="btn btn-warning">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Công ty, Thẻ tín dụng</span></a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                <div class="service-right card card-shadow">
+                    <div class="card-body">
+                        <h6 class="font-weight-500 text-center text-success mb-3">YÊN TÂM MUA SẮM</h6>
+                        @Html.Raw(Model.Services)
+                    </div>
+                </div>
+                @Html.Action("GetHotline", "Product")
+            </div>
+        </div>
     </div>
-    <hr class="mt-0 mb-3" />
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-4">
+    @*@if (Model.ProductRelateds != null)
+    {
+        <div id="productRelateds" class="mt-3">
+            <h4 class="font-weight-bold mb-3 mt-4"><i class="fas fa-star text-warning mr-2"></i>Sản phẩm dành cho bạn</h4>
+            <div class="mt-2" id="productRelatedsContent">
 
-            <div class="gallery">
-                <div class="gallery__img-block">
-                    <img src="~/Content/Upload/Images/@Model.CoverName" thumb-url="~/Content/Upload/Images/@Model.CoverName" class="">
-                </div>
-                @if (Model.Images != null)
-                {
-                    foreach (var item in Model.Images)
+                <div class="row m-0">
+                    @foreach (var item in Model.ProductRelateds)
                     {
-                        <div class="gallery__img-block  ">
-                            <img src="~/Content/Upload/Images/@item.ImageId" thumb-url="~/Content/Upload/Images/@item.ImageId" class="">
-                        </div>
-
-                    }
-                }
-                <div class="gallery__controls">
-
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="product-title">
-                <h5 class="font-weight-500 mb-1">@Model.Name</h5>
-            </div>
-            <div class="product-review">
-                <span class="product-star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span class="feedback-write text-dark">(Viết đánh giá) | </span>
-                    <span class="text-dark">Tình trạng: <span class="text-danger">@status</span></span>
-                </span>
-            </div>
-            <hr class="my-2" />
-            <div class="product-price">
-                @if (Model.PriceSale != null)
-                {
-                    <h3 class="text-primary font-weight-bold mb-1">@string.Format("{0:0,0 ₫}", Model.PriceSale)</h3>
-                    <p class="product-listed-price">
-                        Giá niêm yết
-                        <del>@string.Format("{0:0,0 ₫}", Model.Price)</del>
-                    </p>
-                }
-                else
-                {
-                    <h3 class="text-primary font-weight-bold mb-1">@((Model.Price != null) ? string.Format("{0:0,0 ₫}", Model.Price) : "Đang cập nhật")</h3>
-                }
-            </div>
-            <div class="product-services mb-4">
-                <p class="font-weight-bold mb-1"><i class="fas fa-plus-circle mr-2 text-danger"></i>Giao hàng toàn quốc</p>
-                <p class="font-weight-bold mb-1"><i class="fas fa-plus-circle mr-2 text-danger"></i>Miễn phí giao hàng thu tiền (COD free) trong nội thành HN và HCM</p>
-                <p class="font-weight-bold mb-1"><i class="fas fa-plus-circle mr-2 text-danger"></i>Miễn phí 1 đổi 1 trong 7 ngày với sản phẩm lỗi</p>
-                <p class="font-weight-bold mb-1"><i class="fas fa-plus-circle mr-2 text-danger"></i>Trả góp 0% với thẻ tín dụng ngân hàng (tối thiểu 3 triệu)</p>
-                <p class="font-weight-bold mb-1"><i class="fas fa-plus-circle mr-2 text-danger"></i>Bảo hành chính hãng : 12 Tháng</p>
-            </div>
-            <div class="product-promotion border-primary py-4 px-2 border position-relative">
-                <div class="position-absolute product-promotion-label">
-                    <p><i class="fas fa-gift mr-2"></i>Khuyến Mãi</p>
-                </div>
-                <div class="product-promotion-picture">
-                    @*<img src="~/Content/Upload/pmh-10.jpg" style="width: 100%" />*@
-                    @Html.Raw(Model.Promotion)
-                </div>
-
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="service-right card card-shadow">
-                <div class="card-header text-center">
-                    <h6 class="font-weight-500 mb-0">YÊM TÂM MUA SẮM</h6>
-                </div>
-                <div class="card-body">
-                    <p class="mb-1"><i class="fas fa-check-circle mr-2 text-danger"></i>Giao hàng miễn phí nội thành Hà Nội, TP.HCMc</p>
-                    <p class="mb-1"><i class="fas fa-check-circle mr-2 text-danger"></i>Thanh toán thuận tiện</p>
-                    <p class="mb-1"><i class="fas fa-check-circle mr-2 text-danger"></i>Sản phẩm 100% chính hãng</p>
-                    <p class="mb-1"><i class="fas fa-check-circle mr-2 text-danger"></i>Bảo hành chính hãng</p>
-                    <p class="mb-1"><i class="fas fa-check-circle mr-2 text-danger"></i>Giá cạnh tranh nhất thị trường</p>
-                </div>
-            </div>
-            @if (Model.Price != null)
-            {
-                <div class="buy-button mt-3">
-                    <a href="#" class="btn btn-primary btn-block add-to-cart" data-id="@Model.ProductId">MUA NGAY</a>
-                    <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
-                    <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            }
-        </div>
-    </div>
-</div>
-<div class="container product-info mt-4 h-100">
-    <div class="product-info-header position-sticky d-none d-md-block">
-        <a href="#productCharacteristics" class="scrollto">Đặc điểm nổi bật</a>
-        <a href="#productDetails" class="scrollto">Thông số kỹ thuật</a>
-        <a href="#productVideos" class="scrollto">Video</a>
-        <a href="#tab4" class="scrollto">Sản phẩm bán chạy nhất</a>
-        @if (Model.ProductRelateds != null)
-        {
-            <a href="#productRelateds" class="scrollto">Sản phẩm liên quan</a>
-        }
-        <a href="#productAccessories" class="scrollto">Phụ kiện đi kèm</a>
-        <a href="#productComment" class="scrollto">Bình luận người dùng</a>
-        <a href="#review-statistic" class="scrollto" id="gotoReview">Đánh giá sản phẩm</a>
-    </div>
-    <div class="product-info-content mt-3">
-        <div class="row mt-4 h-100">
-            <div class="col-md-8">
-                <div id="productCharacteristics">
-                    <div class="product-tab-header">
-                        <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                            <h6 class="font-weight-bold my-0 mx-2 text-white">ĐẶC ĐIỂM NỔI BẬT</h6>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="mt-2" id="productCharacteristicsContent" style="overflow-y: hidden">
-                        @Html.Raw(Model.Characteristics)
-                    </div>
-                </div>
-                <div id="productDetails" class="mt-3">
-                    <div class="product-tab-header">
-                        <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                            <h6 class="font-weight-bold my-0 mx-2 text-white">THÔNG SỐ KỸ THUẬT</h6>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="mt-2" id="productDetailsContent" style="overflow-y: hidden">
-                        @Html.Raw(Model.Details)
-                    </div>
-                </div>
-                <div id="productVideos" class="mt-3">
-                    <div class="product-tab-header">
-                        <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                            <h6 class="font-weight-bold my-0 mx-2 text-white">VIDEOS</h6>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="mt-2" id="productVideosContent" style="overflow-y: hidden">
-                        @Html.Raw(Model.Videos)
-                    </div>
-                </div>
-                @if (Model.ProductRelateds != null)
-                {
-                    <div id="productRelateds" class="mt-3">
-                        <div class="product-tab-header">
-                            <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                                <h6 class="font-weight-bold my-0 mx-2 text-white">SẢN PHẨM LIÊN QUAN</h6>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="mt-2" id="productRelatedsContent">
-                            <div class="container">
-                                <div class="row">
-
-                                    @foreach (var item in Model.ProductRelateds)
+                        <div class="w-20 p-0 col-6">
+                            <div class="producthome-item">
+                                <a class="rounded" href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
+                                    <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
+                                    <h3>@item.Name</h3>
+                                    @if (item.Status == 1)
                                     {
-                                        <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                                            <div class="product-grid">
-                                                <div class="product-image">
-                                                    <a href="#">
-                                                        <img class="pic-1" src="~/Content/Upload/Images/@item.Cover" />
-                                                    </a>
-                                                    <div class="product-content-hover">
-                                                        <p class="short-description">@item.Description</p>
-                                                        <p class="mb-0" style="margin-top: -10px;">...</p>
-                                                        <p class="service text-success">Bảo hành 12 tháng</p>
-                                                        <a href="~/San-Pham/@item.Url-@item.ProductId" class="view-now">Xem Ngay</a>
-                                                    </div>
-                                                    <span class="product-new-label bg-success text-white">Mới</span>
-                                                    <span class="product-discount-label">-10%</span>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h4 class="title"><a href="#">@item.Name</a></h4>
-                                                    <div class="price">
-                                                        @string.Format("{0:0,0 ₫}", item.Price)
-                                                        <span class="price-sale">@string.Format("{0:0,0 ₫}", item.Price)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        if (item.PriceSale != null)
+                                        {
+                                            <strong class="price-sale">@string.Format("{0:0,0 ₫}", item.PriceSale)</strong>
+                                            <del class="price">@string.Format("{0:0,0 ₫}", item.Price)</del>
+                                        }
+                                        else
+                                        {
+                                            <strong class="price-sale">@(item.Price != null ? string.Format("{0:0,0 ₫}", item.PriceSale) : "Đang cập nhật")</strong>
+                                        }
                                     }
-
-                                </div>
+                                    else
+                                    {
+                                        <p class="text-danger small">Tạm hết hàng</p>
+                                    }
+                                </a>
                             </div>
                         </div>
-                    </div>
-                }
-                <div id="productAccessories" class="mt-3">
-                    <div class="product-tab-header">
-                        <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                            <h6 class="font-weight-bold my-0 mx-2 text-white">PHỤ KIỆN ĐI KÈM</h6>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="mt-2" id="productAccessoriesContent">
-                        <div class="container">
-                            <div class="row">
-                                @for (int i = 1; i <= 4; i++)
-                                {
-                                    <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                                        <div class="product-grid">
-                                            <div class="product-image">
-                                                <a href="#">
-                                                    <img class="pic-1" src="" />
-                                                </a>
-                                                <div class="product-content-hover">
-                                                    <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                                    <p class="service text-success">Bảo hành 12 tháng</p>
-                                                    <a href="#" class="view-now">Xem Ngay</a>
-                                                </div>
-                                                <span class="product-new-label bg-success text-white">Mới</span>
-                                                <span class="product-discount-label">-10%</span>
-                                            </div>
-                                            <div class="product-content">
-                                                <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                                <div class="price">
-                                                    58.000.000 ₫
-                                                    <span class="price-sale">60.000.000 ₫</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="productViewed" class="mt-3">
-                    <div class="product-tab-header">
-                        <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                            <h6 class="font-weight-bold my-0 mx-2 text-white">SẢN PHẨM ĐÃ XEM</h6>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="mt-2" id="productViewedContent">
-                        <div class="container">
-                            <div class="row">
-                                @for (int i = 1; i <= 4; i++)
-                                {
-                                    <div class="w-20 col-md-3 col-sm-4 col-6 px-1 mt-2">
-                                        <div class="product-grid">
-                                            <div class="product-image">
-                                                <a href="#">
-                                                    <img class="pic-1" src="~/Content/Upload/Images/CDGUEGOIVGUMYFP.jpg" />
-                                                </a>
-                                                <div class="product-content-hover">
-                                                    <p class="short-description">Combo xem phim đỉnh cao kết hợp với các hãng âm thanh nổi tiếng. Đem lại cho bạn trải nghiệm chân thực, sống động</p>
-                                                    <p class="mb-0" style="margin-top: -10px;">...</p>
-                                                    <p class="service text-success">Bảo hành 12 tháng</p>
-                                                    <a href="#" class="view-now">Xem Ngay</a>
-                                                </div>
-                                                <span class="product-new-label bg-success text-white">Mới</span>
-                                                <span class="product-discount-label">-10%</span>
-                                            </div>
-                                            <div class="product-content">
-                                                <h4 class="title"><a href="#">Combo xem phim CM 01</a></h4>
-                                                <div class="price">
-                                                    58.000.000 ₫
-                                                    <span class="price-sale">60.000.000 ₫</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="second-services-right card position-sticky shadow">
-                    <div class="product-title card-header text-center">
-                        <h5 class="font-weight-500 mb-1">@Model.Name</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="product-price">
-                            @if (Model.PriceSale != null)
-                            {
-                                <p>
-                                    Giá bán:
-                                    <span class="text-primary font-weight-bold h3 ml-5">@string.Format("{0:0,0 ₫}", Model.PriceSale)</span>
-                                </p>
-                                <p class="product-listed-price">
-                                    Giá thị trường:
-                                    <del class="ml-3" style="font-size: 16px">@string.Format("{0:0,0 ₫}", Model.Price)</del>
-                                </p>
-                            }
-                            else
-                            {
-                                <p>
-                                    Giá bán:
-                                    <span class="text-primary font-weight-bold h3 ml-5">@(Model.Price != null ? string.Format("{0:0,0 ₫}", Model.Price) : "Đang cập nhật")</span>
-                                </p>
-                            }
-                        </div>
-                        @if (Model.Price != null)
-                        {
-                            <div class="buy-button mt-3">
-                                <a href="#" class="btn btn-primary btn-block add-to-cart">MUA NGAY</a>
-                                <a href="#" class="btn btn-warning btn-block" style="padding-top: 13px !important;">MUA TRẢ GÓP<br /><span class="small font-weight-normal mt-0">Qua công ty trả góp hoặc thẻ tín dụng</span></a>
-                                <a href="#" class="btn btn-success btn-block">LIÊN HỆ CỬA HÀNG <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        }
-                    </div>
+                    }
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div id="productComments" class="mt-3">
-                    <div class="product-tab-header">
-                        <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                            <h6 class="font-weight-bold my-0 mx-2 text-white">BÌNH LUẬN - NHẬN XÉT</h6>
+    }*@
+</div>
+<div class="container mt-3">
+    <div class="product-info-header position-sticky d-none d-md-block">
+        <a href="#productCharacteristics" class="scrollto">TÍNH NĂNG/THÔNG SỐ KỸ THUẬT</a>
+        <a href="#productCharacteristics" class="scrollto">MÔ TẢ</a>
+        <a href="#productCommentAndReview" class="scrollto">BÌNH LUẬN</a>
+        <a href="#productCommentAndReview" class="scrollto" id="gotoReview">ĐÁNH GIÁ</a>
+    </div>
+    <div class="bg-white p-3">
+        <div class="product-info mt-4 h-100">
+            <div class="product-info-content bg-white">
+                <div id="productDetails" class="mt-3">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <img src="~/Content/Upload/Images/@(Model.ImageId==null?"No_Picture.jpg":Model.ImageId)" style="width: 100%;" />
                         </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="mt-2">
-                        <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="770" data-numposts="7"></div>
+                        <div class="col-md-5">
+                            <h3 class="px-5 mt-3 productDetails-title">Thông số kỹ thuật</h3>
+                            <div class="px-5 text-area-render" id="productDetailsContent">
+                                @Html.Raw(Model.Specifications)
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div id="productComment" class="mt-3">
-                    <div class="product-tab-header">
-                        <div class="product-tab-header-title float-left bg-primary py-1 position-relative">
-                            <h6 class="font-weight-bold my-0 mx-2 text-white">CHI TIẾT ĐÁNH GIÁ</h6>
-                        </div>
-                        <div class="clearfix"></div>
+                <hr />
+                <div id="productCharacteristics">
+                    <div class="mt-2 text-area-render" id="productCharacteristicsContent" style="max-height: 700px; overflow-y: hidden">
+                        @Html.Raw(Model.Contents)
                     </div>
-                    <div class="mt-2" id="reviewContent">
-                        <div class="reviewPartial" id="reviewPartial" data-id="@Model.ProductId">
-                            @Html.Action("LoadReview", "Product", new { productId = Model.ProductId })
+                    <div class="btn-more text-center mt-4" style="display: none;">
+                        <button class="btn btn-outline-info px-5">Xem thêm mô tả</button>
+                    </div>
+                </div>
+                <div class="row mt-4" id="productCommentAndReview">
+                    <div class="col-md-7">
+                        <h6 class="font-weight-bold title">BÌNH LUẬN - NHẬN XÉT</h6>
+                        <div class="mt-2">
+                            <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="650" data-numposts="7"></div>
                         </div>
-                        <div id="reviewForm">
-                            @Html.Action("AddReview", "Product", new { productId = Model.ProductId })
-                        </div>
-                        <div id="loadingGif-reviewContent" class="spinner-loading" style="display: none;">
-                            <img src="~/Content/Spinner.png" alt="Loading..." />
+                    </div>
+                    <div class="col-md-5">
+                        <h6 class="font-weight-bold title">CHI TIẾT ĐÁNH GIÁ</h6>
+                        <div class="mt-2" id="reviewContent">
+                            <div class="reviewPartial" id="reviewPartial" data-id="@Model.ProductId">
+                                @Html.Action("LoadReview", "Product", new { productId = Model.ProductId })
+                            </div>
+                            <div id="reviewForm">
+                                @Html.Action("AddReview", "Product", new { productId = Model.ProductId })
+                            </div>
+                            <div id="loadingGif-reviewContent" class="spinner-loading" style="display: none;">
+                                <img src="~/Content/Spinner.png" alt="Loading..." />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -382,7 +225,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
@@ -397,6 +239,17 @@
                 animateSpeed: 600
             })
             $(".rating").rating();
+
+            var productCharacteristicsContent = $("#productCharacteristicsContent");
+            if (productCharacteristicsContent.innerHeight() >= 700) {
+                $(".btn-more").show();
+            }
+        })
+
+        $(".btn-more").click(function () {
+            var elm = $(this);
+            elm.hide();
+            $("#productCharacteristicsContent").css("max-height", "100%");
         })
 
         var image;

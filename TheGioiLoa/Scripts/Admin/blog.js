@@ -1,4 +1,10 @@
-﻿function loadBlogCategory() {
+﻿$(document).ready(function () {
+    $('#BlogForm').each(function () {
+        if ($(this).data('validator'))
+            $(this).data('validator').settings.ignore = ".note-editor *";
+    });
+})
+function loadBlogCategory() {
     loadingSpinner("#loadingGif-BlogCategoryList");
     $.ajax({
         method: "POST",
@@ -9,15 +15,7 @@
         }
     });
 }
-function loadBlogList() {
-    $.ajax({
-        method: "POST",
-        url: "/Admin/LoadBlogList",
-        success: function (data) {
-            $("#blogList").html(data);
-        }
-    })
-}
+
 function actionBlogCategorySuccess(data) {
     if (data.status == "success") {
         toastr.success(data.message);
@@ -60,30 +58,30 @@ $(document).on("click",".delete-blog-category", function () {
     }
 })
 
-$("#Cover").click(function () {
+$("#ImageId").click(function () {
     var cover = $(this).val();
-    loadLibraryImage("imageCover", false, cover);
+    loadLibraryImage("ImageId", false, cover);
 });
 
 function addCover() {
     var hasCover = false;
     $(".image-item").each(function () {
         if ($(this).data("selected") == "True") {
-            $("#Cover").val($(this).attr("data-name"));
+            $("#ImageId").val($(this).attr("data-name"));
             $("#previewCover").attr("src", "../Content/Upload/Images/" + $(this).attr("data-name"));
             $("#removeCover").removeClass("d-none");
             hasCover = true;
         }
     });
     if (!hasCover) {
-        $("#Cover").val(null);
+        $("#ImageId").val(null);
         $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.JPG");
         $("#removeCover").addClass("d-none");
     }
 }
 $("#removeCover").click(function () {
     $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.jpg");
-    $("#Cover").val("No_Picture.JPG");
+    $("#ImageId").val(null);
     $("#removeCover").addClass("d-none");
 });
 
@@ -98,21 +96,13 @@ $(document).on("click", ".delete-blog", function () {
             success: function (data) {
                 if (data.status == "success") {
                     toastr.success(data.message);
-                    loadBlogList();
+                    location.reload();
                 }
             }
         })
     }
 })
-function loadPageList() {
-    $.ajax({
-        method: "POST",
-        url: "/Admin/LoadPageList",
-        success: function (data) {
-            $("#pageList").html(data);
-        }
-    })
-};
+
 $(document).on("click", ".delete-page", function () {
     var pageId = $(this).data("id");
     var r = confirm("Bạn có muốn xóa trang '" + $(this).data("name") + "' này không?");
@@ -124,7 +114,7 @@ $(document).on("click", ".delete-page", function () {
             success: function (data) {
                 if (data.status == "success") {
                     toastr.success(data.message);
-                    loadPageList();
+                    location.reload();
                 }
             }
         })

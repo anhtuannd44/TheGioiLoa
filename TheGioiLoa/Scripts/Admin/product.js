@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
-
-    renderSelectedImage($("#Image").val());
-});
+    $('#ProductForm').each(function () {
+        if ($(this).data('validator'))
+            $(this).data('validator').settings.ignore = ".note-editor *";
+    });
+})
 
 $(".category-click").click(function (e) {
     if ($(this).is(":checked")) {
@@ -25,58 +27,14 @@ $(".category-click").click(function (e) {
     }
 });
 
-//AddTag
-$("#addTag").click(function (e) {
-    var tag = "";
-    tag = $("#AddTag").val().replace(/\s{2,}/g, ' ');
-    tag = tag.trim();
-    var check = true;
-    if (id != 0) {
-        for (var a in tagInputResult) {
-            if (tagInputResult[a] == tag) {
-                check = false;
-                break;
-            }
-        }
-    }
-    if (check) {
-        $.ajax({
-            method: "POST",
-            url: "/Admin/CreateTag",
-            data: { tag: tag },
-            success: function (data) {
-
-                tagInputResult[id] = data.Name;
-                tagId[id] = data.TagId;
-
-                var result = "<div id='parent" + tagId[id] + "'><a href='#' data-name=" + tagInputResult[id] + " onclick='removeTag(this)' class='removeTag' data-id='" + tagId[id] + "'><i class='fas fa-times-circle small text-danger mb-1'></i></a><span class='mr-2 badge badge-light border' value='" + tagId[id] + "'>" + tagInputResult[id] + "</span></div>";
-                $("#renderTag").append(result);
-
-                $("#Tag").val(tagId.join('|'));
-                id++;
-                $("#AddTag").val("");
-
-            }
-        });
-    }
+$("#uploadImageList").click(function () {
+    var imageList = $("#imageAlbum").val();
+    loadLibraryImage("imageAlbum", true, imageList);
 });
 
-function removeTag(e) {
-    tagInputResult.splice(tagInputResult.indexOf($(e).attr("data-name")), 1);
-    tagId.splice(tagId.indexOf($(e).attr("data-id")), 1);
-    $("#Tag").val(tagId.join('|'));
-    id--;
-    $("#parent" + $(e).attr("data-id")).remove();
-};
-
-$("#uploadImageList").click( function () {
-    var imageList = $("#Image").val();
-    loadLibraryImage("imageList", true, imageList);
-});
-
-$("#CoverName").click(function () {
+$("#ImageId").click(function () {
     var cover = $(this).val();
-    loadLibraryImage("imageCover", false, cover);
+    loadLibraryImage("ImageId", false, cover);
 });
 
 
@@ -95,11 +53,11 @@ function renderSelectedImage(listImage) {
         method: "POST",
         url: "/Admin/LoadSelectImage",
         data: {
-            imageList: listImage
+            imageAlbum: listImage
         },
         success: function (data) {
             $("#renderImage").html(data);
-            $("#Image").val(listImage);
+            $("#imageAlbum").val(listImage);
         }
     });
 }
@@ -108,21 +66,21 @@ function addCover() {
     var hasCover = false;
     $(".image-item").each(function () {
         if ($(this).attr("data-selected") == "True") {
-            $("#CoverName").val($(this).attr("data-name"));
+            $("#ImageId").val($(this).attr("data-name"));
             $("#previewCover").attr("src", "../Content/Upload/Images/" + $(this).attr("data-name"));
             $("#removeCover").removeClass("d-none");
-            hasCover = true;   
+            hasCover = true;
         }
     });
     if (!hasCover) {
-        $("#CoverName").val("No_Picture.JPG");
+        $("#ImageId").val(null);
         $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.JPG");
         $("#removeCover").addClass("d-none");
     }
 }
 $("#removeCover").click(function () {
     $("#previewCover").attr("src", "../Content/Upload/Images/No_Picture.jpg");
-    $("#CoverName").val("No_Picture.JPG");
+    $("#ImageId").val("No_Picture.JPG");
     $("#removeCover").addClass("d-none");
 });
 

@@ -1,6 +1,7 @@
 ﻿@model TheGioiLoa.Models.UserDetailsViewModel
 @{
     ViewBag.Title = "Tài Khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container mt-3">
     <div class="row">
@@ -38,7 +39,7 @@
                                     <li class="menu-left-sub-li"><a href="/tai-khoan/doi-mat-khau" data-partial="_ChangePasswordPartial" class="partial-view">Đổi mật khẩu</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-left-main-li">
+                            @*<li class="menu-left-main-li">
                                 <a href="javascript:void(0)">
                                     <i class="fas fa-user"></i>
                                     Hoạt động của bạn
@@ -47,7 +48,7 @@
                                     <li class="menu-left-sub-li"><a href="/tai-khoan/nhan-xet-cua-toi" data-partial="_MyCommentPartial" class="partial-view">Nhận xét của tôi</a></li>
                                     <li class="menu-left-sub-li"><a href="/tai-khoan/thong-tin-bao-hanh" data-partial="_MyCommentPartial" class="partial-view">Bảo hành sửa chữa</a></li>
                                 </ul>
-                            </li>
+                            </li>*@
                         </ul>
                     </div>
                 </div>
