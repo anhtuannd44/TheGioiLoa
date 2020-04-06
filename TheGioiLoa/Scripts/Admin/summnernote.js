@@ -4,9 +4,10 @@
         height: 400,
         focus: true,
         toolbar: [
+            ['style', ['style']],
             ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontsize']],
             ['font', ['bold', 'underline', 'clear']],
-            ['fontname', ['fontname']],
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['table', ['table']],
@@ -15,6 +16,13 @@
         ],
         buttons: {
             image: uploadImageButton
+        },
+        callbacks: {
+            onPaste: function (e) {
+                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                e.preventDefault();
+                document.execCommand('insertText', false, bufferText);
+            }
         }
     });
 });

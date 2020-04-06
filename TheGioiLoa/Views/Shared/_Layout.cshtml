@@ -31,7 +31,7 @@
             <div class="row align-items-center w-100 m-0">
                 <div class="col-md-3 col-5 order-1 px-1 hidetop">
                     <a href="~/" class="navbar-brand text-white h1 mb-0">
-                        <img src="~/Content/Upload/Images/@Html.Action("LoadLogo", "Home")" alt="" class="logo-img">
+                        <img src="~/Content/logo.png" alt="" class="logo-img">
                     </a>
                 </div>
                 <div class="col-md-4 order-4 order-md-3 col-12 py-1" id="searchBar">
@@ -108,31 +108,30 @@
       Footer
     ============================-->
     <footer id="footer" class="mt-4">
-        <div class="footer-top">
-            <div class="container">
+        <div class="container">
+            <div class="footer-top p-3 bg-white shadow">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="footer-title">
-                            <h3 class="text-primary m-0">FACEBOOK</h3>
+                            <h3 class="m-0">FACEBOOK</h3>
                             <hr class="mt-1 mb-3" />
                         </div>
                         <div class="social-facebook" id="renderFacebook">
-                            @*@Html.Action("LoadSocial", "Home", new { social = "Facebook" })*@
+
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="footer-title">
-                            <h3 class="text-primary m-0">YOUTUBE</h3>
+                            <h3 class="m-0">YOUTUBE</h3>
                             <hr class="mt-1 mb-3" />
                         </div>
                         <div class="social-youtube" id="renderYoutube">
-                            @*@Html.Action("LoadSocial", "Home", new { social = "Youtube" })*@
+
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="footer-title">
-                            <h3 class="text-primary m-0">HỖ TRỢ KHÁCH HÀNG</h3>
+                            <h3 class="m-0">HỖ TRỢ KHÁCH HÀNG</h3>
                             <hr class="mt-1 mb-3" />
                         </div>
                         <div class="footer-support p-2 border pb-3">
@@ -170,25 +169,23 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="footer-middle">
-            <div class="container">
+
+            <div class="footer-middle p-3 bg-white shadow">
+                <hr />
                 <div class="row" id="footer-midle-content">
                     @Html.Action("FooterMiddlePartial", "Home")
                 </div>
-                <hr style="border-color: #808080" />
-                <div class="row align-items-center">
+                <div class="row align-items-center mt-4">
                     <div class="col-md-7" id="renderGoolgeMap">
 
                     </div>
                     <div class="col-md-5">
                         @Html.Action("FooterContact", "Home")
                         <div class="footer-newsletter">
-                            <h4 class="mb-1 text-light">NHẬN BẢN TIN KHUYẾN MÃI</h4>
+                            <h5 class="mb-1 text-info">NHẬN BẢN TIN KHUYẾN MÃI</h5>
                             <div class="form-inline text-right">
-                                <div class="form-group mb-2">
-                                    <label for="PromotionEmail" class="sr-only">Email</label>
-                                    <input type="email" class="form-control" id="PromotionEmail" placeholder="Nhập Email của bạn ...">
+                                <div class="form-group mb-2 form-group-sm">
+                                    <input type="email" class="form-control border-primary" id="PromotionEmail" placeholder="Nhập Email của bạn ...">
                                 </div>
                                 <button type="submit" class="btn btn-primary mb-2">Gửi ngay</button>
                             </div>
@@ -276,3 +273,4 @@
     }
 </body>
 </html>
+

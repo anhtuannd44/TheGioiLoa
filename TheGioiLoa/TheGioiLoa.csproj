@@ -215,7 +215,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3435,12 +3434,16 @@
     <Content Include="Content\lazy-loading\plugins\jquery.lazy.vimeo.min.js" />
     <Content Include="Content\lazy-loading\plugins\jquery.lazy.youtube.js" />
     <Content Include="Content\lazy-loading\plugins\jquery.lazy.youtube.min.js" />
+    <Content Include="Content\logo.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Upload\Images\CZPWOBZCPHWNSKB.jpg" />
+    <Content Include="Content\Upload\Images\JEIQGOZEXVPBTVZ.jpg" />
+    <Content Include="Content\Upload\Images\PPGNYFJNLUIIWDV.jpg" />
+    <Content Include="Content\Upload\Images\RJHZYNGDNLSEIIL.png" />
     <Content Include="Content\Upload\Images\RLBXNFSUAQNBUPG.png" />
     <Content Include="Font\FontAwesome\fa-brands-400.svg" />
     <Content Include="Font\FontAwesome\fa-regular-400.svg" />
     <Content Include="Font\FontAwesome\fa-solid-900.svg" />
-    <Content Include="Content\Home\css\RobotoFont.css" />
     <Content Include="Content\lang\summernote-ar-AR.js" />
     <Content Include="Content\lang\summernote-ar-AR.min.js" />
     <Content Include="Content\lang\summernote-bg-BG.js" />
@@ -3555,7 +3558,6 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
-    <Content Include="Content\Home\css\onepage.css" />
     <Content Include="Content\Home\img\avt-gentleman.png" />
     <Content Include="Content\Home\img\avt-lady.jpg" />
     <Content Include="Content\moredetails.png" />
@@ -3652,6 +3654,7 @@
     <Content Include="Scripts\Admin\adminlte.js" />
     <Content Include="Scripts\Admin\adminlte.min.js" />
     <Content Include="Scripts\Admin\category.js" />
+    <Content Include="Scripts\Admin\ImageUpload\upload-img.js" />
     <Content Include="Scripts\Admin\ImageUpload\uploadFile.js" />
     <Content Include="Scripts\Admin\information.js" />
     <Content Include="Scripts\Admin\menu-top.js" />
@@ -3661,7 +3664,6 @@
     <Content Include="Scripts\Admin\blog.js" />
     <Content Include="Scripts\Admin\summnernote.js" />
     <Content Include="Scripts\Admin\upload-image-plugin.js" />
-    <Content Include="Scripts\Admin\ImageUpload\upload-img.js" />
     <Content Include="Scripts\Admin\product.js" />
     <Content Include="Scripts\bootstrap-jquery\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap-jquery\bootstrap.bundle.min.js" />
@@ -4051,6 +4053,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Home\css\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

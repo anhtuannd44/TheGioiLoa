@@ -10,7 +10,7 @@
                    data-name="@item.ImageId"
                    onclick="@(item.IsSelected?"removeImageFromList(this)":"addImageToList(this)")"
                    data-selected="@(item.IsSelected?"True":"False")">
-                    <img class="border" src="../Content/Upload/Images/@item.ImageId" />
+                    <img class="border" src="../Content/Upload/Images/@item.ImageId"/>
                     <span id="check-@item.ImageId" class="position-absolute @(item.IsSelected?"":"d-none")">
                         <i class="fas fa-check bg-info text-white p-1" style="border-radius: 99px;"></i>
                     </span>

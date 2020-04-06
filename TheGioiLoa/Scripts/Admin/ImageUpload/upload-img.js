@@ -49,7 +49,7 @@ function addToTextArea() {
         if ($(this).attr("data-selected") == "True") {
             $('.textarea').summernote('editor.restoreRange');
             $('.textarea').summernote('editor.focus');
-            $('.textarea').summernote('editor.insertImage', $(this).children("img").attr("src"));
+            $('.textarea').summernote('editor.insertImage', 'http://localhost:12345/Content/Upload/Images/' + $(this).data("name"));
             return false;
         }
     });
