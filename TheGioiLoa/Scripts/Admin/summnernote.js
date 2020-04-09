@@ -27,6 +27,7 @@
     });
 });
 var textAreaId = 0;
+var textareaClass = '';
 var uploadImageButton = function () {
     var id = textAreaId;
     var ui = $.summernote.ui;
@@ -35,9 +36,10 @@ var uploadImageButton = function () {
         contents: '<i class="note-icon-picture"/>',
         tooltip: 'Upload hình ảnh',
         click: function () {
+            textareaClass = '.text-area-' + id;
+            $('.text-area-' + id).summernote('editor.saveRange');
             $("#ModalTemplate").modal("show");
             loadLibraryImage("imageTextarea", false);
-            $('.text-area-' + id).summernote('editor.saveRange');
         }
     });
     textAreaId++;
