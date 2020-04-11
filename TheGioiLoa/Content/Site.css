@@ -1628,3 +1628,8 @@ input[type=number] {
     font-weight: 400;
     font-size: 16px;
 }
+.comment-content {
+    font-size: 1rem;
+    text-align: justify;
+    margin-bottom: 0;
+}

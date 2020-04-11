@@ -33,7 +33,8 @@ namespace TheGioiLoa
                         ));
             bundles.Add(new ScriptBundle("~/bundles/manage").Include(
                         "~/Scripts/Home/js/manage.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/product").Include(
+                       "~/Scripts/Home/Js/product.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/AdminJs").Include(
                       "~/Scripts/jquery.unobtrusive-ajax.min.js",

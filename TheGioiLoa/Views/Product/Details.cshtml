@@ -45,7 +45,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
-                        <span class="feedback-write text-dark">(Viết đánh giá)</span>
+                        <a href="#productCommentAndReview" class="scrollto">(Viết đánh giá)</a>
                     </span>
                 </div>
             </div>
@@ -129,47 +129,47 @@
 </div>
 <div class="container">
     @*@if (Model.ProductRelateds != null)
-    {
-        <div id="productRelateds" class="mt-3">
-            <h4 class="font-weight-bold mb-3 mt-4"><i class="fas fa-star text-warning mr-2"></i>Sản phẩm dành cho bạn</h4>
-            <div class="mt-2" id="productRelatedsContent">
+        {
+            <div id="productRelateds" class="mt-3">
+                <h4 class="font-weight-bold mb-3 mt-4"><i class="fas fa-star text-warning mr-2"></i>Sản phẩm dành cho bạn</h4>
+                <div class="mt-2" id="productRelatedsContent">
 
-                <div class="row m-0">
-                    @foreach (var item in Model.ProductRelateds)
-                    {
-                        <div class="w-20 p-0 col-6">
-                            <div class="producthome-item">
-                                <a class="rounded" href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
-                                    <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
-                                    <h3>@item.Name</h3>
-                                    @if (item.Status == 1)
-                                    {
-                                        if (item.PriceSale != null)
+                    <div class="row m-0">
+                        @foreach (var item in Model.ProductRelateds)
+                        {
+                            <div class="w-20 p-0 col-6">
+                                <div class="producthome-item">
+                                    <a class="rounded" href="~/cua-hang/san-pham/@item.ProductId/@item.Url">
+                                        <img src="~/Content/Upload/Images/@item.Cover" style="width: 100%" />
+                                        <h3>@item.Name</h3>
+                                        @if (item.Status == 1)
                                         {
-                                            <strong class="price-sale">@string.Format("{0:0,0 ₫}", item.PriceSale)</strong>
-                                            <del class="price">@string.Format("{0:0,0 ₫}", item.Price)</del>
+                                            if (item.PriceSale != null)
+                                            {
+                                                <strong class="price-sale">@string.Format("{0:0,0 ₫}", item.PriceSale)</strong>
+                                                <del class="price">@string.Format("{0:0,0 ₫}", item.Price)</del>
+                                            }
+                                            else
+                                            {
+                                                <strong class="price-sale">@(item.Price != null ? string.Format("{0:0,0 ₫}", item.PriceSale) : "Đang cập nhật")</strong>
+                                            }
                                         }
                                         else
                                         {
-                                            <strong class="price-sale">@(item.Price != null ? string.Format("{0:0,0 ₫}", item.PriceSale) : "Đang cập nhật")</strong>
+                                            <p class="text-danger small">Tạm hết hàng</p>
                                         }
-                                    }
-                                    else
-                                    {
-                                        <p class="text-danger small">Tạm hết hàng</p>
-                                    }
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    }*@
+        }*@
 </div>
 <div class="container mt-3">
     <div class="product-info-header position-sticky d-none d-md-block">
-        <a href="#productCharacteristics" class="scrollto">TÍNH NĂNG/THÔNG SỐ KỸ THUẬT</a>
+        <a href="#productDetails" class="scrollto">TÍNH NĂNG/THÔNG SỐ KỸ THUẬT</a>
         <a href="#productCharacteristics" class="scrollto">MÔ TẢ</a>
         <a href="#productCommentAndReview" class="scrollto">BÌNH LUẬN</a>
         <a href="#productCommentAndReview" class="scrollto" id="gotoReview">ĐÁNH GIÁ</a>
@@ -202,8 +202,43 @@
                 <div class="row mt-4" id="productCommentAndReview">
                     <div class="col-md-7">
                         <h6 class="font-weight-bold title">BÌNH LUẬN - NHẬN XÉT</h6>
-                        <div class="mt-2">
-                            <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="650" data-numposts="7"></div>
+                        <div class="p-2" id="commentPartial">
+                            @if (Model.Review.Count != 0)
+                            {
+                                foreach (var item in Model.Review)
+                                {
+                                    <div class="row bg-light shadow px-3 py-1 mt-2">
+                                        <div class="col-md-1">
+                                            <img src="~/Content/Home/img/avt-gentleman.png" class="img img-rounded img-fluid" />
+                                        </div>
+                                        <div class="col-md-11">
+                                            <div class="clearfix">
+                                                <p class="float-left text-info mb-1"><strong>@item.UserName</strong></p>
+                                                <div class="float-right">
+                                                    @for (int i = 1; i <= item.StarCount; i++)
+                                                    {
+                                                        <i class="text-warning fas fa-star"></i>
+                                                    }
+                                                    @if (item.StarCount < 5)
+                                                    {
+                                                        for (int i = 1; i <= 5 - item.StarCount; i++)
+                                                        {
+                                                            <i class="text-warning far fa-star"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <p class="mb-1 small">19:20 20/10/2020</p>
+                                            <p class="comment-content">@item.Comment</p>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                            else
+                            {
+                                <p class="text-center">Chưa có bình luận nào! Hãy là người đầu tiên để lại bình luận cho sản phẩm <span class="text-info">"@Model.Name"</span> bạn nhé!</p>
+                            }
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -227,76 +262,5 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(document).ready(function () {
-            var $gallery = $('.gallery');
-
-            $gallery.vitGallery({
-                debag: true,
-                thumbnailMargin: 5,
-                fullscreen: false,
-                description: false,
-                animateSpeed: 600
-            })
-            $(".rating").rating();
-
-            var productCharacteristicsContent = $("#productCharacteristicsContent");
-            if (productCharacteristicsContent.innerHeight() >= 700) {
-                $(".btn-more").show();
-            }
-        })
-
-        $(".btn-more").click(function () {
-            var elm = $(this);
-            elm.hide();
-            $("#productCharacteristicsContent").css("max-height", "100%");
-        })
-
-        var image;
-        function changeImageCover(e) {
-            $("#imageCover").animate({ left: '100%' }, 0);
-
-            image = $(e).attr("data-name");
-            setTimeout(changeImg, 200);
-
-        };
-
-        function changeImg() {
-            $("#imageCover").css("background-image", "url('../Content/Upload/Images/" + image + "')");
-            $("#imageCover").animate({ left: '0' }, 0);
-        };
-
-        $(function () {
-            $(".add-to-cart").click(function () {
-                $("#orderLoading").show();
-                pid = $(this).attr("data-id");
-                $.ajax({
-                    method: "POST",
-                    url: "/Cart/Add",
-                    data: { productId: pid },
-                    success: function () {
-                        window.location = "../../../Cart";
-                    }
-                });
-            });
-        });
-        function sendReviewSuccess(data) {
-            if (data.status == "success") {
-                toastr.success(data.message);
-                $.ajax({
-                    method: "GET",
-                    url: "/Product/LoadReview",
-                    data: { productId: $("#reviewPartial").data("id") },
-                    success: function (data) {
-                        $("#reviewPartial").html(data);
-                        exitSpinner('#loadingGif-reviewContent');
-                    }
-                })
-            }
-            else {
-                toastr.error(data.error);
-                exitSpinner('#loadingGif-reviewContent');
-            }
-        }
-    </script>
+    @Scripts.Render("~/bundles/product")
 }

@@ -13,7 +13,7 @@ namespace TheGioiLoa.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Review()
         {
-            
+
         }
 
         [Key]
@@ -26,12 +26,12 @@ namespace TheGioiLoa.Models
 
         public string UserId { get; set; }
 
-        [Required(ErrorMessage ="Bạn chưa nhập tên")]
+        [Required(ErrorMessage = "Bạn chưa nhập tên")]
         public string UserName { get; set; }
 
         [EmailAddress(ErrorMessage = "Chưa đúng định dạng Email")]
-        [Required(ErrorMessage = "Bạn chưa nhập Email")]
         public string Email { get; set; }
+
         [Required(ErrorMessage = "Bạn chưa nhập Số điện thoại")]
         public string Phone { get; set; }
 

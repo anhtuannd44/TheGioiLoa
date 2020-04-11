@@ -211,6 +211,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\CheckOrderController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -263,6 +264,10 @@
     <Compile Include="Migrations\TheGioiLoaModel\202004042024080_NotNulluserIdOrder.cs" />
     <Compile Include="Migrations\TheGioiLoaModel\202004042024080_NotNulluserIdOrder.Designer.cs">
       <DependentUpon>202004042024080_NotNulluserIdOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004101610048_EmailReviewAcceptNull.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004101610048_EmailReviewAcceptNull.Designer.cs">
+      <DependentUpon>202004101610048_EmailReviewAcceptNull.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3403,11 +3408,103 @@
     <Content Include="Content\lazy-loading\plugins\jquery.lazy.youtube.min.js" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Upload\Images\AMDZRPILPRYUQFK.jpg" />
+    <Content Include="Content\Upload\Images\BFCPQCFOHWHUART.jpg" />
+    <Content Include="Content\Upload\Images\CMZZSZISWHYJUHN.jpg" />
+    <Content Include="Content\Upload\Images\CVFVQAEAELDXLDQ.jpg" />
     <Content Include="Content\Upload\Images\CZPWOBZCPHWNSKB.jpg" />
+    <Content Include="Content\Upload\Images\DDFFGHIWKNDJYDB.jpg" />
+    <Content Include="Content\Upload\Images\DJJDXHTCLJYVNNX.jpg" />
+    <Content Include="Content\Upload\Images\DTVITNGWEQFBCRH.jpg" />
+    <Content Include="Content\Upload\Images\DWFYUHBRYYTHJLC.jpg" />
+    <Content Include="Content\Upload\Images\ECWDRJPCSJCCGSV.jpg" />
+    <Content Include="Content\Upload\Images\EKTBZWGFNDIVZFN.png" />
+    <Content Include="Content\Upload\Images\EOFLFRHQSFGYPYI.jpg" />
+    <Content Include="Content\Upload\Images\EUIWXRYDCPZIUHE.jpg" />
+    <Content Include="Content\Upload\Images\EWAOKTIIRGVUMKI.jpg" />
+    <Content Include="Content\Upload\Images\FDAYABNEYIVGALT.png" />
+    <Content Include="Content\Upload\Images\FIXHUUOBCHNHPIX.jpg" />
+    <Content Include="Content\Upload\Images\FKXXBEHEUCKHBAL.jpg" />
+    <Content Include="Content\Upload\Images\FLDHLSANBUIUXBF.jpg" />
+    <Content Include="Content\Upload\Images\FRDKYMGIEGAMIYL.png" />
+    <Content Include="Content\Upload\Images\FRTMIUOXVGROVIX.jpg" />
+    <Content Include="Content\Upload\Images\FUDPRKCLPKRFWOW.jpg" />
+    <Content Include="Content\Upload\Images\FWVHFNMQEBOROSB.jpg" />
+    <Content Include="Content\Upload\Images\GSXHRLLABFKTOBW.jpg" />
+    <Content Include="Content\Upload\Images\HGPOGTQSLBYYQQD.jpg" />
+    <Content Include="Content\Upload\Images\HRZNOZHODCKBSRR.jpg" />
+    <Content Include="Content\Upload\Images\HWWVITIMHBCCHOV.jpg" />
+    <Content Include="Content\Upload\Images\INCLJTSKQOUQXMQ.jpg" />
+    <Content Include="Content\Upload\Images\INHZBCMUJBQSPUC.jpg" />
+    <Content Include="Content\Upload\Images\JDKRUOZYJRIOLCN.jpg" />
     <Content Include="Content\Upload\Images\JEIQGOZEXVPBTVZ.jpg" />
+    <Content Include="Content\Upload\Images\JMIJWABGXBXYZZH.jpg" />
+    <Content Include="Content\Upload\Images\KLOUFRZDCJIJTNP.jpeg" />
+    <Content Include="Content\Upload\Images\KYUXVLALFOQIKPX.jpg" />
+    <Content Include="Content\Upload\Images\LNQILJDHMUBPPSW.jpg" />
+    <Content Include="Content\Upload\Images\LOPQGNCKKAWWHMP.jpg" />
+    <Content Include="Content\Upload\Images\LVEPFBUGCOEIBDM.jpg" />
+    <Content Include="Content\Upload\Images\MJTENOZDWYNMNTS.jpg" />
+    <Content Include="Content\Upload\Images\MKLWMEKMNLBSCJD.png" />
+    <Content Include="Content\Upload\Images\NEUNLBGKLMLSEYJ.jpg" />
+    <Content Include="Content\Upload\Images\NGFHDXFRWEWPWJP.jpg" />
+    <Content Include="Content\Upload\Images\NKGPGXPVBGTQERV.png" />
+    <Content Include="Content\Upload\Images\NZWKIEJLKLLDPMT.jpg" />
+    <Content Include="Content\Upload\Images\ODGWTCIDHHAYOHX.jpg" />
+    <Content Include="Content\Upload\Images\OKBYXAFLFLAWGPH.png" />
+    <Content Include="Content\Upload\Images\PLKGVYCARGMBZNW.jpg" />
+    <Content Include="Content\Upload\Images\PNGNUZIETEERFPI.jpg" />
+    <Content Include="Content\Upload\Images\PNOQKKGWOZVEOBR.jpg" />
     <Content Include="Content\Upload\Images\PPGNYFJNLUIIWDV.jpg" />
+    <Content Include="Content\Upload\Images\PRGPPKBHBYZRDSX.jpg" />
+    <Content Include="Content\Upload\Images\PYMGYZIEACTGWEM.jpg" />
+    <Content Include="Content\Upload\Images\QBFJOUFISEAFKNE.jpg" />
+    <Content Include="Content\Upload\Images\QDNWKDHXXOBDGFT.jpg" />
+    <Content Include="Content\Upload\Images\QKPIMQSOUNIEOAE.jpg" />
+    <Content Include="Content\Upload\Images\QRTGALOJTKAQSWQ.jpg" />
+    <Content Include="Content\Upload\Images\QSJRCXGYSYZACEW.png" />
+    <Content Include="Content\Upload\Images\QUNTGEQUWCGLYVW.jpg" />
+    <Content Include="Content\Upload\Images\QXGNRQGDSBBDFHG.jpg" />
     <Content Include="Content\Upload\Images\RJHZYNGDNLSEIIL.png" />
     <Content Include="Content\Upload\Images\RLBXNFSUAQNBUPG.png" />
+    <Content Include="Content\Upload\Images\RMYVCJYROBEEMLH.jpg" />
+    <Content Include="Content\Upload\Images\RPCRFEEEVAORYDG.jpg" />
+    <Content Include="Content\Upload\Images\RYQYAXVCLUSLLOX.jpg" />
+    <Content Include="Content\Upload\Images\SIDWTWTNXSZGTHM.jpg" />
+    <Content Include="Content\Upload\Images\SXCCNDIBWTBRBUG.png" />
+    <Content Include="Content\Upload\Images\THCSOAJCJPGKSCQ.png" />
+    <Content Include="Content\Upload\Images\THTDMBBTDAUFEYN.jpg" />
+    <Content Include="Content\Upload\Images\TMZOCUJHISINVFB.jpg" />
+    <Content Include="Content\Upload\Images\TQXKZYIMIVHPAKY.jpg" />
+    <Content Include="Content\Upload\Images\TRXSVCHOHCCXSES.jpg" />
+    <Content Include="Content\Upload\Images\TTDMUTTNKODZKOW.jpg" />
+    <Content Include="Content\Upload\Images\TXIYKSIZDSRRTHJ.jpg" />
+    <Content Include="Content\Upload\Images\TXPGFYFADZIJPYV.jpg" />
+    <Content Include="Content\Upload\Images\UJRQXTHOFKKSGUA.jpg" />
+    <Content Include="Content\Upload\Images\UWRMDMAPGWJSSOQ.jpg" />
+    <Content Include="Content\Upload\Images\VBSVDVKHRWYUUYC.jpg" />
+    <Content Include="Content\Upload\Images\VFWGJBBZMWRSKKP.jpg" />
+    <Content Include="Content\Upload\Images\VGEEJGJAKLUGQAT.jpg" />
+    <Content Include="Content\Upload\Images\VOELGNDIAPEHREO.jpg" />
+    <Content Include="Content\Upload\Images\VTASFPZGKIPMZMT.png" />
+    <Content Include="Content\Upload\Images\WABLEGRKTBJCQTZ.jpg" />
+    <Content Include="Content\Upload\Images\WBSMPSKBPGWOGHD.png" />
+    <Content Include="Content\Upload\Images\WFNHIVAINUXPZCI.png" />
+    <Content Include="Content\Upload\Images\WHOHUWHIXXIQTXU.jpg" />
+    <Content Include="Content\Upload\Images\WOSWELKFVSCHWZF.jpg" />
+    <Content Include="Content\Upload\Images\WUMZSJMXGCHJZJD.jpg" />
+    <Content Include="Content\Upload\Images\XCTFICZRLADIBWH.jpg" />
+    <Content Include="Content\Upload\Images\XCTXGECTDIPQXOJ.jpg" />
+    <Content Include="Content\Upload\Images\XLJOOQDTWNQCIMK.jpg" />
+    <Content Include="Content\Upload\Images\XQIYZREZUKRYTGW.jpg" />
+    <Content Include="Content\Upload\Images\XZJUXONFJDPZXHK.jpg" />
+    <Content Include="Content\Upload\Images\XZLDLHYGLPMRVUV.jpg" />
+    <Content Include="Content\Upload\Images\YDKRBEORYHKTXLA.jpg" />
+    <Content Include="Content\Upload\Images\ZEMDXMITVZZNJNI.png" />
+    <Content Include="Content\Upload\Images\ZGUTVSRCSWDYJZZ.jpg" />
+    <Content Include="Content\Upload\Images\ZHNGSYAWDTUNHRX.jpg" />
+    <Content Include="Content\Upload\Images\ZMMWLIPKPYTFZXG.png" />
+    <Content Include="Content\Upload\Images\ZSYJCUSSEBDBPVC.jpg" />
     <Content Include="Font\FontAwesome\fa-brands-400.svg" />
     <Content Include="Font\FontAwesome\fa-regular-400.svg" />
     <Content Include="Font\FontAwesome\fa-solid-900.svg" />
@@ -3450,10 +3547,6 @@
     <Content Include="Content\moredetails.png" />
     <Content Include="Content\default_icon_cat.png" />
     <Content Include="Content\icon.png" />
-    <Content Include="Content\Home\img\about-extra-1.svg" />
-    <Content Include="Content\Home\img\about-extra-2.svg" />
-    <Content Include="Content\Home\img\about-img.svg" />
-    <Content Include="Content\Home\img\apple-touch-icon.png" />
     <Content Include="Content\Home\img\clients\client-1.png" />
     <Content Include="Content\Home\img\clients\client-2.png" />
     <Content Include="Content\Home\img\clients\client-3.png" />
@@ -3462,32 +3555,8 @@
     <Content Include="Content\Home\img\clients\client-6.png" />
     <Content Include="Content\Home\img\clients\client-7.png" />
     <Content Include="Content\Home\img\clients\client-8.png" />
-    <Content Include="Content\Home\img\favicon.png" />
     <Content Include="Content\Home\img\intro-bg.png" />
-    <Content Include="Content\Home\img\intro-img.svg" />
-    <Content Include="Content\Home\img\logo.png" />
-    <Content Include="Content\Home\img\maps.jpg" />
-    <Content Include="Content\Home\img\portfolio\app1.jpg" />
-    <Content Include="Content\Home\img\portfolio\app2.jpg" />
-    <Content Include="Content\Home\img\portfolio\app3.jpg" />
-    <Content Include="Content\Home\img\portfolio\card1.jpg" />
-    <Content Include="Content\Home\img\portfolio\card2.jpg" />
-    <Content Include="Content\Home\img\portfolio\card3.jpg" />
-    <Content Include="Content\Home\img\portfolio\web1.jpg" />
-    <Content Include="Content\Home\img\portfolio\web2.jpg" />
-    <Content Include="Content\Home\img\portfolio\web3.jpg" />
     <Content Include="Content\Home\img\register-business.png" />
-    <Content Include="Content\Home\img\slider-1.JPG" />
-    <Content Include="Content\Home\img\Slider2.jpg" />
-    <Content Include="Content\Home\img\team-1.jpg" />
-    <Content Include="Content\Home\img\team-2.jpg" />
-    <Content Include="Content\Home\img\team-3.jpg" />
-    <Content Include="Content\Home\img\team-4.jpg" />
-    <Content Include="Content\Home\img\testimonial-1.jpg" />
-    <Content Include="Content\Home\img\testimonial-2.jpg" />
-    <Content Include="Content\Home\img\testimonial-3.jpg" />
-    <Content Include="Content\Home\img\testimonial-4.jpg" />
-    <Content Include="Content\Home\img\testimonial-5.jpg" />
     <Content Include="Content\Home\slider-product\app\styles\blocks\gallery\images\close_black.png" />
     <Content Include="Content\Home\slider-product\app\styles\blocks\gallery\images\close_black_2x.png" />
     <Content Include="Content\Home\slider-product\app\styles\blocks\gallery\images\close_white.png" />
@@ -3516,7 +3585,6 @@
     <Content Include="Content\Upload\Images\EDPKBZAEXTLRLWC.jpg" />
     <Content Include="Content\Upload\Images\EFEYENYDVHFHCLJ.jpg" />
     <Content Include="Content\Upload\Images\EHGFZVFTMMBXMTT.jpg" />
-    <Content Include="Content\Upload\Images\IYJWVFYHRDKXMEJ.jpg" />
     <Content Include="Content\Upload\Images\KPKMCBEYJDWXCTT.jpg" />
     <Content Include="Content\Upload\Images\NBLQQQYYLJIRRRO.jpg" />
     <Content Include="Content\Upload\Images\No_Picture.jpg" />
@@ -3524,8 +3592,6 @@
     <Content Include="Content\Upload\Images\QOGQNBFWEPTUBDF.jpg" />
     <Content Include="Content\Upload\Images\TBPOLSKQNOXHLWV.jpg" />
     <Content Include="Content\Upload\Images\TIRMUNXSGLARFIM.jpg" />
-    <Content Include="Content\Upload\Images\TYXZGXMAVQZKIDA.jpg" />
-    <Content Include="Content\Upload\Images\UEBDYBRYLHSZUOF.jpg" />
     <Content Include="Content\Upload\Images\UTUQNHAYLLBJKOB.jpg" />
     <Content Include="Content\Upload\Images\UVCVUQVMKFQFTKH.jpg" />
     <Content Include="Content\Upload\Images\YIFODMINAUUVYIC.jpg" />
@@ -3570,7 +3636,6 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap\bootstrap-grid.css.map" />
-    <Content Include="Content\Home\img\header-bg.psd" />
     <Content Include="Content\Admin\css\adminlte.css.map" />
     <Content Include="Content\Admin\css\adminlte.min.css.map" />
     <Content Include="Content\Admin\css\alt\adminlte.components.css.map" />
@@ -3727,6 +3792,7 @@
     <Content Include="Scripts\Home\js\jquery-migrate.min.js" />
     <Content Include="Scripts\Home\js\main.js" />
     <Content Include="Scripts\Home\js\manage.js" />
+    <Content Include="Scripts\Home\js\product.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -3932,10 +3998,12 @@
     <Content Include="Views\Product\_ReviewFormPartial.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Product\_HotlinePartial.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Home\css\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -3984,6 +4052,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004042024080_NotNulluserIdOrder.resx">
       <DependentUpon>202004042024080_NotNulluserIdOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004101610048_EmailReviewAcceptNull.resx">
+      <DependentUpon>202004101610048_EmailReviewAcceptNull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
