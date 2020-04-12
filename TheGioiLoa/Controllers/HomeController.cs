@@ -66,7 +66,7 @@ namespace TheGioiLoa.Controllers
         }
         public ActionResult LoadSlider()
         {
-            var model = _informationService.GetSliderImageList();
+            var model = _informationService.GetSliderImageList(1);
             return PartialView("Slider/_SliderPartial", model);
         }
         public ActionResult GetBlogHome()

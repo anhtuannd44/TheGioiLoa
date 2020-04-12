@@ -161,6 +161,7 @@ $(document).on("click", "#addImageToSlider", function () {
     $.ajax({
         method: "POST",
         url: "/Admin/LoadCreateSliderModal",
+        data: { type: 1 },
         success: function (data) {
             $("#modalContentNormal").html(data);
             exitSpinner("#modalNormal-loading");
@@ -198,6 +199,7 @@ function reloadSlider() {
     $.ajax({
         method: "POST",
         url: "/Admin/LoadEditSlider",
+        data: { type: 1 },
         success: function (data) {
             $("#renderEditSlider").html(data);
             exitSpinner("#updateSlider-Loading");

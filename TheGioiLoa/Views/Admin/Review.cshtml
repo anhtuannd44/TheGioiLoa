@@ -1,0 +1,116 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<TheGioiLoa.Models.Review>
+@{
+    ViewBag.Title = "Bình Luận";
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <a href="@Url.Action("Review","Admin")" class="comment-status text-info">Tất cả</a> |
+        <a href="@Url.Action("Review","Admin", new { status=2 })" class="comment-status text-info">Đã duyệt</a> |
+        <a href="@Url.Action("Review","Admin", new { status=1 })" class="comment-status text-info">Đang chờ duyệt</a> |
+        <a href="@Url.Action("Review","Admin", new { status=3 })" class="comment-status text-info">Spam</a> |
+        <a href="@Url.Action("Review","Admin", new { status=4 })" class="comment-status text-info">Thùng rác</a>
+    </div>
+    <div class="card-body p-0" style="display: block;">
+        @if (Model.Count != 0)
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 10%">
+                            Tác giả
+                        </th>
+                        <th style="width: 25%">
+                            Bình luận
+                        </th>
+                        <th style="width: 15%">
+                            Trả lời cho
+                        </th>
+                        <th class="text-center" style="width: 10%">
+                            Trạng thái
+                        </th>
+                        <th class="text-center" style="width: 15%">
+                            Đã đăng vào
+                        </th>
+                        <th class="text-right" style="width: 15%">
+                            Hành động
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="reviewList">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <p>@item.UserName</p>
+                            </td>
+                            <td>
+                                @item.Comment
+                            </td>
+                            <td>
+                                @item.Product.Name
+                            </td>
+                            <td class="text-center">
+                                @if (item.Status == 1)
+                                {
+                                    <p class="badge badge-warning">Chờ duyệt</p>
+                                }
+                                else if (item.Status == 2)
+                                {
+                                    <p class="badge badge-success">Đã đăng</p>
+                                }
+                                else if (item.Status == 3)
+                                {
+                                    <p class="badge badge-dark">Spam</p>
+                                }
+                                else
+                                {
+                                    <p class="badge badge-danger">Đã xóa</p>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @item.DateCreated
+                            </td>
+                            <td class="text-right">
+                                @if (item.Status == 1)
+                                {
+                                    <a href="#" class="change-comment-status text-info" data-status="2" data-id="@item.ReviewId">Chấp nhận</a> @:|
+                                    <a href="#" class="change-comment-status text-warning" data-status="3" data-id="@item.ReviewId">Spam</a> @:|
+                                    <a href="#" class="change-comment-status text-danger" data-status="4" data-id="@item.ReviewId">Thùng rác</a>
+                                }
+                                else if (item.Status == 2)
+                                {
+                                    <a href="#" class="change-comment-status text-warning" data-status="3" data-id="@item.ReviewId">Spam</a> @:|
+                                    <a href="#" class="change-comment-status text-danger" data-status="4" data-id="@item.ReviewId">Thùng rác</a>
+                                }
+                                else if (item.Status == 3)
+                                {
+                                    <a href="#" class="change-comment-status text-info" data-status="2" data-id="@item.ReviewId">Chấp nhận</a> @:|
+                                    <a href="#" class="change-comment-status text-danger" data-status="4" data-id="@item.ReviewId">Thùng rác</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="change-comment-status text-info" data-status="2" data-id="@item.ReviewId">Hoàn tác</a> @:|
+                                    <a href="#" class="change-comment-status text-danger" data-status="5" data-id="@item.ReviewId">Xóa hẳn</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-right px-4">
+                @Html.PagedListPager(Model, indexPage => Url.Action("Order", new { page = indexPage }))
+            </div>
+        }
+        else
+        {
+            <p class="text-center">Không có bình luận nào thuộc mục này</p>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/admin/review")
+}

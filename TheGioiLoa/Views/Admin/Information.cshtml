@@ -58,7 +58,7 @@
     <div class="row mb-5">
         <div class="col-md-6">
             <div class="card" id="renderEditSlider">
-                @Html.Action("LoadEditSlider", "Admin")
+                @Html.Action("LoadEditSlider", "Admin", new { type = 1 })
             </div>
             <div id="updateSlider-Loading" class="spinner-loading" style="display: none;">
                 <img src="~/Content/Spinner.png" alt="Loading..." />

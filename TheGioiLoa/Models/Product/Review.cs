@@ -35,6 +35,10 @@ namespace TheGioiLoa.Models
         [Required(ErrorMessage = "Bạn chưa nhập Số điện thoại")]
         public string Phone { get; set; }
 
+        //Status: 1-Pending 2-Public 3-Spam 4-Removed
+        public int Status { get; set; }
+        public DateTime DateCreated { get; set; }
+
         [Required]
         public int ProductId { get; set; }
 

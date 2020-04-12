@@ -58,6 +58,8 @@ namespace TheGioiLoa
                         "~/Scripts/Admin/blog.js"));
             bundles.Add(new ScriptBundle("~/bundles/admin/menutop").Include(
                         "~/Scripts/Admin/menu-top.js"));
+            bundles.Add(new ScriptBundle("~/bundles/admin/review").Include(
+                        "~/Scripts/Admin/review.js"));
             bundles.Add(new ScriptBundle("~/bundles/admin/category").Include(
                         "~/Scripts/Admin/category.js"));
             

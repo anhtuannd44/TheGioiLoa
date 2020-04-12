@@ -49,7 +49,7 @@ function addToTextArea() {
         if ($(this).attr("data-selected") == "True") {
             $(textareaClass).summernote('editor.restoreRange');
             $(textareaClass).summernote('editor.focus');
-            $(textareaClass).summernote('editor.insertImage', 'http://localhost:12345/Content/Upload/Images/' + $(this).data("name"));
+            $(textareaClass).summernote('editor.insertImage', 'https://thegioiloa.net/Content/Upload/Images/' + $(this).data("name"));
             return false;
         }
     });
@@ -91,6 +91,8 @@ $(document).on("click", "#submitModalImage", function () {
             break;
         case "slider":
             addToSlider();
+        case "promotionImage":
+            addPromotionImage();
         default:
             break;
     }

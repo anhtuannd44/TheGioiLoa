@@ -19,6 +19,7 @@ namespace TheGioiLoa.Controllers
         private readonly HelperFunction _helper = new HelperFunction();
         private readonly ProductService _productService = new ProductService();
         private readonly ApplicationDbContext dbApp = new ApplicationDbContext();
+        private readonly InformationService _informationService = new InformationService();
         // GET: Product
         public ActionResult Details(int? productId, string url)
         {
@@ -38,7 +39,14 @@ namespace TheGioiLoa.Controllers
             {
                 return HttpNotFound();
             }
+            product.Review = product.Review.Where(a => a.Status == 2).ToList();
             return View(product);
+        }
+        public ActionResult LoadShoppingSlider()
+        {
+            var model = _informationService.GetSliderImageList(2);
+            ViewBag.ImagePromotion = db.Image.Where(a => a.Type == 1).ToList();
+            return PartialView("_ShoppingSliderPartial", model);
         }
         public ActionResult AllCategory()
         {
@@ -110,7 +118,7 @@ namespace TheGioiLoa.Controllers
         public ActionResult AddReview(int productId)
         {
             var model = new Review()
-            { 
+            {
                 ProductId = productId
             };
             if (User.Identity.IsAuthenticated)
@@ -130,6 +138,8 @@ namespace TheGioiLoa.Controllers
         {
             try
             {
+                review.Status = 1;
+                review.DateCreated = DateTime.Now;
                 db.Review.Add(review);
                 db.SaveChanges();
                 var json = new
@@ -158,7 +168,7 @@ namespace TheGioiLoa.Controllers
             {
                 AvgStar = 0
             };
-            var review = db.Review.Where(a => a.ProductId == productId);
+            var review = db.Review.Where(a => a.ProductId == productId && a.Status == 2);
             model.CommentCount = review.Count();
             var sumStar = 0;
             var listReview = new List<EachReviewViewModel>();
@@ -184,7 +194,7 @@ namespace TheGioiLoa.Controllers
             {
                 AvgStar = 0
             };
-            var review = db.Review.Where(a => a.ProductId == productId);
+            var review = db.Review.Where(a => a.ProductId == productId && a.Status == 2);
             model.CommentCount = review.Count();
             var sumStar = 0;
             var listReview = new List<EachReviewViewModel>();

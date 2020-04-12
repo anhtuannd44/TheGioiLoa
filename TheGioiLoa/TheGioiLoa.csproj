@@ -273,6 +273,18 @@
     <Compile Include="Migrations\TheGioiLoaModel\202004121031007_FKa.Designer.cs">
       <DependentUpon>202004121031007_FKa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004121213376_shoppingslider.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004121213376_shoppingslider.Designer.cs">
+      <DependentUpon>202004121213376_shoppingslider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004121256581_shoppingsliders.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004121256581_shoppingsliders.Designer.cs">
+      <DependentUpon>202004121256581_shoppingsliders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004121756371_Date4timereview.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004121756371_Date4timereview.Designer.cs">
+      <DependentUpon>202004121756371_Date4timereview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
@@ -3614,6 +3626,7 @@
     <Content Include="Scripts\Admin\pages\dashboard2.js" />
     <Content Include="Scripts\Admin\pages\dashboard3.js" />
     <Content Include="Scripts\Admin\blog.js" />
+    <Content Include="Scripts\Admin\review.js" />
     <Content Include="Scripts\Admin\summnernote.js" />
     <Content Include="Scripts\Admin\upload-image-plugin.js" />
     <Content Include="Scripts\Admin\product.js" />
@@ -3896,6 +3909,10 @@
     <Content Include="Views\Blog\BlogDetails.cshtml" />
     <Content Include="Views\CheckOrder\Index.cshtml" />
     <Content Include="Views\CheckOrder\CheckOrderDetails.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\_ShoppingSliderPartial.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\_PromotionImagePartial.cshtml" />
+    <Content Include="Views\Admin\ProductAndCategory\_AddPromotionImagePartial.cshtml" />
+    <Content Include="Views\Admin\Review.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -4004,6 +4021,7 @@
     <Content Include="Views\Product\_HotlinePartial.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\Product\_StarReviewPartial.cshtml" />
+    <Content Include="Views\Product\_ShoppingSliderPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4063,6 +4081,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004121031007_FKa.resx">
       <DependentUpon>202004121031007_FKa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004121213376_shoppingslider.resx">
+      <DependentUpon>202004121213376_shoppingslider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004121256581_shoppingsliders.resx">
+      <DependentUpon>202004121256581_shoppingsliders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004121756371_Date4timereview.resx">
+      <DependentUpon>202004121756371_Date4timereview.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

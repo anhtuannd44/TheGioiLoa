@@ -44,6 +44,22 @@
                 <img src="/Content/Spinner.png" alt="Loading...">
             </div>
         </div>
+        <div class="card">
+            <div id="shoppingSlider">
+                @Html.Action("LoadEditSlider", "Admin", new { type = 2 })
+            </div>
+            <div id="loadingGif-shoppingSlider" class="spinner-loading" style="display: none;">
+                <img src="/Content/Spinner.png" alt="Loading...">
+            </div>
+        </div>
+        <div class="card">
+            <div id="promotionImage">
+                @Html.Action("LoadPromotionImage", "Admin")
+            </div>
+            <div id="loadingGif-promotionImage" class="spinner-loading" style="display: none;">
+                <img src="/Content/Spinner.png" alt="Loading...">
+            </div>
+        </div>
     </div>
     <div class="col-md-5">
         <div class="card">

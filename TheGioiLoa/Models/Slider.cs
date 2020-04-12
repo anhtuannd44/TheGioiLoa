@@ -22,6 +22,9 @@ namespace TheGioiLoa.Models
 
         public string Url { get; set; }
 
+        //Type: 1-Homepage 2-ShoppingSlider 3-ShoppingImagePromotion
+        public int Type { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public virtual Image Image { get; set; }
 

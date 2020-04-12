@@ -881,37 +881,32 @@ namespace TheGioiLoa.Controllers
             var model = _informationService.GetMenu(menuId);
             return PartialView("Information/_EditMenuFooterPartial", model);
         }
-        public ActionResult LoadEditSlider()
+        public ActionResult LoadEditSlider(int type)
         {
-            var model = _informationService.GetSliderImageList();
+            ViewBag.Size = "782 x 200px";
+            if (type == 1)
+                ViewBag.Size = "888 x 404px";
+            var model = _informationService.GetSliderImageList(type);
             return PartialView("Information/_EditSliderPartial", model);
         }
-        public ActionResult LoadCreateSliderModal()
+        public ActionResult LoadCreateSliderModal(int type)
         {
+            ViewBag.Type = type;
             return PartialView("Information/_CreateSliderPartial");
         }
         public ActionResult AddImageToSlider(Slider slider)
         {
             var result = new JsonStatusViewModel();
-            var image = db.Image.Find(slider.ImageId);
-            if (image == null)
+            try
+            {
+                _informationService.AddImageToSlider(slider);
+                result.status = "success";
+                result.message = "Thành công! Đã thêm slider";
+            }
+            catch
             {
                 result.status = "error";
                 result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
-            }
-            else
-            {
-                try
-                {
-                    _informationService.AddImageToSlider(slider);
-                    result.status = "success";
-                    result.message = "Thành công! Đã thêm slider";
-                }
-                catch
-                {
-                    result.status = "error";
-                    result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
-                }
             }
             return Json(result, JsonRequestBehavior.DenyGet);
         }
@@ -988,6 +983,100 @@ namespace TheGioiLoa.Controllers
         {
             var model = db.OrderDetails.Where(a => a.OrderId == OrderId).ToList();
             return View("Order/OrderDetails", model);
+        }
+
+        public ActionResult LoadPromotionImage()
+        {
+            var model = db.Image.Where(a => a.Type == 1);
+            return PartialView("ProductAndCategory/_PromotionImagePartial", model);
+        }
+        [HttpPost]
+        public ActionResult AddPromotionImage(string imageId)
+        {
+            var result = new JsonStatusViewModel();
+            var editItem = db.Image.Find(imageId);
+            var checkImage = db.Image.Where(a => a.Type == 1);
+            if (checkImage.Count() < 2)
+            {
+                try
+                {
+                    editItem.Type = 1;
+                    db.Entry(editItem).State = EntityState.Modified;
+                    db.SaveChanges();
+                    result.status = "success";
+                    result.message = "Thành công! Đã thêm hình";
+                }
+                catch
+                {
+                    result.status = "error";
+                    result.message = "Thất bại! Không thể lưu";
+                }
+            }
+            else
+            {
+                result.status = "error";
+                result.message = "Thất bại! Tối đa chỉ được 2 hình";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+        [HttpPost]
+        public ActionResult DeletePromotionImage(string imageId)
+        {
+            var result = new JsonStatusViewModel();
+            var editItem = db.Image.Find(imageId);
+            try
+            {
+                editItem.Type = null;
+                db.Entry(editItem).State = EntityState.Modified;
+                db.SaveChanges();
+                result.status = "success";
+                result.message = "Thành công! Đã xóa hình nổi bật";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+        public ActionResult Review(int? status, int? page)
+        {
+            var review = db.Review.ToList();
+            if (status >= 1 && status <= 4)
+            {
+                review = review.Where(a => a.Status == status).ToList();                  
+            }
+            else if (status != null)
+                return HttpNotFound();
+            var model = review.OrderByDescending(a => a.DateCreated).ToPagedList(page ?? 1, 10);
+            return View(model);           
+        }
+        [HttpPost]
+        public ActionResult ChageCommentStatus(int reviewId, int status)
+        {
+            var result = new JsonStatusViewModel();
+            try
+            {
+                if (status != 5)
+                {
+                    var editItem = db.Review.Find(reviewId);
+                    editItem.Status = status;
+                    db.Entry(editItem).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Review.Remove(db.Review.Find(reviewId));
+                }
+                db.SaveChanges();
+                result.status = "success";
+                result.message = "Thành công!";
+            }
+            catch
+            {
+                result.status = "error";
+                result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
+            }
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
     }
 }

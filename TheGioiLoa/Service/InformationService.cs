@@ -114,9 +114,9 @@ namespace TheGioiLoa.Service
                 socialLink.Link = information.Zalo;
             return socialLink;
         }
-        public List<Slider> GetSliderImageList()
+        public List<Slider> GetSliderImageList(int type)
         {
-            return db.Slider.ToList();
+            return db.Slider.Where(a => a.Type == type).ToList();
         }
         public void AddImageToSlider(Slider slider)
         {
@@ -140,7 +140,7 @@ namespace TheGioiLoa.Service
         public void UpdateFooterContact(string footerContact, string footerCopyright)
         {
             var item = db.Information.Find("Main");
-            item.FooterContact =  footerContact;
+            item.FooterContact = footerContact;
             item.FooterCopyright = footerCopyright;
             db.Entry(item).State = EntityState.Modified;
             db.SaveChanges();

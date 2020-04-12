@@ -1,7 +1,6 @@
 ﻿@model TheGioiLoa.Models.ViewModel.ReviewViewModel
 @{
     var star = Model.AvgStar;
-    var starCount = 0;
     var count = 1;
 }
 
@@ -12,7 +11,7 @@
     </span>
 </div>
 <div class="product-review-details">
-    <p><b id="starCount">@starCount</b>/5 sao</p>
+    <p><b id="starCount">@star</b>/5 sao</p>
     <div class="line-rating text-info">
         @foreach (var item in Model.EachReviewViewModel)
         {

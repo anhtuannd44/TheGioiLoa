@@ -1,0 +1,53 @@
+﻿@model IEnumerable<TheGioiLoa.Models.Slider>
+@{
+    var i = 0;
+}
+<div class="container mt-1" id="categorySliderTop">
+    <div class="row">
+        @if (Model.Count() != 0)
+        {
+            <div class="col-md-8 col-8 pr-md-0">
+                <div id="categorySlider" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @foreach (var item in Model)
+                        {
+                            <li data-target="#categorySlider" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                            i++;
+                        }
+                    </ol>
+                    @{ i = 0;}
+                    <div class="carousel-inner">
+                        @foreach (var item in Model)
+                        {
+                            <a href="@item.Url" class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="~/Content/Upload/Images/@item.ImageId" />
+                            </a>
+                        }
+                    </div>
+                    <a class="carousel-control-prev" href="#categorySlider" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-default_icon_cat" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#categorySlider" role="button" data-slide="next">
+                        <span class="carousel-control-next-default_icon_cat" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        }
+    <div class="col-md-4 col-4">
+        @{ i = 0;}
+        @if (ViewBag.ImagePromotion.Count != 0)
+        {
+            foreach (var item in ViewBag.ImagePromotion)
+            {
+                <a href="#" class="d-block image-right-item" style="@(i==1?"margin-top: 10px":"")">
+                    <img src="~/Content/Upload/Images/@item.ImageId" />
+                </a>
+                i++;
+            }
+            
+        }
+    </div>
+    </div>
+</div>

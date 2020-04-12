@@ -22,6 +22,9 @@ namespace TheGioiLoa.Models
         [ForeignKey("Product")]
         public string ImageId { get; set; }
 
+        //Type: 1-ShoppingPromotion
+        public int? Type { get; set; }
+
         public DateTime DateCreated { get; set; }
 
 
