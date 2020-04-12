@@ -42,23 +42,23 @@ namespace TheGioiLoa.Service
         public void RemoveCategory(int categoryId)
         {
             var removeItem = db.Category.Find(categoryId);
-            db.Category.Remove(removeItem);
-            db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == categoryId));
 
             var childCategoryList = db.Category.Where(a => a.CategoryParentId == categoryId);
             if (childCategoryList != null)
+            {
                 foreach (var child in childCategoryList)
                 {
-                    db.Category.RemoveRange(db.Category.Where(a => a.CategoryParentId == child.CategoryId || a.CategoryId == child.CategoryId));
-                    db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == child.CategoryId));
                     var subChildList = db.Category.Where(a => a.CategoryParentId == child.CategoryId);
                     if (subChildList != null)
-                        foreach (var subChild in subChildList.ToList())
-                        {
-                            db.CategoryProduct.RemoveRange(db.CategoryProduct.Where(a => a.CategoryId == subChild.CategoryId));
-                        }
+                    {
+                        db.Category.RemoveRange(subChildList);
+                    }
                 }
+                db.Category.RemoveRange(childCategoryList);
+            }
+            db.Category.Remove(removeItem);
             db.SaveChanges();
+
         }
 
         //SortBy: "Newest" - "PriceDes" - "Price"

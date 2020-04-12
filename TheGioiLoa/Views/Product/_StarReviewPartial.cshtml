@@ -1,0 +1,15 @@
+﻿@model TheGioiLoa.Models.ViewModel.ReviewViewModel
+@{
+    var star = Model.AvgStar;
+    var starCount = 0;
+}
+
+@for (var i = 1; i <= star; i++)
+{
+    starCount++;
+    <i class="fas fa-star"></i>
+}
+@for (var i = 1; i <= (5 - starCount); i++)
+{
+    <i class="far fa-star"></i>
+}

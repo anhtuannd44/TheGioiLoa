@@ -269,6 +269,10 @@
     <Compile Include="Migrations\TheGioiLoaModel\202004101610048_EmailReviewAcceptNull.Designer.cs">
       <DependentUpon>202004101610048_EmailReviewAcceptNull.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\TheGioiLoaModel\202004121031007_FKa.cs" />
+    <Compile Include="Migrations\TheGioiLoaModel\202004121031007_FKa.Designer.cs">
+      <DependentUpon>202004121031007_FKa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TheGioiLoaModel\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Blog\Blog.cs" />
@@ -3999,6 +4003,7 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Product\_HotlinePartial.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Product\_StarReviewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4055,6 +4060,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004101610048_EmailReviewAcceptNull.resx">
       <DependentUpon>202004101610048_EmailReviewAcceptNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\TheGioiLoaModel\202004121031007_FKa.resx">
+      <DependentUpon>202004121031007_FKa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

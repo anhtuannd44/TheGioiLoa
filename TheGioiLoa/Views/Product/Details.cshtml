@@ -37,14 +37,10 @@
         </nav>
         <div class="clearfix pt-2">
             <div class="product-title float-left">
-                <h5 class="mb-0 d-inline-block">@Model.Name</h5>
+                <h5 class="mb-0 d-inline-block mr-3">@Model.Name</h5>
                 <div class="product-review d-inline-block">
                     <span class="product-star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                       @Html.Action("LoadStarReview","Product",new {productId = Model.ProductId })
                         <a href="#productCommentAndReview" class="scrollto">(Viết đánh giá)</a>
                     </span>
                 </div>

@@ -116,7 +116,7 @@ namespace TheGioiLoa.Controllers
                 result.status = "success";
                 result.message = "Thành công! Chuyên mục đã được xóa";
             }
-            catch
+            catch (Exception ex)
             {
                 result.status = "error";
                 result.message = "Thất bại! Có lỗi xảy ra, vui lòng thử lại";
@@ -231,9 +231,6 @@ namespace TheGioiLoa.Controllers
             var result = new JsonStatusViewModel();
             try
             {
-                var product_image = db.Product_Images.Where(a => a.ProductId == productId);
-                if (product_image.ToList().Count != 0)
-                    db.Product_Images.RemoveRange(product_image);
                 db.Product.Remove(db.Product.Find(productId));
                 db.SaveChanges();
                 result.status = "success";

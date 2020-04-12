@@ -1,23 +1,16 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Lỗi";
 }
 
-<div style="background-color: #A52A2A; color: White; height: 10px;">
-</div>
-<div style="background-color: #F5F5DC; color: White; height: 170px;">
-    <div style=" padding:20px;">
-        <h3>
-            Application Error:
-        </h3>
-        <h4>
-            Sorry, an error occurred while processing your request.
-        </h4>
-        <h6>@Html.ActionLink("Go Back To Home Page", "Index", "Home")</h6>
-        <br />
-        <br />
+<div class="container my-5 py-5">
+    <div class="error-page text-center">
+        <h1 class="text-warning"> 404</h1>
+        <div class="error-content">
+            <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Liên kết không tồn tại.</h3>
+            <p>Chúng tôi không tìm thấy đường dẫn bạn đã truy cập. Vui lòng thử lại!</p>
+            <a href="~/" class="btn btn-success">Quay về Trang Chủ</a>
+        </div>
     </div>
 </div>
-<div style="background-color: #A52A2A; color: White; height: 20px;">
-</div> 

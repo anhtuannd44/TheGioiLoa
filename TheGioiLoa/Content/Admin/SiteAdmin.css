@@ -29,7 +29,9 @@
         transition: none
     }
 }
-
+.error-page h1 {
+    font-size: 6rem
+}
 .badge-warning {
     color: #fff;
 }

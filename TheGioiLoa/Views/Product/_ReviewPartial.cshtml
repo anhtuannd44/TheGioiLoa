@@ -7,15 +7,7 @@
 
 <div class="product-review star-list">
     <span class="product-star" style="font-size: 15px;">
-        @for (var i = 1; i <= star; i++)
-        {
-            starCount++;
-            <i class="fas fa-star"></i>
-        }
-        @for (var i = 1; i <= (5 - starCount); i++)
-        {
-            <i class="far fa-star"></i>
-        }
+        @Html.Partial("_StarReviewPartial",Model)
         <span class="feedback-write text-info">(@Model.CommentCount người đánh giá)</span>
     </span>
 </div>

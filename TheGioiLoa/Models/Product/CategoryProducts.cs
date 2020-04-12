@@ -15,9 +15,11 @@
            
         }
         [Key, Column(Order = 1)]
+        [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
         [Key, Column(Order = 2)]
+        [ForeignKey("Product")]
         public int ProductId { get; set; }
 
         public virtual Category Category { get; set; }

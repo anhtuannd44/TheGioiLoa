@@ -178,6 +178,31 @@ namespace TheGioiLoa.Controllers
             return PartialView("_ReviewPartial", model);
         }
 
+        public ActionResult LoadStarReview(int productId)
+        {
+            var model = new ReviewViewModel
+            {
+                AvgStar = 0
+            };
+            var review = db.Review.Where(a => a.ProductId == productId);
+            model.CommentCount = review.Count();
+            var sumStar = 0;
+            var listReview = new List<EachReviewViewModel>();
+            for (int i = 1; i <= 5; i++)
+            {
+                var addReview = new EachReviewViewModel()
+                {
+                    Star = i,
+                    Count = review.Where(a => a.StarCount == i).Count(),
+                    Percent = Math.Round((double)review.Where(a => a.StarCount == i).Count() / (double)model.CommentCount * 100)
+                };
+                sumStar += review.Where(a => a.StarCount == i).Count() * i;
+                listReview.Add(addReview);
+            }
+            model.AvgStar = Math.Round((double)sumStar / (double)review.Count());
+            model.EachReviewViewModel = listReview;
+            return PartialView("_StarReviewPartial", model);
+        }
         public ActionResult NewestProductSidebar()
         {
             var model = _productService.GetProductLists(null, "newest", null, null, 4);
